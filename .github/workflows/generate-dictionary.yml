@@ -1,0 +1,33 @@
+name: Generate Dictionary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/generate-dictionary.mjs'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate dictionary
+        run: node scripts/generate-dictionary.mjs
+
+      - name: Commit & Push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dictionary.js
+          git diff --staged --quiet || git commit -m "📖 Auto-update dictionary $(date +%Y-%m-%d)"
+          git push
+
