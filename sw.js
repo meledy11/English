@@ -39,7 +39,6 @@ self.addEventListener('fetch', (event) => {
             if (cached) return cached;
             
             return fetch(event.request).then(response => {
-                // Кэшируем только успешные ответы с нашего origin
                 if (!response || response.status !== 200 || response.type !== 'basic') {
                     return response;
                 }
@@ -49,7 +48,6 @@ self.addEventListener('fetch', (event) => {
                 });
                 return response;
             }).catch(() => {
-                // Если офлайн и файл не в кэше — отдаём index.html
                 if (event.request.mode === 'navigate') {
                     return caches.match('./index.html');
                 }
