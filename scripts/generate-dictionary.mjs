@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 /**
  * generate-dictionary.mjs
- * 
  * Генератор словаря English Cards (EN → RU)
  * 
- * Использование:
- *   node generate-dictionary.mjs
+ * Проверенные источники:
+ *   • kaikki.org (Wiktextract JSONL)
+ *   • HuggingFace statistical dictionary (TSV)
+ *   • FreeDict (TEI XML)
  * 
- * Требования:
- *   Node.js 16+ (использует только стандартные модули)
- * 
- * Результат:
- *   dictionary.js — файл, совместимый с приложением English Cards
+ * Запуск:  node generate-dictionary.mjs
+ * Результат:  dictionary.js
  */
 
-import { writeFileSync, existsSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { get } from 'https';
 import { get as getHttp } from 'http';
 import { URL } from 'url';
@@ -26,63 +24,44 @@ const OUTPUT_PATH = './dictionary.js';
 const MAX_WORDS = 5000;
 const MIN_WORD_LENGTH = 2;
 const MAX_WORD_LENGTH = 25;
-const FETCH_TIMEOUT_MS = 30000;
+const FETCH_TIMEOUT_MS = 60000;
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 2000;
 
-// ═══════════════════════════════════════════════
-// ЭМОДЗИ ПО ЧАСТЯМ РЕЧИ
-// ═══════════════════════════════════════════════
 const POS_EMOJI = {
-    noun: '📦',
-    verb: '⚡',
-    adjective: '🎨',
-    adverb: '💨',
-    pronoun: '👤',
-    preposition: '🧭',
-    conjunction: '🔗',
-    interjection: '😲',
-    numeral: '🔢',
-    particle: '✨',
-    article: '📎',
-    determiner: '📎',
-    phrase: '💬'
+    noun: '📦', verb: '⚡', adjective: '🎨', adverb: '💨',
+    pronoun: '👤', preposition: '🧭', conjunction: '🔗',
+    interjection: '😲', numeral: '🔢', particle: '✨',
+    article: '📎', determiner: '📎', phrase: '💬'
 };
 
 // ═══════════════════════════════════════════════
-// ИСТОЧНИКИ ДАННЫХ
-// Каждый источник — объект { name, url, type, parse }
-// type: 'json' | 'jsonl' | 'dict' | 'tsv'
-// parse: (rawText) => массив [{ word, pos, translations: [{ lang, text }] }]
+// РАБОЧИЕ ИСТОЧНИКИ
 // ═══════════════════════════════════════════════
 const SOURCES = [
-    // ─── ИСТОЧНИК 1: kaikki.org (Wiktextract) ───
     {
-        name: 'kaikki.org — English words with Russian translations',
+        name: 'HuggingFace EN-RU statistical (TSV)',
+        url: 'https://huggingface.co/datasets/KvaytG/en-ru-statistical-dict-20m-corpus/resolve/main/en-ru-dict.tsv',
+        type: 'tsv',
+        parse: parseTsv
+    },
+    {
+        name: 'kaikki.org Russian dictionary (JSONL)',
         url: 'https://kaikki.org/dictionary/Russian/kaikki.org-dictionary-Russian.jsonl',
         type: 'jsonl',
         parse: parseKaikkiRu
     },
-    // ─── ИСТОЧНИК 2: kaikki.org English → все языки ───
     {
-        name: 'kaikki.org — English words (with translations)',
+        name: 'kaikki.org English dictionary (JSONL)',
         url: 'https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl',
         type: 'jsonl',
         parse: parseKaikkiEn
     },
-    // ─── ИСТОЧНИК 3: titoBouzout Bilingual ───
     {
-        name: 'titoBouzout — Russian-English Bilingual',
-        url: 'https://raw.githubusercontent.com/titoBouzout/Dictionaries/master/Russian-English%20Bilingual.dic',
-        type: 'dict',
-        parse: parseDictFormat
-    },
-    // ─── ИСТОЧНИК 4: FreeDict eng-rus ───
-    {
-        name: 'FreeDict — English-Russian',
+        name: 'FreeDict English-Russian (TEI)',
         url: 'https://raw.githubusercontent.com/freedict/fd-dictionaries/master/eng-rus/eng-rus.tei',
         type: 'tei',
-        parse: parseTeiFormat
+        parse: parseTei
     }
 ];
 
@@ -91,38 +70,53 @@ const SOURCES = [
 // ═══════════════════════════════════════════════
 
 /**
- * Парсер kaikki.org JSONL для русского словаря.
- * Ищет английские переводы русских слов.
+ * TSV формат: english_word \t russian_word \t count \t probability
+ */
+function parseTsv(text) {
+    const lines = text.split('\n');
+    const result = [];
+    for (const line of lines) {
+        if (!line.trim()) continue;
+        const parts = line.split('\t');
+        if (parts.length < 2) continue;
+        const en = parts[0].trim();
+        const ru = parts[1].trim();
+        if (!en || !ru) continue;
+        result.push({
+            word: ru,
+            pos: 'noun',
+            translations: [{ lang: 'en', text: en }]
+        });
+    }
+    console.log(`      Распарсено TSV: ${result.length}`);
+    return result;
+}
+
+/**
+ * kaikki.org JSONL — русские слова с английскими переводами
  */
 function parseKaikkiRu(text) {
     const lines = text.split('\n');
     const result = [];
-    let parsed = 0;
-    let failed = 0;
+    let parsed = 0, failed = 0;
 
     for (const line of lines) {
         if (!line.trim()) continue;
         try {
             const obj = JSON.parse(line);
             parsed++;
-
             if (!obj.word) continue;
 
-            // Ищем переводы на английский
             const translations = [];
             const senses = obj.senses || [];
             for (const sense of senses) {
                 for (const tr of (sense.translations || [])) {
                     const lang = (tr.lang || '').toLowerCase();
                     if ((lang === 'english' || lang === 'en') && tr.word) {
-                        translations.push({
-                            lang: 'en',
-                            text: String(tr.word).trim()
-                        });
+                        translations.push({ lang: 'en', text: String(tr.word).trim() });
                     }
                 }
             }
-
             if (translations.length === 0) continue;
 
             result.push({
@@ -130,19 +124,15 @@ function parseKaikkiRu(text) {
                 pos: normalizePos(obj.pos),
                 translations
             });
-
-        } catch {
-            failed++;
-        }
+        } catch { failed++; }
     }
 
-    console.log(`      Распарсено: ${parsed}, ошибок: ${failed}, с переводами: ${result.length}`);
+    console.log(`      JSONL: parsed=${parsed}, failed=${failed}, with-translations=${result.length}`);
     return result;
 }
 
 /**
- * Парсер kaikki.org JSONL для английского словаря.
- * Ищет русские переводы английских слов.
+ * kaikki.org English JSONL — английские слова с русскими переводами
  */
 function parseKaikkiEn(text) {
     const lines = text.split('\n');
@@ -154,98 +144,45 @@ function parseKaikkiEn(text) {
         try {
             const obj = JSON.parse(line);
             parsed++;
-
             if (!obj.word) continue;
 
-            const translations = [];
+            const ruTranslations = [];
             const senses = obj.senses || [];
             for (const sense of senses) {
                 for (const tr of (sense.translations || [])) {
                     const lang = (tr.lang || '').toLowerCase();
                     if ((lang === 'russian' || lang === 'ru') && tr.word) {
-                        translations.push({
-                            lang: 'ru',
-                            text: String(tr.word).trim()
-                        });
+                        ruTranslations.push(String(tr.word).trim());
                     }
                 }
             }
+            if (ruTranslations.length === 0) continue;
 
-            if (translations.length === 0) continue;
-
-            // Меняем местами: английское слово + русский перевод
+            // Меняем местами: русское слово + английский перевод
             result.push({
-                word: translations[0].text, // русское слово
+                word: ruTranslations[0],
                 pos: normalizePos(obj.pos),
-                translations: [{
-                    lang: 'en',
-                    text: String(obj.word).trim()
-                }]
+                translations: [{ lang: 'en', text: String(obj.word).trim() }]
             });
-
-        } catch { /* пропускаем */ }
+        } catch { /* skip */ }
     }
 
-    console.log(`      Распарсено: ${parsed}, с русскими переводами: ${result.length}`);
+    console.log(`      JSONL: parsed=${parsed}, with-ru-translations=${result.length}`);
     return result;
 }
 
 /**
- * Парсер формата .dic (titoBouzout).
- * Формат: "russian_word english_translation"
+ * TEI XML — FreeDict
  */
-function parseDictFormat(text) {
-    const lines = text.split('\n');
+function parseTei(text) {
     const result = [];
-
-    for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith('#')) continue;
-
-        // Отделяем слово от перевода (первый пробел/табуляция)
-        const match = trimmed.match(/^([^\s]+)\s+(.+)$/);
-        if (!match) continue;
-
-        const ru = match[1].trim();
-        const enRaw = match[2].trim();
-
-        // Убираем пометки типа /n/, /v/, скобки
-        const en = enRaw
-            .replace(/\/[a-z]+\//g, '')
-            .replace(/[\[\]{}()]/g, '')
-            .split(/[,;]/)[0]
-            .trim();
-
-        if (!ru || !en) continue;
-        if (!/[а-яА-ЯёЁ]/.test(ru)) continue;
-
-        result.push({
-            word: ru,
-            pos: 'noun',
-            translations: [{ lang: 'en', text: en }]
-        });
-    }
-
-    console.log(`      Распарсено: ${result.length}`);
-    return result;
-}
-
-/**
- * Простой парсер TEI XML (FreeDict).
- * Ищет пары <orth>англ</orth> ... <quote>русский</quote>
- */
-function parseTeiFormat(text) {
-    const result = [];
-    // Разбиваем по записям <entry>
     const entries = text.split(/<entry\b/);
 
     for (const entry of entries) {
-        // Ищем английское слово
         const enMatch = entry.match(/<orth[^>]*>([^<]+)<\/orth>/);
         if (!enMatch) continue;
         const en = enMatch[1].trim();
 
-        // Ищем все русские переводы в этой записи
         const ruMatches = entry.matchAll(/<quote[^>]*>([^<]+)<\/quote>/g);
         const translations = [];
         for (const m of ruMatches) {
@@ -254,7 +191,6 @@ function parseTeiFormat(text) {
                 translations.push({ lang: 'ru', text: ru });
             }
         }
-
         if (translations.length === 0) continue;
 
         result.push({
@@ -264,13 +200,10 @@ function parseTeiFormat(text) {
         });
     }
 
-    console.log(`      Распарсено: ${result.length}`);
+    console.log(`      TEI: parsed=${result.length}`);
     return result;
 }
 
-/**
- * Нормализация части речи к единому формату.
- */
 function normalizePos(pos) {
     if (!pos) return 'noun';
     const p = String(pos).toLowerCase();
@@ -283,7 +216,6 @@ function normalizePos(pos) {
     if (p.includes('interj')) return 'interjection';
     if (p.includes('num') || p.includes('number')) return 'numeral';
     if (p.includes('art')) return 'article';
-    if (p.includes('phrase')) return 'phrase';
     return 'noun';
 }
 
@@ -292,56 +224,41 @@ function normalizePos(pos) {
 // ═══════════════════════════════════════════════
 function download(url, timeoutMs = FETCH_TIMEOUT_MS, redirectsLeft = 5) {
     return new Promise((resolve, reject) => {
-        if (redirectsLeft <= 0) {
-            return reject(new Error('Слишком много редиректов'));
-        }
+        if (redirectsLeft <= 0) return reject(new Error('Слишком много редиректов'));
 
         let parsed;
-        try {
-            parsed = new URL(url);
-        } catch (e) {
-            return reject(new Error('Некорректный URL: ' + url));
-        }
+        try { parsed = new URL(url); } catch { return reject(new Error('Некорректный URL: ' + url)); }
 
         const lib = parsed.protocol === 'http:' ? getHttp : get;
         const req = lib(url, { timeout: timeoutMs }, (res) => {
-            // Редиректы
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                 const redirectUrl = new URL(res.headers.location, url).href;
                 res.resume();
                 return resolve(download(redirectUrl, timeoutMs, redirectsLeft - 1));
             }
-
             if (res.statusCode !== 200) {
                 res.resume();
                 return reject(new Error(`HTTP ${res.statusCode}`));
             }
 
-            // Читаем как utf-8, собираем чанки
             res.setEncoding('utf8');
             let data = '';
             let bytes = 0;
             res.on('data', (chunk) => {
                 data += chunk;
                 bytes += chunk.length;
-                // Показываем прогресс раз в ~5 МБ
                 if (bytes % (5 * 1024 * 1024) < chunk.length) {
                     process.stdout.write(`      Загружено: ${(bytes / 1024 / 1024).toFixed(1)} МБ\r`);
                 }
             });
             res.on('end', () => {
-                process.stdout.write(' '.repeat(50) + '\r'); // очистка строки прогресса
-                // Убираем BOM
-                if (data.charCodeAt(0) === 0xFEFF) {
-                    data = data.slice(1);
-                }
+                process.stdout.write(' '.repeat(60) + '\r');
+                if (data.charCodeAt(0) === 0xFEFF) data = data.slice(1);
                 resolve(data);
             });
         });
 
-        req.on('timeout', () => {
-            req.destroy(new Error('Таймаут загрузки'));
-        });
+        req.on('timeout', () => req.destroy(new Error('Таймаут загрузки')));
         req.on('error', (err) => reject(err));
     });
 }
@@ -351,23 +268,15 @@ async function tryFetchSource(source) {
         try {
             console.log(`   ↳ Попытка ${attempt}/${MAX_RETRIES}...`);
             const rawText = await download(source.url);
-
-            if (!rawText || rawText.length < 100) {
-                throw new Error('Слишком маленький ответ');
-            }
+            if (!rawText || rawText.length < 100) throw new Error('Слишком маленький ответ');
 
             console.log(`   ↳ Размер: ${(rawText.length / 1024 / 1024).toFixed(1)} МБ`);
             console.log(`   ↳ Парсинг...`);
-
             const parsed = source.parse(rawText);
-
-            if (!Array.isArray(parsed) || parsed.length === 0) {
-                throw new Error('Парсинг дал пустой результат');
-            }
-
+            if (!Array.isArray(parsed) || parsed.length === 0) throw new Error('Парсинг дал пустой результат');
             return parsed;
         } catch (err) {
-            console.warn(`   ⚠️  Попытка ${attempt}: ${err.message}`);
+            console.warn(`   ⚠️  ${err.message}`);
             if (attempt === MAX_RETRIES) throw err;
             await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
         }
@@ -379,30 +288,18 @@ async function tryFetchSource(source) {
 // ВАЛИДАЦИЯ
 // ═══════════════════════════════════════════════
 function isValidWord(ru, en) {
-    // Оба непустые
     if (!ru || !en) return false;
-
-    // Длина
     if (ru.length < MIN_WORD_LENGTH || ru.length > MAX_WORD_LENGTH) return false;
     if (en.length < MIN_WORD_LENGTH || en.length > MAX_WORD_LENGTH) return false;
-
-    // Русская часть должна содержать кириллицу
     if (!/[а-яА-ЯёЁ]/.test(ru)) return false;
-
-    // Английская — не должна содержать кириллицу
     if (/[а-яА-ЯёЁ]/.test(en)) return false;
-
-    // Не совпадают
     if (ru.toLowerCase() === en.toLowerCase()) return false;
-
-    // Не цифры только
     if (/^\d+$/.test(ru) || /^\d+$/.test(en)) return false;
-
     return true;
 }
 
 // ═══════════════════════════════════════════════
-// ОСНОВНАЯ ЛОГИКА
+// MAIN
 // ═══════════════════════════════════════════════
 async function main() {
     console.log('');
@@ -414,13 +311,10 @@ async function main() {
     let words = null;
     let sourceName = '';
 
-    // Пробуем источники по очереди
     for (const source of SOURCES) {
         console.log(`📡 Источник: ${source.name}`);
         try {
             const result = await tryFetchSource(source);
-
-            // Проверяем, что есть реальные пары ru↔en
             const valid = result.filter(w => {
                 const ru = (w.word || '').trim();
                 const en = (w.translations || []).find(t => t.lang === 'en')?.text?.trim() || '';
@@ -442,29 +336,14 @@ async function main() {
     }
 
     if (!words || words.length === 0) {
-        console.error('');
-        console.error('╔══════════════════════════════════════════╗');
-        console.error('║  ❌ Ни один источник не дал результата   ║');
-        console.error('╚══════════════════════════════════════════╝');
-        console.error('');
-        console.error('💡 Возможные причины:');
-        console.error('   • Нет интернета');
-        console.error('   • GitHub/kaikki.org недоступны');
-        console.error('   • Провайдер блокирует');
-        console.error('');
-        console.error('💡 Что делать:');
-        console.error('   1. Проверь интернет:  ping github.com');
-        console.error('   2. Открой в браузере:');
-        console.error('      ' + SOURCES[0].url);
-        console.error('   3. Если 404 — обнови ссылку в SOURCES');
-        console.error('   4. Или запусти офлайн-версию (см. README)');
-        console.error('');
+        console.error('❌ Ни один источник не дал результата\n');
+        console.error('💡 Проверь ссылки вручную:');
+        SOURCES.forEach(s => console.error(`   ${s.name}: ${s.url}`));
+        console.error('\n💡 Если 404 — источник устарел. Обнови URL в SOURCES.\n');
         process.exit(1);
     }
 
-    // ─── Фильтрация и дедупликация ───
     console.log('🔧 Обработка...');
-
     const seen = new Set();
     const dictionary = [];
 
@@ -473,22 +352,18 @@ async function main() {
 
         const ru = (w.word || '').trim();
         const en = (w.translations || []).find(t => t.lang === 'en')?.text?.trim() || '';
-
         if (!isValidWord(ru, en)) continue;
 
-        // Дедупликация
         const key = `${en.toLowerCase()}|${ru.toLowerCase()}`;
         if (seen.has(key)) continue;
         seen.add(key);
 
-        // Обрезаем длинные переводы до первого перевода
         const cleanEn = en.split(/[,;]/)[0].trim();
-
         dictionary.push({
             id: dictionary.length + 1,
             eng: cleanEn,
             ru: ru,
-            tr: w.tr || w.ipa || '',
+            tr: '',
             emoji: POS_EMOJI[w.pos] || '📖',
             pos: w.pos || 'noun',
             ex1: '',
@@ -501,11 +376,9 @@ async function main() {
         process.exit(1);
     }
 
-    // Сортировка
     dictionary.sort((a, b) => a.eng.localeCompare(b.eng));
     dictionary.forEach((w, i) => { w.id = i + 1; });
 
-    // ─── Запись файла ───
     console.log('📝 Запись dictionary.js...');
 
     const header = `/**
@@ -522,7 +395,6 @@ async function main() {
 `;
 
     const body = `const dictionary = ${JSON.stringify(dictionary, null, 2)};\n`;
-
     writeFileSync(OUTPUT_PATH, header + body, 'utf-8');
 
     const sizeKb = (Buffer.byteLength(header + body, 'utf-8') / 1024).toFixed(1);
@@ -540,23 +412,14 @@ async function main() {
         console.log(`   ${w.emoji} ${w.eng} — ${w.ru} [${w.pos}]`);
     });
     console.log('');
-    console.log('💡 Подключи в index.html (перед основным скриптом):');
+    console.log('💡 Подключи в index.html:');
     console.log('   <script src="dictionary.js"></script>');
     console.log('');
 }
 
-// ═══════════════════════════════════════════════
-// ЗАПУСК
-// ═══════════════════════════════════════════════
 main().catch(err => {
-    console.error('');
-    console.error('💥 Критическая ошибка:');
-    console.error('   ' + err.message);
-    if (process.env.DEBUG) {
-        console.error(err.stack);
-    } else {
-        console.error('   (запусти с DEBUG=1 для подробностей)');
-    }
-    console.error('');
+    console.error('\n💥 Критическая ошибка:', err.message);
+    if (process.env.DEBUG) console.error(err.stack);
+    else console.error('   (запусти с DEBUG=1 для подробностей)');
     process.exit(1);
 });
