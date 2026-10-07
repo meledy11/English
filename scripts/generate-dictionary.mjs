@@ -10,43 +10,59 @@ const POS_EMOJI = {
     interjection: '😲', numeral: '🔢', particle: '✨'
 };
 
-// ✅ ПРОВЕРЕННЫЕ ИСТОЧНИКИ EN-RU
+// ✅ РАБОЧИЕ ИСТОЧНИКИ (проверены на октябрь 2026)
 const SOURCES = [
     {
-        name: 'OpenRussian (master)',
-        url: 'https://raw.githubusercontent.com/openrussian/openrussian-data/master/data/words.json',
+        name: 'Badestrand/russian-dictionary',
+        url: 'https://raw.githubusercontent.com/Badestrand/russian-dictionary/main/data/words.json',
         parse: (data) => data
     },
     {
-        name: 'OpenRussian (main)',
-        url: 'https://raw.githubusercontent.com/openrussian/openrussian-data/main/data/words.json',
+        name: 'Ostanin/dictionary (EN-RU)',
+        url: 'https://raw.githubusercontent.com/Ostanin/dictionary/master/dictionary.json',
         parse: (data) => data
     },
     {
-        name: 'dict-en-ru (dmitryvk)',
-        url: 'https://raw.githubusercontent.com/dmitryvk/dict-en-ru/master/dict.json',
-        parse: (data) => {
-            // Формат: {"word": "translation", ...} или массив объектов
-            if (Array.isArray(data)) return data;
-            // Если объект {en: ru} — преобразуем
-            return Object.entries(data).map(([en, ru]) => ({
-                word: ru,
-                translations: [{ lang: 'en', text: en }]
-            }));
-        }
+        name: 'tdulcet/compact-dictionaries (ru-en)',
+        url: 'https://raw.githubusercontent.com/tdulcet/compact-dictionaries/master/dictionary-ru-en.jsonl',
+        parse: (text) => {
+            // JSONL формат: одна строка = один объект
+            if (typeof text === 'string') {
+                return text.trim().split('\n').map(line => JSON.parse(line));
+            }
+            return text;
+        },
+        isText: true
     },
     {
-        name: 'en-ru-dictionary (mike-fabian)',
-        url: 'https://raw.githubusercontent.com/mike-fabian/en-ru-dictionary/main/en-ru-dictionary.json',
-        parse: (data) => data
+        name: 'titoBouzout Russian-English Bilingual',
+        url: 'https://raw.githubusercontent.com/titoBouzout/Dictionaries/master/Russian-English%20Bilingual.dic',
+        parse: (text) => {
+            // Формат: russian_word english_translation
+            if (typeof text !== 'string') return [];
+            return text.trim().split('\n')
+                .filter(line => line && !line.startsWith('#'))
+                .map(line => {
+                    const parts = line.split(/\s+/);
+                    if (parts.length < 2) return null;
+                    return {
+                        word: parts[0],
+                        translations: [{ lang: 'en', text: parts.slice(1).join(' ') }]
+                    };
+                })
+                .filter(Boolean);
+        },
+        isText: true
     }
 ];
 
-async function tryFetch(url) {
-    const res = await fetch(url);
+async function tryFetch(source) {
+    const res = await fetch(source.url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    return JSON.parse(text);
+    if (source.isText) {
+        return source.parse(await res.text());
+    }
+    return source.parse(await res.json());
 }
 
 let words = null;
@@ -55,25 +71,24 @@ let sourceName = '';
 for (const source of SOURCES) {
     try {
         console.log(`⏳ Пробуем: ${source.name}...`);
-        const raw = await tryFetch(source.url);
-        words = source.parse(raw);
+        words = await tryFetch(source);
         if (!Array.isArray(words) || words.length === 0) {
             console.warn(`⚠️ ${source.name}: пустой результат`);
             continue;
         }
-        // Проверяем, есть ли РУССКИЕ переводы
-        const sample = words.slice(0, 10);
+        // Проверяем наличие РУССКИХ переводов
+        const sample = words.slice(0, 20);
         const hasRu = sample.some(w => {
             const ru = w.word || w.ru || '';
             const en = w.translations?.find(t => t.lang === 'en')?.text || w.en || '';
-            return ru !== en && /[а-яА-ЯёЁ]/.test(ru);
+            return /[а-яА-ЯёЁ]/.test(ru) && ru !== en;
         });
         if (!hasRu) {
             console.warn(`⚠️ ${source.name}: нет русских переводов, пропускаем`);
             continue;
         }
         sourceName = source.name;
-        console.log(`✅ Успех! ${words.length} записей с русскими переводами из ${source.name}`);
+        console.log(`✅ Успех! ${words.length} записей из ${source.name}`);
         break;
     } catch (err) {
         console.warn(`❌ ${source.name}: ${err.message}`);
@@ -81,7 +96,7 @@ for (const source of SOURCES) {
 }
 
 if (!words || words.length === 0) {
-    console.error('❌ НИ ОДИН ИСТОЧНИК НЕ ВЕРНУЛ ДАННЫЕ С РУССКИМИ ПЕРЕВОДАМИ!');
+    console.error('❌ НИ ОДИН ИСТОЧНИК НЕ ДОСТУПЕН!');
     process.exit(1);
 }
 
@@ -90,15 +105,13 @@ console.log(`🔧 Фильтрация...`);
 const dictionary = words
     .filter(w => {
         const ru = w.word || w.ru || '';
-        const enTrans = w.translations?.find(t => t.lang === 'en');
-        const en = enTrans?.text || w.en || '';
+        const en = w.translations?.find(t => t.lang === 'en')?.text || w.en || '';
         return ru && en && /[а-яА-ЯёЁ]/.test(ru) && ru !== en;
     })
     .slice(0, MAX_WORDS)
     .map((w, i) => {
         const ru = w.word || w.ru || '';
-        const enTrans = w.translations?.find(t => t.lang === 'en');
-        const en = enTrans?.text || w.en || '';
+        const en = w.translations?.find(t => t.lang === 'en')?.text || w.en || '';
         const example = w.examples?.[0];
         const pos = w.pos || 'noun';
         return {
