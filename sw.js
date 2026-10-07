@@ -1,4 +1,4 @@
-const CACHE_NAME = 'english-cards-v5';
+const CACHE_NAME = 'english-cards-v6';
 const ASSETS = [
     './',
     './index.html',
@@ -9,7 +9,7 @@ const ASSETS = [
     './magicWords.js',
     './quiz.js',
     './builder.js',
-    './verbs-table.html'
+    './dictionary.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -23,34 +23,23 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then(keys =>
-            Promise.all(
-                keys.filter(key => key !== CACHE_NAME)
-                    .map(key => caches.delete(key))
-            )
+            Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
         ).then(() => self.clients.claim())
     );
 });
 
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
-    
     event.respondWith(
         caches.match(event.request).then(cached => {
             if (cached) return cached;
-            
             return fetch(event.request).then(response => {
-                if (!response || response.status !== 200 || response.type !== 'basic') {
-                    return response;
-                }
-                const responseClone = response.clone();
-                caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, responseClone);
-                });
+                if (!response || response.status !== 200 || response.type !== 'basic') return response;
+                const clone = response.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
                 return response;
             }).catch(() => {
-                if (event.request.mode === 'navigate') {
-                    return caches.match('./index.html');
-                }
+                if (event.request.mode === 'navigate') return caches.match('./index.html');
             });
         })
     );
