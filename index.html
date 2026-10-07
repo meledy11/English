@@ -1,825 +1,537 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="English Cards">
-    <meta name="theme-color" content="#c4a35a">
-    <meta name="application-name" content="English Cards">
-    <meta name="mobile-web-app-capable" content="yes">
-    
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23c49a6c'/%3E%3Ctext x='50' y='70' font-size='55' text-anchor='middle' fill='%233d2b1a' font-family='Georgia'%3E📘%3C/text%3E%3C/svg%3E">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23c49a6c'/%3E%3Ctext x='50' y='70' font-size='55' text-anchor='middle' fill='%233d2b1a' font-family='Georgia'%3E📘%3C/text%3E%3C/svg%3E">
-    
-    <link rel="manifest" href="data:application/manifest+json,{
-        %22name%22:%22English%20Cards%22,
-        %22short_name%22:%22English%22,
-        %22start_url%22:%22.%22,
-        %22display%22:%22standalone%22,
-        %22background_color%22:%22%23c49a6c%22,
-        %22theme_color%22:%22%23c49a6c%22,
-        %22icons%22:[{
-            %22src%22:%22data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23c49a6c'/%3E%3Ctext x='50' y='70' font-size='55' text-anchor='middle' fill='%233d2b1a' font-family='Georgia'%3E📘%3C/text%3E%3C/svg%3E%22,
-            %22sizes%22:%22any%22,
-            %22type%22:%22image/svg+xml%22
-        }]
-    }">
-    
-    <title>English Cards — учим английский</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            background: #d9c8a9;
-            background-image: radial-gradient(circle at 10% 20%, rgba(180,140,80,0.12) 2%, transparent 2.5%);
-            background-size: 40px 40px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Georgia', 'Times New Roman', serif;
-            padding: 20px 12px;
-            min-height: 100vh;
-        }
-        body.fullscreen-table { padding: 0; background: #fff6e8; }
-        body.fullscreen-table .app-container { padding-top: 0; max-width: 100%; }
-        body.fullscreen-table .tabs,
-        body.fullscreen-table footer,
-        body.fullscreen-table .card:not(.fullscreen-card) { display: none; }
-        body.fullscreen-table .fullscreen-card { margin: 0; border-radius: 0; min-height: 100vh; }
-        body.fullscreen-table .card-body,
-        body.fullscreen-table .card-body.open { max-height: none; overflow: visible; }
-        
-        .app-container { max-width: 750px; margin: 0 auto; padding-top: env(safe-area-inset-top, 20px); }
-        
-        .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; padding-top: 5px; }
-        .tab-btn {
-            flex: 1;
-            background: #efdfb7;
-            border: none;
-            padding: 14px 6px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            font-family: Georgia, serif;
-            color: #4a2e1b;
-            border-radius: 60px;
-            cursor: pointer;
-            text-align: center;
-            transition: 0.2s;
-            min-width: 80px;
-        }
-        .tab-btn.active { background: #c49a6c; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .card {
-            background: linear-gradient(145deg, #fff5e6 0%, #faeecb 100%);
-            border-radius: 56px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-            border: 1px solid #cbad7a;
-            margin-bottom: 28px;
-            overflow: hidden;
-        }
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 22px 20px;
-            background: rgba(200,160,100,0.25);
-            cursor: pointer;
-            border-bottom: 3px dashed #cbad7a;
-        }
-        .title-group { display: flex; flex-direction: column; gap: 8px; }
-        .assoc-emoji {
-            font-size: 2.5rem;
-            background: #f9eec1;
-            padding: 6px 14px;
-            border-radius: 80px;
-            display: inline-block;
-            width: fit-content;
-        }
-        .rule-name { font-size: 1.5rem; font-weight: bold; color: #3d2b1a; }
-        .expand-icon {
-            font-size: 2rem;
-            color: #b57c48;
-            transition: transform 0.3s;
-            background: #f9eec1;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.6s ease-out; }
-        .card-body.open { max-height: 10000px; overflow-y: auto; }
-        .inner-content { padding: 22px; }
-        
-        .search-section {
-            background: #f9eec1;
-            border-radius: 60px;
-            padding: 8px 16px;
-            margin-bottom: 20px;
-        }
-        .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .search-icon { font-size: 1.5rem; }
-        .search-input-wrapper { flex: 1; min-width: 180px; }
-        .search-input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 1rem;
-            border: 2px solid #e1cba1;
-            border-radius: 50px;
-            outline: none;
-            background: white;
-        }
-        .search-input:focus { border-color: #c49a6c; }
-        .search-clear {
-            background: #f0f2f5;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: none;
-        }
-        .search-results-info {
-            font-size: 0.85rem;
-            color: #8b6946;
-            margin-bottom: 12px;
-            padding: 8px;
-            text-align: center;
-            background: #f9eec1;
-            border-radius: 40px;
-        }
-        
-        #verbs-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-height: 55vh;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 8px;
-        }
-        .preposition-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid #e1cba1;
-            flex-wrap: wrap;
-        }
-        .preposition-emoji-col { font-size: 2.5rem; min-width: 70px; text-align: center; }
-        .preposition-content { flex: 1; }
-        .preposition-word { font-size: 1.8rem; font-weight: bold; color: #3d2b1a; font-family: monospace; }
-        .preposition-meaning { font-size: 0.95rem; color: #8b6946; margin: 4px 0; }
-        .preposition-example {
-            font-size: 0.95rem;
-            background: #f2e5ca;
-            padding: 8px 12px;
-            border-radius: 24px;
-            margin-top: 8px;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .highlight-word { background: #ffe0b3; padding: 2px 6px; border-radius: 20px; font-weight: bold; }
-        .tense-card {
-            background: #fff6e8;
-            border-radius: 32px;
-            margin-bottom: 20px;
-            padding: 18px;
-            border: 1px solid #e1cba1;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-        .tense-card:active { transform: scale(0.99); }
-        .tense-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-        .tense-emoji { font-size: 2.2rem; }
-        .tense-name { font-size: 1.3rem; font-weight: bold; color: #3d2b1a; }
-        .tense-formula {
-            font-family: monospace;
-            background: #ecdca8;
-            padding: 6px 12px;
-            border-radius: 28px;
-            display: inline-block;
-            font-size: 0.85rem;
-            margin: 8px 0;
-        }
-        .tense-example {
-            background: #f2e5ca;
-            border-radius: 20px;
-            padding: 10px 14px;
-            margin: 10px 0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .tense-example-text { flex: 1; }
-        .tense-example-eng { font-weight: bold; }
-        .tense-example-ru { font-size: 0.85rem; color: #5f451f; margin-top: 4px; }
-        .speak-btn-small {
-            background: #c49a6c;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .verb-card {
-            background: #fff6e8;
-            border-radius: 32px;
-            margin-bottom: 20px;
-            padding: 18px;
-            border: 1px solid #e1cba1;
-        }
-        .verb-emoji-big { font-size: 2.5rem; text-align: center; margin-bottom: 12px; }
-        .verb-forms { display: flex; justify-content: space-around; text-align: center; margin: 15px 0; flex-wrap: wrap; gap: 10px; }
-        .verb-form-item { flex: 1; min-width: 90px; }
-        .verb-form-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #3d2b1a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .verb-form-label { font-size: 0.65rem; color: #8b6946; line-height: 1.3; }
-        .verb-example {
-            background: #f2e5ca;
-            border-radius: 20px;
-            padding: 8px 12px;
-            margin: 8px 0;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .story-sentence {
-            background: #fff6e8;
-            border-radius: 28px;
-            padding: 16px;
-            margin: 16px 0;
-            border-left: 5px solid #c49a6c;
-        }
-        .story-eng { font-weight: bold; font-size: 1rem; line-height: 1.4; }
-        .story-ru { color: #5f451f; font-size: 0.9rem; margin-top: 8px; }
-        .story-rule-label { font-size: 0.7rem; color: #8b6946; margin-top: 8px; }
-        .highlight { background: #ffd6a5; padding: 2px 6px; border-radius: 20px; }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal-content {
-            background: linear-gradient(145deg, #fff5e6 0%, #faeecb 100%);
-            border-radius: 56px;
-            max-width: 550px;
-            width: 100%;
-            padding: 28px;
-            text-align: center;
-            border: 2px solid #cbad7a;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        .modal-emoji { font-size: 4rem; margin-bottom: 16px; }
-        .modal-text { font-size: 1.3rem; font-weight: bold; color: #3d2b1a; margin-bottom: 12px; }
-        .modal-translation { font-size: 1rem; color: #5f451f; margin-bottom: 20px; }
-        .modal-explanation {
-            background: #ecdca8;
-            border-radius: 28px;
-            padding: 16px;
-            margin: 16px 0;
-            text-align: left;
-            font-size: 0.95rem;
-            border-left: 5px solid #b97f44;
-        }
-        .modal-close {
-            background: #c49a6c;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .memory-hack {
-            background: #ecdca8;
-            border-radius: 28px;
-            padding: 14px 18px;
-            margin: 16px 0;
-            border-left: 6px solid #b97f44;
-        }
-        .explanation-card {
-            background: #fff6e8;
-            border-radius: 32px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .explanation-emoji { font-size: 3rem; margin-bottom: 12px; }
-        .explanation-title { font-size: 1.4rem; font-weight: bold; color: #3d2b1a; margin-bottom: 8px; }
-        .explanation-desc { font-size: 0.95rem; color: #5f451f; margin-bottom: 12px; }
-        .explanation-example { background: #f2e5ca; border-radius: 24px; padding: 12px; margin-top: 12px; }
-        .generator-section {
-            background: #f9eec1;
-            border-radius: 32px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .generator-controls {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-        }
-        .generator-controls select,
-        .generator-controls input {
-            padding: 10px 16px;
-            border-radius: 40px;
-            border: 2px solid #e1cba1;
-            font-size: 1rem;
-            background: white;
-            font-family: Georgia, serif;
-        }
-        .generator-controls button {
-            background: #c49a6c;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: Georgia, serif;
-        }
-        .generator-controls button:hover { background: #b0885a; }
-        .generated-examples { margin-top: 16px; max-height: 450px; overflow-y: auto; }
-        .generated-item {
-            background: #fff6e8;
-            border-radius: 24px;
-            padding: 14px 18px;
-            margin: 10px 0;
-            border-left: 4px solid #c49a6c;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .generated-item .eng { font-weight: bold; font-size: 1.05rem; }
-        .generated-item .ru { color: #5f451f; font-size: 0.9rem; margin-top: 4px; }
-        .generated-item .verb-used {
-            background: #ecdca8;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #3d2b1a;
-            white-space: nowrap;
-        }
-        .phrase-category {
-            display: inline-block;
-            background: #c49a6c;
-            color: white;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 0.65rem;
-        }
-        .verb-select-wrapper { flex: 2; min-width: 200px; }
-        .verb-select-wrapper select {
-            width: 100%;
-            padding: 10px 16px;
-            border-radius: 40px;
-            border: 2px solid #e1cba1;
-            font-size: 1rem;
-            background: white;
-            font-family: Georgia, serif;
-            max-height: 200px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #5f451f;
-            font-size: 0.75rem;
-            background: #f9eec1;
-            padding: 12px;
-            border-radius: 40px;
-        }
-        .phrase-card {
-            background: #fff6e8;
-            border-radius: 24px;
-            padding: 14px 18px;
-            margin: 10px 0;
-            border-left: 4px solid #c49a6c;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .phrase-card:hover { transform: translateX(4px); border-left-color: #8b6946; }
-        .phrase-card .eng { font-weight: bold; font-size: 1.1rem; }
-        .phrase-card .ru { color: #5f451f; font-size: 0.95rem; }
-        .phrase-card .category-tag {
-            background: #ecdca8;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #3d2b1a;
-        }
-        .phrase-counter {
-            text-align: center;
-            color: #8b6946;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            background: #f9eec1;
-            padding: 8px;
-            border-radius: 40px;
-        }
-        .filters {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-            justify-content: center;
-        }
-        .filter-btn {
-            background: #efdfb7;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-family: Georgia, serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .filter-btn.active { background: #c49a6c; color: white; }
-        @media (max-width: 550px) {
-            .rule-name { font-size: 1.2rem; }
-            .assoc-emoji { font-size: 2rem; }
-            .preposition-word { font-size: 1.3rem; }
-            .preposition-emoji-col { font-size: 2rem; min-width: 55px; }
-            .tense-name { font-size: 1.1rem; }
-            .verb-form-value { font-size: 1.2rem; }
-            .verb-form-item { min-width: 70px; }
-            .modal-text { font-size: 1.1rem; }
-            #verbs-container { max-height: 50vh; }
-            .generator-controls select,
-            .generator-controls input { width: 100%; }
-            .verb-select-wrapper { min-width: 100%; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English Cards">
+<meta name="theme-color" content="#c4a35a">
+<meta name="application-name" content="English Cards">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23c49a6c'/%3E%3Ctext x='50' y='70' font-size='55' text-anchor='middle' fill='%233d2b1a' font-family='Georgia'%3E📘%3C/text%3E%3C/svg%3E">
+<title>English Cards — учим английский</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  background:#d9c8a9;
+  background-image:radial-gradient(circle at 10% 20%, rgba(180,140,80,.12) 2%, transparent 2.5%);
+  background-size:40px 40px;
+  font-family:-apple-system, BlinkMacSystemFont, Georgia, serif;
+  padding:20px 12px; min-height:100vh;
+}
+body.fullscreen-table { padding:0; background:#fff6e8; }
+body.fullscreen-table .app-container { padding-top:0; max-width:100%; }
+body.fullscreen-table .tabs,
+body.fullscreen-table footer,
+body.fullscreen-table .card:not(.fullscreen-card) { display:none; }
+body.fullscreen-table .fullscreen-card { margin:0; border-radius:0; min-height:100vh; }
+body.fullscreen-table .card-body,
+body.fullscreen-table .card-body.open { max-height:none; overflow:visible; }
+.app-container { max-width:750px; margin:0 auto; padding-top:env(safe-area-inset-top, 20px); }
+.tabs { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; padding-top:5px; }
+.tab-btn {
+  flex:1; background:#efdfb7; border:none; padding:14px 6px;
+  font-size:.85rem; font-weight:bold; font-family:Georgia, serif;
+  color:#4a2e1b; border-radius:60px; cursor:pointer; text-align:center;
+  transition:.2s; min-width:80px;
+}
+.tab-btn.active { background:#c49a6c; color:white; box-shadow:0 4px 12px rgba(0,0,0,.2); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.card {
+  background:linear-gradient(145deg, #fff5e6 0%, #faeecb 100%);
+  border-radius:56px; box-shadow:0 20px 30px rgba(0,0,0,.2);
+  border:1px solid #cbad7a; margin-bottom:28px; overflow:hidden;
+}
+.card-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px 20px; background:rgba(200,160,100,.25);
+  cursor:pointer; border-bottom:3px dashed #cbad7a;
+}
+.title-group { display:flex; flex-direction:column; gap:8px; }
+.assoc-emoji {
+  font-size:2.5rem; background:#f9eec1; padding:6px 14px;
+  border-radius:80px; display:inline-block; width:fit-content;
+}
+.rule-name { font-size:1.5rem; font-weight:bold; color:#3d2b1a; }
+.expand-icon {
+  font-size:2rem; color:#b57c48; transition:transform .3s;
+  background:#f9eec1; width:48px; height:48px;
+  display:flex; align-items:center; justify-content:center; border-radius:50%;
+}
+.card-body { max-height:0; overflow:hidden; transition:max-height .6s ease-out; }
+.card-body.open { max-height:10000px; overflow-y:auto; }
+.inner-content { padding:22px; }
+.search-section { background:#f9eec1; border-radius:60px; padding:8px 16px; margin-bottom:20px; }
+.search-wrapper { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.search-icon { font-size:1.5rem; }
+.search-input-wrapper { flex:1; min-width:180px; }
+.search-input {
+  width:100%; padding:12px 16px; font-size:1rem;
+  border:2px solid #e1cba1; border-radius:50px; outline:none; background:white;
+}
+.search-input:focus { border-color:#c49a6c; }
+.search-clear {
+  background:#f0f2f5; border:none; width:40px; height:40px;
+  border-radius:50%; font-size:1.2rem; cursor:pointer; display:none;
+}
+.search-results-info {
+  font-size:.85rem; color:#8b6946; margin-bottom:12px;
+  padding:8px; text-align:center; background:#f9eec1; border-radius:40px;
+}
+#verbs-container { display:flex; flex-direction:column; gap:16px; max-height:55vh; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:8px; }
+.preposition-row { display:flex; align-items:flex-start; gap:16px; padding:16px 0; border-bottom:1px solid #e1cba1; flex-wrap:wrap; }
+.preposition-emoji-col { font-size:2.5rem; min-width:70px; text-align:center; }
+.preposition-content { flex:1; }
+.preposition-word { font-size:1.8rem; font-weight:bold; color:#3d2b1a; font-family:monospace; }
+.preposition-meaning { font-size:.95rem; color:#8b6946; margin:4px 0; }
+.preposition-example {
+  font-size:.95rem; background:#f2e5ca; padding:8px 12px;
+  border-radius:24px; margin-top:8px; display:inline-block; cursor:pointer;
+}
+.highlight-word { background:#ffe0b3; padding:2px 6px; border-radius:20px; font-weight:bold; }
+.tense-card {
+  background:#fff6e8; border-radius:32px; margin-bottom:20px;
+  padding:18px; border:1px solid #e1cba1; cursor:pointer; transition:.1s;
+}
+.tense-card:active { transform:scale(.99); }
+.tense-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.tense-emoji { font-size:2.2rem; }
+.tense-name { font-size:1.3rem; font-weight:bold; color:#3d2b1a; }
+.tense-formula {
+  font-family:monospace; background:#ecdca8; padding:6px 12px;
+  border-radius:28px; display:inline-block; font-size:.85rem; margin:8px 0;
+}
+.tense-example {
+  background:#f2e5ca; border-radius:20px; padding:10px 14px; margin:10px 0;
+  cursor:pointer; display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:8px;
+}
+.tense-example-text { flex:1; }
+.tense-example-eng { font-weight:bold; }
+.tense-example-ru { font-size:.85rem; color:#5f451f; margin-top:4px; }
+.speak-btn-small {
+  background:#c49a6c; border:none; padding:6px 14px; border-radius:40px;
+  color:white; cursor:pointer; font-size:.85rem;
+}
+.verb-card { background:#fff6e8; border-radius:32px; margin-bottom:20px; padding:18px; border:1px solid #e1cba1; }
+.verb-emoji-big { font-size:2.5rem; text-align:center; margin-bottom:12px; }
+.verb-forms { display:flex; justify-content:space-around; text-align:center; margin:15px 0; flex-wrap:wrap; gap:10px; }
+.verb-form-item { flex:1; min-width:90px; }
+.verb-form-value {
+  font-size:1.4rem; font-weight:bold; color:#3d2b1a;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.verb-form-label { font-size:.65rem; color:#8b6946; line-height:1.3; }
+.verb-example {
+  background:#f2e5ca; border-radius:20px; padding:8px 12px; margin:8px 0;
+  cursor:pointer; display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:8px;
+}
+.story-sentence {
+  background:#fff6e8; border-radius:28px; padding:16px; margin:16px 0;
+  border-left:5px solid #c49a6c;
+}
+.story-eng { font-weight:bold; font-size:1rem; line-height:1.4; }
+.story-ru { color:#5f451f; font-size:.9rem; margin-top:8px; }
+.story-rule-label { font-size:.7rem; color:#8b6946; margin-top:8px; }
+.highlight { background:#ffd6a5; padding:2px 6px; border-radius:20px; }
+.modal {
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,.85); z-index:1000; justify-content:center;
+  align-items:center; padding:20px;
+}
+.modal-content {
+  background:linear-gradient(145deg, #fff5e6 0%, #faeecb 100%);
+  border-radius:56px; max-width:550px; width:100%; padding:28px;
+  text-align:center; border:2px solid #cbad7a; max-height:85vh; overflow-y:auto;
+}
+.modal-emoji { font-size:4rem; margin-bottom:16px; }
+.modal-text { font-size:1.3rem; font-weight:bold; color:#3d2b1a; margin-bottom:12px; }
+.modal-translation { font-size:1rem; color:#5f451f; margin-bottom:20px; }
+.modal-explanation {
+  background:#ecdca8; border-radius:28px; padding:16px; margin:16px 0;
+  text-align:left; font-size:.95rem; border-left:5px solid #b97f44;
+}
+.modal-close {
+  background:#c49a6c; border:none; padding:12px 24px; border-radius:40px;
+  color:white; font-size:1rem; cursor:pointer; margin:5px;
+}
+.memory-hack {
+  background:#ecdca8; border-radius:28px; padding:14px 18px; margin:16px 0;
+  border-left:6px solid #b97f44;
+}
+.explanation-card { background:#fff6e8; border-radius:32px; padding:20px; margin-bottom:20px; text-align:center; }
+.explanation-emoji { font-size:3rem; margin-bottom:12px; }
+.explanation-title { font-size:1.4rem; font-weight:bold; color:#3d2b1a; margin-bottom:8px; }
+.explanation-desc { font-size:.95rem; color:#5f451f; margin-bottom:12px; }
+.explanation-example { background:#f2e5ca; border-radius:24px; padding:12px; margin-top:12px; }
+.generator-section { background:#f9eec1; border-radius:32px; padding:20px; margin-bottom:20px; }
+.generator-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:center; }
+.generator-controls select,
+.generator-controls input {
+  padding:10px 16px; border-radius:40px; border:2px solid #e1cba1;
+  font-size:1rem; background:white; font-family:Georgia, serif;
+}
+.generator-controls button {
+  background:#c49a6c; border:none; padding:10px 24px; border-radius:40px;
+  color:white; font-size:1rem; cursor:pointer; font-weight:bold; font-family:Georgia, serif;
+}
+.generator-controls button:hover { background:#b0885a; }
+.generated-examples { margin-top:16px; max-height:450px; overflow-y:auto; }
+.generated-item {
+  background:#fff6e8; border-radius:24px; padding:14px 18px; margin:10px 0;
+  border-left:4px solid #c49a6c; display:flex; justify-content:space-between;
+  align-items:flex-start; gap:12px; flex-wrap:wrap;
+}
+.generated-item .eng { font-weight:bold; font-size:1.05rem; }
+.generated-item .ru { color:#5f451f; font-size:.9rem; margin-top:4px; }
+.generated-item .verb-used {
+  background:#ecdca8; padding:2px 12px; border-radius:20px;
+  font-size:.8rem; color:#3d2b1a; white-space:nowrap;
+}
+.phrase-category {
+  display:inline-block; background:#c49a6c; color:white;
+  padding:2px 12px; border-radius:20px; font-size:.65rem;
+}
+.verb-select-wrapper { flex:2; min-width:200px; }
+.verb-select-wrapper select {
+  width:100%; padding:10px 16px; border-radius:40px;
+  border:2px solid #e1cba1; font-size:1rem; background:white;
+  font-family:Georgia, serif; max-height:200px;
+}
+footer {
+  text-align:center; margin-top:20px; color:#5f451f;
+  font-size:.75rem; background:#f9eec1; padding:12px; border-radius:40px;
+}
+.phrase-card {
+  background:#fff6e8; border-radius:24px; padding:14px 18px; margin:10px 0;
+  border-left:4px solid #c49a6c; display:flex; justify-content:space-between;
+  align-items:center; gap:12px; flex-wrap:wrap; cursor:pointer; transition:.2s;
+}
+.phrase-card:hover { transform:translateX(4px); border-left-color:#8b6946; }
+.phrase-card .eng { font-weight:bold; font-size:1.1rem; }
+.phrase-card .ru { color:#5f451f; font-size:.95rem; }
+.phrase-card .category-tag {
+  background:#ecdca8; padding:2px 12px; border-radius:20px;
+  font-size:.7rem; color:#3d2b1a;
+}
+.phrase-counter {
+  text-align:center; color:#8b6946; font-size:.9rem;
+  margin-bottom:12px; background:#f9eec1; padding:8px; border-radius:40px;
+}
+.filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; justify-content:center; }
+.filter-btn {
+  background:#efdfb7; border:none; padding:6px 16px; border-radius:40px;
+  font-family:Georgia, serif; font-size:.8rem; cursor:pointer; transition:.2s;
+}
+.filter-btn.active { background:#c49a6c; color:white; }
+@media (max-width:550px) {
+  .rule-name { font-size:1.2rem; }
+  .assoc-emoji { font-size:2rem; }
+  .preposition-word { font-size:1.3rem; }
+  .preposition-emoji-col { font-size:2rem; min-width:55px; }
+  .tense-name { font-size:1.1rem; }
+  .verb-form-value { font-size:1.2rem; }
+  .verb-form-item { min-width:70px; }
+  .modal-text { font-size:1.1rem; }
+  #verbs-container { max-height:50vh; }
+  .generator-controls select,
+  .generator-controls input { width:100%; }
+  .verb-select-wrapper { min-width:100%; }
+}
+</style>
 </head>
 <body>
 <div class="app-container">
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="tab1">🧭 ПРЕДЛОГИ</button>
-        <button class="tab-btn" data-tab="tab2">⚡ ГЛАГОЛЫ</button>
-        <button class="tab-btn" data-tab="tab3">⏳ ВРЕМЕНА</button>
-        <button class="tab-btn" data-tab="tab4">📖 РАССКАЗЫ</button>
-        <button class="tab-btn" data-tab="tab5">📚 ПОЯСНЕНИЯ</button>
-        <button class="tab-btn" data-tab="tab6">📋 ТАБЛИЦА</button>
-        <button class="tab-btn" data-tab="tab7">🎲 ГЕНЕРАТОР</button>
-        <button class="tab-btn" data-tab="tab8">💬 ФРАЗЫ</button>
-        <button class="tab-btn" data-tab="tab9">🔤 ПРИСТАВКИ</button>
-        <button class="tab-btn" data-tab="tab10">🎩 МАГИЯ</button>
-        <button class="tab-btn" data-tab="tab11">🧠 ТЕСТ</button>
-        <button class="tab-btn" data-tab="tab12">🏗️ КОНСТРУКТОР</button>
-    </div>
+<div class="tabs">
+  <button class="tab-btn active" data-tab="tab1">🧭 ПРЕДЛОГИ</button>
+  <button class="tab-btn" data-tab="tab2">⚡ ГЛАГОЛЫ</button>
+  <button class="tab-btn" data-tab="tab3">⏳ ВРЕМЕНА</button>
+  <button class="tab-btn" data-tab="tab4">📖 РАССКАЗЫ</button>
+  <button class="tab-btn" data-tab="tab5">📚 ПОЯСНЕНИЯ</button>
+  <button class="tab-btn" data-tab="tab6">📋 ТАБЛИЦА</button>
+  <button class="tab-btn" data-tab="tab7">🎲 ГЕНЕРАТОР</button>
+  <button class="tab-btn" data-tab="tab8">💬 ФРАЗЫ</button>
+  <button class="tab-btn" data-tab="tab9">🔤 ПРИСТАВКИ</button>
+  <button class="tab-btn" data-tab="tab10">🎩 МАГИЯ</button>
+  <button class="tab-btn" data-tab="tab11">🧠 ТЕСТ</button>
+  <button class="tab-btn" data-tab="tab12">🏗️ КОНСТРУКТОР</button>
+  <button class="tab-btn" data-tab="tab13">📖 СЛОВАРЬ</button>
+</div>
 
-    <!-- ВКЛАДКА 1: ПРЕДЛОГИ -->
-    <div id="tab1" class="tab-content active">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">🧭🗺️</span><span class="rule-name">Предлоги места и направления</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="preposition-row"><div class="preposition-emoji-col">🚶‍♂️➡️🏠</div><div class="preposition-content"><div class="preposition-word">to</div><div class="preposition-meaning">КУДА? — Стрела летит К цели</div><div class="preposition-example" onclick="openModalWithSpeech('to', 'I go to school every day.', 'Я хожу в школу каждый день.', 'to показывает направление')">📖 I go <strong>to</strong> school → Я иду в школу</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📍🚏</div><div class="preposition-content"><div class="preposition-word">at</div><div class="preposition-meaning">ГДЕ ТОЧНО? — Булавка на карте</div><div class="preposition-example" onclick="openModalWithSpeech('at', 'Wait at the bus stop.', 'Жди на автобусной остановке.', 'at показывает точное место')">📖 Wait <strong>at</strong> the bus stop → Жди на остановке</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📦🧸</div><div class="preposition-content"><div class="preposition-word">in</div><div class="preposition-meaning">ВНУТРИ — Мишка в коробке</div><div class="preposition-example" onclick="openModalWithSpeech('in', 'She is in the room.', 'Она в комнате.', 'in показывает, что кто-то внутри')">📖 She is <strong>in</strong> the room → Она в комнате</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📚⬆️🍽️</div><div class="preposition-content"><div class="preposition-word">on</div><div class="preposition-meaning">НА ПОВЕРХНОСТИ — Книга на столе</div><div class="preposition-example" onclick="openModalWithSpeech('on', 'The book is on the table.', 'Книга на столе.', 'on показывает, что предмет на поверхности')">📖 The book is <strong>on</strong> the table → Книга на столе</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🎁👤</div><div class="preposition-content"><div class="preposition-word">for</div><div class="preposition-meaning">ДЛЯ — Подарок для друга</div><div class="preposition-example" onclick="openModalWithSpeech('for', 'This gift is for you.', 'Этот подарок для тебя.', 'for показывает получателя')">📖 This gift is <strong>for</strong> you → Подарок для тебя</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🤝👥</div><div class="preposition-content"><div class="preposition-word">with</div><div class="preposition-meaning">ВМЕСТЕ С — С другом</div><div class="preposition-example" onclick="openModalWithSpeech('with', 'I go with my friend.', 'Я иду с другом.', 'with показывает совместное действие')">📖 I go <strong>with</strong> my friend → Я иду с другом</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🚫🤝</div><div class="preposition-content"><div class="preposition-word">without</div><div class="preposition-meaning">БЕЗ — Без тебя</div><div class="preposition-example" onclick="openModalWithSpeech('without', 'I can\'t live without you.', 'Я не могу жить без тебя.', 'without — противоположность with')">📖 I can't live <strong>without</strong> you → Я не могу без тебя</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🪑🧍‍♂️</div><div class="preposition-content"><div class="preposition-word">by</div><div class="preposition-meaning">РЯДОМ / НА (транспорте)</div><div class="preposition-example" onclick="openModalWithSpeech('by', 'Sit by me. / Go by car.', 'Сядь рядом со мной. / Ехать на машине.', 'by может означать «рядом» или способ передвижения')">📖 Sit <strong>by</strong> me / Go <strong>by</strong> car → Сядь рядом / Ехать на машине</div></div></div>
-                <div class="memory-hack">🧠 <strong>Запоминалка:</strong> to = КУДА 🎯, at = ГДЕ ТОЧКА 📍, in = ВНУТРИ 📦, on = НА ⬆️, for = ДЛЯ 🎁, with = С 🤝, without = БЕЗ 🚫, by = РЯДОМ 🪑</div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 1: ПРЕДЛОГИ -->
+<div id="tab1" class="tab-content active">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🧭🗺️</span><span class="rule-name">Предлоги места и направления</span></div>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="preposition-row"><div class="preposition-emoji-col">🚶‍♂️➡️🏠</div><div class="preposition-content"><div class="preposition-word">to</div><div class="preposition-meaning">КУДА? — Стрела летит К цели</div><div class="preposition-example" onclick="openModalWithSpeech('to', 'I go to school every day.', 'Я хожу в школу каждый день.', 'to показывает направление')">📖 I go <strong>to</strong> school → Я иду в школу</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">📍🚏</div><div class="preposition-content"><div class="preposition-word">at</div><div class="preposition-meaning">ГДЕ ТОЧНО? — Булавка на карте</div><div class="preposition-example" onclick="openModalWithSpeech('at', 'Wait at the bus stop.', 'Жди на автобусной остановке.', 'at показывает точное место')">📖 Wait <strong>at</strong> the bus stop → Жди на остановке</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">📦🧸</div><div class="preposition-content"><div class="preposition-word">in</div><div class="preposition-meaning">ВНУТРИ — Мишка в коробке</div><div class="preposition-example" onclick="openModalWithSpeech('in', 'She is in the room.', 'Она в комнате.', 'in показывает, что кто-то внутри')">📖 She is <strong>in</strong> the room → Она в комнате</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">📚⬆️🍽️</div><div class="preposition-content"><div class="preposition-word">on</div><div class="preposition-meaning">НА ПОВЕРХНОСТИ — Книга на столе</div><div class="preposition-example" onclick="openModalWithSpeech('on', 'The book is on the table.', 'Книга на столе.', 'on показывает, что предмет на поверхности')">📖 The book is <strong>on</strong> the table → Книга на столе</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🎁👤</div><div class="preposition-content"><div class="preposition-word">for</div><div class="preposition-meaning">ДЛЯ — Подарок для друга</div><div class="preposition-example" onclick="openModalWithSpeech('for', 'This gift is for you.', 'Этот подарок для тебя.', 'for показывает получателя')">📖 This gift is <strong>for</strong> you → Подарок для тебя</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🤝👥</div><div class="preposition-content"><div class="preposition-word">with</div><div class="preposition-meaning">ВМЕСТЕ С — С другом</div><div class="preposition-example" onclick="openModalWithSpeech('with', 'I go with my friend.', 'Я иду с другом.', 'with показывает совместное действие')">📖 I go <strong>with</strong> my friend → Я иду с другом</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🚫🤝</div><div class="preposition-content"><div class="preposition-word">without</div><div class="preposition-meaning">БЕЗ — Без тебя</div><div class="preposition-example" onclick="openModalWithSpeech('without', 'I can\'t live without you.', 'Я не могу жить без тебя.', 'without — противоположность with')">📖 I can't live <strong>without</strong> you → Я не могу без тебя</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🪑🧍‍♂️</div><div class="preposition-content"><div class="preposition-word">by</div><div class="preposition-meaning">РЯДОМ / НА (транспорте)</div><div class="preposition-example" onclick="openModalWithSpeech('by', 'Sit by me. / Go by car.', 'Сядь рядом со мной. / Ехать на машине.', 'by — рядом или способ передвижения')">📖 Sit <strong>by</strong> me / Go <strong>by</strong> car</div></div></div>
+      <div class="memory-hack">🧠 <strong>Запоминалка:</strong> to = КУДА 🎯, at = ГДЕ ТОЧКА 📍, in = ВНУТРИ 📦, on = НА ⬆️, for = ДЛЯ 🎁, with = С 🤝, without = БЕЗ 🚫, by = РЯДОМ 🪑</div>
+    </div></div>
+  </div>
 
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">🆙 🔽 🚪 ⚡ 🔄 🔙</span><span class="rule-name">Приставки-предлоги (фразовые глаголы)</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="preposition-row"><div class="preposition-emoji-col">🆙</div><div class="preposition-content"><div class="preposition-word">up</div><div class="preposition-meaning">ВВЕРХ / ПОЛНОСТЬЮ</div><div class="preposition-example" onclick="openModalWithSpeech('up', 'get up, eat up, give up', 'встать, съесть всё, сдаться', 'up = вверх или до конца')">📖 get up, eat up, give up</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔽</div><div class="preposition-content"><div class="preposition-word">down</div><div class="preposition-meaning">ВНИЗ / СЛОМАТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('down', 'sit down, break down', 'сесть, сломаться', 'down = вниз или разрушение')">📖 sit down, break down</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🚪</div><div class="preposition-content"><div class="preposition-word">out</div><div class="preposition-meaning">НАРУЖУ / ВЫЯСНИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('out', 'go out, find out', 'выйти, выяснить', 'out = наружу или раскрыть секрет')">📖 go out, find out</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">⚡</div><div class="preposition-content"><div class="preposition-word">off</div><div class="preposition-meaning">ПРОЧЬ / ВЫКЛЮЧИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('off', 'turn off, take off', 'выключить, взлететь/снять', 'off = отделение или выключение')">📖 turn off, take off</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔄</div><div class="preposition-content"><div class="preposition-word">over</div><div class="preposition-meaning">ЧЕРЕЗ / ПОВТОРНО</div><div class="preposition-example" onclick="openModalWithSpeech('over', 'take over, turn over', 'захватить, перевернуть', 'over = через или снова')">📖 take over, turn over</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔙</div><div class="preposition-content"><div class="preposition-word">back</div><div class="preposition-meaning">НАЗАД</div><div class="preposition-example" onclick="openModalWithSpeech('back', 'come back, pay back', 'вернуться, вернуть долг', 'back = возвращение')">📖 come back, pay back</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">➡️📦</div><div class="preposition-content"><div class="preposition-word">into</div><div class="preposition-meaning">ВНУТРЬ (С ДВИЖЕНИЕМ)</div><div class="preposition-example" onclick="openModalWithSpeech('into', 'go into, break into', 'войти в, вломиться', 'into = движение внутрь')">📖 go into, break into</div></div></div>
-            </div></div>
-        </div>
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🆙 🔽 🚪 ⚡ 🔄 🔙</span><span class="rule-name">Приставки-предлоги (фразовые глаголы)</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="preposition-row"><div class="preposition-emoji-col">🆙</div><div class="preposition-content"><div class="preposition-word">up</div><div class="preposition-meaning">ВВЕРХ / ПОЛНОСТЬЮ</div><div class="preposition-example" onclick="openModalWithSpeech('up', 'get up, eat up, give up', 'встать, съесть всё, сдаться', 'up = вверх или до конца')">📖 get up, eat up, give up</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🔽</div><div class="preposition-content"><div class="preposition-word">down</div><div class="preposition-meaning">ВНИЗ / СЛОМАТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('down', 'sit down, break down', 'сесть, сломаться', 'down = вниз или разрушение')">📖 sit down, break down</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🚪</div><div class="preposition-content"><div class="preposition-word">out</div><div class="preposition-meaning">НАРУЖУ / ВЫЯСНИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('out', 'go out, find out', 'выйти, выяснить', 'out = наружу или раскрыть секрет')">📖 go out, find out</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">⚡</div><div class="preposition-content"><div class="preposition-word">off</div><div class="preposition-meaning">ПРОЧЬ / ВЫКЛЮЧИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('off', 'turn off, take off', 'выключить, взлететь/снять', 'off = отделение или выключение')">📖 turn off, take off</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🔄</div><div class="preposition-content"><div class="preposition-word">over</div><div class="preposition-meaning">ЧЕРЕЗ / ПОВТОРНО</div><div class="preposition-example" onclick="openModalWithSpeech('over', 'take over, turn over', 'захватить, перевернуть', 'over = через или снова')">📖 take over, turn over</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">🔙</div><div class="preposition-content"><div class="preposition-word">back</div><div class="preposition-meaning">НАЗАД</div><div class="preposition-example" onclick="openModalWithSpeech('back', 'come back, pay back', 'вернуться, вернуть долг', 'back = возвращение')">📖 come back, pay back</div></div></div>
+      <div class="preposition-row"><div class="preposition-emoji-col">➡️📦</div><div class="preposition-content"><div class="preposition-word">into</div><div class="preposition-meaning">ВНУТРЬ (С ДВИЖЕНИЕМ)</div><div class="preposition-example" onclick="openModalWithSpeech('into', 'go into, break into', 'войти в, вломиться', 'into = движение внутрь')">📖 go into, break into</div></div></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 2: ГЛАГОЛЫ -->
-    <div id="tab2" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">⚡ V1→V2→V3</span><span class="rule-name">Неправильные глаголы — подробные карточки</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body">
-                <div class="inner-content">
-                    <div class="search-section">
-                        <div class="search-wrapper">
-                            <div class="search-icon">🔍</div>
-                            <div class="search-input-wrapper">
-                                <input type="text" class="search-input" id="verbSearchInput" placeholder="Поиск по глаголу (go, went) или переводу (идти)...">
-                            </div>
-                            <button class="search-clear" id="clearSearchBtn">✕</button>
-                        </div>
-                    </div>
-                    <div id="searchResultsInfo" class="search-results-info" style="display: none;"></div>
-                    <div id="verbs-container" style="max-height: 55vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 8px;"></div>
-                </div>
-            </div>
-        </div>
+<!-- ВКЛАДКА 2: ГЛАГОЛЫ -->
+<div id="tab2" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">⚡ V1→V2→V3</span><span class="rule-name">Неправильные глаголы</span></div>
+      <span class="expand-icon">▼</span>
     </div>
-    
-    <!-- ВКЛАДКА 3: ВРЕМЕНА -->
-    <div id="tab3" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">🏜️🌊💎</span><span class="rule-name">12 времён английского языка</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content" id="tenses-container"></div></div>
-        </div>
-    </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="search-section"><div class="search-wrapper">
+        <div class="search-icon">🔍</div>
+        <div class="search-input-wrapper"><input type="text" class="search-input" id="verbSearchInput" placeholder="Поиск по глаголу..."></div>
+        <button class="search-clear" id="clearSearchBtn">✕</button>
+      </div></div>
+      <div id="searchResultsInfo" class="search-results-info" style="display:none;"></div>
+      <div id="verbs-container"></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 4: РАССКАЗЫ -->
-    <div id="tab4" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">📖🌅</span><span class="rule-name">Рассказ 1: Мой день</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="story-sentence"><div class="story-eng">Every morning I <span class="highlight">get up</span> <span class="highlight">at</span> 7 o'clock <span class="highlight">in</span> <span class="highlight">the</span> morning.</div><div class="story-ru">Каждое утро я встаю в 7 часов утра.</div><div class="story-rule-label">🔹 get up — фразовый глагол | at — предлог времени | in — предлог | the — артикль</div><button class="speak-btn-small" onclick="speakText('Every morning I get up at 7 o\'clock in the morning.')">🔈</button></div>
-                <div class="story-sentence"><div class="story-eng">I <span class="highlight">go</span> <span class="highlight">to</span> work <span class="highlight">by</span> bus.</div><div class="story-ru">Я еду на работу на автобусе.</div><div class="story-rule-label">🔹 go to — направление | by — предлог способа</div><button class="speak-btn-small" onclick="speakText('I go to work by bus.')">🔈</button></div>
-                <div class="story-sentence"><div class="story-eng">Now I <span class="highlight">am working</span> <span class="highlight">at</span> the office.</div><div class="story-ru">Сейчас я работаю в офисе.</div><div class="story-rule-label">🔹 am working — Present Continuous</div><button class="speak-btn-small" onclick="speakText('Now I am working at the office.')">🔈</button></div>
-                <div class="story-sentence"><div class="story-eng">I like <span class="highlight">drinking</span> coffee <span class="highlight">with</span> my colleagues.</div><div class="story-ru">Я люблю пить кофе с коллегами.</div><div class="story-rule-label">🔹 drinking — герундий</div><button class="speak-btn-small" onclick="speakText('I like drinking coffee with my colleagues.')">🔈</button></div>
-                <div class="story-sentence"><div class="story-eng">Yesterday I <span class="highlight">went</span> <span class="highlight">to</span> the cinema <span class="highlight">with</span> my friend.</div><div class="story-ru">Вчера я ходил в кино с другом.</div><div class="story-rule-label">🔹 went — Past Simple (go → went)</div><button class="speak-btn-small" onclick="speakText('Yesterday I went to the cinema with my friend.')">🔈</button></div>
-                <div class="story-sentence"><div class="story-eng">I <span class="highlight">have seen</span> a great film.</div><div class="story-ru">Я посмотрел отличный фильм.</div><div class="story-rule-label">🔹 have seen — Present Perfect</div><button class="speak-btn-small" onclick="speakText('I have seen a great film.')">🔈</button></div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 3: ВРЕМЕНА -->
+<div id="tab3" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🏜️🌊💎</span><span class="rule-name">12 времён английского языка</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content" id="tenses-container"></div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 5: ПОЯСНЕНИЯ -->
-    <div id="tab5" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">📚❓</span><span class="rule-name">Что такое V1, V2, V3?</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="explanation-card"><div class="explanation-emoji">📘➡️🏃</div><div class="explanation-title">V1 — что делаю СЕЙЧАС?</div><div class="explanation-desc"><strong>V = Verb (глагол).</strong> V1 — начальная форма глагола.</div><div class="explanation-example">✨ go (идти), eat (есть), see (видеть), work (работать)</div></div>
-                <div class="explanation-card"><div class="explanation-emoji">📅➡️🕰️</div><div class="explanation-title">V2 — что делал ВЧЕРА?</div><div class="explanation-desc">V2 — форма прошедшего времени (Past Simple). Правильные: -ed, неправильные: особая форма.</div><div class="explanation-example">✨ went (пошёл), ate (ел), saw (видел), worked (работал)</div></div>
-                <div class="explanation-card"><div class="explanation-emoji">✅📦</div><div class="explanation-title">V3 — что УЖЕ СДЕЛАНО?</div><div class="explanation-desc">V3 — причастие прошедшего времени. Для Perfect (have/has + V3) и пассива.</div><div class="explanation-example">✨ gone (ушедший), eaten (съеденный), seen (увиденный)</div></div>
-                <div class="memory-hack">🧠 <strong>Запомни:</strong><br>V1 — что дела<strong>ю</strong>? (сейчас)<br>V2 — что дела<strong>л</strong>? (вчера)<br>V3 — что сделан<strong>о</strong>? (уже есть результат)</div>
-            </div></div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">📝🔤</span><span class="rule-name">Шпаргалка: V, Vs, Ving, V2, V3</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="memory-hack">
-                    <strong>📌 Быстрая расшифровка:</strong><br><br>
-                    <strong>V</strong> = глагол в начальной форме (go, eat, work)<br>
-                    <strong>Vs</strong> = глагол + s для he/she/it (goes, eats, works)<br>
-                    <strong>Ving</strong> = глагол с -ing (going, eating, working)<br>
-                    <strong>V2</strong> = вторая форма (прошедшее: went, ate, worked)<br>
-                    <strong>V3</strong> = третья форма (причастие: gone, eaten, worked)
-                </div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 4: РАССКАЗЫ -->
+<div id="tab4" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">📖🌅</span><span class="rule-name">Рассказ 1: Мой день</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="story-sentence"><div class="story-eng">Every morning I <span class="highlight">get up</span> <span class="highlight">at</span> 7 o'clock <span class="highlight">in</span> the morning.</div><div class="story-ru">Каждое утро я встаю в 7 часов утра.</div><div class="story-rule-label">🔹 get up — фразовый глагол | at — предлог времени</div><button class="speak-btn-small" onclick="speakText('Every morning I get up at 7 o\'clock in the morning.')">🔈</button></div>
+      <div class="story-sentence"><div class="story-eng">I <span class="highlight">go</span> <span class="highlight">to</span> work <span class="highlight">by</span> bus.</div><div class="story-ru">Я еду на работу на автобусе.</div><div class="story-rule-label">🔹 go to — направление | by — способ</div><button class="speak-btn-small" onclick="speakText('I go to work by bus.')">🔈</button></div>
+      <div class="story-sentence"><div class="story-eng">Now I <span class="highlight">am working</span> <span class="highlight">at</span> the office.</div><div class="story-ru">Сейчас я работаю в офисе.</div><div class="story-rule-label">🔹 am working — Present Continuous</div><button class="speak-btn-small" onclick="speakText('Now I am working at the office.')">🔈</button></div>
+      <div class="story-sentence"><div class="story-eng">Yesterday I <span class="highlight">went</span> <span class="highlight">to</span> the cinema <span class="highlight">with</span> my friend.</div><div class="story-ru">Вчера я ходил в кино с другом.</div><div class="story-rule-label">🔹 went — Past Simple (go → went)</div><button class="speak-btn-small" onclick="speakText('Yesterday I went to the cinema with my friend.')">🔈</button></div>
+      <div class="story-sentence"><div class="story-eng">I <span class="highlight">have seen</span> a great film.</div><div class="story-ru">Я посмотрел отличный фильм.</div><div class="story-rule-label">🔹 have seen — Present Perfect</div><button class="speak-btn-small" onclick="speakText('I have seen a great film.')">🔈</button></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 6: ТАБЛИЦА -->
-    <div id="tab6" class="tab-content">
-        <div class="card fullscreen-card" id="tableFullscreenCard">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">📋⚡</span><span class="rule-name">Таблица неправильных глаголов</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body">
-                <div class="inner-content" id="verbs-table-container" style="padding: 0;">
-                    <div style="text-align:center; padding:20px;">
-                        <button id="fullscreenTableBtn" style="background: #c49a6c; border: none; padding: 10px 20px; border-radius: 40px; color: white; margin-bottom: 16px;">📺 На весь экран</button>
-                        <a href="verbs-table.html" target="_blank" style="background: #c49a6c; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-left: 10px;">📋 Открыть в новой вкладке</a>
-                        <div id="verbsTableWrapper" style="max-height: 55vh; overflow-y: auto; -webkit-overflow-scrolling: touch; margin-top: 16px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- ВКЛАДКА 5: ПОЯСНЕНИЯ -->
+<div id="tab5" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">📚❓</span><span class="rule-name">Что такое V1, V2, V3?</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="explanation-card"><div class="explanation-emoji">📘➡️🏃</div><div class="explanation-title">V1 — что делаю СЕЙЧАС?</div><div class="explanation-desc"><strong>V = Verb (глагол).</strong> V1 — начальная форма глагола.</div><div class="explanation-example">✨ go (идти), eat (есть), see (видеть), work (работать)</div></div>
+      <div class="explanation-card"><div class="explanation-emoji">📅➡️🕰️</div><div class="explanation-title">V2 — что делал ВЧЕРА?</div><div class="explanation-desc">V2 — форма прошедшего времени (Past Simple).</div><div class="explanation-example">✨ went, ate, saw, worked</div></div>
+      <div class="explanation-card"><div class="explanation-emoji">✅📦</div><div class="explanation-title">V3 — что УЖЕ СДЕЛАНО?</div><div class="explanation-desc">V3 — причастие прошедшего времени (Perfect + пассив).</div><div class="explanation-example">✨ gone, eaten, seen</div></div>
+      <div class="memory-hack">🧠 V1 — что дела<strong>ю</strong>?<br>V2 — что дела<strong>л</strong>?<br>V3 — что сделан<strong>о</strong>?</div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 7: ГЕНЕРАТОР -->
-    <div id="tab7" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group"><span class="assoc-emoji">🎲✨</span><span class="rule-name">Генератор примеров</span></div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body">
-                <div class="inner-content">
-                    <div class="generator-section">
-                        <div class="generator-controls">
-                            <div class="verb-select-wrapper">
-                                <select id="verbSelect">
-                                    <option value="">— Выберите глагол —</option>
-                                </select>
-                            </div>
-                            <button onclick="generateExamples()">🎲 Показать примеры</button>
-                            <button onclick="clearExamples()" style="background:#8b6946;">🗑 Очистить</button>
-                        </div>
-                        <div style="text-align:center; margin-top:12px; color:#8b6946; font-size:0.9rem;">
-                            📚 Примеры из вашей коллекции (ex1, ex2, ex3)
-                        </div>
-                    </div>
-                    <div id="generatedContainer" class="generated-examples">
-                        <div style="text-align:center; padding:30px; color:#8b6946;">
-                            🎲 Выберите глагол и нажми "Показать примеры"
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- ВКЛАДКА 6: ТАБЛИЦА -->
+<div id="tab6" class="tab-content">
+  <div class="card fullscreen-card" id="tableFullscreenCard">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">📋⚡</span><span class="rule-name">Таблица неправильных глаголов</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body">
+      <div class="inner-content" id="verbs-table-container" style="padding:0;">
+        <div style="text-align:center; padding:20px;">
+          <button id="fullscreenTableBtn" style="background:#c49a6c;border:none;padding:10px 20px;border-radius:40px;color:white;margin-bottom:16px;">📺 На весь экран</button>
+          <div id="verbsTableWrapper" style="max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch;margin-top:16px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 8: ФРАЗЫ -->
-    <div id="tab8" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group">
-                    <span class="assoc-emoji">💬🗣️</span>
-                    <span class="rule-name">100 популярных фраз на английском</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body">
-                <div class="inner-content">
-                    <div class="search-section">
-                        <div class="search-wrapper">
-                            <div class="search-icon">🔍</div>
-                            <div class="search-input-wrapper">
-                                <input type="text" class="search-input" id="phraseSearchInput" placeholder="Поиск по фразе или переводу...">
-                            </div>
-                            <button class="search-clear" id="clearPhraseSearchBtn">✕</button>
-                        </div>
-                    </div>
-                    <div class="filters" id="categoryFilters"></div>
-                    <div class="phrase-counter" id="phraseCounter">Показано: 0 из 0 фраз</div>
-                    <div id="phrasesContainer" class="generated-examples"></div>
-                </div>
-            </div>
-        </div>
+<!-- ВКЛАДКА 7: ГЕНЕРАТОР -->
+<div id="tab7" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🎲✨</span><span class="rule-name">Генератор примеров</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="generator-section">
+        <div class="generator-controls">
+          <div class="verb-select-wrapper"><select id="verbSelect"><option value="">— Выберите глагол —</option></select></div>
+          <button onclick="generateExamples()">🎲 Показать</button>
+          <button onclick="clearExamples()" style="background:#8b6946;">🗑 Очистить</button>
+        </div>
+      </div>
+      <div id="generatedContainer" class="generated-examples"><div style="text-align:center;padding:30px;color:#8b6946;">🎲 Выберите глагол</div></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 9: ПРИСТАВКИ -->
-    <div id="tab9" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group">
-                    <span class="assoc-emoji">🔤🧩</span>
-                    <span class="rule-name">Приставки, суффиксы и корни-конструкторы</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body">
-                <div class="inner-content">
-                    <div class="search-section">
-                        <div class="search-wrapper">
-                            <div class="search-icon">🔍</div>
-                            <div class="search-input-wrapper">
-                                <input type="text" class="search-input" id="prefixSearchInput" placeholder="Поиск: pre, re, -ing, port, «нести»...">
-                            </div>
-                            <button class="search-clear" id="clearPrefixSearchBtn">✕</button>
-                        </div>
-                    </div>
-                    <div class="filters" id="prefixTypeFilters">
-                        <button class="filter-btn active" data-type="all">📚 Все</button>
-                        <button class="filter-btn" data-type="prefix">⏪ Приставки</button>
-                        <button class="filter-btn" data-type="suffix">⏩ Суффиксы</button>
-                        <button class="filter-btn" data-type="root">🧱 Корни</button>
-                    </div>
-                    <div id="prefixesContainer"></div>
-                </div>
-            </div>
-        </div>
+<!-- ВКЛАДКА 8: ФРАЗЫ -->
+<div id="tab8" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">💬🗣️</span><span class="rule-name">100 популярных фраз</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="search-section"><div class="search-wrapper">
+        <div class="search-icon">🔍</div>
+        <div class="search-input-wrapper"><input type="text" class="search-input" id="phraseSearchInput" placeholder="Поиск..."></div>
+        <button class="search-clear" id="clearPhraseSearchBtn">✕</button>
+      </div></div>
+      <div class="filters" id="categoryFilters"></div>
+      <div class="phrase-counter" id="phraseCounter">Показано: 0 из 0 фраз</div>
+      <div id="phrasesContainer" class="generated-examples"></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 10: МАГИЧЕСКИЕ СЛОВА -->
-    <div id="tab10" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group">
-                    <span class="assoc-emoji">🎩✨</span>
-                    <span class="rule-name">Магические слова — get, have, take, make, do, go, put</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="memory-hack" style="margin-bottom:16px;">
-                    <strong>🎯 Идея:</strong> 7 глаголов заменяют сотни других. А ещё 6 «слов-заглушек» спасут в любой ситуации.
-                </div>
-                <div class="filters" id="magicFilters">
-                    <button class="filter-btn active" data-magic="verbs">🎩 Глаголы</button>
-                    <button class="filter-btn" data-magic="words">📦 Слова-заглушки</button>
-                    <button class="filter-btn" data-magic="survival">🆘 Фразы-спасалки</button>
-                </div>
-                <div id="magicContainer"></div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 9: ПРИСТАВКИ -->
+<div id="tab9" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🔤🧩</span><span class="rule-name">Приставки, суффиксы, корни</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="search-section"><div class="search-wrapper">
+        <div class="search-icon">🔍</div>
+        <div class="search-input-wrapper"><input type="text" class="search-input" id="prefixSearchInput" placeholder="Поиск: pre, re, -ing, port..."></div>
+        <button class="search-clear" id="clearPrefixSearchBtn">✕</button>
+      </div></div>
+      <div class="filters" id="prefixTypeFilters">
+        <button class="filter-btn active" data-type="all">📚 Все</button>
+        <button class="filter-btn" data-type="prefix">⏪ Приставки</button>
+        <button class="filter-btn" data-type="suffix">⏩ Суффиксы</button>
+        <button class="filter-btn" data-type="root">🧱 Корни</button>
+      </div>
+      <div id="prefixesContainer"></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 11: ТЕСТ -->
-    <div id="tab11" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group">
-                    <span class="assoc-emoji">🧠🎯</span>
-                    <span class="rule-name">Тест — проверь себя</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="memory-hack" style="margin-bottom:14px;">
-                    🎯 150 вопросов по всем разделам. Выбирай ответ — увидишь, правильно ли. Кнопка 🔊 — озвучка.
-                </div>
-                <div class="filters" id="quizFilters"></div>
-                <div id="quizStats" style="text-align:center; background:#ecdca8; padding:10px; border-radius:40px; margin-bottom:14px; font-weight:bold; color:#3d2b1a;"></div>
-                <div id="quizContainer"></div>
-                <div style="text-align:center; margin-top:16px;">
-                    <button onclick="resetQuiz()" style="background:#8b6946; border:none; padding:12px 24px; border-radius:40px; color:white; font-size:1rem; cursor:pointer; font-weight:bold; font-family:Georgia, serif;">🔄 Начать заново</button>
-                </div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 10: МАГИЯ -->
+<div id="tab10" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🎩✨</span><span class="rule-name">Магические слова — get, have, take...</span></div>
+      <span class="expand-icon">▼</span>
     </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="filters" id="magicFilters">
+        <button class="filter-btn active" data-magic="verbs">🎩 Глаголы</button>
+        <button class="filter-btn" data-magic="words">📦 Слова-заглушки</button>
+        <button class="filter-btn" data-magic="survival">🆘 Фразы-спасалки</button>
+      </div>
+      <div id="magicContainer"></div>
+    </div></div>
+  </div>
+</div>
 
-    <!-- ВКЛАДКА 12: КОНСТРУКТОР -->
-    <div id="tab12" class="tab-content">
-        <div class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div class="title-group">
-                    <span class="assoc-emoji">🏗️💬</span>
-                    <span class="rule-name">Конструктор вопросов и ответов</span>
-                </div>
-                <span class="expand-icon">▼</span>
-            </div>
-            <div class="card-body"><div class="inner-content">
-                <div class="memory-hack" style="margin-bottom:14px;">
-                    🎯 Собери предложение, построй вопрос, выбери ответ, переделай форму или пройди диалог.
-                </div>
-                <div class="filters" id="builderFilters"></div>
-                <div id="builderContainer"></div>
-            </div></div>
-        </div>
+<!-- ВКЛАДКА 11: ТЕСТ -->
+<div id="tab11" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🧠🎯</span><span class="rule-name">Тест — проверь себя</span></div>
+      <span class="expand-icon">▼</span>
     </div>
-    
-    <footer>📌 Нажми на заголовок → раскроется. Установи приложение через браузер.</footer>
+    <div class="card-body"><div class="inner-content">
+      <div class="filters" id="quizFilters"></div>
+      <div id="quizStats" style="text-align:center;background:#ecdca8;padding:10px;border-radius:40px;margin-bottom:14px;font-weight:bold;color:#3d2b1a;"></div>
+      <div id="quizContainer"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button onclick="resetQuiz()" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Начать заново</button>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ВКЛАДКА 12: КОНСТРУКТОР -->
+<div id="tab12" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">🏗️💬</span><span class="rule-name">Конструктор вопросов и ответов</span></div>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="filters" id="builderFilters"></div>
+      <div id="builderContainer"></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ВКЛАДКА 13: СЛОВАРЬ -->
+<div id="tab13" class="tab-content">
+  <div class="card">
+    <div class="card-header" onclick="toggleCard(this)">
+      <div class="title-group"><span class="assoc-emoji">📖🔍</span><span class="rule-name">Словарь — 500 слов с транскрипцией</span></div>
+      <span class="expand-icon">▼</span>
+    </div>
+    <div class="card-body"><div class="inner-content">
+      <div class="search-section"><div class="search-wrapper">
+        <div class="search-icon">🔍</div>
+        <div class="search-input-wrapper"><input type="text" class="search-input" id="dictSearchInput" placeholder="Введите слово на английском или русском..."></div>
+        <button class="search-clear" id="clearDictBtn">✕</button>
+      </div></div>
+      <div class="filters" id="dictFilters">
+        <button class="filter-btn active" data-dict="all">📚 Все</button>
+        <button class="filter-btn" data-dict="noun">📦 Существительные</button>
+        <button class="filter-btn" data-dict="verb">⚡ Глаголы</button>
+        <button class="filter-btn" data-dict="adjective">🎨 Прилагательные</button>
+        <button class="filter-btn" data-dict="adverb">💨 Наречия</button>
+      </div>
+      <div class="phrase-counter" id="dictCounter">Слов: 0</div>
+      <div id="dictContainer" class="generated-examples"></div>
+    </div></div>
+  </div>
+</div>
+
+<footer>📌 Нажми на заголовок → раскроется. Установи приложение через браузер.</footer>
 </div>
 
 <!-- МОДАЛЬНОЕ ОКНО -->
 <div id="modal" class="modal" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <div class="modal-emoji" id="modalEmoji">📖</div>
-        <div class="modal-text" id="modalText"></div>
-        <div class="modal-translation" id="modalTranslation"></div>
-        <div class="modal-explanation" id="modalExplanation" style="display: none;"></div>
-        <button class="modal-close" onclick="closeModal()" style="margin-right: 10px;">Закрыть</button>
-        <button id="modalSpeakBtn" class="modal-close" style="background:#8b6946;">🔈 Озвучить</button>
-    </div>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-emoji" id="modalEmoji">📖</div>
+    <div class="modal-text" id="modalText"></div>
+    <div class="modal-translation" id="modalTranslation"></div>
+    <div class="modal-explanation" id="modalExplanation" style="display:none;"></div>
+    <button class="modal-close" onclick="closeModal()" style="margin-right:10px;">Закрыть</button>
+    <button id="modalSpeakBtn" class="modal-close" style="background:#8b6946;">🔈 Озвучить</button>
+  </div>
 </div>
 
 <script src="verbs.js"></script>
@@ -829,1230 +541,593 @@
 <script src="magicWords.js"></script>
 <script src="quiz.js"></script>
 <script src="builder.js"></script>
+<script src="dictionary.js"></script>
 <script>
-    let currentModalText = '';
-    let allVerbs = [];
-    let lastExamples = [];
-    let currentCategory = 'all';
-    let currentPhrases = [];
-    let currentPrefixType = 'all';
-    let currentRootTopic = 'all';
-    let learnedRoots = JSON.parse(localStorage.getItem('learnedRoots') || '[]');
-    let currentMagicTab = 'verbs';
-    let currentQuizCategory = 'all';
-    let quizState = {};
-    let currentBuilderCategory = 'all';
-    let builderState = {};
-    
-    // ===== SPEECH =====
-    function speakText(text) { 
-        if('speechSynthesis' in window){ 
-            window.speechSynthesis.cancel(); 
-            const u = new SpeechSynthesisUtterance(text); 
-            u.lang = 'en-US'; 
-            u.rate = 0.9; 
-            window.speechSynthesis.speak(u); 
-        } 
-    }
-    
-    function speakVerbForms(v1, v2, v3) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(`${v1}, ${v2}, ${v3}`);
-            u.lang = 'en-US';
-            u.rate = 0.8;
-            window.speechSynthesis.speak(u);
-        }
-    }
-    
-    // ===== MODAL =====
-    function openModalWithSpeech(word, textHtml, translation, explanation) {
-        const modal = document.getElementById('modal');
-        const modalText = document.getElementById('modalText');
-        const modalTranslation = document.getElementById('modalTranslation');
-        const modalExplanation = document.getElementById('modalExplanation');
-        const modalEmoji = document.getElementById('modalEmoji');
-        
-        const emojis = {
-            'to':'🚶‍♂️➡️🏠','at':'📍🚏','in':'📦🧸','on':'📚⬆️🍽️','for':'🎁👤','with':'🤝👥',
-            'without':'🚫🤝','by':'🪑🧍‍♂️','up':'🆙','down':'🔽','out':'🚪','off':'⚡','over':'🔄',
-            'back':'🔙','into':'➡️📦',
-            'pre-':'⏪','post-':'⏩','out-':'🚪➡️','dis-':'🚫','re-':'🔄','de-':'⬇️🚫',
-            'un-':'❌','mis-':'⚠️','over-':'🔝','under-':'⬇️',
-            '-ed':'✅⏪','-ing':'🏃','-er / -or':'👤','-ly':'⚡','-ful':'💯','-less':'🚫💯','-ness':'💠'
-        };
-        modalEmoji.textContent = emojis[word] || '📖';
-        
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = textHtml;
-        const plainText = tempDiv.textContent || tempDiv.innerText;
-        modalText.textContent = plainText;
-        currentModalText = plainText;
-        modalTranslation.textContent = translation;
-        
-        if (explanation) {
-            modalExplanation.style.display = 'block';
-            modalExplanation.innerHTML = `<strong>📖 Объяснение:</strong><br>${explanation}`;
-        } else {
-            modalExplanation.style.display = 'none';
-        }
-        
-        modal.style.display = 'flex';
-        document.getElementById('modalSpeakBtn').onclick = () => speakText(currentModalText);
-    }
-    
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    
-    // ===== UI =====
-    function toggleCard(header) { 
-        const body = header.closest('.card').querySelector('.card-body'); 
-        const icon = header.querySelector('.expand-icon'); 
-        if(body.classList.contains('open')){ 
-            body.classList.remove('open'); 
-            if(icon) icon.style.transform = 'rotate(0deg)'; 
-        } else { 
-            body.classList.add('open'); 
-            if(icon) icon.style.transform = 'rotate(180deg)'; 
-        } 
-    }
-    
-    const tabs = document.querySelectorAll('.tab-btn'); 
-    const contents = document.querySelectorAll('.tab-content');
-    tabs.forEach(btn => { 
-        btn.addEventListener('click', () => { 
-            const tabId = btn.getAttribute('data-tab'); 
-            tabs.forEach(b => b.classList.remove('active')); 
-            contents.forEach(c => c.classList.remove('active')); 
-            btn.classList.add('active'); 
-            document.getElementById(tabId).classList.add('active'); 
-            if (tabId === 'tab8') renderPhrases();
-            if (tabId === 'tab9') renderPrefixes();
-            if (tabId === 'tab10') renderMagic();
-            if (tabId === 'tab11') { renderQuizFilters(); renderQuiz(); }
-            if (tabId === 'tab12') { renderBuilderFilters(); renderBuilder(); }
-        }); 
-    }); 
-    
-    // ===== VERBS =====
-    function renderVerbCards(filteredVerbs) {
-        const container = document.getElementById('verbs-container');
-        const searchInfo = document.getElementById('searchResultsInfo');
-        if (!container) return;
-        if (filteredVerbs === undefined) filteredVerbs = allVerbs;
-        
-        if (searchInfo) {
-            if (filteredVerbs.length !== allVerbs.length && allVerbs.length > 0) {
-                searchInfo.style.display = 'block';
-                searchInfo.innerHTML = `🔍 Найдено: ${filteredVerbs.length} из ${allVerbs.length} глаголов`;
-            } else {
-                searchInfo.style.display = 'none';
-            }
-        }
-        
-        container.innerHTML = '';
-        if (filteredVerbs.length === 0) {
-            container.innerHTML = '<div style="text-align:center;padding:40px;">😔 Ничего не найдено</div>';
-            return;
-        }
-        
-        filteredVerbs.forEach(v => { 
-            const card = document.createElement('div'); 
-            card.className = 'verb-card'; 
-            card.innerHTML = `
-                <div class="verb-emoji-big">${v.emoji || '📖'} ${v.trans}</div>
-                <div class="verb-forms">
-                    <div class="verb-form-item">
-                        <div class="verb-form-value">${v.v1}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v1}')" style="font-size:0.7rem; padding:2px 8px;">🔊</button></div>
-                        <div class="verb-form-label">V1</div>
-                    </div>
-                    <div class="verb-form-item">
-                        <div class="verb-form-value">${v.v2}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v2}')" style="font-size:0.7rem; padding:2px 8px;">🔊</button></div>
-                        <div class="verb-form-label">V2</div>
-                    </div>
-                    <div class="verb-form-item">
-                        <div class="verb-form-value">${v.v3}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v3}')" style="font-size:0.7rem; padding:2px 8px;">🔊</button></div>
-                        <div class="verb-form-label">V3</div>
-                    </div>
-                </div>
-                <div style="text-align:center; margin:10px 0;">
-                    <button class="speak-btn-small" onclick="event.stopPropagation(); speakVerbForms('${v.v1}', '${v.v2}', '${v.v3}')" style="padding:8px 20px;">🔊 Озвучить все формы</button>
-                </div>
-                ${v.ex1 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v1}','${v.ex1}','${v.tr1}','V1 (${v.v1})')"><span>📖 ${v.ex1}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex1}')">🔈</button></div>` : ''}
-                ${v.ex2 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v2}','${v.ex2}','${v.tr2}','V2 (${v.v2})')"><span>📖 ${v.ex2}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex2}')">🔈</button></div>` : ''}
-                ${v.ex3 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v3}','${v.ex3}','${v.tr3}','V3 (${v.v3})')"><span>📖 ${v.ex3}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex3}')">🔈</button></div>` : ''}
-            `; 
-            container.appendChild(card); 
-        }); 
-    }
-    
-    function searchVerbs() {
-        const query = document.getElementById('verbSearchInput').value.toLowerCase().trim();
-        const clearBtn = document.getElementById('clearSearchBtn');
-        if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
-        if (!query) { renderVerbCards(allVerbs); return; }
-        
-        const filtered = allVerbs.filter(v => {
-            return (v.v1 && v.v1.toLowerCase().includes(query)) ||
-                   (v.v2 && v.v2.toLowerCase().includes(query)) ||
-                   (v.v3 && v.v3.toLowerCase().includes(query)) ||
-                   (v.trans && v.trans.toLowerCase().includes(query));
-        });
-        renderVerbCards(filtered);
-    }
-    
-    // ===== VERBS TABLE =====
-    function renderVerbsTable() {
-        const wrapper = document.getElementById('verbsTableWrapper');
-        if (!wrapper) return;
-        if (typeof verbs === 'undefined') { wrapper.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл verbs.js не загружен</div>'; return; }
-        
-        let html = '<table style="width:100%; border-collapse:collapse; background:#fff6e8; border-radius:24px; overflow:hidden;">';
-        html += '<thead><tr style="background:#dbbc87; color:#2c1a0c; position:sticky; top:0;">';
-        html += '<th style="padding:12px 8px;">🎯</th><th style="padding:12px 8px;">V1</th><th style="padding:12px 8px;">V2</th><th style="padding:12px 8px;">V3</th><th style="padding:12px 8px;">Перевод</th><th style="padding:12px 8px;">🔊</th></tr></thead><tbody>';
-        
-        for (let i = 0; i < verbs.length; i++) {
-            const v = verbs[i];
-            html += `<tr style="border-bottom:1px solid #e1cba1;">
-                <td style="padding:10px 8px; text-align:center; font-size:1.5rem;">${v.emoji || '📖'}</td>
-                <td style="padding:10px 8px; font-weight:bold;">${v.v1}</td>
-                <td style="padding:10px 8px;">${v.v2}</td>
-                <td style="padding:10px 8px;">${v.v3}</td>
-                <td style="padding:10px 8px;">${v.trans}</td>
-                <td style="padding:10px 8px; text-align:center;">
-                    <button class="speak-btn-small" onclick="speakVerbForms('${v.v1.replace(/'/g, "\\'")}', '${v.v2.replace(/'/g, "\\'")}', '${v.v3.replace(/'/g, "\\'")}')" style="font-size:0.7rem;">🔊</button>
-                </td>
-            </tr>`;
-        }
-        html += '</tbody></table>';
-        wrapper.innerHTML = html;
-    }
-    
-    // ===== TENSES =====
-    function renderTenses() {
-        const container = document.getElementById('tenses-container');
-        if (!container) return;
-        if (typeof tenses === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл tenses.js не загружен</div>'; return; }
-        
-        container.innerHTML = '';
-        for (let i = 0; i < tenses.length; i++) {
-            const t = tenses[i];
-            const card = document.createElement('div'); 
-            card.className = 'tense-card'; 
-            card.onclick = () => openModalWithSpeech(t.name, t.ex1, t.trans1, t.explanation);
-            card.innerHTML = `
-                <div class="tense-header"><div class="tense-emoji">${t.emoji}</div><div class="tense-name">${t.name}</div></div>
-                <div class="tense-formula">${t.formula}</div>
-                <div class="preposition-meaning" style="margin-bottom:8px; font-weight:bold;">🎯 ${t.meaning}</div>
-                <div class="preposition-meaning" style="margin-bottom:10px; font-style:italic;">${t.assoc}</div>
-                <div class="tense-example" onclick="event.stopPropagation(); openModalWithSpeech('${t.name}', '${t.ex1}', '${t.trans1}', '${t.explanation}')"><div class="tense-example-text"><div class="tense-example-eng">${t.ex1}</div><div class="tense-example-ru">${t.trans1}</div></div><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${t.ex1.replace(/<[^>]*>/g,'')}')">🔈</button></div>
-                <div class="tense-example" onclick="event.stopPropagation(); openModalWithSpeech('${t.name}', '${t.ex2}', '${t.trans2}', '${t.explanation}')"><div class="tense-example-text"><div class="tense-example-eng">${t.ex2}</div><div class="tense-example-ru">${t.trans2}</div></div><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${t.ex2.replace(/<[^>]*>/g,'')}')">🔈</button></div>
-                <div class="tense-example" onclick="event.stopPropagation(); openModalWithSpeech('${t.name}', '${t.ex3}', '${t.trans3}', '${t.explanation}')"><div class="tense-example-text"><div class="tense-example-eng">${t.ex3}</div><div class="tense-example-ru">${t.trans3}</div></div><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${t.ex3.replace(/<[^>]*>/g,'')}')">🔈</button></div>
-            `; 
-            container.appendChild(card); 
-        }
-    }
-    
-    // ===== GENERATOR =====
-    function populateVerbSelect() {
-        const select = document.getElementById('verbSelect');
-        if (!select || typeof verbs === 'undefined') return;
-        
-        select.innerHTML = '<option value="">— Выберите глагол —</option>';
-        const sorted = [...verbs].sort((a, b) => a.v1.localeCompare(b.v1));
-        sorted.forEach(v => {
-            const option = document.createElement('option');
-            option.value = v.v1;
-            option.textContent = `${v.emoji || '📖'} ${v.v1} — ${v.trans}`;
-            select.appendChild(option);
-        });
-    }
-    
-    function generateExamples() {
-        const container = document.getElementById('generatedContainer');
-        const select = document.getElementById('verbSelect');
-        
-        const selectedVerb = select.value;
-        if (!selectedVerb) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">⚠️ Пожалуйста, выберите глагол</div>';
-            return;
-        }
-        
-        const verbData = verbs.find(v => v.v1 === selectedVerb);
-        if (!verbData) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">⚠️ Глагол не найден</div>';
-            return;
-        }
-        
-        const examples = [];
-        const forms = [
-            { label: 'V1 (Present Simple)', eng: verbData.ex1, ru: verbData.tr1, form: verbData.v1 },
-            { label: 'V2 (Past Simple)', eng: verbData.ex2, ru: verbData.tr2, form: verbData.v2 },
-            { label: 'V3 (Present Perfect)', eng: verbData.ex3, ru: verbData.tr3, form: verbData.v3 }
-        ];
-        
-        forms.forEach(f => {
-            if (f.eng && f.eng.trim()) {
-                examples.push({
-                    eng: f.eng,
-                    ru: f.ru || `📝 ${f.eng}`,
-                    tense: f.label,
-                    verb: verbData.trans,
-                    verbForms: `${verbData.v1} → ${verbData.v2} → ${verbData.v3}`,
-                    form: f.form
-                });
-            }
-        });
-        
-        if (examples.length === 0) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Для этого глагола нет примеров</div>';
-            return;
-        }
-        
-        let html = `
-            <div style="background:#ecdca8; border-radius:28px; padding:12px 18px; margin-bottom:16px;">
-                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-                    <span style="font-size:2rem;">${verbData.emoji || '📖'}</span>
-                    <div>
-                        <strong style="font-size:1.3rem;">${verbData.v1}</strong>
-                        <span style="color:#5f451f;"> → ${verbData.v2} → ${verbData.v3}</span>
-                        <span style="color:#8b6946; margin-left:8px;">— ${verbData.trans}</span>
-                    </div>
-                    <button class="speak-btn-small" onclick="speakVerbForms('${verbData.v1}', '${verbData.v2}', '${verbData.v3}')">🔊 Озвучить формы</button>
-                </div>
-                <div style="margin-top:6px; font-size:0.8rem; color:#8b6946;">✅ ${examples.length} примеров из вашей коллекции</div>
-            </div>
-        `;
-        
-        examples.forEach((ex, index) => {
-            const cleanEng = ex.eng.replace(/'/g, "\\'");
-            html += `
-                <div class="generated-item">
-                    <div style="flex:1;">
-                        <div class="eng">${index+1}. ${ex.eng}</div>
-                        <div class="ru">${ex.ru}</div>
-                        <div style="font-size:0.75rem; color:#8b6946; margin-top:4px; display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
-                            <span>🏷️ ${ex.tense}</span>
-                            <span>| ${ex.verb} (${ex.verbForms})</span>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:6px; align-items:center;">
-                        <span class="verb-used">${ex.form}</span>
-                        <button class="speak-btn-small" onclick="speakText('${cleanEng}')">🔈</button>
-                    </div>
-                </div>
-            `;
-        });
-        
-        container.innerHTML = html;
-        lastExamples = examples;
-    }
-    
-    function clearExamples() {
-        const container = document.getElementById('generatedContainer');
-        if (container) {
-            container.innerHTML = '<div style="text-align:center; padding:30px; color:#8b6946;">🎲 Выберите глагол и нажми "Показать примеры"</div>';
-        }
-        lastExamples = [];
-    }
-    
-    // ===== ФРАЗЫ =====
-    function renderCategoryFilters() {
-        const container = document.getElementById('categoryFilters');
-        if (!container) return;
-        
-        let html = '';
-        phraseCategories.forEach(cat => {
-            const active = currentCategory === cat.id ? 'active' : '';
-            html += `<button class="filter-btn ${active}" data-category="${cat.id}">${cat.emoji} ${cat.name}</button>`;
-        });
-        container.innerHTML = html;
-        
-        container.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentCategory = btn.dataset.category;
-                renderPhrases();
-            });
-        });
-    }
-    
-    function renderPhrases() {
-        const container = document.getElementById('phrasesContainer');
-        const counter = document.getElementById('phraseCounter');
-        if (!container) return;
-        
-        let filtered = [...commonPhrases];
-        
-        if (currentCategory !== 'all') {
-            filtered = filtered.filter(p => p.category === currentCategory);
-        }
-        
-        const searchInput = document.getElementById('phraseSearchInput');
-        if (searchInput) {
-            const query = searchInput.value.toLowerCase().trim();
-            if (query) {
-                filtered = filtered.filter(p => 
-                    p.eng.toLowerCase().includes(query) || 
-                    p.ru.toLowerCase().includes(query)
-                );
-            }
-        }
-        
-        currentPhrases = filtered;
-        
-        if (counter) {
-            counter.textContent = `Показано: ${filtered.length} из ${commonPhrases.length} фраз`;
-        }
-        
-        if (filtered.length === 0) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Ничего не найдено</div>';
-            return;
-        }
-        
-        let html = '';
-        filtered.forEach(p => {
-            const cleanEng = p.eng.replace(/'/g, "\\'");
-            html += `
-                <div class="phrase-card" onclick="openModalWithSpeech('phrase', '${p.eng}', '${p.ru}', 'Категория: ${p.category}')">
-                    <div style="flex:1;">
-                        <div class="eng">${p.eng}</div>
-                        <div class="ru">${p.ru}</div>
-                        <span class="category-tag">${p.category}</span>
-                    </div>
-                    <div style="display:flex; gap:6px; align-items:center;">
-                        <span style="font-size:0.7rem; color:#8b6946;">#${p.id}</span>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEng}')">🔈</button>
-                    </div>
-                </div>
-            `;
-        });
-        
-        container.innerHTML = html;
-    }
-    
-    function searchPhrases() { renderPhrases(); }
-    
-    // ===== ПРИСТАВКИ + КОРНИ =====
-    function toggleRootLearned(root) {
-        const idx = learnedRoots.indexOf(root);
-        if (idx >= 0) learnedRoots.splice(idx, 1);
-        else learnedRoots.push(root);
-        localStorage.setItem('learnedRoots', JSON.stringify(learnedRoots));
-        renderPrefixes();
-    }
-    
-    function renderPrefixes() {
-        const container = document.getElementById('prefixesContainer');
-        if (!container) return;
-        
-        const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
-        
-        // ==== РЕЖИМ «КОРНИ» ====
-        if (currentPrefixType === 'root') {
-            if (typeof wordRoots === 'undefined') {
-                container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив wordRoots не найден</div>';
-                return;
-            }
-            
-            const totalRoots = wordRoots.length;
-            const learnedCount = learnedRoots.length;
-            const progress = Math.round((learnedCount / totalRoots) * 100);
-            
-            let html = `
-                <div style="background:#ecdca8; border-radius:28px; padding:14px 18px; margin-bottom:16px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                        <strong>🧱 Корней изучено: ${learnedCount} из ${totalRoots}</strong>
-                        <span style="color:#8b6946;">${progress}%</span>
-                    </div>
-                    <div style="background:#fff6e8; border-radius:20px; height:12px; margin-top:8px; overflow:hidden;">
-                        <div style="background:#6b8e23; height:100%; width:${progress}%; transition:0.4s;"></div>
-                    </div>
-                </div>
-                <div class="filters" id="rootTopicFilters" style="margin-bottom:12px;">
-            `;
-            rootTopics.forEach(t => {
-                const active = currentRootTopic === t.id ? 'active' : '';
-                html += `<button class="filter-btn ${active}" data-topic="${t.id}">${t.emoji} ${t.name}</button>`;
-            });
-            html += `</div>`;
-            
-            let roots = [...wordRoots];
-            if (currentRootTopic !== 'all') roots = roots.filter(r => r.topic === currentRootTopic);
-            if (query) {
-                roots = roots.filter(r => {
-                    const hints = (typeof rootSearchHints !== 'undefined' && rootSearchHints[r.root]) || [];
-                    return r.root.toLowerCase().includes(query) ||
-                           r.meaning.toLowerCase().includes(query) ||
-                           hints.some(h => h.includes(query)) ||
-                           r.words.some(w => 
-                               w.word.toLowerCase().includes(query) || 
-                               w.trans.toLowerCase().includes(query)
-                           );
-                });
-            }
-            
-            if (roots.length === 0) {
-                container.innerHTML = html + '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Ничего не найдено</div>';
-                return;
-            }
-            
-            roots.forEach(r => {
-                const isLearned = learnedRoots.includes(r.root);
-                html += `
-                    <div class="tense-card" style="cursor:default; border-left:6px solid #6b8e23;">
-                        <div class="tense-header" style="justify-content:space-between;">
-                            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-                                <div class="tense-emoji">${r.emoji}</div>
-                                <div>
-                                    <div class="tense-name" style="font-family:monospace; font-size:1.6rem;">${r.root}</div>
-                                    <div style="font-size:0.9rem; color:#8b6946; margin-top:4px;">🔑 ${r.meaning}</div>
-                                </div>
-                            </div>
-                            <button class="speak-btn-small" 
-                                onclick="event.stopPropagation(); toggleRootLearned('${r.root}')" 
-                                style="background:${isLearned ? '#6b8e23' : '#c49a6c'};">
-                                ${isLearned ? '✅ Изучено' : '☐ Отметить'}
-                            </button>
-                        </div>
-                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">💡 ${r.note}</div>
-                        <div style="font-size:0.8rem; color:#8b6946; margin:8px 0;">🧩 Конструктор:</div>
-                `;
-                
-                r.words.forEach(w => {
-                    const cleanEx = w.ex.replace(/'/g, "\\'");
-                    const lego = w.pre === '-' 
-                        ? `<b style="color:#3d2b1a;">${r.root}</b>`
-                        : `<span style="background:#ffd6a5; padding:3px 10px; border-radius:12px; font-family:monospace; font-weight:bold;">${w.pre}</span>
-                           <span style="color:#8b6946; margin:0 4px;">+</span>
-                           <span style="background:#d4e6a5; padding:3px 10px; border-radius:12px; font-family:monospace; font-weight:bold;">${r.root}</span>
-                           <span style="color:#8b6946; margin:0 6px;">=</span>
-                           <b style="color:#3d2b1a; font-size:1.1rem;">${w.word}</b>`;
-                    
-                    html += `
-                        <div class="tense-example" onclick="openModalWithSpeech('${w.pre}', '${cleanEx}', '${w.exRu}', '${w.pre} (${w.preMean}) + ${r.root} → ${w.word} = ${w.trans}')">
-                            <div class="tense-example-text">
-                                <div class="tense-example-eng" style="line-height:1.8;">${lego}</div>
-                                <div class="tense-example-ru" style="margin-top:6px;">→ ${w.trans}</div>
-                                <div style="font-size:0.75rem; color:#8b6946; margin-top:4px;">📖 ${w.ex} — ${w.exRu}</div>
-                            </div>
-                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
-                        </div>
-                    `;
-                });
-                
-                html += `</div>`;
-            });
-            
-            container.innerHTML = html;
-            
-            const rootTopicFilters = document.getElementById('rootTopicFilters');
-            if (rootTopicFilters) {
-                rootTopicFilters.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        currentRootTopic = btn.dataset.topic;
-                        renderPrefixes();
-                    });
-                });
-            }
-            return;
-        }
-        
-        // ==== ОБЫЧНЫЙ РЕЖИМ ====
-        if (typeof prefixes === 'undefined') {
-            container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл prefixes.js не загружен</div>';
-            return;
-        }
-        
-        let filtered = [...prefixes];
-        if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
-        if (query) {
-            filtered = filtered.filter(p => {
-                if (p.affix.toLowerCase().includes(query)) return true;
-                if (p.meaning.toLowerCase().includes(query)) return true;
-                if (p.words.some(w => 
-                    w.word.toLowerCase().includes(query) ||
-                    w.trans.toLowerCase().includes(query)
-                )) return true;
-                return false;
-            });
-        }
-        
-        if (filtered.length === 0) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Ничего не найдено</div>';
-            return;
-        }
-        
-        let html = '';
-        filtered.forEach(p => {
-            const typeBadge = p.type === 'prefix' 
-                ? '<span class="phrase-category" style="background:#b97f44;">ПРИСТАВКА</span>' 
-                : '<span class="phrase-category" style="background:#6b8e23;">СУФФИКС</span>';
-            
-            html += `
-                <div class="tense-card" style="cursor:default;">
-                    <div class="tense-header">
-                        <div class="tense-emoji">${p.emoji}</div>
-                        <div>
-                            <div class="tense-name" style="font-family:monospace; font-size:1.6rem;">${p.affix}</div>
-                            <div style="font-size:0.85rem; color:#8b6946; margin-top:4px;">${typeBadge} ${p.meaning}</div>
-                        </div>
-                    </div>
-                    <div class="preposition-meaning" style="font-style:italic; margin:10px 0;">💡 ${p.assoc}</div>
-                    <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">${p.explanation}</div>
-            `;
-            
-            p.words.forEach(w => {
-                const cleanEx = w.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
-                html += `
-                    <div class="tense-example" onclick="openModalWithSpeech('${p.affix}', '${cleanEx}', '${w.exRu}', '${w.word} ${w.transcription} — ${w.trans}')">
-                        <div class="tense-example-text">
-                            <div class="tense-example-eng">${w.ex}</div>
-                            <div class="tense-example-ru">${w.exRu}</div>
-                            <div style="font-size:0.75rem; color:#8b6946; margin-top:4px;">
-                                <b>${w.word}</b> ${w.transcription} — ${w.trans}
-                            </div>
-                        </div>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
-                    </div>
-                `;
-            });
-            
-            html += `</div>`;
-        });
-        
-        container.innerHTML = html;
-    }
+// ========== СОСТОЯНИЕ ==========
+let currentModalText = '';
+let allVerbs = [];
+let lastExamples = [];
+let currentCategory = 'all';
+let currentPhrases = [];
+let currentPrefixType = 'all';
+let currentRootTopic = 'all';
+let learnedRoots = JSON.parse(localStorage.getItem('learnedRoots') || '[]');
+let currentMagicTab = 'verbs';
+let currentQuizCategory = 'all';
+let quizState = {};
+let currentBuilderCategory = 'all';
+let builderState = {};
+let currentDictFilter = 'all';
 
-    function searchPrefixes() {
-        const clearBtn = document.getElementById('clearPrefixSearchBtn');
-        const input = document.getElementById('prefixSearchInput');
-        if (clearBtn && input) clearBtn.style.display = input.value ? 'flex' : 'none';
+// ========== ОЗВУЧКА ==========
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }
+}
+function speakVerbForms(v1, v2, v3) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(`${v1}, ${v2}, ${v3}`);
+    u.lang = 'en-US'; u.rate = 0.8;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+// ========== МОДАЛКА ==========
+function openModalWithSpeech(word, textHtml, translation, explanation) {
+  const modal = document.getElementById('modal');
+  const modalText = document.getElementById('modalText');
+  const modalTranslation = document.getElementById('modalTranslation');
+  const modalExplanation = document.getElementById('modalExplanation');
+  const modalEmoji = document.getElementById('modalEmoji');
+
+  const emojis = {
+    'to':'🚶‍♂️➡️🏠','at':'📍🚏','in':'📦🧸','on':'📚⬆️🍽️','for':'🎁👤','with':'🤝👥',
+    'without':'🚫🤝','by':'🪑🧍‍♂️','up':'🆙','down':'🔽','out':'🚪','off':'⚡','over':'🔄',
+    'back':'🔙','into':'➡️📦',
+    'pre-':'⏪','post-':'⏩','out-':'🚪➡️','dis-':'🚫','re-':'🔄','de-':'⬇️🚫',
+    'un-':'❌','mis-':'⚠️','over-':'🔝','under-':'⬇️',
+    '-ed':'✅⏪','-ing':'🏃','-er / -or':'👤','-ly':'⚡','-ful':'💯','-less':'🚫💯','-ness':'💠'
+  };
+  modalEmoji.textContent = emojis[word] || '📖';
+
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = textHtml;
+  const plainText = tempDiv.textContent || tempDiv.innerText;
+  modalText.textContent = plainText;
+  currentModalText = plainText;
+  modalTranslation.textContent = translation;
+
+  if (explanation) {
+    modalExplanation.style.display = 'block';
+    modalExplanation.innerHTML = `<strong>📖 Объяснение:</strong><br>${explanation}`;
+  } else {
+    modalExplanation.style.display = 'none';
+  }
+
+  modal.style.display = 'flex';
+  document.getElementById('modalSpeakBtn').onclick = () => speakText(currentModalText);
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+// ========== UI ==========
+function toggleCard(header) {
+  const body = header.closest('.card').querySelector('.card-body');
+  const icon = header.querySelector('.expand-icon');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    if (icon) icon.style.transform = 'rotate(0deg)';
+  } else {
+    body.classList.add('open');
+    if (icon) icon.style.transform = 'rotate(180deg)';
+  }
+}
+
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = btn.getAttribute('data-tab');
+    tabs.forEach(b => b.classList.remove('active'));
+    contents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    if (tabId === 'tab8') renderPhrases();
+    if (tabId === 'tab9') renderPrefixes();
+    if (tabId === 'tab10') renderMagic();
+    if (tabId === 'tab11') { renderQuizFilters(); renderQuiz(); }
+    if (tabId === 'tab12') { renderBuilderFilters(); renderBuilder(); }
+    if (tabId === 'tab13') { renderDictFilters(); renderDictionary(); }
+  });
+});
+
+// ========== ГЛАГОЛЫ ==========
+function renderVerbCards(filteredVerbs) {
+  const container = document.getElementById('verbs-container');
+  const searchInfo = document.getElementById('searchResultsInfo');
+  if (!container) return;
+  if (filteredVerbs === undefined) filteredVerbs = allVerbs;
+  if (searchInfo) {
+    if (filteredVerbs.length !== allVerbs.length && allVerbs.length > 0) {
+      searchInfo.style.display = 'block';
+      searchInfo.innerHTML = `🔍 Найдено: ${filteredVerbs.length} из ${allVerbs.length}`;
+    } else searchInfo.style.display = 'none';
+  }
+  container.innerHTML = '';
+  if (filteredVerbs.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;">😔 Ничего не найдено</div>';
+    return;
+  }
+  filteredVerbs.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'verb-card';
+    card.innerHTML = `
+      <div class="verb-emoji-big">${v.emoji || '📖'} ${v.trans}</div>
+      <div class="verb-forms">
+        <div class="verb-form-item"><div class="verb-form-value">${v.v1}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v1}')" style="font-size:.7rem;padding:2px 8px;">🔊</button></div><div class="verb-form-label">V1</div></div>
+        <div class="verb-form-item"><div class="verb-form-value">${v.v2}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v2}')" style="font-size:.7rem;padding:2px 8px;">🔊</button></div><div class="verb-form-label">V2</div></div>
+        <div class="verb-form-item"><div class="verb-form-value">${v.v3}<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.v3}')" style="font-size:.7rem;padding:2px 8px;">🔊</button></div><div class="verb-form-label">V3</div></div>
+      </div>
+      <div style="text-align:center;margin:10px 0;"><button class="speak-btn-small" onclick="event.stopPropagation(); speakVerbForms('${v.v1}','${v.v2}','${v.v3}')" style="padding:8px 20px;">🔊 Озвучить все формы</button></div>
+      ${v.ex1 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v1}','${v.ex1}','${v.tr1}','V1 (${v.v1})')"><span>📖 ${v.ex1}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex1}')">🔈</button></div>` : ''}
+      ${v.ex2 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v2}','${v.ex2}','${v.tr2}','V2 (${v.v2})')"><span>📖 ${v.ex2}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex2}')">🔈</button></div>` : ''}
+      ${v.ex3 ? `<div class="verb-example" onclick="openModalWithSpeech('${v.v3}','${v.ex3}','${v.tr3}','V3 (${v.v3})')"><span>📖 ${v.ex3}</span><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${v.ex3}')">🔈</button></div>` : ''}
+    `;
+    container.appendChild(card);
+  });
+}
+function searchVerbs() {
+  const query = document.getElementById('verbSearchInput').value.toLowerCase().trim();
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
+  if (!query) { renderVerbCards(allVerbs); return; }
+  const filtered = allVerbs.filter(v =>
+    (v.v1 && v.v1.toLowerCase().includes(query)) ||
+    (v.v2 && v.v2.toLowerCase().includes(query)) ||
+    (v.v3 && v.v3.toLowerCase().includes(query)) ||
+    (v.trans && v.trans.toLowerCase().includes(query))
+  );
+  renderVerbCards(filtered);
+}
+
+// ========== ТАБЛИЦА ==========
+function renderVerbsTable() {
+  const wrapper = document.getElementById('verbsTableWrapper');
+  if (!wrapper || typeof verbs === 'undefined') return;
+  let html = '<table style="width:100%;border-collapse:collapse;background:#fff6e8;border-radius:24px;overflow:hidden;">';
+  html += '<thead><tr style="background:#dbbc87;color:#2c1a0c;position:sticky;top:0;">';
+  html += '<th style="padding:12px 8px;">🎯</th><th style="padding:12px 8px;">V1</th><th style="padding:12px 8px;">V2</th><th style="padding:12px 8px;">V3</th><th style="padding:12px 8px;">Перевод</th><th style="padding:12px 8px;">🔊</th></tr></thead><tbody>';
+  for (let i = 0; i < verbs.length; i++) {
+    const v = verbs[i];
+    html += `<tr style="border-bottom:1px solid #e1cba1;">
+      <td style="padding:10px 8px;text-align:center;font-size:1.5rem;">${v.emoji || '📖'}</td>
+      <td style="padding:10px 8px;font-weight:bold;">${v.v1}</td>
+      <td style="padding:10px 8px;">${v.v2}</td>
+      <td style="padding:10px 8px;">${v.v3}</td>
+      <td style="padding:10px 8px;">${v.trans}</td>
+      <td style="padding:10px 8px;text-align:center;"><button class="speak-btn-small" onclick="speakVerbForms('${v.v1.replace(/'/g,"\\'")}','${v.v2.replace(/'/g,"\\'")}','${v.v3.replace(/'/g,"\\'")}')" style="font-size:.7rem;">🔊</button></td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  wrapper.innerHTML = html;
+}
+
+// ========== ВРЕМЕНА ==========
+function renderTenses() {
+  const container = document.getElementById('tenses-container');
+  if (!container || typeof tenses === 'undefined') return;
+  container.innerHTML = '';
+  for (let i = 0; i < tenses.length; i++) {
+    const t = tenses[i];
+    const card = document.createElement('div');
+    card.className = 'tense-card';
+    card.onclick = () => openModalWithSpeech(t.name, t.ex1, t.trans1, t.explanation);
+    card.innerHTML = `
+      <div class="tense-header"><div class="tense-emoji">${t.emoji}</div><div class="tense-name">${t.name}</div></div>
+      <div class="tense-formula">${t.formula}</div>
+      <div class="preposition-meaning" style="margin-bottom:8px;font-weight:bold;">🎯 ${t.meaning}</div>
+      <div class="preposition-meaning" style="margin-bottom:10px;font-style:italic;">${t.assoc}</div>
+      <div class="tense-example" onclick="event.stopPropagation(); openModalWithSpeech('${t.name}','${t.ex1}','${t.trans1}','${t.explanation}')"><div class="tense-example-text"><div class="tense-example-eng">${t.ex1}</div><div class="tense-example-ru">${t.trans1}</div></div><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${t.ex1.replace(/<[^>]*>/g,'')}')">🔈</button></div>
+      <div class="tense-example" onclick="event.stopPropagation(); openModalWithSpeech('${t.name}','${t.ex2}','${t.trans2}','${t.explanation}')"><div class="tense-example-text"><div class="tense-example-eng">${t.ex2}</div><div class="tense-example-ru">${t.trans2}</div></div><button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${t.ex2.replace(/<[^>]*>/g,'')}')">🔈</button></div>
+    `;
+    container.appendChild(card);
+  }
+}
+
+// ========== ГЕНЕРАТОР ==========
+function populateVerbSelect() {
+  const select = document.getElementById('verbSelect');
+  if (!select || typeof verbs === 'undefined') return;
+  select.innerHTML = '<option value="">— Выберите глагол —</option>';
+  const sorted = [...verbs].sort((a, b) => a.v1.localeCompare(b.v1));
+  sorted.forEach(v => {
+    const option = document.createElement('option');
+    option.value = v.v1;
+    option.textContent = `${v.emoji || '📖'} ${v.v1} — ${v.trans}`;
+    select.appendChild(option);
+  });
+}
+function generateExamples() {
+  const container = document.getElementById('generatedContainer');
+  const select = document.getElementById('verbSelect');
+  const selectedVerb = select.value;
+  if (!selectedVerb) { container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">⚠️ Выберите глагол</div>'; return; }
+  const verbData = verbs.find(v => v.v1 === selectedVerb);
+  if (!verbData) return;
+  const examples = [];
+  const forms = [
+    { label: 'V1 (Present Simple)', eng: verbData.ex1, ru: verbData.tr1, form: verbData.v1 },
+    { label: 'V2 (Past Simple)', eng: verbData.ex2, ru: verbData.tr2, form: verbData.v2 },
+    { label: 'V3 (Present Perfect)', eng: verbData.ex3, ru: verbData.tr3, form: verbData.v3 }
+  ];
+  forms.forEach(f => {
+    if (f.eng && f.eng.trim()) examples.push({ eng: f.eng, ru: f.ru || '', tense: f.label, form: f.form });
+  });
+  if (!examples.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет примеров</div>'; return; }
+  let html = `<div style="background:#ecdca8;border-radius:28px;padding:12px 18px;margin-bottom:16px;"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><span style="font-size:2rem;">${verbData.emoji || '📖'}</span><div><strong style="font-size:1.3rem;">${verbData.v1}</strong><span style="color:#5f451f;"> → ${verbData.v2} → ${verbData.v3}</span><span style="color:#8b6946;margin-left:8px;">— ${verbData.trans}</span></div><button class="speak-btn-small" onclick="speakVerbForms('${verbData.v1}','${verbData.v2}','${verbData.v3}')">🔊</button></div></div>`;
+  examples.forEach((ex, i) => {
+    const cleanEng = ex.eng.replace(/'/g, "\\'");
+    html += `<div class="generated-item"><div style="flex:1;"><div class="eng">${i+1}. ${ex.eng}</div><div class="ru">${ex.ru}</div><div style="font-size:.75rem;color:#8b6946;margin-top:4px;">🏷️ ${ex.tense}</div></div><div style="display:flex;gap:6px;align-items:center;"><span class="verb-used">${ex.form}</span><button class="speak-btn-small" onclick="speakText('${cleanEng}')">🔈</button></div></div>`;
+  });
+  container.innerHTML = html;
+}
+function clearExamples() {
+  document.getElementById('generatedContainer').innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">🎲 Выберите глагол</div>';
+}
+
+// ========== ФРАЗЫ ==========
+function renderCategoryFilters() {
+  const container = document.getElementById('categoryFilters');
+  if (!container || typeof phraseCategories === 'undefined') return;
+  let html = '';
+  phraseCategories.forEach(cat => {
+    const active = currentCategory === cat.id ? 'active' : '';
+    html += `<button class="filter-btn ${active}" data-category="${cat.id}">${cat.emoji} ${cat.name}</button>`;
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.category;
+      renderPhrases();
+    });
+  });
+}
+function renderPhrases() {
+  const container = document.getElementById('phrasesContainer');
+  const counter = document.getElementById('phraseCounter');
+  if (!container || typeof commonPhrases === 'undefined') return;
+  let filtered = [...commonPhrases];
+  if (currentCategory !== 'all') filtered = filtered.filter(p => p.category === currentCategory);
+  const searchInput = document.getElementById('phraseSearchInput');
+  if (searchInput) {
+    const q = searchInput.value.toLowerCase().trim();
+    if (q) filtered = filtered.filter(p => p.eng.toLowerCase().includes(q) || p.ru.toLowerCase().includes(q));
+  }
+  currentPhrases = filtered;
+  if (counter) counter.textContent = `Показано: ${filtered.length} из ${commonPhrases.length} фраз`;
+  if (!filtered.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
+  let html = '';
+  filtered.forEach(p => {
+    const cleanEng = p.eng.replace(/'/g, "\\'");
+    html += `<div class="phrase-card" onclick="openModalWithSpeech('phrase','${p.eng}','${p.ru}','Категория: ${p.category}')"><div style="flex:1;"><div class="eng">${p.eng}</div><div class="ru">${p.ru}</div><span class="category-tag">${p.category}</span></div><div style="display:flex;gap:6px;align-items:center;"><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEng}')">🔈</button></div></div>`;
+  });
+  container.innerHTML = html;
+}
+function searchPhrases() { renderPhrases(); }
+
+// ========== ПРИСТАВКИ ==========
+function toggleRootLearned(root) {
+  const idx = learnedRoots.indexOf(root);
+  if (idx >= 0) learnedRoots.splice(idx, 1); else learnedRoots.push(root);
+  localStorage.setItem('learnedRoots', JSON.stringify(learnedRoots));
+  renderPrefixes();
+}
+function renderPrefixes() {
+  const container = document.getElementById('prefixesContainer');
+  if (!container) return;
+  const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
+  if (currentPrefixType === 'root') {
+    if (typeof wordRoots === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    const total = wordRoots.length, learned = learnedRoots.length;
+    const progress = Math.round((learned / total) * 100);
+    let html = `<div style="background:#ecdca8;border-radius:28px;padding:14px 18px;margin-bottom:16px;"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;"><strong>🧱 Корней изучено: ${learned} из ${total}</strong><span style="color:#8b6946;">${progress}%</span></div><div style="background:#fff6e8;border-radius:20px;height:12px;margin-top:8px;overflow:hidden;"><div style="background:#6b8e23;height:100%;width:${progress}%;transition:.4s;"></div></div></div><div class="filters" id="rootTopicFilters" style="margin-bottom:12px;">`;
+    rootTopics.forEach(t => { html += `<button class="filter-btn ${currentRootTopic === t.id ? 'active' : ''}" data-topic="${t.id}">${t.emoji} ${t.name}</button>`; });
+    html += `</div>`;
+    let roots = [...wordRoots];
+    if (currentRootTopic !== 'all') roots = roots.filter(r => r.topic === currentRootTopic);
+    if (query) roots = roots.filter(r => r.root.toLowerCase().includes(query) || r.meaning.toLowerCase().includes(query) || (rootSearchHints[r.root] || []).some(h => h.includes(query)) || r.words.some(w => w.word.toLowerCase().includes(query) || w.trans.toLowerCase().includes(query)));
+    if (!roots.length) { container.innerHTML = html + '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
+    roots.forEach(r => {
+      const isLearned = learnedRoots.includes(r.root);
+      html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;"><div class="tense-header" style="justify-content:space-between;"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><div class="tense-emoji">${r.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.6rem;">${r.root}</div><div style="font-size:.9rem;color:#8b6946;margin-top:4px;">🔑 ${r.meaning}</div></div></div><button class="speak-btn-small" onclick="event.stopPropagation();toggleRootLearned('${r.root}')" style="background:${isLearned ? '#6b8e23' : '#c49a6c'};">${isLearned ? '✅' : '☐'}</button></div><div class="memory-hack" style="margin:10px 0;font-size:.9rem;">💡 ${r.note}</div>`;
+      r.words.forEach(w => {
+        const cleanEx = w.ex.replace(/'/g, "\\'");
+        const lego = w.pre === '-' ? `<b>${r.root}</b>` : `<span style="background:#ffd6a5;padding:3px 10px;border-radius:12px;font-family:monospace;">${w.pre}</span> + <span style="background:#d4e6a5;padding:3px 10px;border-radius:12px;font-family:monospace;">${r.root}</span> = <b>${w.word}</b>`;
+        html += `<div class="tense-example" onclick="openModalWithSpeech('${w.pre}','${cleanEx}','${w.exRu}','${w.pre} + ${r.root} → ${w.word} = ${w.trans}')"><div class="tense-example-text"><div class="tense-example-eng" style="line-height:1.8;">${lego}</div><div class="tense-example-ru" style="margin-top:6px;">→ ${w.trans}</div><div style="font-size:.75rem;color:#8b6946;margin-top:4px;">📖 ${w.ex} — ${w.exRu}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
+      });
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+    const rtf = document.getElementById('rootTopicFilters');
+    if (rtf) rtf.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { currentRootTopic = btn.dataset.topic; renderPrefixes(); }); });
+    return;
+  }
+  if (typeof prefixes === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+  let filtered = [...prefixes];
+  if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
+  if (query) filtered = filtered.filter(p => p.affix.toLowerCase().includes(query) || p.meaning.toLowerCase().includes(query) || p.words.some(w => w.word.toLowerCase().includes(query) || w.trans.toLowerCase().includes(query)));
+  if (!filtered.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
+  let html = '';
+  filtered.forEach(p => {
+    const typeBadge = p.type === 'prefix' ? '<span class="phrase-category" style="background:#b97f44;">ПРИСТАВКА</span>' : '<span class="phrase-category" style="background:#6b8e23;">СУФФИКС</span>';
+    html += `<div class="tense-card" style="cursor:default;"><div class="tense-header"><div class="tense-emoji">${p.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.6rem;">${p.affix}</div><div style="font-size:.85rem;color:#8b6946;margin-top:4px;">${typeBadge} ${p.meaning}</div></div></div><div class="preposition-meaning" style="font-style:italic;margin:10px 0;">💡 ${p.assoc}</div><div class="memory-hack" style="margin:10px 0;font-size:.9rem;">${p.explanation}</div>`;
+    p.words.forEach(w => {
+      const cleanEx = w.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+      html += `<div class="tense-example" onclick="openModalWithSpeech('${p.affix}','${cleanEx}','${w.exRu}','${w.word} ${w.transcription} — ${w.trans}')"><div class="tense-example-text"><div class="tense-example-eng">${w.ex}</div><div class="tense-example-ru">${w.exRu}</div><div style="font-size:.75rem;color:#8b6946;margin-top:4px;"><b>${w.word}</b> ${w.transcription} — ${w.trans}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
+    });
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+}
+function searchPrefixes() {
+  const clearBtn = document.getElementById('clearPrefixSearchBtn');
+  const input = document.getElementById('prefixSearchInput');
+  if (clearBtn && input) clearBtn.style.display = input.value ? 'flex' : 'none';
+  renderPrefixes();
+}
+
+// ========== МАГИЯ ==========
+function renderMagic() {
+  const container = document.getElementById('magicContainer');
+  if (!container) return;
+  if (currentMagicTab === 'verbs') {
+    if (typeof magicVerbs === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    let html = '';
+    magicVerbs.forEach(v => {
+      html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;"><div class="tense-header"><div class="tense-emoji">${v.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.8rem;">${v.verb}</div><div style="font-size:.85rem;color:#8b6946;margin-top:4px;">🔑 ${v.meaning}</div></div></div><div class="preposition-meaning" style="font-style:italic;margin:10px 0;">💡 ${v.assoc}</div><div class="memory-hack" style="margin:10px 0;font-size:.9rem;">${v.note}</div>`;
+      v.senses.forEach(s => {
+        const cleanEx = s.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+        html += `<div class="tense-example" onclick="openModalWithSpeech('${v.verb}','${cleanEx}','${s.exRu}','${s.sense} → ${s.ru}')"><div class="tense-example-text"><div class="tense-example-eng"><span style="background:#ffd6a5;padding:2px 8px;border-radius:12px;">${s.sense}</span> ${s.ex}</div><div class="tense-example-ru">${s.exRu}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
+      });
+      v.phrases.forEach(p => {
+        const cleanEx = p.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+        html += `<div class="tense-example" onclick="openModalWithSpeech('${v.verb}','${cleanEx}','${p.exRu}','${p.p} = ${p.ru}')"><div class="tense-example-text"><div class="tense-example-eng"><b>${p.p}</b> — ${p.ru}</div><div class="tense-example-ru">📖 ${p.ex}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
+      });
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+  } else if (currentMagicTab === 'words') {
+    if (typeof magicWords === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    let html = '';
+    magicWords.forEach(w => {
+      html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;"><div class="tense-header"><div class="tense-emoji">${w.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.8rem;">${w.word}</div><div style="font-size:.9rem;color:#8b6946;margin-top:4px;">🔑 ${w.ru}</div></div></div><div class="memory-hack" style="margin:10px 0;font-size:.9rem;">💡 ${w.note}</div>`;
+      w.examples.forEach(e => {
+        const cleanEx = e.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+        html += `<div class="tense-example" onclick="openModalWithSpeech('${w.word}','${cleanEx}','${e.exRu}','${w.word} = ${w.ru}')"><div class="tense-example-text"><div class="tense-example-eng">${e.ex}</div><div class="tense-example-ru">${e.exRu}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
+      });
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+  } else if (currentMagicTab === 'survival') {
+    if (typeof survivalPhrases === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    let html = '<div class="memory-hack" style="margin-bottom:16px;">🆘 <strong>9 фраз, которые спасут в любой ситуации</strong></div>';
+    survivalPhrases.forEach(p => {
+      const clean = p.en.replace(/'/g, "\\'");
+      html += `<div class="phrase-card" onclick="openModalWithSpeech('phrase','${p.en}','${p.ru}','Фраза-спасалка')"><div style="flex:1;"><div class="eng">${p.en}</div><div class="ru">${p.ru}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button></div>`;
+    });
+    container.innerHTML = html;
+  }
+}
+
+// ========== ТЕСТ ==========
+function renderQuizFilters() {
+  const container = document.getElementById('quizFilters');
+  if (!container || typeof quizCategories === 'undefined') return;
+  let html = '';
+  quizCategories.forEach(c => {
+    html += `<button class="filter-btn ${currentQuizCategory === c.id ? 'active' : ''}" data-quiz="${c.id}">${c.emoji} ${c.name}</button>`;
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => { currentQuizCategory = btn.dataset.quiz; resetQuiz(); });
+  });
+}
+function getCurrentQuizQuestions() {
+  if (typeof quizQuestions === 'undefined') return [];
+  if (currentQuizCategory === 'all') return quizQuestions;
+  return quizQuestions.filter(q => q.category === currentQuizCategory);
+}
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  const stats = document.getElementById('quizStats');
+  if (!container) return;
+  const questions = getCurrentQuizQuestions();
+  if (!questions.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет вопросов</div>'; return; }
+  let answered = 0, correct = 0;
+  Object.values(quizState).forEach(s => { if (s.chosen !== undefined) { answered++; if (s.correct) correct++; } });
+  if (stats) {
+    const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+    stats.innerHTML = `✅ Правильно: ${correct} / ${answered} (${percent}%) | 📚 Всего: ${questions.length}`;
+  }
+  let html = '';
+  questions.forEach((q, idx) => {
+    const state = quizState[idx] || {};
+    const chosen = state.chosen;
+    const isAnswered = chosen !== undefined;
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'};margin-bottom:14px;">`;
+    html += `<div style="font-weight:bold;font-size:1rem;color:#3d2b1a;margin-bottom:10px;">${idx + 1}. ${q.q}</div>`;
+    q.options.forEach((opt, optIdx) => {
+      let bg = '#f2e5ca', color = '#3d2b1a';
+      if (isAnswered) {
+        if (optIdx === q.correct) { bg = '#c8e6a0'; color = '#2d4a0f'; }
+        else if (optIdx === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; }
+      }
+      const mark = isAnswered && optIdx === chosen ? (state.correct ? '✅ ' : '❌ ') : (isAnswered && optIdx === q.correct ? '✅ ' : '');
+      html += `<div onclick="${isAnswered ? '' : `answerQuiz(${idx}, ${optIdx})`}" style="background:${bg};color:${color};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+    });
+    if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${q.hint}</div>`;
+    html += `</div>`;
+  });
+  container.innerHTML = html;
+}
+function answerQuiz(qIdx, optIdx) {
+  const q = getCurrentQuizQuestions()[qIdx];
+  if (!q) return;
+  quizState[qIdx] = { chosen: optIdx, correct: optIdx === q.correct };
+  renderQuiz();
+}
+function resetQuiz() { quizState = {}; renderQuizFilters(); renderQuiz(); }
+
+// ========== КОНСТРУКТОР ==========
+function renderBuilderFilters() {
+  const container = document.getElementById('builderFilters');
+  if (!container || typeof builderCategories === 'undefined') return;
+  let html = '';
+  builderCategories.forEach(c => { html += `<button class="filter-btn ${currentBuilderCategory === c.id ? 'active' : ''}" data-builder="${c.id}">${c.emoji} ${c.name}</button>`; });
+  container.innerHTML = html;
+  container.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => { currentBuilderCategory = btn.dataset.builder; builderState = {}; renderBuilder(); });
+  });
+}
+function renderBuilder() {
+  const container = document.getElementById('builderContainer');
+  if (!container) return;
+  let html = '';
+  if (currentBuilderCategory === 'all') {
+    html = '<div style="text-align:center;padding:20px;color:#8b6946;">👇 Выберите тип задания выше</div>';
+  }
+  container.innerHTML = html;
+}
+
+// ========== СЛОВАРЬ ==========
+function renderDictFilters() {
+  const container = document.getElementById('dictFilters');
+  if (!container) return;
+  container.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDictFilter = btn.dataset.dict;
+      renderDictionary();
+    });
+  });
+}
+function renderDictionary() {
+  const container = document.getElementById('dictContainer');
+  const counter = document.getElementById('dictCounter');
+  if (!container || typeof dictionary === 'undefined') {
+    if (container) container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл dictionary.js не загружен</div>';
+    return;
+  }
+  const input = document.getElementById('dictSearchInput');
+  const query = input ? input.value.toLowerCase().trim() : '';
+  let filtered = [...dictionary];
+  if (currentDictFilter !== 'all') filtered = filtered.filter(w => w.pos === currentDictFilter);
+  if (query) filtered = filtered.filter(w => w.eng.toLowerCase().includes(query) || w.ru.toLowerCase().includes(query));
+  if (counter) counter.textContent = `Слов: ${filtered.length} из ${dictionary.length}`;
+  if (!filtered.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
+  let html = '';
+  filtered.slice(0, 300).forEach(w => {
+    html += `<div class="phrase-card" onclick="openModalWithSpeech('${w.eng}','${w.eng}','${w.ru}','${w.tr} · ${w.pos}')"><div style="flex:1;"><div class="eng">${w.emoji} ${w.eng} <span style="color:#8b6946;font-family:monospace;font-size:.85rem;">${w.tr || ''}</span></div><div class="ru">${w.ru}</div><span class="category-tag">${w.pos}</span></div><div style="display:flex;gap:6px;align-items:center;"><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${w.eng.replace(/'/g,"\\'")}')">🔈</button></div></div>`;
+  });
+  container.innerHTML = html;
+}
+function searchDictionary() {
+  const clearBtn = document.getElementById('clearDictBtn');
+  const input = document.getElementById('dictSearchInput');
+  if (clearBtn && input) clearBtn.style.display = input.value ? 'flex' : 'none';
+  renderDictionary();
+}
+
+// ========== FULLSCREEN ==========
+const fullscreenBtn = document.getElementById('fullscreenTableBtn');
+if (fullscreenBtn) {
+  fullscreenBtn.addEventListener('click', () => {
+    document.body.classList.toggle('fullscreen-table');
+    fullscreenBtn.textContent = document.body.classList.contains('fullscreen-table') ? '✕ Выйти' : '📺 На весь экран';
+  });
+}
+
+// ========== INIT ==========
+function init() {
+  if (typeof verbs !== 'undefined') {
+    allVerbs = verbs;
+    renderVerbCards(allVerbs);
+    renderVerbsTable();
+    populateVerbSelect();
+  }
+  if (typeof tenses !== 'undefined') renderTenses();
+
+  const searchInput = document.getElementById('verbSearchInput');
+  const clearBtn = document.getElementById('clearSearchBtn');
+  if (searchInput) searchInput.addEventListener('input', searchVerbs);
+  if (clearBtn) clearBtn.addEventListener('click', () => { if (searchInput) { searchInput.value = ''; searchVerbs(); } });
+
+  const verbSelectEl = document.getElementById('verbSelect');
+  if (verbSelectEl) verbSelectEl.addEventListener('change', generateExamples);
+
+  renderCategoryFilters();
+  renderPhrases();
+  const phraseSearch = document.getElementById('phraseSearchInput');
+  const clearPhraseBtn = document.getElementById('clearPhraseSearchBtn');
+  if (phraseSearch) phraseSearch.addEventListener('input', searchPhrases);
+  if (clearPhraseBtn) clearPhraseBtn.addEventListener('click', () => { if (phraseSearch) { phraseSearch.value = ''; searchPhrases(); } });
+
+  renderPrefixes();
+  const prefixSearch = document.getElementById('prefixSearchInput');
+  const clearPrefixBtn = document.getElementById('clearPrefixSearchBtn');
+  if (prefixSearch) prefixSearch.addEventListener('input', searchPrefixes);
+  if (clearPrefixBtn) clearPrefixBtn.addEventListener('click', () => { if (prefixSearch) { prefixSearch.value = ''; searchPrefixes(); } });
+
+  const prefixTypeFilters = document.getElementById('prefixTypeFilters');
+  if (prefixTypeFilters) {
+    prefixTypeFilters.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        prefixTypeFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPrefixType = btn.dataset.type;
         renderPrefixes();
-    }
-    
-    // ===== МАГИЧЕСКИЕ СЛОВА =====
-    function renderMagic() {
-        const container = document.getElementById('magicContainer');
-        if (!container) return;
-        
-        if (currentMagicTab === 'verbs') {
-            if (typeof magicVerbs === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл magicWords.js не загружен</div>'; return; }
-            let html = '';
-            magicVerbs.forEach(v => {
-                html += `
-                    <div class="tense-card" style="cursor:default; border-left:6px solid #b97f44;">
-                        <div class="tense-header">
-                            <div class="tense-emoji">${v.emoji}</div>
-                            <div>
-                                <div class="tense-name" style="font-family:monospace; font-size:1.8rem;">${v.verb}</div>
-                                <div style="font-size:0.85rem; color:#8b6946; margin-top:4px;">🔑 ${v.meaning}</div>
-                            </div>
-                        </div>
-                        <div class="preposition-meaning" style="font-style:italic; margin:10px 0;">💡 ${v.assoc}</div>
-                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">${v.note}</div>
-                        <div style="font-size:0.85rem; color:#8b6946; margin:12px 0 6px;">🎭 Значения:</div>
-                `;
-                v.senses.forEach(s => {
-                    const cleanEx = s.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
-                    html += `
-                        <div class="tense-example" onclick="openModalWithSpeech('${v.verb}', '${cleanEx}', '${s.exRu}', '${s.sense} → ${s.ru}')">
-                            <div class="tense-example-text">
-                                <div class="tense-example-eng"><span style="background:#ffd6a5; padding:2px 8px; border-radius:12px;">${s.sense}</span> ${s.ex}</div>
-                                <div class="tense-example-ru">${s.exRu}</div>
-                            </div>
-                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
-                        </div>
-                    `;
-                });
-                html += `<div style="font-size:0.85rem; color:#8b6946; margin:14px 0 6px;">🔗 Фразовые глаголы:</div>`;
-                v.phrases.forEach(p => {
-                    const cleanEx = p.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
-                    html += `
-                        <div class="tense-example" onclick="openModalWithSpeech('${v.verb}', '${cleanEx}', '${p.exRu}', '${p.p} = ${p.ru}')">
-                            <div class="tense-example-text">
-                                <div class="tense-example-eng"><b>${p.p}</b> — ${p.ru}</div>
-                                <div class="tense-example-ru">📖 ${p.ex} — ${p.exRu}</div>
-                            </div>
-                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            });
-            container.innerHTML = html;
-            return;
-        }
-        
-        if (currentMagicTab === 'words') {
-            if (typeof magicWords === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив magicWords не найден</div>'; return; }
-            let html = '';
-            magicWords.forEach(w => {
-                html += `
-                    <div class="tense-card" style="cursor:default; border-left:6px solid #6b8e23;">
-                        <div class="tense-header">
-                            <div class="tense-emoji">${w.emoji}</div>
-                            <div>
-                                <div class="tense-name" style="font-family:monospace; font-size:1.8rem;">${w.word}</div>
-                                <div style="font-size:0.9rem; color:#8b6946; margin-top:4px;">🔑 ${w.ru}</div>
-                            </div>
-                        </div>
-                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">💡 ${w.note}</div>
-                `;
-                w.examples.forEach(e => {
-                    const cleanEx = e.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
-                    html += `
-                        <div class="tense-example" onclick="openModalWithSpeech('${w.word}', '${cleanEx}', '${e.exRu}', '${w.word} = ${w.ru}')">
-                            <div class="tense-example-text">
-                                <div class="tense-example-eng">${e.ex}</div>
-                                <div class="tense-example-ru">${e.exRu}</div>
-                            </div>
-                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            });
-            container.innerHTML = html;
-            return;
-        }
-        
-        if (currentMagicTab === 'survival') {
-            if (typeof survivalPhrases === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив survivalPhrases не найден</div>'; return; }
-            let html = `<div class="memory-hack" style="margin-bottom:16px;">🆘 <strong>9 фраз, которые спасут в любой ситуации</strong></div>`;
-            survivalPhrases.forEach(p => {
-                const clean = p.en.replace(/'/g, "\\'");
-                html += `
-                    <div class="phrase-card" onclick="openModalWithSpeech('phrase', '${p.en}', '${p.ru}', 'Фраза-спасалка')">
-                        <div style="flex:1;">
-                            <div class="eng">${p.en}</div>
-                            <div class="ru">${p.ru}</div>
-                        </div>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${clean}')">🔈</button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-            return;
-        }
-    }
-    
-    // ===== ТЕСТ =====
-    function renderQuizFilters() {
-        const container = document.getElementById('quizFilters');
-        if (!container || typeof quizCategories === 'undefined') return;
-        let html = '';
-        quizCategories.forEach(c => {
-            const active = currentQuizCategory === c.id ? 'active' : '';
-            html += `<button class="filter-btn ${active}" data-quiz="${c.id}">${c.emoji} ${c.name}</button>`;
-        });
-        container.innerHTML = html;
-        container.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentQuizCategory = btn.dataset.quiz;
-                resetQuiz();
-            });
-        });
-    }
-    
-    function getCurrentQuizQuestions() {
-        if (typeof quizQuestions === 'undefined') return [];
-        if (currentQuizCategory === 'all') return quizQuestions;
-        return quizQuestions.filter(q => q.category === currentQuizCategory);
-    }
-    
-    function renderQuiz() {
-        const container = document.getElementById('quizContainer');
-        const stats = document.getElementById('quizStats');
-        if (!container) return;
-        
-        const questions = getCurrentQuizQuestions();
-        
-        if (questions.length === 0) {
-            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Нет вопросов</div>';
-            if (stats) stats.textContent = '';
-            return;
-        }
-        
-        let answered = 0, correct = 0;
-        Object.values(quizState).forEach(s => { if (s.chosen !== undefined) { answered++; if (s.correct) correct++; } });
-        
-        if (stats) {
-            const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
-            stats.innerHTML = `✅ Правильно: ${correct} / ${answered} (${percent}%) &nbsp;|&nbsp; 📚 Всего: ${questions.length}`;
-        }
-        
-        let html = '';
-        questions.forEach((q, idx) => {
-            const state = quizState[idx] || {};
-            const chosen = state.chosen;
-            const isAnswered = chosen !== undefined;
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
-            html += `<div style="font-weight:bold; font-size:1rem; color:#3d2b1a; margin-bottom:10px;">${idx + 1}. ${q.q}</div>`;
-            
-            q.options.forEach((opt, optIdx) => {
-                let bg = '#f2e5ca';
-                let color = '#3d2b1a';
-                if (isAnswered) {
-                    if (optIdx === q.correct) { bg = '#c8e6a0'; color = '#2d4a0f'; }
-                    else if (optIdx === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; }
-                }
-                const mark = isAnswered && optIdx === chosen ? (state.correct ? '✅ ' : '❌ ') : (isAnswered && optIdx === q.correct ? '✅ ' : '');
-                html += `
-                    <div onclick="${isAnswered ? '' : `answerQuiz(${idx}, ${optIdx})`}" 
-                         style="background:${bg}; color:${color}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <span>${mark}${opt}</span>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
-                    </div>
-                `;
-            });
-            
-            if (isAnswered) {
-                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${q.hint}</div>`;
-            }
-            
-            html += `</div>`;
-        });
-        
-        container.innerHTML = html;
-    }
-    
-    function answerQuiz(qIdx, optIdx) {
-        const questions = getCurrentQuizQuestions();
-        const q = questions[qIdx];
-        if (!q) return;
-        quizState[qIdx] = { chosen: optIdx, correct: optIdx === q.correct };
-        renderQuiz();
-    }
-    
-    function resetQuiz() {
-        quizState = {};
-        renderQuizFilters();
-        renderQuiz();
-    }
-    
-    // ===== КОНСТРУКТОР =====
-    function renderBuilderFilters() {
-        const container = document.getElementById('builderFilters');
-        if (!container || typeof builderCategories === 'undefined') return;
-        let html = '';
-        builderCategories.forEach(c => {
-            const active = currentBuilderCategory === c.id ? 'active' : '';
-            html += `<button class="filter-btn ${active}" data-builder="${c.id}">${c.emoji} ${c.name}</button>`;
-        });
-        container.innerHTML = html;
-        container.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentBuilderCategory = btn.dataset.builder;
-                builderState = {};
-                renderBuilder();
-            });
-        });
-    }
-    
-    function renderBuilder() {
-        const container = document.getElementById('builderContainer');
-        if (!container) return;
-        
-        const cat = currentBuilderCategory;
-        let html = '';
-        
-        if (cat === 'all' || cat === 'order')     html += renderOrderSection();
-        if (cat === 'all' || cat === 'question')  html += renderQuestionSection();
-        if (cat === 'all' || cat === 'reply')     html += renderReplySection();
-        if (cat === 'all' || cat === 'transform') html += renderTransformSection();
-        if (cat === 'all' || cat === 'dialogue')  html += renderDialogueSection();
-        
-        container.innerHTML = html || '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Нет заданий</div>';
-    }
-    
-    // Тип 1: собери предложение
-    function renderOrderSection() {
-        if (typeof builderOrder === 'undefined') return '';
-        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🧩 <strong>Собери предложение</strong> — нажимай на слова в правильном порядке.</div>`;
-        builderOrder.slice(0, 10).forEach((item, idx) => {
-            const key = 'order_' + idx;
-            const state = builderState[key] || {};
-            const currentWords = state.current || [];
-            const available = state.available || shuffleWords(item.words);
-            const isComplete = currentWords.length === item.words.length;
-            const isCorrect = isComplete && currentWords.join(' ') === item.words.join(' ');
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isComplete ? (isCorrect ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
-            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:6px;">🇷🇺 ${item.ru}</div>`;
-            
-            // Собранное предложение
-            html += `<div style="min-height:40px; background:#fff6e8; border:2px dashed #c49a6c; border-radius:18px; padding:10px; margin-bottom:10px; display:flex; flex-wrap:wrap; gap:6px;">`;
-            if (currentWords.length === 0) {
-                html += `<span style="color:#8b6946; font-style:italic;">Нажимай слова ниже...</span>`;
-            } else {
-                currentWords.forEach((w, wi) => {
-                    html += `<span onclick="removeWordFromOrder('${key}', ${wi})" style="background:#d4e6a5; padding:6px 12px; border-radius:12px; cursor:pointer; font-weight:bold;">${w}</span>`;
-                });
-            }
-            html += `</div>`;
-            
-            // Доступные слова
-            html += `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">`;
-            available.forEach((w, wi) => {
-                html += `<span onclick="addWordToOrder('${key}', '${w.replace(/'/g, "\\'")}', ${idx})" style="background:#f2e5ca; padding:6px 12px; border-radius:12px; cursor:pointer;">${w}</span>`;
-            });
-            html += `</div>`;
-            
-            // Кнопки
-            html += `<div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">`;
-            if (isComplete) {
-                if (isCorrect) {
-                    html += `<span style="color:#6b8e23; font-weight:bold;">✅ Правильно!</span>`;
-                } else {
-                    html += `<span style="color:#b93a3a; font-weight:bold;">❌ Есть ошибки</span>`;
-                }
-            }
-            html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${item.words.join(' ')}')">🔊</button>`;
-            html += `<button class="speak-btn-small" onclick="resetOrder('${key}', ${idx})" style="background:#8b6946;">🔄 Заново</button>`;
-            html += `</div>`;
-            
-            if (isComplete && !isCorrect) {
-                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
-            }
-            
-            html += `</div>`;
-        });
-        return html;
-    }
-    
-    function addWordToOrder(key, word, idx) {
-        const item = builderOrder[idx];
-        const state = builderState[key] || { current: [], available: shuffleWords(item.words) };
-        state.current = state.current || [];
-        state.available = state.available || shuffleWords(item.words);
-        
-        // Находим слово в available и убираем
-        const availableIdx = state.available.indexOf(word);
-        if (availableIdx >= 0) {
-            state.available.splice(availableIdx, 1);
-            state.current.push(word);
-        }
-        builderState[key] = state;
-        renderBuilder();
-    }
-    
-    function removeWordFromOrder(key, pos) {
-        const state = builderState[key];
-        if (!state || !state.current) return;
-        const [w] = state.current.splice(pos, 1);
-        state.available.push(w);
-        builderState[key] = state;
-        renderBuilder();
-    }
-    
-    function resetOrder(key, idx) {
-        builderState[key] = { current: [], available: shuffleWords(builderOrder[idx].words) };
-        renderBuilder();
-    }
-    
-    // Тип 2: построй вопрос
-    function renderQuestionSection() {
-        if (typeof builderQuestions === 'undefined') return '';
-        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">❓ <strong>Построй вопрос</strong> — выбери правильный вариант вопроса из утверждения.</div>`;
-        builderQuestions.slice(0, 10).forEach((item, idx) => {
-            const key = 'q_' + idx;
-            const state = builderState[key] || {};
-            const chosen = state.chosen;
-            const isAnswered = chosen !== undefined;
-            const opts = shuffleArrayBuilder([item.question, ...item.wrong]);
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
-            html += `<div style="font-size:0.95rem; margin-bottom:8px;"><b>Утверждение:</b> ${item.statement}</div>`;
-            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:10px;">${item.ru}</div>`;
-            html += `<div style="font-size:0.9rem; font-weight:bold; margin-bottom:8px;">❓ Построй вопрос:</div>`;
-            
-            opts.forEach(opt => {
-                const isThisCorrect = opt === item.question;
-                let bg = '#f2e5ca';
-                if (isAnswered) {
-                    if (isThisCorrect) bg = '#c8e6a0';
-                    else if (opt === chosen) bg = '#f3b4b4';
-                }
-                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
-                html += `
-                    <div onclick="${isAnswered ? '' : `answerBuilderQuestion('${key}', '${opt.replace(/'/g, "\\'")}', '${item.question.replace(/'/g, "\\'")}', ${idx})`}" 
-                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <span>${mark}${opt}</span>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
-                    </div>
-                `;
-            });
-            
-            if (isAnswered) {
-                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
-            }
-            html += `</div>`;
-        });
-        return html;
-    }
-    
-    function answerBuilderQuestion(key, chosen, correct, idx) {
-        builderState[key] = { chosen, correct: chosen === correct };
-        renderBuilder();
-    }
-    
-    // Тип 3: выбери ответ
-    function renderReplySection() {
-        if (typeof builderReplies === 'undefined') return '';
-        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">💬 <strong>Выбери правильный ответ</strong> — что сказать в ответ на реплику.</div>`;
-        builderReplies.slice(0, 10).forEach((item, idx) => {
-            const key = 'r_' + idx;
-            const state = builderState[key] || {};
-            const chosen = state.chosen;
-            const isAnswered = chosen !== undefined;
-            const opts = shuffleArrayBuilder([item.correct, ...item.wrong]);
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
-            html += `<div style="background:#ffd6a5; padding:12px; border-radius:18px; margin-bottom:10px;">`;
-            html += `<div style="font-size:1.05rem; font-weight:bold;">🗣️ ${item.prompt}</div>`;
-            html += `<div style="font-size:0.8rem; color:#5f451f; margin-top:4px;">${item.ruPrompt}</div>`;
-            html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${item.prompt.replace(/'/g, "\\'")}')" style="margin-top:6px;">🔈</button>`;
-            html += `</div>`;
-            
-            opts.forEach(opt => {
-                const isThisCorrect = opt === item.correct;
-                let bg = '#f2e5ca';
-                if (isAnswered) {
-                    if (isThisCorrect) bg = '#c8e6a0';
-                    else if (opt === chosen) bg = '#f3b4b4';
-                }
-                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
-                html += `
-                    <div onclick="${isAnswered ? '' : `answerBuilderReply('${key}', '${opt.replace(/'/g, "\\'")}', '${item.correct.replace(/'/g, "\\'")}', ${idx})`}" 
-                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <span>${mark}${opt}</span>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
-                    </div>
-                `;
-            });
-            
-            if (isAnswered) {
-                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
-            }
-            html += `</div>`;
-        });
-        return html;
-    }
-    
-    function answerBuilderReply(key, chosen, correct, idx) {
-        builderState[key] = { chosen, correct: chosen === correct };
-        renderBuilder();
-    }
-    
-    // Тип 4: переделай
-    function renderTransformSection() {
-        if (typeof builderTransform === 'undefined') return '';
-        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🔄 <strong>Переделай</strong> — измени форму предложения (вопрос, отрицание, время).</div>`;
-        builderTransform.slice(0, 10).forEach((item, idx) => {
-            const key = 't_' + idx;
-            const state = builderState[key] || {};
-            const chosen = state.chosen;
-            const isAnswered = chosen !== undefined;
-            const opts = shuffleArrayBuilder([item.answer, ...item.wrong]);
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
-            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:4px;">🎯 Задание: <b>${item.task}</b></div>`;
-            html += `<div style="background:#ffd6a5; padding:10px 12px; border-radius:14px; margin-bottom:10px;">${item.given}</div>`;
-            
-            opts.forEach(opt => {
-                const isThisCorrect = opt === item.answer;
-                let bg = '#f2e5ca';
-                if (isAnswered) {
-                    if (isThisCorrect) bg = '#c8e6a0';
-                    else if (opt === chosen) bg = '#f3b4b4';
-                }
-                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
-                html += `
-                    <div onclick="${isAnswered ? '' : `answerBuilderTransform('${key}', '${opt.replace(/'/g, "\\'")}', '${item.answer.replace(/'/g, "\\'")}')`}" 
-                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                        <span>${mark}${opt}</span>
-                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
-                    </div>
-                `;
-            });
-            
-            if (isAnswered) {
-                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
-            }
-            html += `</div>`;
-        });
-        return html;
-    }
-    
-    function answerBuilderTransform(key, chosen, correct) {
-        builderState[key] = { chosen, correct: chosen === correct };
-        renderBuilder();
-    }
-    
-    // Тип 5: диалоги
-    function renderDialogueSection() {
-        if (typeof builderDialogues === 'undefined') return '';
-        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🎭 <strong>Диалоги</strong> — выбери правильную реплику, чтобы пройти диалог.</div>`;
-        builderDialogues.forEach((dlg, dIdx) => {
-            const key = 'd_' + dIdx;
-            const state = builderState[key] || { step: 0, history: [] };
-            
-            html += `<div class="tense-card" style="cursor:default; border-left:6px solid #c49a6c; margin-bottom:14px;">`;
-            html += `<div class="tense-header"><div class="tense-emoji">${dlg.emoji}</div><div class="tense-name">${dlg.title}</div></div>`;
-            
-            // История
-            state.history.forEach(h => {
-                html += `<div style="background:#f2e5ca; padding:10px; border-radius:14px; margin:6px 0;"><b>${h.speaker}:</b> ${h.en}<div style="font-size:0.8rem; color:#8b6946;">${h.ru}</div></div>`;
-            });
-            
-            // Текущий шаг
-            if (state.step < dlg.steps.length) {
-                const step = dlg.steps[state.step];
-                html += `<div style="background:#ffd6a5; padding:12px; border-radius:18px; margin:10px 0;">`;
-                html += `<div style="font-size:1.05rem; font-weight:bold;">🗣️ ${step.speaker}: ${step.en}</div>`;
-                html += `<div style="font-size:0.8rem; color:#5f451f; margin-top:4px;">${step.ru}</div>`;
-                html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${step.en.replace(/'/g, "\\'")}')" style="margin-top:6px;">🔈</button>`;
-                html += `</div>`;
-                
-                html += `<div style="font-size:0.9rem; font-weight:bold; margin-bottom:6px;">Выбери ответ:</div>`;
-                step.options.forEach((opt, optIdx) => {
-                    html += `
-                        <div onclick="answerDialogue('${key}', ${dIdx}, ${optIdx})" 
-                             style="background:#f2e5ca; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                            <span>${opt}</span>
-                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
-                        </div>
-                    `;
-                });
-            } else {
-                html += `<div style="text-align:center; padding:14px; color:#6b8e23; font-weight:bold;">✅ Диалог завершён!</div>`;
-                html += `<div style="text-align:center;"><button class="speak-btn-small" onclick="resetDialogue('${key}')" style="background:#8b6946;">🔄 Заново</button></div>`;
-            }
-            
-            html += `</div>`;
-        });
-        return html;
-    }
-    
-    function answerDialogue(key, dIdx, optIdx) {
-        const dlg = builderDialogues[dIdx];
-        const state = builderState[key] || { step: 0, history: [] };
-        const step = dlg.steps[state.step];
-        const chosen = step.options[optIdx];
-        const isCorrect = optIdx === step.correct;
-        
-        if (isCorrect) {
-            // Добавляем реплику "You" и следующую реплику партнёра
-            state.history.push({ speaker: 'You', en: chosen, ru: step.ru });
-            state.step++;
-            
-            if (state.step < dlg.steps.length) {
-                const nextStep = dlg.steps[state.step];
-                // Если nextStep тоже "You" — не добавляем сразу, ждём ответа
-                // Если партнёр — добавляем как реплику партнёра, инкрементим step, пока не дойдём до шага с "You"
-                // (упрощённо: авто-продвигаемся)
-            }
-        }
-        builderState[key] = state;
-        renderBuilder();
-    }
-    
-    function resetDialogue(key) {
-        builderState[key] = { step: 0, history: [] };
-        renderBuilder();
-    }
-    
-    // ===== FULLSCREEN =====
-    const fullscreenBtn = document.getElementById('fullscreenTableBtn');
-    if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', () => {
-            document.body.classList.toggle('fullscreen-table');
-            fullscreenBtn.textContent = document.body.classList.contains('fullscreen-table') ? '✕ Выйти' : '📺 На весь экран';
-        });
-    }
-    
-    // ===== INIT =====
-    function init() {
-        if (typeof verbs !== 'undefined') {
-            allVerbs = verbs;
-            renderVerbCards(allVerbs);
-            renderVerbsTable();
-            populateVerbSelect();
-        }
-        if (typeof tenses !== 'undefined') {
-            renderTenses();
-        }
-        
-        const searchInput = document.getElementById('verbSearchInput');
-        const clearBtn = document.getElementById('clearSearchBtn');
-        if (searchInput) searchInput.addEventListener('input', searchVerbs);
-        if (clearBtn) clearBtn.addEventListener('click', () => {
-            if (searchInput) { searchInput.value = ''; searchVerbs(); }
-        });
-        
-        const verbSelectEl = document.getElementById('verbSelect');
-        if (verbSelectEl) verbSelectEl.addEventListener('change', generateExamples);
-        
-        renderCategoryFilters();
-        renderPhrases();
-        
-        const phraseSearch = document.getElementById('phraseSearchInput');
-        const clearPhraseBtn = document.getElementById('clearPhraseSearchBtn');
-        if (phraseSearch) phraseSearch.addEventListener('input', searchPhrases);
-        if (clearPhraseBtn) clearPhraseBtn.addEventListener('click', () => {
-            if (phraseSearch) { phraseSearch.value = ''; searchPhrases(); }
-        });
-        
-        renderPrefixes();
-        const prefixSearch = document.getElementById('prefixSearchInput');
-        const clearPrefixBtn = document.getElementById('clearPrefixSearchBtn');
-        if (prefixSearch) prefixSearch.addEventListener('input', searchPrefixes);
-        if (clearPrefixBtn) clearPrefixBtn.addEventListener('click', () => {
-            if (prefixSearch) { prefixSearch.value = ''; searchPrefixes(); }
-        });
-        
-        const prefixTypeFilters = document.getElementById('prefixTypeFilters');
-        if (prefixTypeFilters) {
-            prefixTypeFilters.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    prefixTypeFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentPrefixType = btn.dataset.type;
-                    renderPrefixes();
-                });
-            });
-        }
-        
-        // Магические слова
+      });
+    });
+  }
+
+  renderMagic();
+  const magicFilters = document.getElementById('magicFilters');
+  if (magicFilters) {
+    magicFilters.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        magicFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMagicTab = btn.dataset.magic;
         renderMagic();
-        const magicFilters = document.getElementById('magicFilters');
-        if (magicFilters) {
-            magicFilters.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    magicFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentMagicTab = btn.dataset.magic;
-                    renderMagic();
-                });
-            });
-        }
-        
-        // Тест
-        renderQuizFilters();
-        renderQuiz();
-        
-        // Конструктор
-        renderBuilderFilters();
-        renderBuilder();
-    }
-    
-    if('serviceWorker' in navigator) { 
-        navigator.serviceWorker.register('sw.js').catch(() => {}); 
-    }
-    
-    init();
+      });
+    });
+  }
+
+  renderQuizFilters();
+  renderQuiz();
+
+  renderBuilderFilters();
+  renderBuilder();
+
+  renderDictFilters();
+  renderDictionary();
+  const dictSearch = document.getElementById('dictSearchInput');
+  const clearDictBtn = document.getElementById('clearDictBtn');
+  if (dictSearch) dictSearch.addEventListener('input', searchDictionary);
+  if (clearDictBtn) clearDictBtn.addEventListener('click', () => { if (dictSearch) { dictSearch.value = ''; searchDictionary(); } });
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+init();
 </script>
 </body>
 </html>
