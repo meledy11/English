@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Таблица глаголов">
+    <meta name="theme-color" content="#c4a35a">
+    <title>📋 Таблица неправильных глаголов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: #d9c8a9;
+            background-image: radial-gradient(circle at 10% 20%, rgba(180,140,80,0.12) 2%, transparent 2.5%);
+            background-size: 40px 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Georgia', 'Times New Roman', serif;
+            padding: 20px 12px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            color: #3d2b1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .back-btn {
+            background: #c49a6c;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 16px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .back-btn:active {
+            transform: scale(0.97);
+        }
+        .stats {
+            background: #f9eec1;
+            border-radius: 40px;
+            padding: 12px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #5f451f;
+        }
+        .table-wrapper {
+            background: #fff6e8;
+            border-radius: 32px;
+            overflow: auto;
+            max-height: 70vh;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            -webkit-overflow-scrolling: touch;
+        }
+        .verbs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .verbs-table th {
+            background: #dbbc87;
+            color: #2c1a0c;
+            padding: 14px 8px;
+            position: sticky;
+            top: 0;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .verbs-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #e1cba1;
+            vertical-align: middle;
+        }
+        .verbs-table tr:nth-child(even) {
+            background: #fffef7;
+        }
+        .verb-emoji {
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .verb-v1 {
+            font-weight: bold;
+            color: #3d2b1a;
+        }
+        .verb-v2, .verb-v3 {
+            color: #b97f44;
+        }
+        .speak-btn-table {
+            background: #c49a6c;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .speak-btn-table:active {
+            transform: scale(0.95);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #5f451f;
+            font-size: 0.75rem;
+        }
+        @media (max-width: 550px) {
+            .verbs-table { font-size: 0.7rem; }
+            .verbs-table th, .verbs-table td { padding: 8px 4px; }
+            .verb-emoji { font-size: 1.2rem; }
+            .speak-btn-table { padding: 4px 8px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <a href="index.html" class="back-btn">← Вернуться к карточкам</a>
+        <h1>📋 Неправильные глаголы <span>⚡</span></h1>
+    </div>
+    <div class="stats" id="stats">📊 Загрузка глаголов...</div>
+    <div class="table-wrapper">
+        <table class="verbs-table">
+            <thead>
+                <tr>
+                    <th>🎯</th>
+                    <th>V1 (инфинитив)</th>
+                    <th>V2 (прошедшее)</th>
+                    <th>V3 (причастие)</th>
+                    <th>Перевод</th>
+                    <th>🔊</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td colspan="6" style="text-align:center;">Загрузка...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <footer>📌 Нажми на 🔊 чтобы услышать произношение V1</footer>
+</div>
+
+<script src="verbs.js"></script>
+<script>
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Браузер не поддерживает озвучку");
+        }
+    }
+    
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        const stats = document.getElementById('stats');
+        
+        if (typeof verbs === 'undefined') {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;padding:40px;">❌ Ошибка: файл verbs.js не загружен. Проверьте, что файл существует в той же папке.</td></tr>';
+            stats.innerHTML = '❌ Ошибка: verbs.js не загружен';
+            return;
+        }
+        
+        if (!verbs || verbs.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;">⚠️ Массив глаголов пуст. Проверьте файл verbs.js</td></tr>';
+            stats.innerHTML = '⚠️ Глаголы не найдены';
+            return;
+        }
+        
+        stats.innerHTML = `📊 Всего глаголов: ${verbs.length} | ⚡ Неправильные формы`;
+        
+        let html = '';
+        for (let i = 0; i < verbs.length; i++) {
+            const v = verbs[i];
+            html += `
+                <tr>
+                    <td class="verb-emoji">${v.emoji || '📖'}</td>
+                    <td class="verb-v1">${v.v1}</td>
+                    <td class="verb-v2">${v.v2}</td>
+                    <td class="verb-v3">${v.v3}</td>
+                    <td>${v.trans}</td>
+                    <td style="text-align:center;"><button class="speak-btn-table" onclick="speakText('${v.v1.replace(/'/g, "\\'")}')">🔊</button></td>
+                </tr>
+            `;
+        }
+        tbody.innerHTML = html;
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', renderTable);
+    } else {
+        renderTable();
+    }
+</script>
+</body>
+</html>
