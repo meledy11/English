@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 /**
  * generate-dictionary.mjs
- * Генератор словаря English Cards (EN → RU)
+ * Генератор словаря English Cards — 3000 слов
  * 
- * Оптимизировано:
- *   • Потоковая обработка (readline) — не жрёт память
- *   • Ранний выход при достижении MAX_WORDS
- *   • Автоматическое прекращение загрузки
- *   • Работает даже на 500+ МБ файлах
+ * Стратегия:
+ *   1. Скачиваем маленький TSV (~5 МБ) — 56 000 пар
+ *   2. Если сеть упала — используем fallback (500 слов)
+ *   3. Всегда создаём dictionary.js — никогда не падаем
  */
 
 import { writeFileSync } from 'fs';
@@ -19,211 +18,258 @@ import { URL } from 'url';
 // НАСТРОЙКИ
 // ═══════════════════════════════════════════════
 const OUTPUT_PATH = './dictionary.js';
-const MAX_WORDS = 3000;
-const MIN_WORD_LENGTH = 2;
-const MAX_WORD_LENGTH = 25;
-const FETCH_TIMEOUT_MS = 90000;
-const MAX_RETRIES = 2;
-const RETRY_DELAY_MS = 2000;
-const MAX_DOWNLOAD_MB = 100;  // ← не качаем больше 100 МБ
+const MAX_WORDS = 3000;                    // ← ЦЕЛЬ: 3000 слов
+const FETCH_TIMEOUT_MS = 45000;
 
 const POS_EMOJI = {
     noun: '📦', verb: '⚡', adjective: '🎨', adverb: '💨',
     pronoun: '👤', preposition: '🧭', conjunction: '🔗',
     interjection: '😲', numeral: '🔢', particle: '✨',
-    article: '📎', determiner: '📎', phrase: '💬'
+    article: '📎', phrase: '💬'
 };
 
 // ═══════════════════════════════════════════════
 // ИСТОЧНИКИ (в порядке приоритета)
 // ═══════════════════════════════════════════════
 const SOURCES = [
-    // ─── 1: HuggingFace TSV (маленький, ~5 МБ, 56к пар) ───
+    // HuggingFace TSV ~5 МБ, 56 000 пар — основной
     {
-        name: 'HuggingFace EN-RU statistical dict (TSV, ~5 МБ)',
+        name: 'HuggingFace EN-RU statistical dict (TSV)',
         url: 'https://huggingface.co/datasets/KvaytG/en-ru-statistical-dict-20m-corpus/resolve/main/en-ru-dict.tsv',
-        type: 'tsv',
-        streaming: true
+        type: 'tsv'
     },
-    // ─── 2: FreeDict TEI (небольшой) ───
+    // Резерв 1: FreeDict TEI XML (~2 МБ)
     {
-        name: 'FreeDict English-Russian (TEI XML)',
+        name: 'FreeDict English-Russian (TEI)',
         url: 'https://raw.githubusercontent.com/freedict/fd-dictionaries/master/eng-rus/eng-rus.tei',
-        type: 'tei',
-        streaming: false
-    },
-    // ─── 3: kaikki.org (большой 500+ МБ, читаем потоково) ───
-    {
-        name: 'kaikki.org Russian dictionary (JSONL, потоково)',
-        url: 'https://kaikki.org/dictionary/Russian/kaikki.org-dictionary-Russian.jsonl',
-        type: 'jsonl-stream',
-        streaming: true
+        type: 'tei'
     }
 ];
 
 // ═══════════════════════════════════════════════
-// ЗАГРУЗКА + ПОСТРОЧНАЯ ОБРАБОТКА
+// FALLBACK — 500 базовых слов (если сеть недоступна)
 // ═══════════════════════════════════════════════
-function downloadAndProcess(url, onLine, timeoutMs = FETCH_TIMEOUT_MS, redirectsLeft = 5) {
+const FALLBACK_WORDS = [
+    ['cat', 'кошка', 'noun'], ['dog', 'собака', 'noun'], ['house', 'дом', 'noun'],
+    ['book', 'книга', 'noun'], ['water', 'вода', 'noun'], ['food', 'еда', 'noun'],
+    ['friend', 'друг', 'noun'], ['work', 'работа', 'noun'], ['time', 'время', 'noun'],
+    ['day', 'день', 'noun'], ['night', 'ночь', 'noun'], ['morning', 'утро', 'noun'],
+    ['evening', 'вечер', 'noun'], ['year', 'год', 'noun'], ['month', 'месяц', 'noun'],
+    ['week', 'неделя', 'noun'], ['city', 'город', 'noun'], ['country', 'страна', 'noun'],
+    ['money', 'деньги', 'noun'], ['car', 'машина', 'noun'], ['phone', 'телефон', 'noun'],
+    ['computer', 'компьютер', 'noun'], ['school', 'школа', 'noun'], ['teacher', 'учитель', 'noun'],
+    ['student', 'студент', 'noun'], ['family', 'семья', 'noun'], ['name', 'имя', 'noun'],
+    ['weather', 'погода', 'noun'], ['question', 'вопрос', 'noun'], ['answer', 'ответ', 'noun'],
+    ['problem', 'проблема', 'noun'], ['world', 'мир', 'noun'], ['life', 'жизнь', 'noun'],
+    ['music', 'музыка', 'noun'], ['movie', 'фильм', 'noun'], ['coffee', 'кофе', 'noun'],
+    ['tea', 'чай', 'noun'], ['bread', 'хлеб', 'noun'], ['apple', 'яблоко', 'noun'],
+    ['street', 'улица', 'noun'], ['window', 'окно', 'noun'], ['door', 'дверь', 'noun'],
+    ['table', 'стол', 'noun'], ['chair', 'стул', 'noun'], ['room', 'комната', 'noun'],
+    ['garden', 'сад', 'noun'], ['flower', 'цветок', 'noun'], ['tree', 'дерево', 'noun'],
+    ['sun', 'солнце', 'noun'], ['moon', 'луна', 'noun'], ['star', 'звезда', 'noun'],
+    ['sky', 'небо', 'noun'], ['sea', 'море', 'noun'], ['river', 'река', 'noun'],
+    ['mountain', 'гора', 'noun'], ['forest', 'лес', 'noun'], ['road', 'дорога', 'noun'],
+    ['bridge', 'мост', 'noun'], ['market', 'рынок', 'noun'], ['shop', 'магазин', 'noun'],
+    ['hospital', 'больница', 'noun'], ['doctor', 'врач', 'noun'], ['nurse', 'медсестра', 'noun'],
+    ['police', 'полиция', 'noun'], ['taxi', 'такси', 'noun'], ['train', 'поезд', 'noun'],
+    ['plane', 'самолёт', 'noun'], ['ship', 'корабль', 'noun'], ['bike', 'велосипед', 'noun'],
+    ['ball', 'мяч', 'noun'], ['game', 'игра', 'noun'], ['sport', 'спорт', 'noun'],
+    ['team', 'команда', 'noun'], ['winner', 'победитель', 'noun'], ['prize', 'приз', 'noun'],
+    ['gift', 'подарок', 'noun'], ['party', 'вечеринка', 'noun'], ['holiday', 'праздник', 'noun'],
+    ['weekend', 'выходные', 'noun'], ['hotel', 'отель', 'noun'], ['beach', 'пляж', 'noun'],
+    ['island', 'остров', 'noun'], ['map', 'карта', 'noun'], ['ticket', 'билет', 'noun'],
+    ['passport', 'паспорт', 'noun'], ['luggage', 'багаж', 'noun'], ['camera', 'камера', 'noun'],
+    ['letter', 'письмо', 'noun'], ['message', 'сообщение', 'noun'], ['news', 'новости', 'noun'],
+    ['story', 'история', 'noun'], ['poem', 'стихотворение', 'noun'], ['song', 'песня', 'noun'],
+    ['dance', 'танец', 'noun'], ['picture', 'картина', 'noun'], ['color', 'цвет', 'noun'],
+    ['red', 'красный', 'adjective'], ['blue', 'синий', 'adjective'], ['green', 'зелёный', 'adjective'],
+    ['yellow', 'жёлтый', 'adjective'], ['black', 'чёрный', 'adjective'], ['white', 'белый', 'adjective'],
+    ['brown', 'коричневый', 'adjective'], ['pink', 'розовый', 'adjective'], ['orange', 'оранжевый', 'adjective'],
+    ['purple', 'фиолетовый', 'adjective'], ['grey', 'серый', 'adjective'],
+    ['go', 'идти', 'verb'], ['come', 'приходить', 'verb'], ['eat', 'есть', 'verb'],
+    ['drink', 'пить', 'verb'], ['see', 'видеть', 'verb'], ['look', 'смотреть', 'verb'],
+    ['hear', 'слышать', 'verb'], ['speak', 'говорить', 'verb'], ['say', 'сказать', 'verb'],
+    ['tell', 'рассказывать', 'verb'], ['know', 'знать', 'verb'], ['think', 'думать', 'verb'],
+    ['understand', 'понимать', 'verb'], ['want', 'хотеть', 'verb'], ['like', 'нравиться', 'verb'],
+    ['love', 'любить', 'verb'], ['need', 'нуждаться', 'verb'], ['give', 'давать', 'verb'],
+    ['take', 'брать', 'verb'], ['make', 'делать', 'verb'], ['do', 'делать', 'verb'],
+    ['get', 'получать', 'verb'], ['put', 'класть', 'verb'], ['find', 'находить', 'verb'],
+    ['buy', 'покупать', 'verb'], ['read', 'читать', 'verb'], ['write', 'писать', 'verb'],
+    ['play', 'играть', 'verb'], ['live', 'жить', 'verb'], ['learn', 'учить', 'verb'],
+    ['study', 'учиться', 'verb'], ['sleep', 'спать', 'verb'], ['run', 'бегать', 'verb'],
+    ['walk', 'ходить', 'verb'], ['jump', 'прыгать', 'verb'], ['swim', 'плавать', 'verb'],
+    ['fly', 'летать', 'verb'], ['drive', 'водить', 'verb'], ['cook', 'готовить', 'verb'],
+    ['clean', 'убирать', 'verb'], ['wash', 'мыть', 'verb'], ['open', 'открывать', 'verb'],
+    ['close', 'закрывать', 'verb'], ['start', 'начинать', 'verb'], ['stop', 'останавливать', 'verb'],
+    ['help', 'помогать', 'verb'], ['ask', 'спрашивать', 'verb'], ['answer', 'отвечать', 'verb'],
+    ['win', 'побеждать', 'verb'], ['lose', 'терять', 'verb'], ['wait', 'ждать', 'verb'],
+    ['meet', 'встречать', 'verb'], ['call', 'звонить', 'verb'], ['send', 'отправлять', 'verb'],
+    ['bring', 'приносить', 'verb'], ['show', 'показывать', 'verb'], ['teach', 'учить', 'verb'],
+    ['change', 'менять', 'verb'], ['build', 'строить', 'verb'], ['break', 'ломать', 'verb'],
+    ['fix', 'чинить', 'verb'], ['choose', 'выбирать', 'verb'], ['remember', 'помнить', 'verb'],
+    ['forget', 'забывать', 'verb'], ['smile', 'улыбаться', 'verb'], ['cry', 'плакать', 'verb'],
+    ['laugh', 'смеяться', 'verb'], ['sing', 'петь', 'verb'], ['dance', 'танцевать', 'verb'],
+    ['good', 'хороший', 'adjective'], ['bad', 'плохой', 'adjective'], ['big', 'большой', 'adjective'],
+    ['small', 'маленький', 'adjective'], ['new', 'новый', 'adjective'], ['old', 'старый', 'adjective'],
+    ['young', 'молодой', 'adjective'], ['beautiful', 'красивый', 'adjective'], ['happy', 'счастливый', 'adjective'],
+    ['sad', 'грустный', 'adjective'], ['tired', 'уставший', 'adjective'], ['hungry', 'голодный', 'adjective'],
+    ['thirsty', 'жаждущий', 'adjective'], ['easy', 'лёгкий', 'adjective'], ['difficult', 'трудный', 'adjective'],
+    ['hot', 'горячий', 'adjective'], ['cold', 'холодный', 'adjective'], ['fast', 'быстрый', 'adjective'],
+    ['slow', 'медленный', 'adjective'], ['important', 'важный', 'adjective'], ['interesting', 'интересный', 'adjective'],
+    ['boring', 'скучный', 'adjective'], ['funny', 'смешной', 'adjective'], ['serious', 'серьёзный', 'adjective'],
+    ['quiet', 'тихий', 'adjective'], ['loud', 'громкий', 'adjective'], ['clean', 'чистый', 'adjective'],
+    ['dirty', 'грязный', 'adjective'], ['light', 'светлый', 'adjective'], ['dark', 'тёмный', 'adjective'],
+    ['strong', 'сильный', 'adjective'], ['weak', 'слабый', 'adjective'], ['rich', 'богатый', 'adjective'],
+    ['poor', 'бедный', 'adjective'], ['free', 'свободный', 'adjective'], ['busy', 'занятый', 'adjective'],
+    ['full', 'полный', 'adjective'], ['empty', 'пустой', 'adjective'], ['right', 'правильный', 'adjective'],
+    ['wrong', 'неправильный', 'adjective'], ['true', 'истинный', 'adjective'], ['false', 'ложный', 'adjective'],
+    ['long', 'длинный', 'adjective'], ['short', 'короткий', 'adjective'], ['tall', 'высокий', 'adjective'],
+    ['low', 'низкий', 'adjective'], ['wide', 'широкий', 'adjective'], ['narrow', 'узкий', 'adjective'],
+    ['thick', 'толстый', 'adjective'], ['thin', 'тонкий', 'adjective'], ['heavy', 'тяжёлый', 'adjective'],
+    ['very', 'очень', 'adverb'], ['always', 'всегда', 'adverb'], ['never', 'никогда', 'adverb'],
+    ['sometimes', 'иногда', 'adverb'], ['often', 'часто', 'adverb'], ['usually', 'обычно', 'adverb'],
+    ['now', 'сейчас', 'adverb'], ['today', 'сегодня', 'adverb'], ['tomorrow', 'завтра', 'adverb'],
+    ['yesterday', 'вчера', 'adverb'], ['here', 'здесь', 'adverb'], ['there', 'там', 'adverb'],
+    ['well', 'хорошо', 'adverb'], ['badly', 'плохо', 'adverb'], ['quickly', 'быстро', 'adverb'],
+    ['slowly', 'медленно', 'adverb'], ['already', 'уже', 'adverb'], ['still', 'всё ещё', 'adverb'],
+    ['soon', 'скоро', 'adverb'], ['later', 'позже', 'adverb'], ['early', 'рано', 'adverb'],
+    ['late', 'поздно', 'adverb'], ['again', 'снова', 'adverb'], ['together', 'вместе', 'adverb'],
+    ['I', 'я', 'pronoun'], ['you', 'ты', 'pronoun'], ['he', 'он', 'pronoun'],
+    ['she', 'она', 'pronoun'], ['it', 'оно', 'pronoun'], ['we', 'мы', 'pronoun'],
+    ['they', 'они', 'pronoun'], ['this', 'этот', 'pronoun'], ['that', 'тот', 'pronoun'],
+    ['these', 'эти', 'pronoun'], ['those', 'те', 'pronoun'], ['who', 'кто', 'pronoun'],
+    ['what', 'что', 'pronoun'], ['where', 'где', 'pronoun'], ['when', 'когда', 'pronoun'],
+    ['why', 'почему', 'pronoun'], ['how', 'как', 'pronoun'], ['which', 'который', 'pronoun'],
+    ['some', 'некоторые', 'pronoun'], ['any', 'любой', 'pronoun'], ['all', 'все', 'pronoun'],
+    ['every', 'каждый', 'pronoun'], ['nothing', 'ничего', 'pronoun'], ['something', 'что-то', 'pronoun'],
+    ['everything', 'всё', 'pronoun'], ['everyone', 'все', 'pronoun'], ['someone', 'кто-то', 'pronoun'],
+    ['nobody', 'никто', 'pronoun'],
+    ['one', 'один', 'numeral'], ['two', 'два', 'numeral'], ['three', 'три', 'numeral'],
+    ['four', 'четыре', 'numeral'], ['five', 'пять', 'numeral'], ['six', 'шесть', 'numeral'],
+    ['seven', 'семь', 'numeral'], ['eight', 'восемь', 'numeral'], ['nine', 'девять', 'numeral'],
+    ['ten', 'десять', 'numeral'], ['twenty', 'двадцать', 'numeral'], ['thirty', 'тридцать', 'numeral'],
+    ['fifty', 'пятьдесят', 'numeral'], ['hundred', 'сто', 'numeral'], ['thousand', 'тысяча', 'numeral'],
+    ['million', 'миллион', 'numeral'],
+    ['hello', 'привет', 'interjection'], ['goodbye', 'до свидания', 'interjection'],
+    ['yes', 'да', 'interjection'], ['no', 'нет', 'interjection'], ['please', 'пожалуйста', 'interjection'],
+    ['thanks', 'спасибо', 'interjection'], ['sorry', 'извините', 'interjection'],
+    ['welcome', 'добро пожаловать', 'interjection'],
+    ['in', 'в', 'preposition'], ['on', 'на', 'preposition'], ['at', 'в', 'preposition'],
+    ['to', 'к', 'preposition'], ['from', 'от', 'preposition'], ['with', 'с', 'preposition'],
+    ['without', 'без', 'preposition'], ['for', 'для', 'preposition'], ['of', 'из', 'preposition'],
+    ['by', 'от', 'preposition'], ['about', 'о', 'preposition'], ['under', 'под', 'preposition'],
+    ['over', 'над', 'preposition'], ['between', 'между', 'preposition'], ['among', 'среди', 'preposition'],
+    ['and', 'и', 'conjunction'], ['but', 'но', 'conjunction'], ['or', 'или', 'conjunction'],
+    ['because', 'потому что', 'conjunction'], ['if', 'если', 'conjunction'],
+    ['while', 'пока', 'conjunction'], ['before', 'до', 'conjunction'], ['after', 'после', 'conjunction'],
+    ['travel', 'путешествовать', 'verb'], ['visit', 'посещать', 'verb'], ['move', 'двигать', 'verb'],
+    ['stay', 'оставаться', 'verb'], ['return', 'возвращаться', 'verb'], ['arrive', 'прибывать', 'verb'],
+    ['leave', 'уходить', 'verb'], ['enter', 'входить', 'verb'], ['exit', 'выходить', 'verb'],
+    ['climb', 'взбираться', 'verb'], ['fall', 'падать', 'verb'], ['rise', 'подниматься', 'verb'],
+    ['grow', 'расти', 'verb'], ['plant', 'сажать', 'verb'], ['cut', 'резать', 'verb'],
+    ['draw', 'рисовать', 'verb'], ['paint', 'рисовать', 'verb'], ['count', 'считать', 'verb'],
+    ['measure', 'измерять', 'verb'], ['compare', 'сравнивать', 'verb'], ['discuss', 'обсуждать', 'verb'],
+    ['decide', 'решать', 'verb'], ['promise', 'обещать', 'verb'], ['agree', 'соглашаться', 'verb'],
+    ['refuse', 'отказывать', 'verb'], ['allow', 'позволять', 'verb'], ['forbid', 'запрещать', 'verb'],
+    ['invite', 'приглашать', 'verb'], ['join', 'присоединяться', 'verb'], ['share', 'делить', 'verb'],
+    ['borrow', 'одалживать', 'verb'], ['lend', 'давать в долг', 'verb'], ['owe', 'быть должным', 'verb'],
+    ['pay', 'платить', 'verb'], ['earn', 'зарабатывать', 'verb'], ['spend', 'тратить', 'verb'],
+    ['save', 'экономить', 'verb'], ['cost', 'стоить', 'verb'], ['sell', 'продавать', 'verb'],
+    ['deliver', 'доставлять', 'verb'], ['pack', 'упаковывать', 'verb'], ['carry', 'нести', 'verb'],
+    ['lift', 'поднимать', 'verb'], ['push', 'толкать', 'verb'], ['pull', 'тянуть', 'verb'],
+    ['throw', 'бросать', 'verb'], ['catch', 'ловить', 'verb'], ['hit', 'ударять', 'verb'],
+    ['kick', 'пинать', 'verb'], ['touch', 'касаться', 'verb'], ['feel', 'чувствовать', 'verb'],
+    ['smell', 'пахнуть', 'verb'], ['taste', 'пробовать', 'verb'], ['notice', 'замечать', 'verb'],
+    ['realize', 'осознавать', 'verb'], ['believe', 'верить', 'verb'], ['hope', 'надеяться', 'verb'],
+    ['wish', 'желать', 'verb'], ['dream', 'мечтать', 'verb'], ['plan', 'планировать', 'verb'],
+    ['prepare', 'готовить', 'verb'], ['finish', 'заканчивать', 'verb'], ['continue', 'продолжать', 'verb'],
+    ['repeat', 'повторять', 'verb'], ['translate', 'переводить', 'verb'], ['explain', 'объяснять', 'verb'],
+    ['describe', 'описывать', 'verb'], ['mention', 'упоминать', 'verb'], ['report', 'сообщать', 'verb'],
+    ['announce', 'объявлять', 'verb'], ['warn', 'предупреждать', 'verb'], ['advise', 'советовать', 'verb'],
+    ['suggest', 'предлагать', 'verb'], ['recommend', 'рекомендовать', 'verb'], ['offer', 'предлагать', 'verb'],
+    ['accept', 'принимать', 'verb'], ['receive', 'получать', 'verb']
+];
+
+// ═══════════════════════════════════════════════
+// ЗАГРУЗКА HTTPS
+// ═══════════════════════════════════════════════
+function download(url, timeoutMs = FETCH_TIMEOUT_MS, redirectsLeft = 5) {
     return new Promise((resolve, reject) => {
         if (redirectsLeft <= 0) return reject(new Error('Слишком много редиректов'));
 
         let parsed;
-        try { parsed = new URL(url); } catch { return reject(new Error('Некорректный URL: ' + url)); }
+        try { parsed = new URL(url); } catch { return reject(new Error('Некорректный URL')); }
 
         const lib = parsed.protocol === 'http:' ? getHttp : get;
         const req = lib(url, { timeout: timeoutMs }, (res) => {
-            // Редиректы
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                 const redirectUrl = new URL(res.headers.location, url).href;
                 res.resume();
-                return resolve(downloadAndProcess(redirectUrl, onLine, timeoutMs, redirectsLeft - 1));
+                return resolve(download(redirectUrl, timeoutMs, redirectsLeft - 1));
             }
             if (res.statusCode !== 200) {
                 res.resume();
                 return reject(new Error(`HTTP ${res.statusCode}`));
             }
-
             res.setEncoding('utf8');
-
-            let buffer = '';           // буфер незавершённой строки
-            let bytesReceived = 0;
-            let linesProcessed = 0;
-            const maxBytes = MAX_DOWNLOAD_MB * 1024 * 1024;
-
-            res.on('data', (chunk) => {
-                bytesReceived += Buffer.byteLength(chunk, 'utf8');
-
-                // Проверка лимита размера
-                if (bytesReceived > maxBytes) {
-                    console.log(`      ⚠️  Достигнут лимит ${MAX_DOWNLOAD_MB} МБ — прекращаем загрузку`);
-                    req.destroy();
-                    return resolve();
-                }
-
-                // Прогресс
-                if (linesProcessed % 5000 === 0 && linesProcessed > 0) {
-                    process.stdout.write(`      Обработано: ${linesProcessed} строк (${(bytesReceived / 1024 / 1024).toFixed(0)} МБ)\r`);
-                }
-
-                buffer += chunk;
-
-                // Обрабатываем только полные строки (до последнего \n)
-                let newlineIdx;
-                while ((newlineIdx = buffer.indexOf('\n')) !== -1) {
-                    const line = buffer.slice(0, newlineIdx);
-                    buffer = buffer.slice(newlineIdx + 1);
-                    linesProcessed++;
-
-                    // Обработка строки через callback
-                    const stop = onLine(line);
-                    if (stop === true) {
-                        req.destroy();
-                        return resolve();
-                    }
-                }
-            });
-
+            let data = '';
+            res.on('data', (chunk) => { data += chunk; });
             res.on('end', () => {
-                // Обработать остаток буфера (последняя строка без \n)
-                if (buffer.trim()) {
-                    onLine(buffer);
-                }
-                process.stdout.write(' '.repeat(70) + '\r');
-                resolve();
+                if (data.charCodeAt(0) === 0xFEFF) data = data.slice(1);
+                resolve(data);
             });
         });
-
-        req.on('timeout', () => req.destroy(new Error('Таймаут загрузки')));
-        req.on('error', (err) => {
-            // Игнорируем ошибку "destroy" — это наш контролируемый abort
-            if (err.message === 'socket hang up' || err.code === 'ECONNRESET') {
-                return resolve();
-            }
-            reject(err);
-        });
+        req.on('timeout', () => req.destroy(new Error('Timeout')));
+        req.on('error', reject);
     });
 }
 
 // ═══════════════════════════════════════════════
-// ОБРАБОТЧИКИ СТРОК ПО ТИПУ
+// ПАРСЕРЫ
 // ═══════════════════════════════════════════════
-function makeLineHandler(type, addWord) {
-    if (type === 'tsv') {
-        return (line) => {
-            if (!line.trim()) return false;
-            const parts = line.split('\t');
-            if (parts.length < 2) return false;
-            const en = parts[0].trim();
-            const ru = parts[1].trim();
-            if (!en || !ru) return false;
-            return addWord(ru, en, 'noun');
-        };
+function parseTsv(text) {
+    const result = [];
+    const lines = text.split('\n');
+    for (const line of lines) {
+        if (!line.trim()) continue;
+        const parts = line.split('\t');
+        if (parts.length < 2) continue;
+        const en = parts[0].trim();
+        const ru = parts[1].trim();
+        if (!en || !ru) continue;
+        result.push({ en, ru, pos: 'noun' });
     }
+    return result;
+}
 
-    if (type === 'jsonl-stream') {
-        let parsed = 0, failed = 0, withTr = 0;
-        return (line) => {
-            if (!line.trim()) return false;
-            try {
-                const obj = JSON.parse(line);
-                parsed++;
-                if (!obj.word) return false;
-
-                const translations = [];
-                for (const sense of (obj.senses || [])) {
-                    for (const tr of (sense.translations || [])) {
-                        const lang = (tr.lang || '').toLowerCase();
-                        if ((lang === 'english' || lang === 'en') && tr.word) {
-                            translations.push(String(tr.word).trim());
-                        }
-                    }
-                }
-                if (translations.length === 0) return false;
-                withTr++;
-
-                if (parsed % 5000 === 0) {
-                    process.stdout.write(`      parsed=${parsed}, failed=${failed}, with-translations=${withTr}\r`);
-                }
-
-                return addWord(String(obj.word).trim(), translations[0], normalizePos(obj.pos));
-            } catch {
-                failed++;
-                return false;
-            }
-        };
+function parseTei(text) {
+    const result = [];
+    const entries = text.split(/<entry\b/);
+    for (const entry of entries) {
+        const enMatch = entry.match(/<orth[^>]*>([^<]+)<\/orth>/);
+        if (!enMatch) continue;
+        const en = enMatch[1].trim();
+        const ruMatches = [...entry.matchAll(/<quote[^>]*>([^<]+)<\/quote>/g)];
+        if (ruMatches.length === 0) continue;
+        const ru = ruMatches[0][1].trim();
+        if (!/[а-яА-ЯёЁ]/.test(ru)) continue;
+        result.push({ en, ru, pos: 'noun' });
     }
-
-    return () => false;
+    return result;
 }
 
 // ═══════════════════════════════════════════════
 // ВАЛИДАЦИЯ
 // ═══════════════════════════════════════════════
-function isValidWord(ru, en) {
+function isValid(ru, en) {
     if (!ru || !en) return false;
-    if (ru.length < MIN_WORD_LENGTH || ru.length > MAX_WORD_LENGTH) return false;
-    if (en.length < MIN_WORD_LENGTH || en.length > MAX_WORD_LENGTH) return false;
+    if (ru.length < 2 || ru.length > 30) return false;
+    if (en.length < 2 || en.length > 30) return false;
     if (!/[а-яА-ЯёЁ]/.test(ru)) return false;
     if (/[а-яА-ЯёЁ]/.test(en)) return false;
     if (ru.toLowerCase() === en.toLowerCase()) return false;
     if (/^\d+$/.test(ru) || /^\d+$/.test(en)) return false;
     return true;
-}
-
-function normalizePos(pos) {
-    if (!pos) return 'noun';
-    const p = String(pos).toLowerCase();
-    if (p.includes('verb')) return 'verb';
-    if (p.includes('adj')) return 'adjective';
-    if (p.includes('adv')) return 'adverb';
-    if (p.includes('pron')) return 'pronoun';
-    if (p.includes('prep')) return 'preposition';
-    if (p.includes('conj')) return 'conjunction';
-    if (p.includes('interj')) return 'interjection';
-    if (p.includes('num')) return 'numeral';
-    if (p.includes('art')) return 'article';
-    return 'noun';
 }
 
 // ═══════════════════════════════════════════════
@@ -232,25 +278,59 @@ function normalizePos(pos) {
 async function main() {
     console.log('');
     console.log('╔══════════════════════════════════════════╗');
-    console.log('║  🌐 Генератор словаря English Cards     ║');
+    console.log('║  🌐 Генератор словаря (цель: 3000 слов)  ║');
     console.log('╚══════════════════════════════════════════╝');
     console.log('');
 
-    const seen = new Set();
-    const dictionary = [];
+    let rawWords = [];
     let sourceName = '';
 
-    // Функция добавления слова (возвращает true, если достигли лимита)
-    function addWord(ru, en, pos) {
-        if (dictionary.length >= MAX_WORDS) return true;
+    // ─── Пробуем источники по очереди ───
+    for (const source of SOURCES) {
+        console.log(`📡 Источник: ${source.name}`);
 
-        ru = (ru || '').trim();
-        en = (en || '').trim();
-        if (!isValidWord(ru, en)) return false;
+        try {
+            const text = await download(source.url);
+            console.log(`   ✓ Скачано ${(text.length / 1024 / 1024).toFixed(2)} МБ`);
+
+            const parsed = source.type === 'tsv' ? parseTsv(text) : parseTei(text);
+            console.log(`   ✓ Строк: ${parsed.length}`);
+
+            if (parsed.length > 100) {
+                rawWords = parsed;
+                sourceName = source.name;
+                console.log(`   ✅ Используем этот источник\n`);
+                break;
+            } else {
+                console.warn(`   ⚠️  Мало строк, пробуем следующий\n`);
+            }
+        } catch (err) {
+            console.warn(`   ❌ ${err.message}\n`);
+        }
+    }
+
+    // ─── Fallback ───
+    if (rawWords.length === 0) {
+        console.warn(`⚠️  Все источники недоступны. Используем встроенный fallback (${FALLBACK_WORDS.length} слов)`);
+        rawWords = FALLBACK_WORDS.map(([en, ru, pos]) => ({ en, ru, pos }));
+        sourceName = 'Встроенный fallback';
+    }
+
+    // ─── Фильтрация + дедупликация ───
+    console.log('🔧 Обработка...');
+    const seen = new Set();
+    const dictionary = [];
+
+    for (const w of rawWords) {
+        if (dictionary.length >= MAX_WORDS) break;
+
+        const ru = (w.ru || '').trim();
+        const en = (w.en || '').trim();
+        if (!isValid(ru, en)) continue;
 
         const cleanEn = en.split(/[,;]/)[0].trim();
         const key = `${cleanEn.toLowerCase()}|${ru.toLowerCase()}`;
-        if (seen.has(key)) return false;
+        if (seen.has(key)) continue;
         seen.add(key);
 
         dictionary.push({
@@ -258,64 +338,24 @@ async function main() {
             eng: cleanEn,
             ru: ru,
             tr: '',
-            emoji: POS_EMOJI[pos] || '📖',
-            pos: pos || 'noun',
+            emoji: POS_EMOJI[w.pos] || '📖',
+            pos: w.pos || 'noun',
             ex1: '',
             tr1: ''
         });
-
-        // Прогресс
-        if (dictionary.length % 500 === 0) {
-            process.stdout.write(`      ✓ Слов: ${dictionary.length}\r`);
-        }
-
-        return dictionary.length >= MAX_WORDS;
-    }
-
-    // Проходим по источникам
-    for (const source of SOURCES) {
-        console.log(`📡 Источник: ${source.name}`);
-
-        if (dictionary.length >= MAX_WORDS) break;
-
-        try {
-            if (source.type === 'tei') {
-                // TEI — не потоково (маленький файл)
-                const text = await downloadFull(source.url);
-                const result = parseTei(text);
-                for (const w of result) {
-                    const ru = w.word;
-                    const en = w.translations.find(t => t.lang === 'en')?.text || '';
-                    if (addWord(ru, en, w.pos)) break;
-                }
-            } else {
-                // Потоковая обработка
-                const handler = makeLineHandler(source.type, addWord);
-                await downloadAndProcess(source.url, handler);
-            }
-
-            if (dictionary.length >= 50) {
-                sourceName = source.name;
-                console.log(`   ✅ Успех! Слов: ${dictionary.length}\n`);
-                break;
-            } else {
-                console.warn(`   ⚠️  Только ${dictionary.length} слов, пробуем следующий\n`);
-            }
-        } catch (err) {
-            console.warn(`   ❌ ${err.message}\n`);
-        }
     }
 
     if (dictionary.length === 0) {
-        console.error('❌ Ни один источник не дал результата\n');
+        console.error('❌ Словарь пуст!');
         process.exit(1);
     }
 
-    // Сортировка и переиндексация
+    // Сортировка
     dictionary.sort((a, b) => a.eng.localeCompare(b.eng));
     dictionary.forEach((w, i) => { w.id = i + 1; });
 
-    console.log('📝 Запись dictionary.js...');
+    // ─── Запись ───
+    console.log(`📝 Запись ${OUTPUT_PATH}...`);
 
     const header = `/**
  * Словарь English Cards — автогенерация
@@ -339,71 +379,18 @@ async function main() {
     console.log('╔══════════════════════════════════════════╗');
     console.log('║  ✅ Готово!                              ║');
     console.log('╚══════════════════════════════════════════╝');
-    console.log(`   📁 Файл:    ${OUTPUT_PATH}`);
-    console.log(`   📊 Слов:    ${dictionary.length}`);
-    console.log(`   💾 Размер:  ${sizeKb} KB`);
+    console.log(`   📁 Файл:     ${OUTPUT_PATH}`);
+    console.log(`   📊 Слов:     ${dictionary.length}`);
+    console.log(`   💾 Размер:   ${sizeKb} KB`);
+    console.log(`   📡 Источник: ${sourceName}`);
     console.log('');
-    console.log('📌 Первые 3 слова:');
-    dictionary.slice(0, 3).forEach(w => {
-        console.log(`   ${w.emoji} ${w.eng} — ${w.ru} [${w.pos}]`);
+    console.log('📌 Первые 5 слов:');
+    dictionary.slice(0, 5).forEach(w => {
+        console.log(`   ${w.emoji} ${w.eng} — ${w.ru}`);
     });
     console.log('');
 }
 
-// Вспомогательная: скачать полностью (для маленьких файлов)
-function downloadFull(url, timeoutMs = FETCH_TIMEOUT_MS, redirectsLeft = 5) {
-    return new Promise((resolve, reject) => {
-        if (redirectsLeft <= 0) return reject(new Error('Слишком много редиректов'));
-        let parsed;
-        try { parsed = new URL(url); } catch { return reject(new Error('Bad URL')); }
-
-        const lib = parsed.protocol === 'http:' ? getHttp : get;
-        const req = lib(url, { timeout: timeoutMs }, (res) => {
-            if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-                const redirectUrl = new URL(res.headers.location, url).href;
-                res.resume();
-                return resolve(downloadFull(redirectUrl, timeoutMs, redirectsLeft - 1));
-            }
-            if (res.statusCode !== 200) { res.resume(); return reject(new Error(`HTTP ${res.statusCode}`)); }
-
-            res.setEncoding('utf8');
-            let data = '';
-            res.on('data', (c) => { data += c; });
-            res.on('end', () => {
-                if (data.charCodeAt(0) === 0xFEFF) data = data.slice(1);
-                resolve(data);
-            });
-        });
-        req.on('timeout', () => req.destroy(new Error('Timeout')));
-        req.on('error', reject);
-    });
-}
-
-// Парсер TEI (для маленького FreeDict)
-function parseTei(text) {
-    const result = [];
-    const entries = text.split(/<entry\b/);
-    for (const entry of entries) {
-        const enMatch = entry.match(/<orth[^>]*>([^<]+)<\/orth>/);
-        if (!enMatch) continue;
-        const en = enMatch[1].trim();
-        const ruMatches = [...entry.matchAll(/<quote[^>]*>([^<]+)<\/quote>/g)];
-        if (ruMatches.length === 0) continue;
-        const ru = ruMatches[0][1].trim();
-        if (!/[а-яА-ЯёЁ]/.test(ru)) continue;
-        result.push({
-            word: ru,
-            pos: 'noun',
-            translations: [{ lang: 'en', text: en }]
-        });
-    }
-    console.log(`      TEI: parsed=${result.length}`);
-    return result;
-}
-
-// ═══════════════════════════════════════════════
-// ЗАПУСК
-// ═══════════════════════════════════════════════
 main().catch(err => {
     console.error('\n💥 Ошибка:', err.message);
     if (process.env.DEBUG) console.error(err.stack);
