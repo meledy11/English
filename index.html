@@ -29,12 +29,7 @@
     
     <title>English Cards — учим английский</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             background: #d9c8a9;
             background-image: radial-gradient(circle at 10% 20%, rgba(180,140,80,0.12) 2%, transparent 2.5%);
@@ -43,7 +38,6 @@
             padding: 20px 12px;
             min-height: 100vh;
         }
-        
         body.fullscreen-table { padding: 0; background: #fff6e8; }
         body.fullscreen-table .app-container { padding-top: 0; max-width: 100%; }
         body.fullscreen-table .tabs,
@@ -53,20 +47,9 @@
         body.fullscreen-table .card-body,
         body.fullscreen-table .card-body.open { max-height: none; overflow: visible; }
         
-        .app-container {
-            max-width: 750px;
-            margin: 0 auto;
-            padding-top: env(safe-area-inset-top, 20px);
-        }
+        .app-container { max-width: 750px; margin: 0 auto; padding-top: env(safe-area-inset-top, 20px); }
         
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            padding-top: 5px;
-        }
-        
+        .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; padding-top: 5px; }
         .tab-btn {
             flex: 1;
             background: #efdfb7;
@@ -82,11 +65,7 @@
             transition: 0.2s;
             min-width: 80px;
         }
-        .tab-btn.active {
-            background: #c49a6c;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
+        .tab-btn.active { background: #c49a6c; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .card {
@@ -190,12 +169,7 @@
         }
         .preposition-emoji-col { font-size: 2.5rem; min-width: 70px; text-align: center; }
         .preposition-content { flex: 1; }
-        .preposition-word {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #3d2b1a;
-            font-family: monospace;
-        }
+        .preposition-word { font-size: 1.8rem; font-weight: bold; color: #3d2b1a; font-family: monospace; }
         .preposition-meaning { font-size: 0.95rem; color: #8b6946; margin: 4px 0; }
         .preposition-example {
             font-size: 0.95rem;
@@ -206,12 +180,7 @@
             display: inline-block;
             cursor: pointer;
         }
-        .highlight-word {
-            background: #ffe0b3;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
+        .highlight-word { background: #ffe0b3; padding: 2px 6px; border-radius: 20px; font-weight: bold; }
         .tense-card {
             background: #fff6e8;
             border-radius: 32px;
@@ -222,13 +191,7 @@
             transition: 0.1s;
         }
         .tense-card:active { transform: scale(0.99); }
-        .tense-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
+        .tense-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
         .tense-emoji { font-size: 2.2rem; }
         .tense-name { font-size: 1.3rem; font-weight: bold; color: #3d2b1a; }
         .tense-formula {
@@ -272,14 +235,7 @@
             border: 1px solid #e1cba1;
         }
         .verb-emoji-big { font-size: 2.5rem; text-align: center; margin-bottom: 12px; }
-        .verb-forms {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .verb-forms { display: flex; justify-content: space-around; text-align: center; margin: 15px 0; flex-wrap: wrap; gap: 10px; }
         .verb-form-item { flex: 1; min-width: 90px; }
         .verb-form-value {
             font-size: 1.4rem;
@@ -540,6 +496,9 @@
         <button class="tab-btn" data-tab="tab7">🎲 ГЕНЕРАТОР</button>
         <button class="tab-btn" data-tab="tab8">💬 ФРАЗЫ</button>
         <button class="tab-btn" data-tab="tab9">🔤 ПРИСТАВКИ</button>
+        <button class="tab-btn" data-tab="tab10">🎩 МАГИЯ</button>
+        <button class="tab-btn" data-tab="tab11">🧠 ТЕСТ</button>
+        <button class="tab-btn" data-tab="tab12">🏗️ КОНСТРУКТОР</button>
     </div>
 
     <!-- ВКЛАДКА 1: ПРЕДЛОГИ -->
@@ -747,7 +706,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 9: ПРИСТАВКИ И КОРНИ -->
+    <!-- ВКЛАДКА 9: ПРИСТАВКИ -->
     <div id="tab9" class="tab-content">
         <div class="card">
             <div class="card-header" onclick="toggleCard(this)">
@@ -779,6 +738,74 @@
             </div>
         </div>
     </div>
+
+    <!-- ВКЛАДКА 10: МАГИЧЕСКИЕ СЛОВА -->
+    <div id="tab10" class="tab-content">
+        <div class="card">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="title-group">
+                    <span class="assoc-emoji">🎩✨</span>
+                    <span class="rule-name">Магические слова — get, have, take, make, do, go, put</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="card-body"><div class="inner-content">
+                <div class="memory-hack" style="margin-bottom:16px;">
+                    <strong>🎯 Идея:</strong> 7 глаголов заменяют сотни других. А ещё 6 «слов-заглушек» спасут в любой ситуации.
+                </div>
+                <div class="filters" id="magicFilters">
+                    <button class="filter-btn active" data-magic="verbs">🎩 Глаголы</button>
+                    <button class="filter-btn" data-magic="words">📦 Слова-заглушки</button>
+                    <button class="filter-btn" data-magic="survival">🆘 Фразы-спасалки</button>
+                </div>
+                <div id="magicContainer"></div>
+            </div></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 11: ТЕСТ -->
+    <div id="tab11" class="tab-content">
+        <div class="card">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="title-group">
+                    <span class="assoc-emoji">🧠🎯</span>
+                    <span class="rule-name">Тест — проверь себя</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="card-body"><div class="inner-content">
+                <div class="memory-hack" style="margin-bottom:14px;">
+                    🎯 150 вопросов по всем разделам. Выбирай ответ — увидишь, правильно ли. Кнопка 🔊 — озвучка.
+                </div>
+                <div class="filters" id="quizFilters"></div>
+                <div id="quizStats" style="text-align:center; background:#ecdca8; padding:10px; border-radius:40px; margin-bottom:14px; font-weight:bold; color:#3d2b1a;"></div>
+                <div id="quizContainer"></div>
+                <div style="text-align:center; margin-top:16px;">
+                    <button onclick="resetQuiz()" style="background:#8b6946; border:none; padding:12px 24px; border-radius:40px; color:white; font-size:1rem; cursor:pointer; font-weight:bold; font-family:Georgia, serif;">🔄 Начать заново</button>
+                </div>
+            </div></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 12: КОНСТРУКТОР -->
+    <div id="tab12" class="tab-content">
+        <div class="card">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="title-group">
+                    <span class="assoc-emoji">🏗️💬</span>
+                    <span class="rule-name">Конструктор вопросов и ответов</span>
+                </div>
+                <span class="expand-icon">▼</span>
+            </div>
+            <div class="card-body"><div class="inner-content">
+                <div class="memory-hack" style="margin-bottom:14px;">
+                    🎯 Собери предложение, построй вопрос, выбери ответ, переделай форму или пройди диалог.
+                </div>
+                <div class="filters" id="builderFilters"></div>
+                <div id="builderContainer"></div>
+            </div></div>
+        </div>
+    </div>
     
     <footer>📌 Нажми на заголовок → раскроется. Установи приложение через браузер.</footer>
 </div>
@@ -799,6 +826,9 @@
 <script src="tenses.js"></script>
 <script src="phrases.js"></script>
 <script src="prefixes.js"></script>
+<script src="magicWords.js"></script>
+<script src="quiz.js"></script>
+<script src="builder.js"></script>
 <script>
     let currentModalText = '';
     let allVerbs = [];
@@ -808,6 +838,11 @@
     let currentPrefixType = 'all';
     let currentRootTopic = 'all';
     let learnedRoots = JSON.parse(localStorage.getItem('learnedRoots') || '[]');
+    let currentMagicTab = 'verbs';
+    let currentQuizCategory = 'all';
+    let quizState = {};
+    let currentBuilderCategory = 'all';
+    let builderState = {};
     
     // ===== SPEECH =====
     function speakText(text) { 
@@ -892,6 +927,9 @@
             document.getElementById(tabId).classList.add('active'); 
             if (tabId === 'tab8') renderPhrases();
             if (tabId === 'tab9') renderPrefixes();
+            if (tabId === 'tab10') renderMagic();
+            if (tabId === 'tab11') { renderQuizFilters(); renderQuiz(); }
+            if (tabId === 'tab12') { renderBuilderFilters(); renderBuilder(); }
         }); 
     }); 
     
@@ -1198,11 +1236,8 @@
     // ===== ПРИСТАВКИ + КОРНИ =====
     function toggleRootLearned(root) {
         const idx = learnedRoots.indexOf(root);
-        if (idx >= 0) {
-            learnedRoots.splice(idx, 1);
-        } else {
-            learnedRoots.push(root);
-        }
+        if (idx >= 0) learnedRoots.splice(idx, 1);
+        else learnedRoots.push(root);
         localStorage.setItem('learnedRoots', JSON.stringify(learnedRoots));
         renderPrefixes();
     }
@@ -1216,7 +1251,7 @@
         // ==== РЕЖИМ «КОРНИ» ====
         if (currentPrefixType === 'root') {
             if (typeof wordRoots === 'undefined') {
-                container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив wordRoots не найден в prefixes.js</div>';
+                container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив wordRoots не найден</div>';
                 return;
             }
             
@@ -1243,9 +1278,7 @@
             html += `</div>`;
             
             let roots = [...wordRoots];
-            if (currentRootTopic !== 'all') {
-                roots = roots.filter(r => r.topic === currentRootTopic);
-            }
+            if (currentRootTopic !== 'all') roots = roots.filter(r => r.topic === currentRootTopic);
             if (query) {
                 roots = roots.filter(r => {
                     const hints = (typeof rootSearchHints !== 'undefined' && rootSearchHints[r.root]) || [];
@@ -1313,7 +1346,6 @@
             
             container.innerHTML = html;
             
-            // Обработчики фильтра тем
             const rootTopicFilters = document.getElementById('rootTopicFilters');
             if (rootTopicFilters) {
                 rootTopicFilters.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1326,16 +1358,14 @@
             return;
         }
         
-        // ==== ОБЫЧНЫЙ РЕЖИМ (приставки / суффиксы / все) ====
+        // ==== ОБЫЧНЫЙ РЕЖИМ ====
         if (typeof prefixes === 'undefined') {
             container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл prefixes.js не загружен</div>';
             return;
         }
         
         let filtered = [...prefixes];
-        if (currentPrefixType !== 'all') {
-            filtered = filtered.filter(p => p.type === currentPrefixType);
-        }
+        if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
         if (query) {
             filtered = filtered.filter(p => {
                 if (p.affix.toLowerCase().includes(query)) return true;
@@ -1401,6 +1431,539 @@
         renderPrefixes();
     }
     
+    // ===== МАГИЧЕСКИЕ СЛОВА =====
+    function renderMagic() {
+        const container = document.getElementById('magicContainer');
+        if (!container) return;
+        
+        if (currentMagicTab === 'verbs') {
+            if (typeof magicVerbs === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл magicWords.js не загружен</div>'; return; }
+            let html = '';
+            magicVerbs.forEach(v => {
+                html += `
+                    <div class="tense-card" style="cursor:default; border-left:6px solid #b97f44;">
+                        <div class="tense-header">
+                            <div class="tense-emoji">${v.emoji}</div>
+                            <div>
+                                <div class="tense-name" style="font-family:monospace; font-size:1.8rem;">${v.verb}</div>
+                                <div style="font-size:0.85rem; color:#8b6946; margin-top:4px;">🔑 ${v.meaning}</div>
+                            </div>
+                        </div>
+                        <div class="preposition-meaning" style="font-style:italic; margin:10px 0;">💡 ${v.assoc}</div>
+                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">${v.note}</div>
+                        <div style="font-size:0.85rem; color:#8b6946; margin:12px 0 6px;">🎭 Значения:</div>
+                `;
+                v.senses.forEach(s => {
+                    const cleanEx = s.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+                    html += `
+                        <div class="tense-example" onclick="openModalWithSpeech('${v.verb}', '${cleanEx}', '${s.exRu}', '${s.sense} → ${s.ru}')">
+                            <div class="tense-example-text">
+                                <div class="tense-example-eng"><span style="background:#ffd6a5; padding:2px 8px; border-radius:12px;">${s.sense}</span> ${s.ex}</div>
+                                <div class="tense-example-ru">${s.exRu}</div>
+                            </div>
+                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
+                        </div>
+                    `;
+                });
+                html += `<div style="font-size:0.85rem; color:#8b6946; margin:14px 0 6px;">🔗 Фразовые глаголы:</div>`;
+                v.phrases.forEach(p => {
+                    const cleanEx = p.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+                    html += `
+                        <div class="tense-example" onclick="openModalWithSpeech('${v.verb}', '${cleanEx}', '${p.exRu}', '${p.p} = ${p.ru}')">
+                            <div class="tense-example-text">
+                                <div class="tense-example-eng"><b>${p.p}</b> — ${p.ru}</div>
+                                <div class="tense-example-ru">📖 ${p.ex} — ${p.exRu}</div>
+                            </div>
+                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+            return;
+        }
+        
+        if (currentMagicTab === 'words') {
+            if (typeof magicWords === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив magicWords не найден</div>'; return; }
+            let html = '';
+            magicWords.forEach(w => {
+                html += `
+                    <div class="tense-card" style="cursor:default; border-left:6px solid #6b8e23;">
+                        <div class="tense-header">
+                            <div class="tense-emoji">${w.emoji}</div>
+                            <div>
+                                <div class="tense-name" style="font-family:monospace; font-size:1.8rem;">${w.word}</div>
+                                <div style="font-size:0.9rem; color:#8b6946; margin-top:4px;">🔑 ${w.ru}</div>
+                            </div>
+                        </div>
+                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">💡 ${w.note}</div>
+                `;
+                w.examples.forEach(e => {
+                    const cleanEx = e.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+                    html += `
+                        <div class="tense-example" onclick="openModalWithSpeech('${w.word}', '${cleanEx}', '${e.exRu}', '${w.word} = ${w.ru}')">
+                            <div class="tense-example-text">
+                                <div class="tense-example-eng">${e.ex}</div>
+                                <div class="tense-example-ru">${e.exRu}</div>
+                            </div>
+                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+            return;
+        }
+        
+        if (currentMagicTab === 'survival') {
+            if (typeof survivalPhrases === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив survivalPhrases не найден</div>'; return; }
+            let html = `<div class="memory-hack" style="margin-bottom:16px;">🆘 <strong>9 фраз, которые спасут в любой ситуации</strong></div>`;
+            survivalPhrases.forEach(p => {
+                const clean = p.en.replace(/'/g, "\\'");
+                html += `
+                    <div class="phrase-card" onclick="openModalWithSpeech('phrase', '${p.en}', '${p.ru}', 'Фраза-спасалка')">
+                        <div style="flex:1;">
+                            <div class="eng">${p.en}</div>
+                            <div class="ru">${p.ru}</div>
+                        </div>
+                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${clean}')">🔈</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            return;
+        }
+    }
+    
+    // ===== ТЕСТ =====
+    function renderQuizFilters() {
+        const container = document.getElementById('quizFilters');
+        if (!container || typeof quizCategories === 'undefined') return;
+        let html = '';
+        quizCategories.forEach(c => {
+            const active = currentQuizCategory === c.id ? 'active' : '';
+            html += `<button class="filter-btn ${active}" data-quiz="${c.id}">${c.emoji} ${c.name}</button>`;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentQuizCategory = btn.dataset.quiz;
+                resetQuiz();
+            });
+        });
+    }
+    
+    function getCurrentQuizQuestions() {
+        if (typeof quizQuestions === 'undefined') return [];
+        if (currentQuizCategory === 'all') return quizQuestions;
+        return quizQuestions.filter(q => q.category === currentQuizCategory);
+    }
+    
+    function renderQuiz() {
+        const container = document.getElementById('quizContainer');
+        const stats = document.getElementById('quizStats');
+        if (!container) return;
+        
+        const questions = getCurrentQuizQuestions();
+        
+        if (questions.length === 0) {
+            container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Нет вопросов</div>';
+            if (stats) stats.textContent = '';
+            return;
+        }
+        
+        let answered = 0, correct = 0;
+        Object.values(quizState).forEach(s => { if (s.chosen !== undefined) { answered++; if (s.correct) correct++; } });
+        
+        if (stats) {
+            const percent = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+            stats.innerHTML = `✅ Правильно: ${correct} / ${answered} (${percent}%) &nbsp;|&nbsp; 📚 Всего: ${questions.length}`;
+        }
+        
+        let html = '';
+        questions.forEach((q, idx) => {
+            const state = quizState[idx] || {};
+            const chosen = state.chosen;
+            const isAnswered = chosen !== undefined;
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
+            html += `<div style="font-weight:bold; font-size:1rem; color:#3d2b1a; margin-bottom:10px;">${idx + 1}. ${q.q}</div>`;
+            
+            q.options.forEach((opt, optIdx) => {
+                let bg = '#f2e5ca';
+                let color = '#3d2b1a';
+                if (isAnswered) {
+                    if (optIdx === q.correct) { bg = '#c8e6a0'; color = '#2d4a0f'; }
+                    else if (optIdx === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; }
+                }
+                const mark = isAnswered && optIdx === chosen ? (state.correct ? '✅ ' : '❌ ') : (isAnswered && optIdx === q.correct ? '✅ ' : '');
+                html += `
+                    <div onclick="${isAnswered ? '' : `answerQuiz(${idx}, ${optIdx})`}" 
+                         style="background:${bg}; color:${color}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                        <span>${mark}${opt}</span>
+                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
+                    </div>
+                `;
+            });
+            
+            if (isAnswered) {
+                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${q.hint}</div>`;
+            }
+            
+            html += `</div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+    
+    function answerQuiz(qIdx, optIdx) {
+        const questions = getCurrentQuizQuestions();
+        const q = questions[qIdx];
+        if (!q) return;
+        quizState[qIdx] = { chosen: optIdx, correct: optIdx === q.correct };
+        renderQuiz();
+    }
+    
+    function resetQuiz() {
+        quizState = {};
+        renderQuizFilters();
+        renderQuiz();
+    }
+    
+    // ===== КОНСТРУКТОР =====
+    function renderBuilderFilters() {
+        const container = document.getElementById('builderFilters');
+        if (!container || typeof builderCategories === 'undefined') return;
+        let html = '';
+        builderCategories.forEach(c => {
+            const active = currentBuilderCategory === c.id ? 'active' : '';
+            html += `<button class="filter-btn ${active}" data-builder="${c.id}">${c.emoji} ${c.name}</button>`;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentBuilderCategory = btn.dataset.builder;
+                builderState = {};
+                renderBuilder();
+            });
+        });
+    }
+    
+    function renderBuilder() {
+        const container = document.getElementById('builderContainer');
+        if (!container) return;
+        
+        const cat = currentBuilderCategory;
+        let html = '';
+        
+        if (cat === 'all' || cat === 'order')     html += renderOrderSection();
+        if (cat === 'all' || cat === 'question')  html += renderQuestionSection();
+        if (cat === 'all' || cat === 'reply')     html += renderReplySection();
+        if (cat === 'all' || cat === 'transform') html += renderTransformSection();
+        if (cat === 'all' || cat === 'dialogue')  html += renderDialogueSection();
+        
+        container.innerHTML = html || '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Нет заданий</div>';
+    }
+    
+    // Тип 1: собери предложение
+    function renderOrderSection() {
+        if (typeof builderOrder === 'undefined') return '';
+        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🧩 <strong>Собери предложение</strong> — нажимай на слова в правильном порядке.</div>`;
+        builderOrder.slice(0, 10).forEach((item, idx) => {
+            const key = 'order_' + idx;
+            const state = builderState[key] || {};
+            const currentWords = state.current || [];
+            const available = state.available || shuffleWords(item.words);
+            const isComplete = currentWords.length === item.words.length;
+            const isCorrect = isComplete && currentWords.join(' ') === item.words.join(' ');
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isComplete ? (isCorrect ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
+            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:6px;">🇷🇺 ${item.ru}</div>`;
+            
+            // Собранное предложение
+            html += `<div style="min-height:40px; background:#fff6e8; border:2px dashed #c49a6c; border-radius:18px; padding:10px; margin-bottom:10px; display:flex; flex-wrap:wrap; gap:6px;">`;
+            if (currentWords.length === 0) {
+                html += `<span style="color:#8b6946; font-style:italic;">Нажимай слова ниже...</span>`;
+            } else {
+                currentWords.forEach((w, wi) => {
+                    html += `<span onclick="removeWordFromOrder('${key}', ${wi})" style="background:#d4e6a5; padding:6px 12px; border-radius:12px; cursor:pointer; font-weight:bold;">${w}</span>`;
+                });
+            }
+            html += `</div>`;
+            
+            // Доступные слова
+            html += `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;">`;
+            available.forEach((w, wi) => {
+                html += `<span onclick="addWordToOrder('${key}', '${w.replace(/'/g, "\\'")}', ${idx})" style="background:#f2e5ca; padding:6px 12px; border-radius:12px; cursor:pointer;">${w}</span>`;
+            });
+            html += `</div>`;
+            
+            // Кнопки
+            html += `<div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">`;
+            if (isComplete) {
+                if (isCorrect) {
+                    html += `<span style="color:#6b8e23; font-weight:bold;">✅ Правильно!</span>`;
+                } else {
+                    html += `<span style="color:#b93a3a; font-weight:bold;">❌ Есть ошибки</span>`;
+                }
+            }
+            html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${item.words.join(' ')}')">🔊</button>`;
+            html += `<button class="speak-btn-small" onclick="resetOrder('${key}', ${idx})" style="background:#8b6946;">🔄 Заново</button>`;
+            html += `</div>`;
+            
+            if (isComplete && !isCorrect) {
+                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
+            }
+            
+            html += `</div>`;
+        });
+        return html;
+    }
+    
+    function addWordToOrder(key, word, idx) {
+        const item = builderOrder[idx];
+        const state = builderState[key] || { current: [], available: shuffleWords(item.words) };
+        state.current = state.current || [];
+        state.available = state.available || shuffleWords(item.words);
+        
+        // Находим слово в available и убираем
+        const availableIdx = state.available.indexOf(word);
+        if (availableIdx >= 0) {
+            state.available.splice(availableIdx, 1);
+            state.current.push(word);
+        }
+        builderState[key] = state;
+        renderBuilder();
+    }
+    
+    function removeWordFromOrder(key, pos) {
+        const state = builderState[key];
+        if (!state || !state.current) return;
+        const [w] = state.current.splice(pos, 1);
+        state.available.push(w);
+        builderState[key] = state;
+        renderBuilder();
+    }
+    
+    function resetOrder(key, idx) {
+        builderState[key] = { current: [], available: shuffleWords(builderOrder[idx].words) };
+        renderBuilder();
+    }
+    
+    // Тип 2: построй вопрос
+    function renderQuestionSection() {
+        if (typeof builderQuestions === 'undefined') return '';
+        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">❓ <strong>Построй вопрос</strong> — выбери правильный вариант вопроса из утверждения.</div>`;
+        builderQuestions.slice(0, 10).forEach((item, idx) => {
+            const key = 'q_' + idx;
+            const state = builderState[key] || {};
+            const chosen = state.chosen;
+            const isAnswered = chosen !== undefined;
+            const opts = shuffleArrayBuilder([item.question, ...item.wrong]);
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
+            html += `<div style="font-size:0.95rem; margin-bottom:8px;"><b>Утверждение:</b> ${item.statement}</div>`;
+            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:10px;">${item.ru}</div>`;
+            html += `<div style="font-size:0.9rem; font-weight:bold; margin-bottom:8px;">❓ Построй вопрос:</div>`;
+            
+            opts.forEach(opt => {
+                const isThisCorrect = opt === item.question;
+                let bg = '#f2e5ca';
+                if (isAnswered) {
+                    if (isThisCorrect) bg = '#c8e6a0';
+                    else if (opt === chosen) bg = '#f3b4b4';
+                }
+                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+                html += `
+                    <div onclick="${isAnswered ? '' : `answerBuilderQuestion('${key}', '${opt.replace(/'/g, "\\'")}', '${item.question.replace(/'/g, "\\'")}', ${idx})`}" 
+                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                        <span>${mark}${opt}</span>
+                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
+                    </div>
+                `;
+            });
+            
+            if (isAnswered) {
+                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
+            }
+            html += `</div>`;
+        });
+        return html;
+    }
+    
+    function answerBuilderQuestion(key, chosen, correct, idx) {
+        builderState[key] = { chosen, correct: chosen === correct };
+        renderBuilder();
+    }
+    
+    // Тип 3: выбери ответ
+    function renderReplySection() {
+        if (typeof builderReplies === 'undefined') return '';
+        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">💬 <strong>Выбери правильный ответ</strong> — что сказать в ответ на реплику.</div>`;
+        builderReplies.slice(0, 10).forEach((item, idx) => {
+            const key = 'r_' + idx;
+            const state = builderState[key] || {};
+            const chosen = state.chosen;
+            const isAnswered = chosen !== undefined;
+            const opts = shuffleArrayBuilder([item.correct, ...item.wrong]);
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
+            html += `<div style="background:#ffd6a5; padding:12px; border-radius:18px; margin-bottom:10px;">`;
+            html += `<div style="font-size:1.05rem; font-weight:bold;">🗣️ ${item.prompt}</div>`;
+            html += `<div style="font-size:0.8rem; color:#5f451f; margin-top:4px;">${item.ruPrompt}</div>`;
+            html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${item.prompt.replace(/'/g, "\\'")}')" style="margin-top:6px;">🔈</button>`;
+            html += `</div>`;
+            
+            opts.forEach(opt => {
+                const isThisCorrect = opt === item.correct;
+                let bg = '#f2e5ca';
+                if (isAnswered) {
+                    if (isThisCorrect) bg = '#c8e6a0';
+                    else if (opt === chosen) bg = '#f3b4b4';
+                }
+                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+                html += `
+                    <div onclick="${isAnswered ? '' : `answerBuilderReply('${key}', '${opt.replace(/'/g, "\\'")}', '${item.correct.replace(/'/g, "\\'")}', ${idx})`}" 
+                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                        <span>${mark}${opt}</span>
+                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
+                    </div>
+                `;
+            });
+            
+            if (isAnswered) {
+                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
+            }
+            html += `</div>`;
+        });
+        return html;
+    }
+    
+    function answerBuilderReply(key, chosen, correct, idx) {
+        builderState[key] = { chosen, correct: chosen === correct };
+        renderBuilder();
+    }
+    
+    // Тип 4: переделай
+    function renderTransformSection() {
+        if (typeof builderTransform === 'undefined') return '';
+        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🔄 <strong>Переделай</strong> — измени форму предложения (вопрос, отрицание, время).</div>`;
+        builderTransform.slice(0, 10).forEach((item, idx) => {
+            const key = 't_' + idx;
+            const state = builderState[key] || {};
+            const chosen = state.chosen;
+            const isAnswered = chosen !== undefined;
+            const opts = shuffleArrayBuilder([item.answer, ...item.wrong]);
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'}; margin-bottom:14px;">`;
+            html += `<div style="font-size:0.85rem; color:#8b6946; margin-bottom:4px;">🎯 Задание: <b>${item.task}</b></div>`;
+            html += `<div style="background:#ffd6a5; padding:10px 12px; border-radius:14px; margin-bottom:10px;">${item.given}</div>`;
+            
+            opts.forEach(opt => {
+                const isThisCorrect = opt === item.answer;
+                let bg = '#f2e5ca';
+                if (isAnswered) {
+                    if (isThisCorrect) bg = '#c8e6a0';
+                    else if (opt === chosen) bg = '#f3b4b4';
+                }
+                const mark = isAnswered ? (isThisCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+                html += `
+                    <div onclick="${isAnswered ? '' : `answerBuilderTransform('${key}', '${opt.replace(/'/g, "\\'")}', '${item.answer.replace(/'/g, "\\'")}')`}" 
+                         style="background:${bg}; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:${isAnswered ? 'default' : 'pointer'}; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                        <span>${mark}${opt}</span>
+                        <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
+                    </div>
+                `;
+            });
+            
+            if (isAnswered) {
+                html += `<div class="memory-hack" style="margin:10px 0 0; font-size:0.85rem;">💡 ${item.hint}</div>`;
+            }
+            html += `</div>`;
+        });
+        return html;
+    }
+    
+    function answerBuilderTransform(key, chosen, correct) {
+        builderState[key] = { chosen, correct: chosen === correct };
+        renderBuilder();
+    }
+    
+    // Тип 5: диалоги
+    function renderDialogueSection() {
+        if (typeof builderDialogues === 'undefined') return '';
+        let html = `<div class="memory-hack" style="background:#d4e6a5; border-left-color:#6b8e23; margin-bottom:14px;">🎭 <strong>Диалоги</strong> — выбери правильную реплику, чтобы пройти диалог.</div>`;
+        builderDialogues.forEach((dlg, dIdx) => {
+            const key = 'd_' + dIdx;
+            const state = builderState[key] || { step: 0, history: [] };
+            
+            html += `<div class="tense-card" style="cursor:default; border-left:6px solid #c49a6c; margin-bottom:14px;">`;
+            html += `<div class="tense-header"><div class="tense-emoji">${dlg.emoji}</div><div class="tense-name">${dlg.title}</div></div>`;
+            
+            // История
+            state.history.forEach(h => {
+                html += `<div style="background:#f2e5ca; padding:10px; border-radius:14px; margin:6px 0;"><b>${h.speaker}:</b> ${h.en}<div style="font-size:0.8rem; color:#8b6946;">${h.ru}</div></div>`;
+            });
+            
+            // Текущий шаг
+            if (state.step < dlg.steps.length) {
+                const step = dlg.steps[state.step];
+                html += `<div style="background:#ffd6a5; padding:12px; border-radius:18px; margin:10px 0;">`;
+                html += `<div style="font-size:1.05rem; font-weight:bold;">🗣️ ${step.speaker}: ${step.en}</div>`;
+                html += `<div style="font-size:0.8rem; color:#5f451f; margin-top:4px;">${step.ru}</div>`;
+                html += `<button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${step.en.replace(/'/g, "\\'")}')" style="margin-top:6px;">🔈</button>`;
+                html += `</div>`;
+                
+                html += `<div style="font-size:0.9rem; font-weight:bold; margin-bottom:6px;">Выбери ответ:</div>`;
+                step.options.forEach((opt, optIdx) => {
+                    html += `
+                        <div onclick="answerDialogue('${key}', ${dIdx}, ${optIdx})" 
+                             style="background:#f2e5ca; padding:10px 14px; border-radius:18px; margin:6px 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                            <span>${opt}</span>
+                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${opt.replace(/'/g, "\\'")}')" style="font-size:0.7rem; padding:4px 10px;">🔈</button>
+                        </div>
+                    `;
+                });
+            } else {
+                html += `<div style="text-align:center; padding:14px; color:#6b8e23; font-weight:bold;">✅ Диалог завершён!</div>`;
+                html += `<div style="text-align:center;"><button class="speak-btn-small" onclick="resetDialogue('${key}')" style="background:#8b6946;">🔄 Заново</button></div>`;
+            }
+            
+            html += `</div>`;
+        });
+        return html;
+    }
+    
+    function answerDialogue(key, dIdx, optIdx) {
+        const dlg = builderDialogues[dIdx];
+        const state = builderState[key] || { step: 0, history: [] };
+        const step = dlg.steps[state.step];
+        const chosen = step.options[optIdx];
+        const isCorrect = optIdx === step.correct;
+        
+        if (isCorrect) {
+            // Добавляем реплику "You" и следующую реплику партнёра
+            state.history.push({ speaker: 'You', en: chosen, ru: step.ru });
+            state.step++;
+            
+            if (state.step < dlg.steps.length) {
+                const nextStep = dlg.steps[state.step];
+                // Если nextStep тоже "You" — не добавляем сразу, ждём ответа
+                // Если партнёр — добавляем как реплику партнёра, инкрементим step, пока не дойдём до шага с "You"
+                // (упрощённо: авто-продвигаемся)
+            }
+        }
+        builderState[key] = state;
+        renderBuilder();
+    }
+    
+    function resetDialogue(key) {
+        builderState[key] = { step: 0, history: [] };
+        renderBuilder();
+    }
+    
     // ===== FULLSCREEN =====
     const fullscreenBtn = document.getElementById('fullscreenTableBtn');
     if (fullscreenBtn) {
@@ -1432,7 +1995,6 @@
         const verbSelectEl = document.getElementById('verbSelect');
         if (verbSelectEl) verbSelectEl.addEventListener('change', generateExamples);
         
-        // Фразы
         renderCategoryFilters();
         renderPhrases();
         
@@ -1443,7 +2005,6 @@
             if (phraseSearch) { phraseSearch.value = ''; searchPhrases(); }
         });
         
-        // Приставки
         renderPrefixes();
         const prefixSearch = document.getElementById('prefixSearchInput');
         const clearPrefixBtn = document.getElementById('clearPrefixSearchBtn');
@@ -1463,6 +2024,28 @@
                 });
             });
         }
+        
+        // Магические слова
+        renderMagic();
+        const magicFilters = document.getElementById('magicFilters');
+        if (magicFilters) {
+            magicFilters.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    magicFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentMagicTab = btn.dataset.magic;
+                    renderMagic();
+                });
+            });
+        }
+        
+        // Тест
+        renderQuizFilters();
+        renderQuiz();
+        
+        // Конструктор
+        renderBuilderFilters();
+        renderBuilder();
     }
     
     if('serviceWorker' in navigator) { 
