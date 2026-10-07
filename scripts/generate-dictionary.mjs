@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 /**
  * generate-dictionary.mjs
- * Генератор словаря English Cards — 3000 слов
+ * Генератор словаря English Cards — цель: 3000 слов
  * 
  * Стратегия:
- *   1. Скачиваем маленький TSV (~5 МБ) — 56 000 пар
- *   2. Если сеть упала — используем fallback (500 слов)
- *   3. Всегда создаём dictionary.js — никогда не падаем
+ *   1. Скачиваем HuggingFace TSV (~5 МБ, 56 000 пар)
+ *   2. Если не сработало — FreeDict TEI
+ *   3. Если сеть упала — используем fallback (500 слов)
+ *   4. Всегда создаём dictionary.js
  */
 
 import { writeFileSync } from 'fs';
@@ -18,8 +19,10 @@ import { URL } from 'url';
 // НАСТРОЙКИ
 // ═══════════════════════════════════════════════
 const OUTPUT_PATH = './dictionary.js';
-const MAX_WORDS = 3000;                    // ← ЦЕЛЬ: 3000 слов
-const FETCH_TIMEOUT_MS = 45000;
+const MAX_WORDS = 3000;
+const FETCH_TIMEOUT_MS = 60000;
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 2000;
 
 const POS_EMOJI = {
     noun: '📦', verb: '⚡', adjective: '🎨', adverb: '💨',
@@ -28,17 +31,22 @@ const POS_EMOJI = {
     article: '📎', phrase: '💬'
 };
 
+const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
 // ═══════════════════════════════════════════════
-// ИСТОЧНИКИ (в порядке приоритета)
+// ИСТОЧНИКИ
 // ═══════════════════════════════════════════════
 const SOURCES = [
-    // HuggingFace TSV ~5 МБ, 56 000 пар — основной
     {
         name: 'HuggingFace EN-RU statistical dict (TSV)',
         url: 'https://huggingface.co/datasets/KvaytG/en-ru-statistical-dict-20m-corpus/resolve/main/en-ru-dict.tsv',
         type: 'tsv'
     },
-    // Резерв 1: FreeDict TEI XML (~2 МБ)
+    {
+        name: 'HuggingFace (download=true)',
+        url: 'https://huggingface.co/datasets/KvaytG/en-ru-statistical-dict-20m-corpus/resolve/main/en-ru-dict.tsv?download=true',
+        type: 'tsv'
+    },
     {
         name: 'FreeDict English-Russian (TEI)',
         url: 'https://raw.githubusercontent.com/freedict/fd-dictionaries/master/eng-rus/eng-rus.tei',
@@ -47,7 +55,7 @@ const SOURCES = [
 ];
 
 // ═══════════════════════════════════════════════
-// FALLBACK — 500 базовых слов (если сеть недоступна)
+// FALLBACK — 500 базовых слов
 // ═══════════════════════════════════════════════
 const FALLBACK_WORDS = [
     ['cat', 'кошка', 'noun'], ['dog', 'собака', 'noun'], ['house', 'дом', 'noun'],
@@ -191,34 +199,64 @@ const FALLBACK_WORDS = [
 ];
 
 // ═══════════════════════════════════════════════
-// ЗАГРУЗКА HTTPS
+// ЗАГРУЗКА (с User-Agent — обходит блокировки CDN)
 // ═══════════════════════════════════════════════
 function download(url, timeoutMs = FETCH_TIMEOUT_MS, redirectsLeft = 5) {
     return new Promise((resolve, reject) => {
         if (redirectsLeft <= 0) return reject(new Error('Слишком много редиректов'));
 
         let parsed;
-        try { parsed = new URL(url); } catch { return reject(new Error('Некорректный URL')); }
+        try { parsed = new URL(url); } catch { return reject(new Error('Некорректный URL: ' + url)); }
 
         const lib = parsed.protocol === 'http:' ? getHttp : get;
-        const req = lib(url, { timeout: timeoutMs }, (res) => {
+
+        const options = {
+            timeout: timeoutMs,
+            headers: {
+                'User-Agent': USER_AGENT,
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.7',
+                'Accept-Language': 'en-US,en;q=0.9,ru;q=0.8',
+                'Accept-Encoding': 'identity'  // ← важно: без gzip
+            }
+        };
+
+        const req = lib(url, options, (res) => {
+            const ct = res.headers['content-type'] || '';
+            console.log(`      HTTP ${res.statusCode} (${ct.split(';')[0]})`);
+
+            // Редиректы (включая CDN HuggingFace)
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                 const redirectUrl = new URL(res.headers.location, url).href;
+                console.log(`      → редирект на ${redirectUrl.slice(0, 70)}...`);
                 res.resume();
                 return resolve(download(redirectUrl, timeoutMs, redirectsLeft - 1));
             }
+
             if (res.statusCode !== 200) {
                 res.resume();
                 return reject(new Error(`HTTP ${res.statusCode}`));
             }
+
             res.setEncoding('utf8');
             let data = '';
-            res.on('data', (chunk) => { data += chunk; });
+            let bytes = 0;
+
+            res.on('data', (chunk) => {
+                data += chunk;
+                bytes += chunk.length;
+                // Прогресс раз в ~2 МБ
+                if (bytes % (2 * 1024 * 1024) < chunk.length) {
+                    process.stdout.write(`      Загружено: ${(bytes / 1024 / 1024).toFixed(1)} МБ\r`);
+                }
+            });
+
             res.on('end', () => {
+                process.stdout.write(' '.repeat(70) + '\r');
                 if (data.charCodeAt(0) === 0xFEFF) data = data.slice(1);
                 resolve(data);
             });
         });
+
         req.on('timeout', () => req.destroy(new Error('Timeout')));
         req.on('error', reject);
     });
@@ -285,38 +323,52 @@ async function main() {
     let rawWords = [];
     let sourceName = '';
 
-    // ─── Пробуем источники по очереди ───
     for (const source of SOURCES) {
         console.log(`📡 Источник: ${source.name}`);
 
-        try {
-            const text = await download(source.url);
-            console.log(`   ✓ Скачано ${(text.length / 1024 / 1024).toFixed(2)} МБ`);
+        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                console.log(`   ↳ Попытка ${attempt}/${MAX_RETRIES}...`);
+                const text = await download(source.url);
+                console.log(`   ↳ Размер: ${(text.length / 1024 / 1024).toFixed(2)} МБ`);
 
-            const parsed = source.type === 'tsv' ? parseTsv(text) : parseTei(text);
-            console.log(`   ✓ Строк: ${parsed.length}`);
+                if (text.length < 500) {
+                    throw new Error('Слишком маленький ответ');
+                }
 
-            if (parsed.length > 100) {
-                rawWords = parsed;
-                sourceName = source.name;
-                console.log(`   ✅ Используем этот источник\n`);
-                break;
-            } else {
-                console.warn(`   ⚠️  Мало строк, пробуем следующий\n`);
+                console.log(`   ↳ Парсинг...`);
+                const parsed = source.type === 'tsv' ? parseTsv(text) : parseTei(text);
+                console.log(`   ✓ Строк: ${parsed.length}`);
+
+                if (parsed.length > 100) {
+                    rawWords = parsed;
+                    sourceName = source.name;
+                    console.log(`   ✅ Успех!\n`);
+                    break;
+                } else {
+                    throw new Error(`Мало строк: ${parsed.length}`);
+                }
+            } catch (err) {
+                console.warn(`   ⚠️  ${err.message}`);
+                if (attempt === MAX_RETRIES) {
+                    console.warn(`   ❌ Источник не сработал\n`);
+                } else {
+                    await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
+                }
             }
-        } catch (err) {
-            console.warn(`   ❌ ${err.message}\n`);
         }
+
+        if (rawWords.length > 0) break;
     }
 
     // ─── Fallback ───
     if (rawWords.length === 0) {
-        console.warn(`⚠️  Все источники недоступны. Используем встроенный fallback (${FALLBACK_WORDS.length} слов)`);
+        console.warn(`⚠️  Все источники недоступны. Fallback (${FALLBACK_WORDS.length} слов)`);
         rawWords = FALLBACK_WORDS.map(([en, ru, pos]) => ({ en, ru, pos }));
         sourceName = 'Встроенный fallback';
     }
 
-    // ─── Фильтрация + дедупликация ───
+    // ─── Фильтрация ───
     console.log('🔧 Обработка...');
     const seen = new Set();
     const dictionary = [];
