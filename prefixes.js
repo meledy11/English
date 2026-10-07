@@ -1,4 +1,5 @@
-// prefixes.js — база приставок и суффиксов английского языка
+// prefixes.js — база приставок, суффиксов и корней-конструкторов английского языка
+
 const prefixes = [
     // ===== ПРИСТАВКИ =====
     {
@@ -145,7 +146,7 @@ const prefixes = [
         explanation: 'under- означает "под" или "недостаточно".',
         words: [
             { word: 'underground', transcription: '[ˈʌndəɡraʊnd]', trans: 'подземный / метро', ex: 'London <b>under</b>ground is huge.', exRu: 'Лондонское метро огромное.' },
-            { word: 'understand', transcription: '[ˌʌndəˈstænd]', trans: 'понимать (стоять под смыслом)', ex: 'I <b>under</b>stand you.', exRu: 'Я тебя понимаю.' },
+            { word: 'understand', transcription: '[ˌʌndəˈstænd]', trans: 'понимать', ex: 'I <b>under</b>stand you.', exRu: 'Я тебя понимаю.' },
             { word: 'underestimate', transcription: '[ˌʌndərˈestɪmeɪt]', trans: 'недооценить', ex: 'Don\'t <b>under</b>estimate her.', exRu: 'Не недооценивай её.' },
             { word: 'undergo', transcription: '[ˌʌndəˈɡəʊ]', trans: 'проходить через', ex: 'He <b>under</b>went surgery.', exRu: 'Он перенёс операцию.' }
         ]
@@ -258,6 +259,7 @@ const prefixes = [
         ]
     }
 ];
+
 // ============================================================
 // ===== СЛОВА-КОНСТРУКТОРЫ (корни + приставки) =====
 // ============================================================
@@ -333,8 +335,8 @@ const wordRoots = [
       note: 'Греческий graphein.',
       words: [
         { word: 'photograph', pre: 'photo-', preMean: 'свет', trans: 'фотография', ex: 'Take a photograph.', exRu: 'Сделай фото.' },
-        { word: 'paragraph', pre: 'para-', preMean: 'рядом', trans: 'абзацжи', ex: 'Read the paragraph.', exRu: 'Прочитай абзац.' },
-        { word: 'autograph', pre:ть ' вauto-', preMean: 'сам шт', trans: 'автограф',ор ex: 'Sign an autмеograph.', exRu: 'Поставь автограф.' }
+        { word: 'paragraph', pre: 'para-', preMean: 'рядом', trans: 'абзац', ex: 'Read the paragraph.', exRu: 'Прочитай абзац.' },
+        { word: 'autograph', pre: 'auto-', preMean: 'сам', trans: 'автограф', ex: 'Sign an autograph.', exRu: 'Поставь автограф.' }
       ]
     },
     { root: 'scrib', topic: 'speech', emoji: '📝', meaning: 'писать',
@@ -366,7 +368,7 @@ const wordRoots = [
     { root: 'viv', topic: 'life', emoji: '🌿', meaning: 'жить',
       note: 'Латинский vivere.',
       words: [
-        { word: 'survive', pre: 'sur-', preMean: 'сверх', trans: 'выжить', ex: 'Survive the storm.', exRu: 'Вы.' },
+        { word: 'survive', pre: 'sur-', preMean: 'сверх', trans: 'выжить', ex: 'Survive the storm.', exRu: 'Выжить в шторме.' },
         { word: 'revive', pre: 're-', preMean: 'снова', trans: 'оживить', ex: 'Revive the old town.', exRu: 'Оживи старый город.' },
         { word: 'vital', pre: '-al', preMean: 'прил.', trans: 'жизненно важный', ex: 'Vital signs.', exRu: 'Жизненные показатели.' }
       ]
@@ -409,11 +411,11 @@ const wordRoots = [
       note: 'Латинский videre.',
       words: [
         { word: 'visible', pre: '-ible', preMean: 'возможный', trans: 'видимый', ex: 'Stars are visible.', exRu: 'Звёзды видны.' },
-        { word: 'revise', pre: 're-', preMean: 'снова', trans: 'пересмотреть', ex: 'Revise your notes.', exRu:    'Пересмотри заметки.' },
-        { word: 'super },
-vise', pre: 'super-', pre   Mean: 'сверху', trans: 'наблю {дать', ex: 'Supervise the work.', exRu: 'Наблюдай за работой.' }
+        { word: 'revise', pre: 're-', preMean: 'снова', trans: 'пересмотреть', ex: 'Revise your notes.', exRu: 'Пересмотри заметки.' },
+        { word: 'supervise', pre: 'super-', preMean: 'сверху', trans: 'наблюдать', ex: 'Supervise the work.', exRu: 'Наблюдай за работой.' }
       ]
- root: 'cred', topic: 'mind', emoji: '🤝', meaning: 'верить',
+    },
+    { root: 'cred', topic: 'mind', emoji: '🤝', meaning: 'верить',
       note: 'Латинский credere.',
       words: [
         { word: 'credit', pre: '-it', preMean: 'сущ.', trans: 'кредит', ex: 'Give me credit.', exRu: 'Дай мне кредит доверия.' },
