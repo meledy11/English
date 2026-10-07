@@ -44,29 +44,14 @@
             min-height: 100vh;
         }
         
-        body.fullscreen-table {
-            padding: 0;
-            background: #fff6e8;
-        }
-        body.fullscreen-table .app-container {
-            padding-top: 0;
-            max-width: 100%;
-        }
+        body.fullscreen-table { padding: 0; background: #fff6e8; }
+        body.fullscreen-table .app-container { padding-top: 0; max-width: 100%; }
         body.fullscreen-table .tabs,
         body.fullscreen-table footer,
-        body.fullscreen-table .card:not(.fullscreen-card) {
-            display: none;
-        }
-        body.fullscreen-table .fullscreen-card {
-            margin: 0;
-            border-radius: 0;
-            min-height: 100vh;
-        }
+        body.fullscreen-table .card:not(.fullscreen-card) { display: none; }
+        body.fullscreen-table .fullscreen-card { margin: 0; border-radius: 0; min-height: 100vh; }
         body.fullscreen-table .card-body,
-        body.fullscreen-table .card-body.open {
-            max-height: none;
-            overflow: visible;
-        }
+        body.fullscreen-table .card-body.open { max-height: none; overflow: visible; }
         
         .app-container {
             max-width: 750px;
@@ -102,12 +87,8 @@
             color: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         .card {
             background: linear-gradient(145deg, #fff5e6 0%, #faeecb 100%);
             border-radius: 56px;
@@ -125,11 +106,7 @@
             cursor: pointer;
             border-bottom: 3px dashed #cbad7a;
         }
-        .title-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        .title-group { display: flex; flex-direction: column; gap: 8px; }
         .assoc-emoji {
             font-size: 2.5rem;
             background: #f9eec1;
@@ -138,11 +115,7 @@
             display: inline-block;
             width: fit-content;
         }
-        .rule-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #3d2b1a;
-        }
+        .rule-name { font-size: 1.5rem; font-weight: bold; color: #3d2b1a; }
         .expand-icon {
             font-size: 2rem;
             color: #b57c48;
@@ -155,18 +128,9 @@
             justify-content: center;
             border-radius: 50%;
         }
-        .card-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease-out;
-        }
-        .card-body.open {
-            max-height: 10000px;
-            overflow-y: auto;
-        }
-        .inner-content {
-            padding: 22px;
-        }
+        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.6s ease-out; }
+        .card-body.open { max-height: 10000px; overflow-y: auto; }
+        .inner-content { padding: 22px; }
         
         .search-section {
             background: #f9eec1;
@@ -174,19 +138,9 @@
             padding: 8px 16px;
             margin-bottom: 20px;
         }
-        .search-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .search-icon {
-            font-size: 1.5rem;
-        }
-        .search-input-wrapper {
-            flex: 1;
-            min-width: 180px;
-        }
+        .search-wrapper { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .search-icon { font-size: 1.5rem; }
+        .search-input-wrapper { flex: 1; min-width: 180px; }
         .search-input {
             width: 100%;
             padding: 12px 16px;
@@ -196,9 +150,7 @@
             outline: none;
             background: white;
         }
-        .search-input:focus {
-            border-color: #c49a6c;
-        }
+        .search-input:focus { border-color: #c49a6c; }
         .search-clear {
             background: #f0f2f5;
             border: none;
@@ -236,25 +188,15 @@
             border-bottom: 1px solid #e1cba1;
             flex-wrap: wrap;
         }
-        .preposition-emoji-col {
-            font-size: 2.5rem;
-            min-width: 70px;
-            text-align: center;
-        }
-        .preposition-content {
-            flex: 1;
-        }
+        .preposition-emoji-col { font-size: 2.5rem; min-width: 70px; text-align: center; }
+        .preposition-content { flex: 1; }
         .preposition-word {
             font-size: 1.8rem;
             font-weight: bold;
             color: #3d2b1a;
             font-family: monospace;
         }
-        .preposition-meaning {
-            font-size: 0.95rem;
-            color: #8b6946;
-            margin: 4px 0;
-        }
+        .preposition-meaning { font-size: 0.95rem; color: #8b6946; margin: 4px 0; }
         .preposition-example {
             font-size: 0.95rem;
             background: #f2e5ca;
@@ -279,9 +221,7 @@
             cursor: pointer;
             transition: 0.1s;
         }
-        .tense-card:active {
-            transform: scale(0.99);
-        }
+        .tense-card:active { transform: scale(0.99); }
         .tense-header {
             display: flex;
             align-items: center;
@@ -289,14 +229,8 @@
             margin-bottom: 12px;
             flex-wrap: wrap;
         }
-        .tense-emoji {
-            font-size: 2.2rem;
-        }
-        .tense-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #3d2b1a;
-        }
+        .tense-emoji { font-size: 2.2rem; }
+        .tense-name { font-size: 1.3rem; font-weight: bold; color: #3d2b1a; }
         .tense-formula {
             font-family: monospace;
             background: #ecdca8;
@@ -318,17 +252,9 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        .tense-example-text {
-            flex: 1;
-        }
-        .tense-example-eng {
-            font-weight: bold;
-        }
-        .tense-example-ru {
-            font-size: 0.85rem;
-            color: #5f451f;
-            margin-top: 4px;
-        }
+        .tense-example-text { flex: 1; }
+        .tense-example-eng { font-weight: bold; }
+        .tense-example-ru { font-size: 0.85rem; color: #5f451f; margin-top: 4px; }
         .speak-btn-small {
             background: #c49a6c;
             border: none;
@@ -345,11 +271,7 @@
             padding: 18px;
             border: 1px solid #e1cba1;
         }
-        .verb-emoji-big {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 12px;
-        }
+        .verb-emoji-big { font-size: 2.5rem; text-align: center; margin-bottom: 12px; }
         .verb-forms {
             display: flex;
             justify-content: space-around;
@@ -358,10 +280,7 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .verb-form-item {
-            flex: 1;
-            min-width: 90px;
-        }
+        .verb-form-item { flex: 1; min-width: 90px; }
         .verb-form-value {
             font-size: 1.4rem;
             font-weight: bold;
@@ -371,11 +290,7 @@
             justify-content: center;
             gap: 8px;
         }
-        .verb-form-label {
-            font-size: 0.65rem;
-            color: #8b6946;
-            line-height: 1.3;
-        }
+        .verb-form-label { font-size: 0.65rem; color: #8b6946; line-height: 1.3; }
         .verb-example {
             background: #f2e5ca;
             border-radius: 20px;
@@ -395,33 +310,15 @@
             margin: 16px 0;
             border-left: 5px solid #c49a6c;
         }
-        .story-eng {
-            font-weight: bold;
-            font-size: 1rem;
-            line-height: 1.4;
-        }
-        .story-ru {
-            color: #5f451f;
-            font-size: 0.9rem;
-            margin-top: 8px;
-        }
-        .story-rule-label {
-            font-size: 0.7rem;
-            color: #8b6946;
-            margin-top: 8px;
-        }
-        .highlight {
-            background: #ffd6a5;
-            padding: 2px 6px;
-            border-radius: 20px;
-        }
+        .story-eng { font-weight: bold; font-size: 1rem; line-height: 1.4; }
+        .story-ru { color: #5f451f; font-size: 0.9rem; margin-top: 8px; }
+        .story-rule-label { font-size: 0.7rem; color: #8b6946; margin-top: 8px; }
+        .highlight { background: #ffd6a5; padding: 2px 6px; border-radius: 20px; }
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
             z-index: 1000;
             justify-content: center;
@@ -439,21 +336,9 @@
             max-height: 85vh;
             overflow-y: auto;
         }
-        .modal-emoji {
-            font-size: 4rem;
-            margin-bottom: 16px;
-        }
-        .modal-text {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #3d2b1a;
-            margin-bottom: 12px;
-        }
-        .modal-translation {
-            font-size: 1rem;
-            color: #5f451f;
-            margin-bottom: 20px;
-        }
+        .modal-emoji { font-size: 4rem; margin-bottom: 16px; }
+        .modal-text { font-size: 1.3rem; font-weight: bold; color: #3d2b1a; margin-bottom: 12px; }
+        .modal-translation { font-size: 1rem; color: #5f451f; margin-bottom: 20px; }
         .modal-explanation {
             background: #ecdca8;
             border-radius: 28px;
@@ -487,27 +372,10 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        .explanation-emoji {
-            font-size: 3rem;
-            margin-bottom: 12px;
-        }
-        .explanation-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #3d2b1a;
-            margin-bottom: 8px;
-        }
-        .explanation-desc {
-            font-size: 0.95rem;
-            color: #5f451f;
-            margin-bottom: 12px;
-        }
-        .explanation-example {
-            background: #f2e5ca;
-            border-radius: 24px;
-            padding: 12px;
-            margin-top: 12px;
-        }
+        .explanation-emoji { font-size: 3rem; margin-bottom: 12px; }
+        .explanation-title { font-size: 1.4rem; font-weight: bold; color: #3d2b1a; margin-bottom: 8px; }
+        .explanation-desc { font-size: 0.95rem; color: #5f451f; margin-bottom: 12px; }
+        .explanation-example { background: #f2e5ca; border-radius: 24px; padding: 12px; margin-top: 12px; }
         .generator-section {
             background: #f9eec1;
             border-radius: 32px;
@@ -521,7 +389,7 @@
             align-items: center;
             justify-content: center;
         }
-        .generator-controls select, 
+        .generator-controls select,
         .generator-controls input {
             padding: 10px 16px;
             border-radius: 40px;
@@ -541,17 +409,8 @@
             font-weight: bold;
             font-family: Georgia, serif;
         }
-        .generator-controls button:hover {
-            background: #b0885a;
-        }
-        .generator-controls select option {
-            padding: 8px;
-        }
-        .generated-examples {
-            margin-top: 16px;
-            max-height: 450px;
-            overflow-y: auto;
-        }
+        .generator-controls button:hover { background: #b0885a; }
+        .generated-examples { margin-top: 16px; max-height: 450px; overflow-y: auto; }
         .generated-item {
             background: #fff6e8;
             border-radius: 24px;
@@ -564,15 +423,8 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        .generated-item .eng {
-            font-weight: bold;
-            font-size: 1.05rem;
-        }
-        .generated-item .ru {
-            color: #5f451f;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
+        .generated-item .eng { font-weight: bold; font-size: 1.05rem; }
+        .generated-item .ru { color: #5f451f; font-size: 0.9rem; margin-top: 4px; }
         .generated-item .verb-used {
             background: #ecdca8;
             padding: 2px 12px;
@@ -589,10 +441,7 @@
             border-radius: 20px;
             font-size: 0.65rem;
         }
-        .verb-select-wrapper {
-            flex: 2;
-            min-width: 200px;
-        }
+        .verb-select-wrapper { flex: 2; min-width: 200px; }
         .verb-select-wrapper select {
             width: 100%;
             padding: 10px 16px;
@@ -626,18 +475,9 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .phrase-card:hover {
-            transform: translateX(4px);
-            border-left-color: #8b6946;
-        }
-        .phrase-card .eng {
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        .phrase-card .ru {
-            color: #5f451f;
-            font-size: 0.95rem;
-        }
+        .phrase-card:hover { transform: translateX(4px); border-left-color: #8b6946; }
+        .phrase-card .eng { font-weight: bold; font-size: 1.1rem; }
+        .phrase-card .ru { color: #5f451f; font-size: 0.95rem; }
         .phrase-card .category-tag {
             background: #ecdca8;
             padding: 2px 12px;
@@ -671,10 +511,7 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .filter-btn.active {
-            background: #c49a6c;
-            color: white;
-        }
+        .filter-btn.active { background: #c49a6c; color: white; }
         @media (max-width: 550px) {
             .rule-name { font-size: 1.2rem; }
             .assoc-emoji { font-size: 2rem; }
@@ -684,16 +521,10 @@
             .verb-form-value { font-size: 1.2rem; }
             .verb-form-item { min-width: 70px; }
             .modal-text { font-size: 1.1rem; }
-            #verbs-container {
-                max-height: 50vh;
-            }
+            #verbs-container { max-height: 50vh; }
             .generator-controls select,
-            .generator-controls input {
-                width: 100%;
-            }
-            .verb-select-wrapper {
-                min-width: 100%;
-            }
+            .generator-controls input { width: 100%; }
+            .verb-select-wrapper { min-width: 100%; }
         }
     </style>
 </head>
@@ -719,14 +550,14 @@
                 <span class="expand-icon">▼</span>
             </div>
             <div class="card-body"><div class="inner-content">
-                <div class="preposition-row"><div class="preposition-emoji-col">🚶‍♂️➡️🏠</div><div class="preposition-content"><div class="preposition-word">to</div><div class="preposition-meaning">КУДА? — Стрела летит К цели</div><div class="preposition-example" onclick="openModalWithSpeech('to', 'I go <span class=\'highlight-word\'>to</span> school every day.', 'Я хожу в школу каждый день.', 'to показывает направление')">📖 I go <strong>to</strong> school → Я иду в школу</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📍🚏</div><div class="preposition-content"><div class="preposition-word">at</div><div class="preposition-meaning">ГДЕ ТОЧНО? — Булавка на карте</div><div class="preposition-example" onclick="openModalWithSpeech('at', 'Wait <span class=\'highlight-word\'>at</span> the bus stop.', 'Жди на автобусной остановке.', 'at показывает точное место')">📖 Wait <strong>at</strong> the bus stop → Жди на остановке</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📦🧸</div><div class="preposition-content"><div class="preposition-word">in</div><div class="preposition-meaning">ВНУТРИ — Мишка в коробке</div><div class="preposition-example" onclick="openModalWithSpeech('in', 'She is <span class=\'highlight-word\'>in</span> the room.', 'Она в комнате.', 'in показывает, что кто-то внутри')">📖 She is <strong>in</strong> the room → Она в комнате</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">📚⬆️🍽️</div><div class="preposition-content"><div class="preposition-word">on</div><div class="preposition-meaning">НА ПОВЕРХНОСТИ — Книга на столе</div><div class="preposition-example" onclick="openModalWithSpeech('on', 'The book is <span class=\'highlight-word\'>on</span> the table.', 'Книга на столе.', 'on показывает, что предмет на поверхности')">📖 The book is <strong>on</strong> the table → Книга на столе</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🎁👤</div><div class="preposition-content"><div class="preposition-word">for</div><div class="preposition-meaning">ДЛЯ — Подарок для друга</div><div class="preposition-example" onclick="openModalWithSpeech('for', 'This gift is <span class=\'highlight-word\'>for</span> you.', 'Этот подарок для тебя.', 'for показывает получателя')">📖 This gift is <strong>for</strong> you → Подарок для тебя</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🤝👥</div><div class="preposition-content"><div class="preposition-word">with</div><div class="preposition-meaning">ВМЕСТЕ С — С другом</div><div class="preposition-example" onclick="openModalWithSpeech('with', 'I go <span class=\'highlight-word\'>with</span> my friend.', 'Я иду с другом.', 'with показывает совместное действие')">📖 I go <strong>with</strong> my friend → Я иду с другом</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🚫🤝</div><div class="preposition-content"><div class="preposition-word">without</div><div class="preposition-meaning">БЕЗ — Без тебя</div><div class="preposition-example" onclick="openModalWithSpeech('without', 'I can\'t live <span class=\'highlight-word\'>without</span> you.', 'Я не могу жить без тебя.', 'without — противоположность with')">📖 I can't live <strong>without</strong> you → Я не могу без тебя</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🪑🧍‍♂️</div><div class="preposition-content"><div class="preposition-word">by</div><div class="preposition-meaning">РЯДОМ / НА (транспорте)</div><div class="preposition-example" onclick="openModalWithSpeech('by', 'Sit <span class=\'highlight-word\'>by</span> me. / Go <span class=\'highlight-word\'>by</span> car.', 'Сядь рядом со мной. / Ехать на машине.', 'by может означать «рядом» или способ передвижения')">📖 Sit <strong>by</strong> me / Go <strong>by</strong> car → Сядь рядом / Ехать на машине</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🚶‍♂️➡️🏠</div><div class="preposition-content"><div class="preposition-word">to</div><div class="preposition-meaning">КУДА? — Стрела летит К цели</div><div class="preposition-example" onclick="openModalWithSpeech('to', 'I go to school every day.', 'Я хожу в школу каждый день.', 'to показывает направление')">📖 I go <strong>to</strong> school → Я иду в школу</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">📍🚏</div><div class="preposition-content"><div class="preposition-word">at</div><div class="preposition-meaning">ГДЕ ТОЧНО? — Булавка на карте</div><div class="preposition-example" onclick="openModalWithSpeech('at', 'Wait at the bus stop.', 'Жди на автобусной остановке.', 'at показывает точное место')">📖 Wait <strong>at</strong> the bus stop → Жди на остановке</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">📦🧸</div><div class="preposition-content"><div class="preposition-word">in</div><div class="preposition-meaning">ВНУТРИ — Мишка в коробке</div><div class="preposition-example" onclick="openModalWithSpeech('in', 'She is in the room.', 'Она в комнате.', 'in показывает, что кто-то внутри')">📖 She is <strong>in</strong> the room → Она в комнате</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">📚⬆️🍽️</div><div class="preposition-content"><div class="preposition-word">on</div><div class="preposition-meaning">НА ПОВЕРХНОСТИ — Книга на столе</div><div class="preposition-example" onclick="openModalWithSpeech('on', 'The book is on the table.', 'Книга на столе.', 'on показывает, что предмет на поверхности')">📖 The book is <strong>on</strong> the table → Книга на столе</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🎁👤</div><div class="preposition-content"><div class="preposition-word">for</div><div class="preposition-meaning">ДЛЯ — Подарок для друга</div><div class="preposition-example" onclick="openModalWithSpeech('for', 'This gift is for you.', 'Этот подарок для тебя.', 'for показывает получателя')">📖 This gift is <strong>for</strong> you → Подарок для тебя</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🤝👥</div><div class="preposition-content"><div class="preposition-word">with</div><div class="preposition-meaning">ВМЕСТЕ С — С другом</div><div class="preposition-example" onclick="openModalWithSpeech('with', 'I go with my friend.', 'Я иду с другом.', 'with показывает совместное действие')">📖 I go <strong>with</strong> my friend → Я иду с другом</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🚫🤝</div><div class="preposition-content"><div class="preposition-word">without</div><div class="preposition-meaning">БЕЗ — Без тебя</div><div class="preposition-example" onclick="openModalWithSpeech('without', 'I can\'t live without you.', 'Я не могу жить без тебя.', 'without — противоположность with')">📖 I can't live <strong>without</strong> you → Я не могу без тебя</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🪑🧍‍♂️</div><div class="preposition-content"><div class="preposition-word">by</div><div class="preposition-meaning">РЯДОМ / НА (транспорте)</div><div class="preposition-example" onclick="openModalWithSpeech('by', 'Sit by me. / Go by car.', 'Сядь рядом со мной. / Ехать на машине.', 'by может означать «рядом» или способ передвижения')">📖 Sit <strong>by</strong> me / Go <strong>by</strong> car → Сядь рядом / Ехать на машине</div></div></div>
                 <div class="memory-hack">🧠 <strong>Запоминалка:</strong> to = КУДА 🎯, at = ГДЕ ТОЧКА 📍, in = ВНУТРИ 📦, on = НА ⬆️, for = ДЛЯ 🎁, with = С 🤝, without = БЕЗ 🚫, by = РЯДОМ 🪑</div>
             </div></div>
         </div>
@@ -737,18 +568,18 @@
                 <span class="expand-icon">▼</span>
             </div>
             <div class="card-body"><div class="inner-content">
-                <div class="preposition-row"><div class="preposition-emoji-col">🆙</div><div class="preposition-content"><div class="preposition-word">up</div><div class="preposition-meaning">ВВЕРХ / ПОЛНОСТЬЮ</div><div class="preposition-example" onclick="openModalWithSpeech('up', 'get <span class=\'highlight-word\'>up</span>, eat <span class=\'highlight-word\'>up</span>, give <span class=\'highlight-word\'>up</span>', 'встать, съесть всё, сдаться', 'up = вверх или до конца')">📖 get up, eat up, give up</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔽</div><div class="preposition-content"><div class="preposition-word">down</div><div class="preposition-meaning">ВНИЗ / СЛОМАТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('down', 'sit <span class=\'highlight-word\'>down</span>, break <span class=\'highlight-word\'>down</span>', 'сесть, сломаться', 'down = вниз или разрушение')">📖 sit down, break down</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🚪</div><div class="preposition-content"><div class="preposition-word">out</div><div class="preposition-meaning">НАРУЖУ / ВЫЯСНИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('out', 'go <span class=\'highlight-word\'>out</span>, find <span class=\'highlight-word\'>out</span>', 'выйти, выяснить', 'out = наружу или раскрыть секрет')">📖 go out, find out</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">⚡</div><div class="preposition-content"><div class="preposition-word">off</div><div class="preposition-meaning">ПРОЧЬ / ВЫКЛЮЧИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('off', 'turn <span class=\'highlight-word\'>off</span>, take <span class=\'highlight-word\'>off</span>', 'выключить, взлететь/снять', 'off = отделение или выключение')">📖 turn off, take off</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔄</div><div class="preposition-content"><div class="preposition-word">over</div><div class="preposition-meaning">ЧЕРЕЗ / ПОВТОРНО</div><div class="preposition-example" onclick="openModalWithSpeech('over', 'take <span class=\'highlight-word\'>over</span>, turn <span class=\'highlight-word\'>over</span>', 'захватить, перевернуть', 'over = через или снова')">📖 take over, turn over</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">🔙</div><div class="preposition-content"><div class="preposition-word">back</div><div class="preposition-meaning">НАЗАД</div><div class="preposition-example" onclick="openModalWithSpeech('back', 'come <span class=\'highlight-word\'>back</span>, pay <span class=\'highlight-word\'>back</span>', 'вернуться, вернуть долг', 'back = возвращение')">📖 come back, pay back</div></div></div>
-                <div class="preposition-row"><div class="preposition-emoji-col">➡️📦</div><div class="preposition-content"><div class="preposition-word">into</div><div class="preposition-meaning">ВНУТРЬ (С ДВИЖЕНИЕМ)</div><div class="preposition-example" onclick="openModalWithSpeech('into', 'go <span class=\'highlight-word\'>into</span>, break <span class=\'highlight-word\'>into</span>', 'войти в, вломиться', 'into = движение внутрь')">📖 go into, break into</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🆙</div><div class="preposition-content"><div class="preposition-word">up</div><div class="preposition-meaning">ВВЕРХ / ПОЛНОСТЬЮ</div><div class="preposition-example" onclick="openModalWithSpeech('up', 'get up, eat up, give up', 'встать, съесть всё, сдаться', 'up = вверх или до конца')">📖 get up, eat up, give up</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🔽</div><div class="preposition-content"><div class="preposition-word">down</div><div class="preposition-meaning">ВНИЗ / СЛОМАТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('down', 'sit down, break down', 'сесть, сломаться', 'down = вниз или разрушение')">📖 sit down, break down</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🚪</div><div class="preposition-content"><div class="preposition-word">out</div><div class="preposition-meaning">НАРУЖУ / ВЫЯСНИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('out', 'go out, find out', 'выйти, выяснить', 'out = наружу или раскрыть секрет')">📖 go out, find out</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">⚡</div><div class="preposition-content"><div class="preposition-word">off</div><div class="preposition-meaning">ПРОЧЬ / ВЫКЛЮЧИТЬ</div><div class="preposition-example" onclick="openModalWithSpeech('off', 'turn off, take off', 'выключить, взлететь/снять', 'off = отделение или выключение')">📖 turn off, take off</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🔄</div><div class="preposition-content"><div class="preposition-word">over</div><div class="preposition-meaning">ЧЕРЕЗ / ПОВТОРНО</div><div class="preposition-example" onclick="openModalWithSpeech('over', 'take over, turn over', 'захватить, перевернуть', 'over = через или снова')">📖 take over, turn over</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">🔙</div><div class="preposition-content"><div class="preposition-word">back</div><div class="preposition-meaning">НАЗАД</div><div class="preposition-example" onclick="openModalWithSpeech('back', 'come back, pay back', 'вернуться, вернуть долг', 'back = возвращение')">📖 come back, pay back</div></div></div>
+                <div class="preposition-row"><div class="preposition-emoji-col">➡️📦</div><div class="preposition-content"><div class="preposition-word">into</div><div class="preposition-meaning">ВНУТРЬ (С ДВИЖЕНИЕМ)</div><div class="preposition-example" onclick="openModalWithSpeech('into', 'go into, break into', 'войти в, вломиться', 'into = движение внутрь')">📖 go into, break into</div></div></div>
             </div></div>
         </div>
     </div>
 
-    <!-- ВКЛАДКА 2: НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ -->
+    <!-- ВКЛАДКА 2: ГЛАГОЛЫ -->
     <div id="tab2" class="tab-content">
         <div class="card">
             <div class="card-header" onclick="toggleCard(this)">
@@ -835,7 +666,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 6: ТАБЛИЦА ГЛАГОЛОВ -->
+    <!-- ВКЛАДКА 6: ТАБЛИЦА -->
     <div id="tab6" class="tab-content">
         <div class="card fullscreen-card" id="tableFullscreenCard">
             <div class="card-header" onclick="toggleCard(this)">
@@ -854,7 +685,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 7: ГЕНЕРАТОР ПРИМЕРОВ -->
+    <!-- ВКЛАДКА 7: ГЕНЕРАТОР -->
     <div id="tab7" class="tab-content">
         <div class="card">
             <div class="card-header" onclick="toggleCard(this)">
@@ -887,7 +718,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 8: ПОПУЛЯРНЫЕ ФРАЗЫ -->
+    <!-- ВКЛАДКА 8: ФРАЗЫ -->
     <div id="tab8" class="tab-content">
         <div class="card">
             <div class="card-header" onclick="toggleCard(this)">
@@ -916,13 +747,13 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 9: ПРИСТАВКИ И СУФФИКСЫ -->
+    <!-- ВКЛАДКА 9: ПРИСТАВКИ И КОРНИ -->
     <div id="tab9" class="tab-content">
         <div class="card">
             <div class="card-header" onclick="toggleCard(this)">
                 <div class="title-group">
                     <span class="assoc-emoji">🔤🧩</span>
-                    <span class="rule-name">Приставки и суффиксы английского языка</span>
+                    <span class="rule-name">Приставки, суффиксы и корни-конструкторы</span>
                 </div>
                 <span class="expand-icon">▼</span>
             </div>
@@ -932,7 +763,7 @@
                         <div class="search-wrapper">
                             <div class="search-icon">🔍</div>
                             <div class="search-input-wrapper">
-                                <input type="text" class="search-input" id="prefixSearchInput" placeholder="Поиск: pre, re, -ing, unhappy...">
+                                <input type="text" class="search-input" id="prefixSearchInput" placeholder="Поиск: pre, re, -ing, port, «нести»...">
                             </div>
                             <button class="search-clear" id="clearPrefixSearchBtn">✕</button>
                         </div>
@@ -941,6 +772,7 @@
                         <button class="filter-btn active" data-type="all">📚 Все</button>
                         <button class="filter-btn" data-type="prefix">⏪ Приставки</button>
                         <button class="filter-btn" data-type="suffix">⏩ Суффиксы</button>
+                        <button class="filter-btn" data-type="root">🧱 Корни</button>
                     </div>
                     <div id="prefixesContainer"></div>
                 </div>
@@ -974,30 +806,31 @@
     let currentCategory = 'all';
     let currentPhrases = [];
     let currentPrefixType = 'all';
+    let currentRootTopic = 'all';
+    let learnedRoots = JSON.parse(localStorage.getItem('learnedRoots') || '[]');
     
-    // ===== SPEECH FUNCTIONS =====
+    // ===== SPEECH =====
     function speakText(text) { 
         if('speechSynthesis' in window){ 
             window.speechSynthesis.cancel(); 
-            const utterance = new SpeechSynthesisUtterance(text); 
-            utterance.lang = 'en-US'; 
-            utterance.rate = 0.9; 
-            window.speechSynthesis.speak(utterance); 
+            const u = new SpeechSynthesisUtterance(text); 
+            u.lang = 'en-US'; 
+            u.rate = 0.9; 
+            window.speechSynthesis.speak(u); 
         } 
     }
     
     function speakVerbForms(v1, v2, v3) {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
-            const text = `${v1}, ${v2}, ${v3}`;
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8;
-            window.speechSynthesis.speak(utterance);
+            const u = new SpeechSynthesisUtterance(`${v1}, ${v2}, ${v3}`);
+            u.lang = 'en-US';
+            u.rate = 0.8;
+            window.speechSynthesis.speak(u);
         }
     }
     
-    // ===== MODAL FUNCTIONS =====
+    // ===== MODAL =====
     function openModalWithSpeech(word, textHtml, translation, explanation) {
         const modal = document.getElementById('modal');
         const modalText = document.getElementById('modalText');
@@ -1005,7 +838,14 @@
         const modalExplanation = document.getElementById('modalExplanation');
         const modalEmoji = document.getElementById('modalEmoji');
         
-        const emojis = {'to':'🚶‍♂️➡️🏠','at':'📍🚏','in':'📦🧸','on':'📚⬆️🍽️','for':'🎁👤','with':'🤝👥','without':'🚫🤝','by':'🪑🧍‍♂️','up':'🆙','down':'🔽','out':'🚪','off':'⚡','over':'🔄','back':'🔙','into':'➡️📦','pre-':'⏪','post-':'⏩','out-':'🚪➡️','dis-':'🚫','re-':'🔄','de-':'⬇️🚫','un-':'❌','mis-':'⚠️','over-':'🔝','under-':'⬇️','-ed':'✅⏪','-ing':'🏃','-er / -or':'👤','-ly':'⚡','-ful':'💯','-less':'🚫💯','-ness':'💠'};
+        const emojis = {
+            'to':'🚶‍♂️➡️🏠','at':'📍🚏','in':'📦🧸','on':'📚⬆️🍽️','for':'🎁👤','with':'🤝👥',
+            'without':'🚫🤝','by':'🪑🧍‍♂️','up':'🆙','down':'🔽','out':'🚪','off':'⚡','over':'🔄',
+            'back':'🔙','into':'➡️📦',
+            'pre-':'⏪','post-':'⏩','out-':'🚪➡️','dis-':'🚫','re-':'🔄','de-':'⬇️🚫',
+            'un-':'❌','mis-':'⚠️','over-':'🔝','under-':'⬇️',
+            '-ed':'✅⏪','-ing':'🏃','-er / -or':'👤','-ly':'⚡','-ful':'💯','-less':'🚫💯','-ness':'💠'
+        };
         modalEmoji.textContent = emojis[word] || '📖';
         
         const tempDiv = document.createElement('div');
@@ -1028,7 +868,7 @@
     
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
     
-    // ===== UI FUNCTIONS =====
+    // ===== UI =====
     function toggleCard(header) { 
         const body = header.closest('.card').querySelector('.card-body'); 
         const icon = header.querySelector('.expand-icon'); 
@@ -1041,7 +881,6 @@
         } 
     }
     
-    // Переключение вкладок
     const tabs = document.querySelectorAll('.tab-btn'); 
     const contents = document.querySelectorAll('.tab-content');
     tabs.forEach(btn => { 
@@ -1056,7 +895,7 @@
         }); 
     }); 
     
-    // ===== VERB CARDS =====
+    // ===== VERBS =====
     function renderVerbCards(filteredVerbs) {
         const container = document.getElementById('verbs-container');
         const searchInfo = document.getElementById('searchResultsInfo');
@@ -1173,18 +1012,6 @@
             `; 
             container.appendChild(card); 
         }
-        
-        // Герундий
-        const gerundCard = document.createElement('div');
-        gerundCard.className = 'tense-card';
-        gerundCard.onclick = () => openModalWithSpeech('Gerund', 'I like swimming.', 'Я люблю плавать (вообще)', 'Герундий — глагол + ing как существительное');
-        gerundCard.innerHTML = `
-            <div class="tense-header"><div class="tense-emoji">🎭</div><div class="tense-name">Герундий (-ing)</div></div>
-            <div class="preposition-meaning">Глагол + ing как существительное</div>
-            <div class="tense-example"><div class="tense-example-text"><div class="tense-example-eng">I like <strong>swimming</strong>.</div><div class="tense-example-ru">Я люблю плавать.</div></div><button class="speak-btn-small" onclick="speakText('I like swimming.')">🔈</button></div>
-            <div class="tense-example"><div class="tense-example-text"><div class="tense-example-eng"><strong>Reading</strong> is useful.</div><div class="tense-example-ru">Чтение полезно.</div></div><button class="speak-btn-small" onclick="speakText('Reading is useful.')">🔈</button></div>
-        `;
-        container.appendChild(gerundCard);
     }
     
     // ===== GENERATOR =====
@@ -1220,9 +1047,9 @@
         
         const examples = [];
         const forms = [
-            { key: 'ex1', label: 'V1 (Present Simple)', eng: verbData.ex1, ru: verbData.tr1, form: verbData.v1 },
-            { key: 'ex2', label: 'V2 (Past Simple)', eng: verbData.ex2, ru: verbData.tr2, form: verbData.v2 },
-            { key: 'ex3', label: 'V3 (Present Perfect)', eng: verbData.ex3, ru: verbData.tr3, form: verbData.v3 }
+            { label: 'V1 (Present Simple)', eng: verbData.ex1, ru: verbData.tr1, form: verbData.v1 },
+            { label: 'V2 (Past Simple)', eng: verbData.ex2, ru: verbData.tr2, form: verbData.v2 },
+            { label: 'V3 (Present Perfect)', eng: verbData.ex3, ru: verbData.tr3, form: verbData.v3 }
         ];
         
         forms.forEach(f => {
@@ -1366,26 +1193,149 @@
         container.innerHTML = html;
     }
     
-    function searchPhrases() {
-        renderPhrases();
+    function searchPhrases() { renderPhrases(); }
+    
+    // ===== ПРИСТАВКИ + КОРНИ =====
+    function toggleRootLearned(root) {
+        const idx = learnedRoots.indexOf(root);
+        if (idx >= 0) {
+            learnedRoots.splice(idx, 1);
+        } else {
+            learnedRoots.push(root);
+        }
+        localStorage.setItem('learnedRoots', JSON.stringify(learnedRoots));
+        renderPrefixes();
     }
     
-    // ===== ПРИСТАВКИ И СУФФИКСЫ =====
     function renderPrefixes() {
         const container = document.getElementById('prefixesContainer');
-        if (!container || typeof prefixes === 'undefined') {
-            if (container) container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл prefixes.js не загружен</div>';
-            return;
-        }
+        if (!container) return;
         
         const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
         
-        let filtered = [...prefixes];
+        // ==== РЕЖИМ «КОРНИ» ====
+        if (currentPrefixType === 'root') {
+            if (typeof wordRoots === 'undefined') {
+                container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Массив wordRoots не найден в prefixes.js</div>';
+                return;
+            }
+            
+            const totalRoots = wordRoots.length;
+            const learnedCount = learnedRoots.length;
+            const progress = Math.round((learnedCount / totalRoots) * 100);
+            
+            let html = `
+                <div style="background:#ecdca8; border-radius:28px; padding:14px 18px; margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <strong>🧱 Корней изучено: ${learnedCount} из ${totalRoots}</strong>
+                        <span style="color:#8b6946;">${progress}%</span>
+                    </div>
+                    <div style="background:#fff6e8; border-radius:20px; height:12px; margin-top:8px; overflow:hidden;">
+                        <div style="background:#6b8e23; height:100%; width:${progress}%; transition:0.4s;"></div>
+                    </div>
+                </div>
+                <div class="filters" id="rootTopicFilters" style="margin-bottom:12px;">
+            `;
+            rootTopics.forEach(t => {
+                const active = currentRootTopic === t.id ? 'active' : '';
+                html += `<button class="filter-btn ${active}" data-topic="${t.id}">${t.emoji} ${t.name}</button>`;
+            });
+            html += `</div>`;
+            
+            let roots = [...wordRoots];
+            if (currentRootTopic !== 'all') {
+                roots = roots.filter(r => r.topic === currentRootTopic);
+            }
+            if (query) {
+                roots = roots.filter(r => {
+                    const hints = (typeof rootSearchHints !== 'undefined' && rootSearchHints[r.root]) || [];
+                    return r.root.toLowerCase().includes(query) ||
+                           r.meaning.toLowerCase().includes(query) ||
+                           hints.some(h => h.includes(query)) ||
+                           r.words.some(w => 
+                               w.word.toLowerCase().includes(query) || 
+                               w.trans.toLowerCase().includes(query)
+                           );
+                });
+            }
+            
+            if (roots.length === 0) {
+                container.innerHTML = html + '<div style="text-align:center;padding:30px;color:#8b6946;">😔 Ничего не найдено</div>';
+                return;
+            }
+            
+            roots.forEach(r => {
+                const isLearned = learnedRoots.includes(r.root);
+                html += `
+                    <div class="tense-card" style="cursor:default; border-left:6px solid #6b8e23;">
+                        <div class="tense-header" style="justify-content:space-between;">
+                            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                                <div class="tense-emoji">${r.emoji}</div>
+                                <div>
+                                    <div class="tense-name" style="font-family:monospace; font-size:1.6rem;">${r.root}</div>
+                                    <div style="font-size:0.9rem; color:#8b6946; margin-top:4px;">🔑 ${r.meaning}</div>
+                                </div>
+                            </div>
+                            <button class="speak-btn-small" 
+                                onclick="event.stopPropagation(); toggleRootLearned('${r.root}')" 
+                                style="background:${isLearned ? '#6b8e23' : '#c49a6c'};">
+                                ${isLearned ? '✅ Изучено' : '☐ Отметить'}
+                            </button>
+                        </div>
+                        <div class="memory-hack" style="margin:10px 0; font-size:0.9rem;">💡 ${r.note}</div>
+                        <div style="font-size:0.8rem; color:#8b6946; margin:8px 0;">🧩 Конструктор:</div>
+                `;
+                
+                r.words.forEach(w => {
+                    const cleanEx = w.ex.replace(/'/g, "\\'");
+                    const lego = w.pre === '-' 
+                        ? `<b style="color:#3d2b1a;">${r.root}</b>`
+                        : `<span style="background:#ffd6a5; padding:3px 10px; border-radius:12px; font-family:monospace; font-weight:bold;">${w.pre}</span>
+                           <span style="color:#8b6946; margin:0 4px;">+</span>
+                           <span style="background:#d4e6a5; padding:3px 10px; border-radius:12px; font-family:monospace; font-weight:bold;">${r.root}</span>
+                           <span style="color:#8b6946; margin:0 6px;">=</span>
+                           <b style="color:#3d2b1a; font-size:1.1rem;">${w.word}</b>`;
+                    
+                    html += `
+                        <div class="tense-example" onclick="openModalWithSpeech('${w.pre}', '${cleanEx}', '${w.exRu}', '${w.pre} (${w.preMean}) + ${r.root} → ${w.word} = ${w.trans}')">
+                            <div class="tense-example-text">
+                                <div class="tense-example-eng" style="line-height:1.8;">${lego}</div>
+                                <div class="tense-example-ru" style="margin-top:6px;">→ ${w.trans}</div>
+                                <div style="font-size:0.75rem; color:#8b6946; margin-top:4px;">📖 ${w.ex} — ${w.exRu}</div>
+                            </div>
+                            <button class="speak-btn-small" onclick="event.stopPropagation(); speakText('${cleanEx}')">🔈</button>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
+            
+            // Обработчики фильтра тем
+            const rootTopicFilters = document.getElementById('rootTopicFilters');
+            if (rootTopicFilters) {
+                rootTopicFilters.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        currentRootTopic = btn.dataset.topic;
+                        renderPrefixes();
+                    });
+                });
+            }
+            return;
+        }
         
+        // ==== ОБЫЧНЫЙ РЕЖИМ (приставки / суффиксы / все) ====
+        if (typeof prefixes === 'undefined') {
+            container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Файл prefixes.js не загружен</div>';
+            return;
+        }
+        
+        let filtered = [...prefixes];
         if (currentPrefixType !== 'all') {
             filtered = filtered.filter(p => p.type === currentPrefixType);
         }
-        
         if (query) {
             filtered = filtered.filter(p => {
                 if (p.affix.toLowerCase().includes(query)) return true;
