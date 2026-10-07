@@ -1,4 +1,4 @@
-const CACHE_NAME = 'english-cards-v3';
+const CACHE_NAME = 'english-cards-v5';
 const ASSETS = [
     './',
     './index.html',
@@ -6,10 +6,12 @@ const ASSETS = [
     './tenses.js',
     './phrases.js',
     './prefixes.js',
+    './magicWords.js',
+    './quiz.js',
+    './builder.js',
     './verbs-table.html'
 ];
 
-// Установка — кэшируем все файлы
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -18,7 +20,6 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Активация — удаляем старые кэши
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then(keys =>
@@ -30,7 +31,6 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch — сначала кэш, потом сеть (cache-first)
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
     
