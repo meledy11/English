@@ -89,7 +89,6 @@ body.fullscreen-table .card-body.open { max-height:none; overflow:visible; }
   font-size:.95rem; background:#f2e5ca; padding:8px 12px;
   border-radius:24px; margin-top:8px; display:inline-block; cursor:pointer;
 }
-.highlight-word { background:#ffe0b3; padding:2px 6px; border-radius:20px; font-weight:bold; }
 .tense-card {
   background:#fff6e8; border-radius:32px; margin-bottom:20px;
   padding:18px; border:1px solid #e1cba1; cursor:pointer; transition:.1s;
@@ -186,10 +185,6 @@ body.fullscreen-table .card-body.open { max-height:none; overflow:visible; }
 }
 .generated-item .eng { font-weight:bold; font-size:1.05rem; }
 .generated-item .ru { color:#5f451f; font-size:.9rem; margin-top:4px; }
-.generated-item .verb-used {
-  background:#ecdca8; padding:2px 12px; border-radius:20px;
-  font-size:.8rem; color:#3d2b1a; white-space:nowrap;
-}
 .phrase-category {
   display:inline-block; background:#c49a6c; color:white;
   padding:2px 12px; border-radius:20px; font-size:.65rem;
@@ -478,7 +473,7 @@ footer {
   </div>
 </div>
 
-<!-- ВКЛАДКА 12 -->
+<!-- ВКЛАДКА 12: КОНСТРУКТОР -->
 <div id="tab12" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -486,6 +481,7 @@ footer {
       <span class="expand-icon">▼</span>
     </div>
     <div class="card-body"><div class="inner-content">
+      <div class="memory-hack" style="margin-bottom:14px;">🎯 Собери предложение, построй вопрос, выбери ответ, переделай форму или пройди диалог.</div>
       <div class="filters" id="builderFilters"></div>
       <div id="builderContainer"></div>
     </div></div>
@@ -529,9 +525,7 @@ footer {
       <span class="expand-icon">▼</span>
     </div>
     <div class="card-body"><div class="inner-content">
-      <div class="memory-hack" style="margin-bottom:14px;">
-        🎯 Приложение само составляет предложения и вопросы из слов словаря.
-      </div>
+      <div class="memory-hack" style="margin-bottom:14px;">🎯 Приложение само составляет предложения и вопросы из слов словаря.</div>
       <div class="filters" id="qgenFilters">
         <button class="filter-btn active" data-qgen="sentence">📝 Предложения</button>
         <button class="filter-btn" data-qgen="quiz">❓ Вопросы</button>
@@ -568,6 +562,7 @@ footer {
   </div>
 </div>
 
+<!-- ═══════ ПОДКЛЮЧЕНИЕ ДАННЫХ ═══════ -->
 <script src="verbs.js"></script>
 <script src="tenses.js"></script>
 <script src="phrases.js"></script>
@@ -577,10 +572,10 @@ footer {
 <script src="builder.js"></script>
 <script src="dictionary.js"></script>
 <script src="quizgen.js"></script>
+
+<!-- ═══════ ОСНОВНОЙ СКРИПТ ═══════ -->
 <script>
-// ═══════════════════════════════════════════════
 // СОСТОЯНИЕ
-// ═══════════════════════════════════════════════
 let currentModalText = '';
 let allVerbs = [];
 let currentCategory = 'all';
@@ -599,9 +594,7 @@ let qgenState = {};
 let qgenQuestions = [];
 let qgenSentences = [];
 
-// ═══════════════════════════════════════════════
 // ОЗВУЧКА
-// ═══════════════════════════════════════════════
 function speakText(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -619,9 +612,7 @@ function speakVerbForms(v1, v2, v3) {
   }
 }
 
-// ═══════════════════════════════════════════════
 // МОДАЛКА
-// ═══════════════════════════════════════════════
 function openModalWithSpeech(word, textHtml, translation, explanation) {
   const modal = document.getElementById('modal');
   const modalText = document.getElementById('modalText');
@@ -645,15 +636,19 @@ function openModalWithSpeech(word, textHtml, translation, explanation) {
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-// ═══════════════════════════════════════════════
 // UI
-// ═══════════════════════════════════════════════
 function toggleCard(header) {
   const body = header.closest('.card').querySelector('.card-body');
   const icon = header.querySelector('.expand-icon');
   if (body.classList.contains('open')) { body.classList.remove('open'); if (icon) icon.style.transform = 'rotate(0deg)'; }
   else { body.classList.add('open'); if (icon) icon.style.transform = 'rotate(180deg)'; }
 }
+function shuffleWords(words) {
+  const a = [...words];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
 const tabs = document.querySelectorAll('.tab-btn');
 const contents = document.querySelectorAll('.tab-content');
 tabs.forEach(btn => {
@@ -673,9 +668,7 @@ tabs.forEach(btn => {
   });
 });
 
-// ═══════════════════════════════════════════════
-// ГЛАГОЛЫ
-// ═══════════════════════════════════════════════
+// ═══════ ГЛАГОЛЫ ═══════
 function renderVerbCards(filteredVerbs) {
   const container = document.getElementById('verbs-container');
   const searchInfo = document.getElementById('searchResultsInfo');
@@ -721,12 +714,10 @@ function searchVerbs() {
   renderVerbCards(filtered);
 }
 
-// ═══════════════════════════════════════════════
-// ТАБЛИЦА
-// ═══════════════════════════════════════════════
+// ═══════ ТАБЛИЦА ═══════
 function renderVerbsTable() {
   const wrapper = document.getElementById('verbsTableWrapper');
-  if (!wrapper || typeof verbs === 'undefined') return;
+  if (!wrapper || typeof verbs === 'undefined') { if (wrapper) wrapper.innerHTML = '<div style="padding:20px;text-align:center;">⚠️ verbs.js не загружен</div>'; return; }
   let html = '<table style="width:100%;border-collapse:collapse;background:#fff6e8;border-radius:24px;overflow:hidden;">';
   html += '<thead><tr style="background:#dbbc87;position:sticky;top:0;"><th style="padding:12px 8px;">🎯</th><th style="padding:12px 8px;">V1</th><th style="padding:12px 8px;">V2</th><th style="padding:12px 8px;">V3</th><th style="padding:12px 8px;">Перевод</th><th style="padding:12px 8px;">🔊</th></tr></thead><tbody>';
   for (let i = 0; i < verbs.length; i++) {
@@ -737,12 +728,11 @@ function renderVerbsTable() {
   wrapper.innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════
-// ВРЕМЕНА
-// ═══════════════════════════════════════════════
+// ═══════ ВРЕМЕНА ═══════
 function renderTenses() {
   const container = document.getElementById('tenses-container');
-  if (!container || typeof tenses === 'undefined') return;
+  if (!container) return;
+  if (typeof tenses === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ tenses.js не загружен</div>'; return; }
   container.innerHTML = '';
   tenses.forEach(t => {
     const card = document.createElement('div');
@@ -758,9 +748,7 @@ function renderTenses() {
   });
 }
 
-// ═══════════════════════════════════════════════
-// ГЕНЕРАТОР
-// ═══════════════════════════════════════════════
+// ═══════ ГЕНЕРАТОР ═══════
 function populateVerbSelect() {
   const select = document.getElementById('verbSelect');
   if (!select || typeof verbs === 'undefined') return;
@@ -796,12 +784,11 @@ function generateExamples() {
 }
 function clearExamples() { document.getElementById('generatedContainer').innerHTML = '<div style="text-align:center;padding:30px;">🎲 Выберите глагол</div>'; }
 
-// ═══════════════════════════════════════════════
-// ФРАЗЫ
-// ═══════════════════════════════════════════════
+// ═══════ ФРАЗЫ ═══════
 function renderCategoryFilters() {
   const container = document.getElementById('categoryFilters');
-  if (!container || typeof phraseCategories === 'undefined') return;
+  if (!container) return;
+  if (typeof phraseCategories === 'undefined') { container.innerHTML = ''; return; }
   let html = '';
   phraseCategories.forEach(cat => { html += `<button class="filter-btn ${currentCategory === cat.id ? 'active' : ''}" data-category="${cat.id}">${cat.emoji} ${cat.name}</button>`; });
   container.innerHTML = html;
@@ -815,7 +802,8 @@ function renderCategoryFilters() {
 function renderPhrases() {
   const container = document.getElementById('phrasesContainer');
   const counter = document.getElementById('phraseCounter');
-  if (!container || typeof commonPhrases === 'undefined') return;
+  if (!container) return;
+  if (typeof commonPhrases === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ phrases.js не загружен</div>'; return; }
   let filtered = [...commonPhrases];
   if (currentCategory !== 'all') filtered = filtered.filter(p => p.category === currentCategory);
   const s = document.getElementById('phraseSearchInput');
@@ -831,9 +819,7 @@ function renderPhrases() {
 }
 function searchPhrases() { renderPhrases(); }
 
-// ═══════════════════════════════════════════════
-// ПРИСТАВКИ
-// ═══════════════════════════════════════════════
+// ═══════ ПРИСТАВКИ ═══════
 function toggleRootLearned(root) {
   const idx = learnedRoots.indexOf(root);
   if (idx >= 0) learnedRoots.splice(idx, 1); else learnedRoots.push(root);
@@ -843,9 +829,10 @@ function toggleRootLearned(root) {
 function renderPrefixes() {
   const container = document.getElementById('prefixesContainer');
   if (!container) return;
+  if (typeof prefixes === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ prefixes.js не загружен</div>'; return; }
   const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
   if (currentPrefixType === 'root') {
-    if (typeof wordRoots === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    if (typeof wordRoots === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ Корни не найдены в prefixes.js</div>'; return; }
     const total = wordRoots.length, learned = learnedRoots.length;
     const progress = Math.round((learned / total) * 100);
     let html = `<div style="background:#ecdca8;border-radius:28px;padding:14px 18px;margin-bottom:16px;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>🧱 Изучено: ${learned}/${total}</strong><span>${progress}%</span></div><div style="background:#fff6e8;border-radius:20px;height:12px;margin-top:8px;"><div style="background:#6b8e23;height:100%;width:${progress}%;"></div></div></div><div class="filters" id="rootTopicFilters" style="margin-bottom:12px;">`;
@@ -869,7 +856,6 @@ function renderPrefixes() {
     if (rtf) rtf.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { currentRootTopic = btn.dataset.topic; renderPrefixes(); }); });
     return;
   }
-  if (typeof prefixes === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
   let filtered = [...prefixes];
   if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
   if (query) filtered = filtered.filter(p => p.affix.toLowerCase().includes(query) || p.meaning.toLowerCase().includes(query));
@@ -892,14 +878,12 @@ function searchPrefixes() {
   renderPrefixes();
 }
 
-// ═══════════════════════════════════════════════
-// МАГИЯ
-// ═══════════════════════════════════════════════
+// ═══════ МАГИЯ ═══════
 function renderMagic() {
   const container = document.getElementById('magicContainer');
   if (!container) return;
+  if (typeof magicVerbs === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ magicWords.js не загружен</div>'; return; }
   if (currentMagicTab === 'verbs') {
-    if (typeof magicVerbs === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
     let html = '';
     magicVerbs.forEach(v => {
       html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;"><div class="tense-header"><div class="tense-emoji">${v.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.8rem;">${v.verb}</div><div style="font-size:.85rem;color:#8b6946;">${v.meaning}</div></div></div><div class="memory-hack" style="font-size:.9rem;">${v.note}</div>`;
@@ -915,7 +899,7 @@ function renderMagic() {
     });
     container.innerHTML = html;
   } else if (currentMagicTab === 'words') {
-    if (typeof magicWords === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    if (typeof magicWords === 'undefined') { container.innerHTML = '<div style="padding:40px;">⚠️ Нет данных</div>'; return; }
     let html = '';
     magicWords.forEach(w => {
       html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;"><div class="tense-header"><div class="tense-emoji">${w.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.8rem;">${w.word}</div><div style="font-size:.9rem;color:#8b6946;">${w.ru}</div></div></div>`;
@@ -927,7 +911,7 @@ function renderMagic() {
     });
     container.innerHTML = html;
   } else if (currentMagicTab === 'survival') {
-    if (typeof survivalPhrases === 'undefined') { container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Нет данных</div>'; return; }
+    if (typeof survivalPhrases === 'undefined') { container.innerHTML = '<div style="padding:40px;">⚠️ Нет данных</div>'; return; }
     let html = '<div class="memory-hack" style="margin-bottom:16px;">🆘 <strong>Фразы-спасалки</strong></div>';
     survivalPhrases.forEach(p => {
       const clean = p.en.replace(/'/g, "\\'");
@@ -937,12 +921,11 @@ function renderMagic() {
   }
 }
 
-// ═══════════════════════════════════════════════
-// ТЕСТ
-// ═══════════════════════════════════════════════
+// ═══════ ТЕСТ ═══════
 function renderQuizFilters() {
   const container = document.getElementById('quizFilters');
-  if (!container || typeof quizCategories === 'undefined') return;
+  if (!container) return;
+  if (typeof quizCategories === 'undefined') { container.innerHTML = ''; return; }
   let html = '';
   quizCategories.forEach(c => { html += `<button class="filter-btn ${currentQuizCategory === c.id ? 'active' : ''}" data-quiz="${c.id}">${c.emoji} ${c.name}</button>`; });
   container.innerHTML = html;
@@ -959,6 +942,7 @@ function renderQuiz() {
   const container = document.getElementById('quizContainer');
   const stats = document.getElementById('quizStats');
   if (!container) return;
+  if (typeof quizQuestions === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ quiz.js не загружен</div>'; return; }
   const questions = getCurrentQuizQuestions();
   if (!questions.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет вопросов</div>'; return; }
   let answered = 0, correct = 0;
@@ -968,7 +952,7 @@ function renderQuiz() {
     stats.innerHTML = `✅ Правильно: ${correct}/${answered} (${percent}%) | 📚 Всего: ${questions.length}`;
   }
   let html = '';
-  questions.slice(0, 30).forEach((q, idx) => {
+  questions.slice(0, 40).forEach((q, idx) => {
     const state = quizState[idx] || {};
     const chosen = state.chosen;
     const isAnswered = chosen !== undefined;
@@ -980,7 +964,7 @@ function renderQuiz() {
         else if (optIdx === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; }
       }
       const mark = isAnswered && optIdx === chosen ? (state.correct ? '✅ ' : '❌ ') : (isAnswered && optIdx === q.correct ? '✅ ' : '');
-      html += `<div onclick="${isAnswered ? '' : `answerQuiz(${idx},${optIdx})`}" style="background:${bg};color:${color};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+      html += `<div onclick="${isAnswered ? '' : `answerQuiz(${idx},${optIdx})`}" style="background:${bg};color:${color};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
     });
     if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${q.hint}</div>`;
     html += `</div>`;
@@ -995,28 +979,192 @@ function answerQuiz(qIdx, optIdx) {
 }
 function resetQuiz() { quizState = {}; renderQuizFilters(); renderQuiz(); }
 
-// ═══════════════════════════════════════════════
-// КОНСТРУКТОР
-// ═══════════════════════════════════════════════
+// ═══════ КОНСТРУКТОР ═══════
 function renderBuilderFilters() {
   const container = document.getElementById('builderFilters');
-  if (!container || typeof builderCategories === 'undefined') return;
+  if (!container) return;
+  if (typeof builderCategories === 'undefined') { container.innerHTML = ''; return; }
   let html = '';
   builderCategories.forEach(c => { html += `<button class="filter-btn ${currentBuilderCategory === c.id ? 'active' : ''}" data-builder="${c.id}">${c.emoji} ${c.name}</button>`; });
   container.innerHTML = html;
   container.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => { currentBuilderCategory = btn.dataset.builder; builderState = {}; renderBuilder(); });
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); currentBuilderCategory = btn.dataset.builder; builderState = {};
+      renderBuilder();
+    });
   });
 }
 function renderBuilder() {
   const container = document.getElementById('builderContainer');
   if (!container) return;
-  container.innerHTML = '<div style="text-align:center;padding:30px;color:#8b6946;">👇 Выберите тип задания выше</div>';
+  if (typeof builderCategories === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ builder.js не загружен</div>'; return; }
+  let html = '';
+  const cat = currentBuilderCategory;
+  if (cat === 'all' || cat === 'order')     html += renderOrderSection();
+  if (cat === 'all' || cat === 'question')  html += renderQuestionSection();
+  if (cat === 'all' || cat === 'reply')     html += renderReplySection();
+  if (cat === 'all' || cat === 'transform') html += renderTransformSection();
+  if (cat === 'all' || cat === 'dialogue')  html += renderDialogueSection();
+  container.innerHTML = html || '<div style="text-align:center;padding:30px;color:#8b6946;">👇 Выберите тип задания</div>';
 }
+function renderOrderSection() {
+  if (typeof builderOrder === 'undefined') return '';
+  let html = `<div class="memory-hack" style="background:#d4e6a5;border-left-color:#6b8e23;margin-bottom:14px;">🧩 <strong>Собери предложение</strong></div>`;
+  builderOrder.slice(0, 8).forEach((item, idx) => {
+    const key = 'order_' + idx;
+    const state = builderState[key] || {};
+    const currentWords = state.current || [];
+    const available = state.available || shuffleWords(item.words);
+    const isComplete = currentWords.length === item.words.length;
+    const isCorrect = isComplete && currentWords.join(' ') === item.words.join(' ');
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${isComplete ? (isCorrect ? '#6b8e23' : '#b93a3a') : '#c49a6c'};margin-bottom:14px;"><div style="font-size:.85rem;color:#8b6946;margin-bottom:6px;">🇷🇺 ${item.ru}</div><div style="min-height:44px;background:#fff6e8;border:2px dashed #c49a6c;border-radius:18px;padding:10px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;">`;
+    if (!currentWords.length) html += `<span style="color:#8b6946;font-style:italic;">Нажимай слова ниже...</span>`;
+    else currentWords.forEach((w, wi) => { html += `<span onclick="removeWordFromOrder('${key}',${wi})" style="background:#d4e6a5;padding:6px 12px;border-radius:12px;cursor:pointer;font-weight:bold;">${w}</span>`; });
+    html += `</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">`;
+    available.forEach(w => { html += `<span onclick="addWordToOrder('${key}','${w.replace(/'/g,"\\'")}',${idx})" style="background:#f2e5ca;padding:6px 12px;border-radius:12px;cursor:pointer;">${w}</span>`; });
+    html += `</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">`;
+    if (isComplete) html += isCorrect ? `<span style="color:#6b8e23;font-weight:bold;">✅ Правильно!</span>` : `<span style="color:#b93a3a;font-weight:bold;">❌ Ошибки</span>`;
+    html += `<button class="speak-btn-small" onclick="event.stopPropagation();speakText('${item.words.join(' ')}')">🔊</button><button class="speak-btn-small" onclick="resetOrder('${key}',${idx})" style="background:#8b6946;">🔄</button></div>`;
+    if (isComplete && !isCorrect) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
+    html += `</div>`;
+  });
+  return html;
+}
+function addWordToOrder(key, word, idx) {
+  const item = builderOrder[idx];
+  const state = builderState[key] || { current: [], available: shuffleWords(item.words) };
+  if (!state.current) state.current = [];
+  if (!state.available) state.available = shuffleWords(item.words);
+  const i = state.available.indexOf(word);
+  if (i >= 0) { state.available.splice(i, 1); state.current.push(word); }
+  builderState[key] = state; renderBuilder();
+}
+function removeWordFromOrder(key, pos) {
+  const state = builderState[key];
+  if (!state || !state.current) return;
+  const [w] = state.current.splice(pos, 1);
+  state.available.push(w); builderState[key] = state; renderBuilder();
+}
+function resetOrder(key, idx) {
+  builderState[key] = { current: [], available: shuffleWords(builderOrder[idx].words) };
+  renderBuilder();
+}
+function renderQuestionSection() {
+  if (typeof builderQuestions === 'undefined') return '';
+  let html = `<div class="memory-hack" style="background:#d4e6a5;border-left-color:#6b8e23;margin-bottom:14px;">❓ <strong>Построй вопрос</strong></div>`;
+  builderQuestions.slice(0, 8).forEach((item, idx) => {
+    const key = 'q_' + idx;
+    const state = builderState[key] || {};
+    const chosen = state.chosen;
+    const isAnswered = chosen !== undefined;
+    if (!state.opts) { state.opts = shuffleWords([item.question, ...item.wrong]); builderState[key] = state; }
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'};margin-bottom:14px;"><div style="font-size:.95rem;margin-bottom:8px;"><b>Утверждение:</b> ${item.statement}</div><div style="font-size:.85rem;color:#8b6946;margin-bottom:10px;">${item.ru}</div><div style="font-size:.9rem;font-weight:bold;margin-bottom:8px;">❓ Построй вопрос:</div>`;
+    state.opts.forEach(opt => {
+      const isCorrect = opt === item.question;
+      let bg = '#f2e5ca';
+      if (isAnswered) { if (isCorrect) bg = '#c8e6a0'; else if (opt === chosen) bg = '#f3b4b4'; }
+      const mark = isAnswered ? (isCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+      html += `<div onclick="${isAnswered ? '' : `answerBuilderQuestion('${key}','${opt.replace(/'/g,"\\'")}','${item.question.replace(/'/g,"\\'")}')`}" style="background:${bg};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+    });
+    if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
+    html += `</div>`;
+  });
+  return html;
+}
+function answerBuilderQuestion(key, chosen, correct) {
+  const state = builderState[key] || {};
+  builderState[key] = { ...state, chosen, correct: chosen === correct };
+  renderBuilder();
+}
+function renderReplySection() {
+  if (typeof builderReplies === 'undefined') return '';
+  let html = `<div class="memory-hack" style="background:#d4e6a5;border-left-color:#6b8e23;margin-bottom:14px;">💬 <strong>Выбери ответ</strong></div>`;
+  builderReplies.slice(0, 8).forEach((item, idx) => {
+    const key = 'r_' + idx;
+    const state = builderState[key] || {};
+    const chosen = state.chosen;
+    const isAnswered = chosen !== undefined;
+    if (!state.opts) { state.opts = shuffleWords([item.correct, ...item.wrong]); builderState[key] = state; }
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'};margin-bottom:14px;"><div style="background:#ffd6a5;padding:12px;border-radius:18px;margin-bottom:10px;"><div style="font-size:1.05rem;font-weight:bold;">🗣️ ${item.prompt}</div><div style="font-size:.8rem;color:#5f451f;margin-top:4px;">${item.ruPrompt}</div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${item.prompt.replace(/'/g,"\\'")}')" style="margin-top:6px;">🔈</button></div>`;
+    state.opts.forEach(opt => {
+      const isCorrect = opt === item.correct;
+      let bg = '#f2e5ca';
+      if (isAnswered) { if (isCorrect) bg = '#c8e6a0'; else if (opt === chosen) bg = '#f3b4b4'; }
+      const mark = isAnswered ? (isCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+      html += `<div onclick="${isAnswered ? '' : `answerBuilderReply('${key}','${opt.replace(/'/g,"\\'")}','${item.correct.replace(/'/g,"\\'")}')`}" style="background:${bg};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+    });
+    if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
+    html += `</div>`;
+  });
+  return html;
+}
+function answerBuilderReply(key, chosen, correct) {
+  const state = builderState[key] || {};
+  builderState[key] = { ...state, chosen, correct: chosen === correct };
+  renderBuilder();
+}
+function renderTransformSection() {
+  if (typeof builderTransform === 'undefined') return '';
+  let html = `<div class="memory-hack" style="background:#d4e6a5;border-left-color:#6b8e23;margin-bottom:14px;">🔄 <strong>Переделай</strong></div>`;
+  builderTransform.slice(0, 8).forEach((item, idx) => {
+    const key = 't_' + idx;
+    const state = builderState[key] || {};
+    const chosen = state.chosen;
+    const isAnswered = chosen !== undefined;
+    if (!state.opts) { state.opts = shuffleWords([item.answer, ...item.wrong]); builderState[key] = state; }
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c'};margin-bottom:14px;"><div style="font-size:.85rem;color:#8b6946;margin-bottom:4px;">🎯 <b>${item.task}</b></div><div style="background:#ffd6a5;padding:10px 12px;border-radius:14px;margin-bottom:10px;">${item.given}</div>`;
+    state.opts.forEach(opt => {
+      const isCorrect = opt === item.answer;
+      let bg = '#f2e5ca';
+      if (isAnswered) { if (isCorrect) bg = '#c8e6a0'; else if (opt === chosen) bg = '#f3b4b4'; }
+      const mark = isAnswered ? (isCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+      html += `<div onclick="${isAnswered ? '' : `answerBuilderTransform('${key}','${opt.replace(/'/g,"\\'")}','${item.answer.replace(/'/g,"\\'")}')`}" style="background:${bg};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+    });
+    if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
+    html += `</div>`;
+  });
+  return html;
+}
+function answerBuilderTransform(key, chosen, correct) {
+  const state = builderState[key] || {};
+  builderState[key] = { ...state, chosen, correct: chosen === correct };
+  renderBuilder();
+}
+function renderDialogueSection() {
+  if (typeof builderDialogues === 'undefined') return '';
+  let html = `<div class="memory-hack" style="background:#d4e6a5;border-left-color:#6b8e23;margin-bottom:14px;">🎭 <strong>Диалоги</strong></div>`;
+  builderDialogues.forEach((dlg, dIdx) => {
+    const key = 'd_' + dIdx;
+    const state = builderState[key] || { step: 0, history: [] };
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid #c49a6c;margin-bottom:14px;"><div class="tense-header"><div class="tense-emoji">${dlg.emoji}</div><div class="tense-name">${dlg.title}</div></div>`;
+    state.history.forEach(h => { html += `<div style="background:#f2e5ca;padding:10px;border-radius:14px;margin:6px 0;"><b>${h.speaker}:</b> ${h.en}<div style="font-size:.8rem;color:#8b6946;">${h.ru}</div></div>`; });
+    if (state.step < dlg.steps.length) {
+      const step = dlg.steps[state.step];
+      html += `<div style="background:#ffd6a5;padding:12px;border-radius:18px;margin:10px 0;"><div style="font-size:1.05rem;font-weight:bold;">🗣️ ${step.speaker}: ${step.en}</div><div style="font-size:.8rem;color:#5f451f;margin-top:4px;">${step.ru}</div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${step.en.replace(/'/g,"\\'")}')" style="margin-top:6px;">🔈</button></div><div style="font-size:.9rem;font-weight:bold;margin-bottom:6px;">Выбери ответ:</div>`;
+      step.options.forEach((opt, optIdx) => {
+        html += `<div onclick="answerDialogue('${key}',${dIdx},${optIdx})" style="background:#f2e5ca;padding:10px 14px;border-radius:18px;margin:6px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${opt.replace(/'/g,"\\'")}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+      });
+    } else {
+      html += `<div style="text-align:center;padding:14px;color:#6b8e23;font-weight:bold;">✅ Диалог завершён!</div><div style="text-align:center;"><button class="speak-btn-small" onclick="resetDialogue('${key}')" style="background:#8b6946;">🔄 Заново</button></div>`;
+    }
+    html += `</div>`;
+  });
+  return html;
+}
+function answerDialogue(key, dIdx, optIdx) {
+  const dlg = builderDialogues[dIdx];
+  const state = builderState[key] || { step: 0, history: [] };
+  const step = dlg.steps[state.step];
+  if (optIdx !== step.correct) return;
+  state.history.push({ speaker: 'You', en: step.options[optIdx], ru: step.ru });
+  state.step++;
+  builderState[key] = state;
+  renderBuilder();
+}
+function resetDialogue(key) { builderState[key] = { step: 0, history: [] }; renderBuilder(); }
 
-// ═══════════════════════════════════════════════
-// СЛОВАРЬ
-// ═══════════════════════════════════════════════
+// ═══════ СЛОВАРЬ ═══════
 function renderDictFilters() {
   const container = document.getElementById('dictFilters');
   if (!container) return;
@@ -1031,10 +1179,8 @@ function renderDictFilters() {
 function renderDictionary() {
   const container = document.getElementById('dictContainer');
   const counter = document.getElementById('dictCounter');
-  if (!container || typeof dictionary === 'undefined') {
-    if (container) container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ dictionary.js не загружен</div>';
-    return;
-  }
+  if (!container) return;
+  if (typeof dictionary === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ dictionary.js не загружен</div>'; if (counter) counter.textContent = ''; return; }
   const input = document.getElementById('dictSearchInput');
   const query = input ? input.value.toLowerCase().trim() : '';
   let filtered = [...dictionary];
@@ -1055,79 +1201,66 @@ function searchDictionary() {
   renderDictionary();
 }
 
-// ═══════════════════════════════════════════════
-// ЗАДАНИЯ ИЗ СЛОВАРЯ
-// ═══════════════════════════════════════════════
+// ═══════ ЗАДАНИЯ ИЗ СЛОВАРЯ ═══════
 function renderQgenFilters() {
-  const modeFilters = document.getElementById('qgenFilters');
-  const posFilters = document.getElementById('qgenPosFilters');
-  if (modeFilters) {
-    modeFilters.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        modeFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active'); currentQgenMode = btn.dataset.qgen;
-        regenerateQgen();
-      });
+  const mf = document.getElementById('qgenFilters');
+  const pf = document.getElementById('qgenPosFilters');
+  if (mf) mf.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mf.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); currentQgenMode = btn.dataset.qgen;
+      regenerateQgen();
     });
-  }
-  if (posFilters) {
-    posFilters.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        posFilters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active'); currentQgenPos = btn.dataset.pos;
-        regenerateQgen();
-      });
+  });
+  if (pf) pf.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      pf.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); currentQgenPos = btn.dataset.pos;
+      regenerateQgen();
     });
-  }
+  });
 }
 function getFilteredDictWords() {
   if (typeof dictionary === 'undefined') return [];
   if (currentQgenPos === 'all') return dictionary;
   return dictionary.filter(w => w.pos === currentQgenPos);
 }
-function shuffleArr(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
-  return a;
-}
 function regenerateQgen() {
   qgenState = {};
   const words = getFilteredDictWords();
   if (currentQgenMode === 'sentence') qgenSentences = generateSentencesList(words);
   else if (currentQgenMode === 'quiz') qgenQuestions = generateQuizFromDict(words, 10);
-  else if (currentQgenMode === 'flash') qgenSentences = shuffleArr(words).slice(0, 20);
+  else if (currentQgenMode === 'flash') qgenSentences = shuffleWords(words).slice(0, 20);
   renderQgen();
 }
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
-  if (typeof quizgen === 'undefined' || !quizgen.generateSentence) {
-    // fallback: строим простое предложение по шаблону
-    return shuffleArr(words).slice(0, count).map(w => {
-      let en, ru;
-      if (w.pos === 'noun') { en = `I have a ${w.eng}.`; ru = `У меня есть ${w.ru}.`; }
-      else if (w.pos === 'verb') { en = `I ${w.eng} every day.`; ru = `Я ${w.ru} каждый день.`; }
-      else if (w.pos === 'adjective') { en = `It is very ${w.eng}.`; ru = `Это очень ${w.ru}.`; }
-      else if (w.pos === 'adverb') { en = `He speaks ${w.eng}.`; ru = `Он говорит ${w.ru}.`; }
-      else { en = `The word is ${w.eng}.`; ru = `Слово — ${w.ru}.`; }
-      return { en, ru, word: w };
-    });
+  if (typeof quizgen !== 'undefined' && quizgen.generateSentence) {
+    const sample = shuffleWords(words).slice(0, count);
+    const result = [];
+    sample.forEach(w => { const s = quizgen.generateSentence(w); if (s) result.push(s); });
+    return result;
   }
-  const sample = shuffleArr(words).slice(0, count);
-  const result = [];
-  sample.forEach(w => { const s = quizgen.generateSentence(w); if (s) result.push(s); });
-  return result;
+  return shuffleWords(words).slice(0, count).map(w => {
+    let en, ru;
+    if (w.pos === 'noun') { en = `I have a ${w.eng}.`; ru = `У меня есть ${w.ru}.`; }
+    else if (w.pos === 'verb') { en = `I ${w.eng} every day.`; ru = `Я ${w.ru} каждый день.`; }
+    else if (w.pos === 'adjective') { en = `It is very ${w.eng}.`; ru = `Это очень ${w.ru}.`; }
+    else if (w.pos === 'adverb') { en = `He speaks ${w.eng}.`; ru = `Он говорит ${w.ru}.`; }
+    else { en = `The word is ${w.eng}.`; ru = `Слово — ${w.ru}.`; }
+    return { en, ru, word: w };
+  });
 }
 function generateQuizFromDict(words, count = 10) {
   if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) return quizgen.generateQuiz(words, count);
-  // fallback: только перевод
-  const sample = shuffleArr(words).slice(0, count);
+  const sample = shuffleWords(words).slice(0, count);
   return sample.map(w => {
-    const others = shuffleArr(words.filter(o => o.eng !== w.eng)).slice(0, 3);
+    const others = shuffleWords(words.filter(o => o.eng !== w.eng)).slice(0, 3);
     return {
       type: 'translate',
       q: `Как переводится <b>${w.eng}</b>?`,
       correct: w.ru,
-      options: shuffleArr([w.ru, ...others.map(o => o.ru)]),
+      options: shuffleWords([w.ru, ...others.map(o => o.ru)]),
       hint: `${w.tr || ''} · ${w.pos}`,
       word: w
     };
@@ -1137,11 +1270,7 @@ function renderQgen() {
   const container = document.getElementById('qgenContainer');
   const stats = document.getElementById('qgenStats');
   if (!container) return;
-  if (typeof dictionary === 'undefined') {
-    container.innerHTML = '<div style="text-align:center;padding:40px;">⚠️ Словарь не загружен</div>';
-    if (stats) stats.textContent = '';
-    return;
-  }
+  if (typeof dictionary === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ Словарь не загружен</div>'; return; }
   const totalWords = getFilteredDictWords().length;
 
   if (currentQgenMode === 'sentence') {
@@ -1155,7 +1284,6 @@ function renderQgen() {
     container.innerHTML = html;
     return;
   }
-
   if (currentQgenMode === 'quiz') {
     if (!qgenQuestions.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет вопросов</div>'; return; }
     let answered = 0, correct = 0;
@@ -1167,18 +1295,15 @@ function renderQgen() {
       const state = qgenState[i] || {};
       const chosen = state.chosen;
       const isAnswered = chosen !== undefined;
-      const borderColor = isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c';
-      html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${borderColor};margin-bottom:14px;"><div style="font-weight:bold;color:#3d2b1a;margin-bottom:10px;">${i+1}. ${q.q}</div>`;
+      const bc = isAnswered ? (state.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c';
+      html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${bc};margin-bottom:14px;"><div style="font-weight:bold;color:#3d2b1a;margin-bottom:10px;">${i+1}. ${q.q}</div>`;
       q.options.forEach(opt => {
         const isCorrect = opt === q.correct;
         let bg = '#f2e5ca', color = '#3d2b1a';
-        if (isAnswered) {
-          if (isCorrect) { bg = '#c8e6a0'; color = '#2d4a0f'; }
-          else if (opt === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; }
-        }
+        if (isAnswered) { if (isCorrect) { bg = '#c8e6a0'; color = '#2d4a0f'; } else if (opt === chosen) { bg = '#f3b4b4'; color = '#5a0f0f'; } }
         const mark = isAnswered ? (isCorrect ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
         const cleanOpt = opt.replace(/'/g, "\\'");
-        html += `<div onclick="${isAnswered ? '' : `answerQgen(${i},'${cleanOpt}')`}" style="background:${bg};color:${color};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanOpt}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
+        html += `<div onclick="${isAnswered ? '' : `answerQgen(${i},'${cleanOpt}')`}" style="background:${bg};color:${color};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${isAnswered ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;"><span>${mark}${opt}</span><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanOpt}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></div>`;
       });
       if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${q.hint}</div>`;
       html += `</div>`;
@@ -1186,7 +1311,6 @@ function renderQgen() {
     container.innerHTML = html;
     return;
   }
-
   if (currentQgenMode === 'flash') {
     if (stats) stats.textContent = `🎴 Карточек: ${qgenSentences.length}`;
     if (!qgenSentences.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет данных</div>'; return; }
@@ -1195,7 +1319,7 @@ function renderQgen() {
       const state = qgenState['f_' + i] || {};
       const flipped = state.flipped;
       const cleanEng = w.eng.replace(/'/g, "\\'");
-      html += `<div class="tense-card" style="cursor:pointer;border-left:5px solid ${flipped ? '#6b8e23' : '#c49a6c'};text-align:center;padding:24px;" onclick="flipCard('f_${i}')"><div style="font-size:1.6rem;font-weight:bold;color:#3d2b1a;">${w.eng}</div>${flipped ? `<div style="font-size:1.1rem;color:#5f451f;margin-top:10px;padding-top:10px;border-top:1px dashed #c49a6c;">${w.ru}<div style="font-size:.85rem;color:#8b6946;margin-top:6px;font-family:monospace;">${w.tr || ''}</div><div style="font-size:.75rem;color:#8b6946;margin-top:6px;">${w.pos}</div></div>` : `<div style="font-size:.85rem;color:#8b6946;margin-top:10px;">👆 Нажми</div>`}<div style="margin-top:12px;"><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEng}')">🔈</button></div></div>`;
+      html += `<div class="tense-card" style="cursor:pointer;border-left:5px solid ${flipped ? '#6b8e23' : '#c49a6c'};text-align:center;padding:24px;" onclick="flipCard('f_${i}')"><div style="font-size:1.6rem;font-weight:bold;color:#3d2b1a;">${w.eng}</div>${flipped ? `<div style="font-size:1.1rem;color:#5f451f;margin-top:10px;padding-top:10px;border-top:1px dashed #c49a6c;">${w.ru}<div style="font-size:.85rem;color:#8b6946;margin-top:6px;font-family:monospace;">${w.tr || ''}</div><div style="font-size:.75rem;color:#8b6946;margin-top:6px;">${w.pos}</div></div>` : `<div style="font-size:.85rem;Engcolor:#8b6946;margin-top:10px;">👆 Нажми</div>`}<div style="margin-top:12px;"><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button></div></div>`;
     });
     container.innerHTML = html;
   }
@@ -1213,9 +1337,7 @@ function flipCard(key) {
   renderQgen();
 }
 
-// ═══════════════════════════════════════════════
-// FULLSCREEN
-// ═══════════════════════════════════════════════
+// ═══════ FULLSCREEN ═══════
 const fullscreenBtn = document.getElementById('fullscreenTableBtn');
 if (fullscreenBtn) {
   fullscreenBtn.addEventListener('click', () => {
@@ -1224,9 +1346,7 @@ if (fullscreenBtn) {
   });
 }
 
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
+// ═══════ INIT ═══════
 function init() {
   if (typeof verbs !== 'undefined') { allVerbs = verbs; renderVerbCards(allVerbs); renderVerbsTable(); populateVerbSelect(); }
   if (typeof tenses !== 'undefined') renderTenses();
@@ -1279,15 +1399,12 @@ function init() {
   if (typeof dictionary !== 'undefined') regenerateQgen();
 }
 
-// РЕГИСТРАЦИЯ SW
+// ═══════ SW ═══════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js')
       .then(reg => console.log('[SW] ✅ Зарегистрирован:', reg.scope))
-      .catch(err => {
-        console.warn('[SW] ❌ Ошибка:', err.message);
-        console.warn('[SW] Открой через http://localhost или https://');
-      });
+      .catch(err => console.warn('[SW] ❌ Ошибка:', err.message));
   });
 }
 init();
