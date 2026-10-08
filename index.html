@@ -548,6 +548,56 @@ footer {
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════ -->
+<!-- 🔍 ПАНЕЛЬ ДИАГНОСТИКИ — видно прямо на странице -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="diagnosticsPanel" style="
+  max-width:750px;
+  margin:20px auto;
+  padding:16px 20px;
+  background:#fff6e8;
+  border:2px solid #c49a6c;
+  border-radius:24px;
+  font-family:monospace;
+  font-size:.85rem;
+  color:#3d2b1a;
+  display:none;
+">
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  ">
+    <strong style="font-size:1rem;font-family:Georgia,serif;">🔍 Диагностика загрузки</strong>
+    <button onclick="document.getElementById('diagnosticsPanel').style.display='none'" style="
+      background:#8b6946;
+      border:none;
+      color:white;
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:1rem;
+    ">✕</button>
+  </div>
+  <div id="diagnosticsContent"></div>
+</div>
+
+<div style="text-align:center; margin:20px 0;">
+  <button onclick="runPageDiagnostics()" style="
+    background:#8b6946;
+    border:none;
+    color:white;
+    padding:10px 24px;
+    border-radius:40px;
+    font-size:.85rem;
+    cursor:pointer;
+    font-family:Georgia,serif;
+    font-weight:bold;
+  ">🔍 Проверить загрузку данных</button>
+</div>
+
 <footer>📌 Нажми на заголовок → раскроется. Установи приложение через браузер.</footer>
 </div>
 
@@ -1225,15 +1275,12 @@ function regenerateQgen() {
       sourceWords = lessonData.all();
     }
 
-    // Фильтр по части речи
     if (currentQgenPos !== 'all') {
       sourceWords = sourceWords.filter(w => w.pos === currentQgenPos);
     }
 
-    // Только слова с готовыми предложениями
     sourceWords = sourceWords.filter(w => w.ex && w.exRu);
 
-    // Берём 15 случайных
     qgenSentences = shuffleWords(sourceWords).slice(0, 15).map(w => ({
       en: w.ex,
       ru: w.exRu,
@@ -1245,7 +1292,7 @@ function regenerateQgen() {
     return;
   }
 
-  // ─── ❓ ВОПРОСЫ / 🎲 СМЕШАННЫЕ — как было (из словаря) ───
+  // ─── ❓ ВОПРОСЫ / 🎲 СМЕШАННЫЕ / 🎴 ФЛЕШ-КАРТОЧКИ — из словаря ───
   const words = getFilteredDictWords();
   if (currentQgenMode === 'quiz' || currentQgenMode === 'mixed') {
     qgenQuestions = generateQuizFromDict(words, 10);
@@ -1259,19 +1306,16 @@ function regenerateQgen() {
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
 
-  // 1. Основной источник — lessonData.js
   if (typeof lessonData !== 'undefined' && lessonData.sentences) {
     const result = lessonData.sentences(words, count);
     if (result && result.length) return result;
   }
 
-  // 2. Резерв — старый quizgen
   if (typeof quizgen !== 'undefined' && quizgen.generateSentencesList) {
     const result = quizgen.generateSentencesList(words, count);
     if (result && result.length) return result;
   }
 
-  // 3. ⚠️ Без мусора: НЕ генерируем «It is glad» / «The word is cat»
   console.warn('[Sentences] Нет живых предложений в lessonData.js для этих слов');
   return [{
     en: '⚠️ Нет живых предложений для этих слов',
@@ -1281,18 +1325,15 @@ function generateSentencesList(words, count = 15) {
 }
 
 function generateQuizFromDict(words, count = 10) {
-  // 1. Основной источник — lessonData.js
   if (typeof lessonData !== 'undefined' && lessonData.quiz) {
     const result = lessonData.quiz(words, count);
     if (result && result.length) return result;
   }
 
-  // 2. Резерв — старый quizgen
   if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) {
     return quizgen.generateQuiz(words, count);
   }
 
-  // 3. Последний резерв
   const sample = shuffleWords(words).slice(0, count);
   return sample.map(w => {
     const others = shuffleWords(words.filter(o => o.eng !== w.eng)).slice(0, 3);
@@ -1315,7 +1356,6 @@ function renderQgen() {
   const totalWords = getFilteredDictWords().length;
 
   if (currentQgenMode === 'sentence') {
-    // Честный счётчик: сколько слов с примерами есть в lessonData для текущего фильтра
     let totalWithEx = 0;
     if (typeof lessonData !== 'undefined' && lessonData.all) {
       let src = lessonData.all();
@@ -1385,6 +1425,136 @@ function flipCard(key) {
   qgenState[key] = state;
   renderQgen();
 }
+
+// ═══════════════════════════════════════════════
+// 🔍 ДИАГНОСТИКА НА СТРАНИЦЕ (без Console)
+// ═══════════════════════════════════════════════
+function runPageDiagnostics() {
+  const panel = document.getElementById('diagnosticsPanel');
+  const content = document.getElementById('diagnosticsContent');
+  if (!panel || !content) return;
+
+  let html = '';
+  let allOk = true;
+
+  // ─── 1. dictionary.js ───
+  const dictOk = typeof dictionary !== 'undefined' && Array.isArray(dictionary);
+  html += `<div style="padding:8px 0; border-bottom:1px solid #e1cba1;">
+    <b>📖 dictionary.js:</b>
+    <span style="color:${dictOk ? '#2d4a0f' : '#b93a3a'}; font-weight:bold;">
+      ${dictOk ? `✅ ${dictionary.length} слов` : '❌ НЕ ЗАГРУЖЕН'}
+    </span>
+  </div>`;
+  if (!dictOk) allOk = false;
+
+  // ─── 2. lessonData.js ───
+  const lessonOk = typeof lessonData !== 'undefined' && typeof lessonData.all === 'function';
+  if (!lessonOk) {
+    html += `<div style="padding:8px 0; border-bottom:1px solid #e1cba1;">
+      <b>📚 lessonData.js:</b>
+      <span style="color:#b93a3a; font-weight:bold;">❌ НЕ ЗАГРУЖЕН (typeof = "${typeof lessonData}")</span>
+    </div>
+    <div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f; line-height:1.5;">
+      <b>🚨 Что это значит:</b><br>
+      Файл <code>lessonData.js</code> не загрузился. Причины:<br>
+      1. Синтаксическая ошибка в файле (проверьте Console на <code>SyntaxError</code>)<br>
+      2. Файл не подключён в HTML (нет строки <code>&lt;script src="lessonData.js"&gt;&lt;/script&gt;</code>)<br>
+      3. Файл не найден по пути (проверьте Network — статус 404)
+    </div>`;
+    allOk = false;
+  } else {
+    const total = lessonData.all().length;
+    const withEx = lessonData.all().filter(w => w.ex && w.exRu).length;
+
+    html += `<div style="padding:8px 0; border-bottom:1px solid #e1cba1;">
+      <b>📚 lessonData.js:</b>
+      <span style="color:#2d4a0f; font-weight:bold;">✅ загружен</span>
+    </div>
+    <div style="padding:8px 0 8px 20px; border-bottom:1px solid #e1cba1;">
+      • Всего записей: <b>${total}</b>
+    </div>
+    <div style="padding:8px 0 8px 20px; border-bottom:1px solid #e1cba1;">
+      • С ex/exRu (живые предложения): <b style="color:${withEx > 0 ? '#2d4a0f' : '#b93a3a'};">${withEx}</b>
+    </div>
+    <div style="padding:8px 0 8px 20px; border-bottom:1px solid #e1cba1;">
+      • Без ex/exRu: <b>${total - withEx}</b>
+    </div>`;
+
+    if (total === 0) {
+      html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f; line-height:1.5;">
+        <b>🚨 Массив LESSON_DATA пуст!</b><br>
+        Скорее всего в файле <code>lessonData.js</code> есть лишний <code>];</code> в середине — он закрыл массив раньше времени.<br>
+        Проверьте: Ctrl+F по <code>];</code> — должно быть <b>ровно ОДИН раз</b> в самом конце.
+      </div>`;
+      allOk = false;
+    } else if (withEx === 0) {
+      html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f; line-height:1.5;">
+        <b>🚨 Ни у одного слова нет полей ex/exRu!</b><br>
+        Поля должны называться именно <code>ex</code> и <code>exRu</code> (англ., регистр важен).<br>
+        Пример: <code>{ eng: 'cat', ex: 'My cat sleeps.', exRu: 'Мой кот спит.' }</code>
+      </div>`;
+      allOk = false;
+    } else {
+      const examples = lessonData.all().filter(w => w.ex && w.exRu).slice(0, 3);
+      html += `<div style="padding:8px 0 8px 20px; border-bottom:1px solid #e1cba1;">
+        <b>📖 Примеры живых предложений:</b>
+      </div>`;
+      examples.forEach((w, i) => {
+        html += `<div style="padding:4px 0 4px 30px; color:#5f451f; font-size:.8rem;">
+          ${i + 1}. <b>${w.eng}</b> → ${w.ex} <span style="color:#8b6946;">(${w.exRu})</span>
+        </div>`;
+      });
+    }
+  }
+
+  // ─── 3. quizgen.js ───
+  const quizgenOk = typeof quizgen !== 'undefined' && typeof quizgen.generateSentencesList === 'function';
+  html += `<div style="padding:8px 0; border-top:1px solid #e1cba1;">
+    <b>⚙️ quizgen.js:</b>
+    <span style="color:${quizgenOk ? '#2d4a0f' : '#b93a3a'}; font-weight:bold;">
+      ${quizgenOk ? '✅ загружен' : '❌ НЕ ЗАГРУЖЕН'}
+    </span>
+  </div>`;
+  if (!quizgenOk) allOk = false;
+
+  // ─── 4. getFilteredDictWords ───
+  const filterOk = typeof getFilteredDictWords === 'function';
+  if (filterOk && dictOk) {
+    const filtered = getFilteredDictWords().length;
+    html += `<div style="padding:8px 0; border-top:1px solid #e1cba1;">
+      <b>🔍 Фильтр по словарю:</b>
+      <span style="color:#2d4a0f; font-weight:bold;">✅ работает — ${filtered} слов</span>
+    </div>`;
+  }
+
+  // ─── 5. Вердикт ───
+  html += `<div style="margin-top:16px; padding:14px; border-radius:16px; text-align:center; font-weight:bold; font-size:1rem; ${
+    allOk
+      ? 'background:#c8e6a0; color:#2d4a0f;'
+      : 'background:#f3b4b4; color:#5a0f0f;'
+  }">
+    ${allOk ? '✅ Всё загружено! Идите в 🎯 ЗАДАНИЯ → 📝 Предложения' : '❌ Есть проблемы — смотрите выше'}
+  </div>`;
+
+  content.innerHTML = html;
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// Автозапуск диагностики через 1 сек после загрузки, если что-то не так
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    let hasProblem = false;
+    if (typeof lessonData === 'undefined' || typeof lessonData.all !== 'function') {
+      hasProblem = true;
+    } else {
+      const total = lessonData.all().length;
+      const withEx = lessonData.all().filter(w => w.ex && w.exRu).length;
+      if (total === 0 || withEx === 0) hasProblem = true;
+    }
+    if (hasProblem) runPageDiagnostics();
+  }, 1000);
+});
 
 const fullscreenBtn = document.getElementById('fullscreenTableBtn');
 if (fullscreenBtn) {
