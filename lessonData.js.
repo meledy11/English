@@ -880,9 +880,9 @@ const LESSON_DATA = [
       q: 'Why are you in a hurry?', qRu: 'Почему ты спешишь?' },
     { eng: 'husband', ru: 'муж', tr: '[ˈhʌzbənd]', pos: 'noun',
       ex: 'Her husband is a chef.', exRu: 'Её муж — повар.',
-      q: 'What does your husband do?', qRu: 'Чем занимается твой муж?' }
-];
-// ═══════════════════════════════════════════
+      q: 'What does your husband do?', qRu: 'Чем занимается твой муж?' },
+
+    // ═══════════════════════════════════════════
     // I
     // ═══════════════════════════════════════════
     { eng: 'ice',     ru: 'лёд', tr: '[aɪs]', pos: 'noun',
@@ -1535,9 +1535,9 @@ const LESSON_DATA = [
       q: 'Is the room big?', qRu: 'Комната большая?' },
     { eng: 'run',     ru: 'бегать', tr: '[rʌn]', pos: 'verb',
       ex: 'I run every morning before work.', exRu: 'Я бегаю каждое утро перед работой.',
-      q: 'Do you run in the morning?', qRu: 'Ты бегаешь по утрам?' }
-];
-// ═══════════════════════════════════════════
+      q: 'Do you run in the morning?', qRu: 'Ты бегаешь по утрам?' },
+
+    // ═══════════════════════════════════════════
     // S
     // ═══════════════════════════════════════════
     { eng: 'sad',     ru: 'грустный', tr: '[sæd]', pos: 'adjective',
@@ -2212,7 +2212,7 @@ const LESSON_DATA = [
       ex: 'Is this your bag?', exRu: 'Это твоя сумка?',
       q: 'Is this your bag?', qRu: 'Это твоя сумка?' },
 
- // ═══════════════════════════════════════════
+    // ═══════════════════════════════════════════
     // Z
     // ═══════════════════════════════════════════
     { eng: 'zero',    ru: 'ноль', tr: '[ˈzɪərəʊ]', pos: 'numeral',
