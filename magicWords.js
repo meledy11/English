@@ -1,5 +1,5 @@
-// magicWords.js — «магические» глаголы и универсальные слова (ФИНАЛЬНАЯ МЕГА-версия)
-// 22 глагола × 8-25 фраз = ~400 живых выражений
+// magicWords.js — «магические» глаголы и универсальные слова (МАКСИМАЛЬНАЯ версия)
+// 28 глаголов × 8-25 фраз = ~470 живых выражений
 
 // ═══════════════════════════════════════════════
 // 🎩 МАГИЧЕСКИЕ ГЛАГОЛЫ
@@ -264,10 +264,6 @@ const magicVerbs = [
             { p: 'come up with', ru: 'придумать', ex: 'She <b>came up with</b> an idea.', exRu: 'Она придумала идею.' }
         ]
     },
-
-    // ═══════════════════════════════════════════
-    // ВОЛНА 2 — turn, look, give, keep, break, set
-    // ═══════════════════════════════════════════
     {
         verb: 'turn',
         emoji: '🔄',
@@ -426,10 +422,6 @@ const magicVerbs = [
             { p: 'set in', ru: 'наступать', ex: 'Winter has <b>set in</b>.', exRu: 'Наступила зима.' }
         ]
     },
-
-    // ═══════════════════════════════════════════
-    // ВОЛНА 3 — run, work, hold, pick, cut, fall
-    // ═══════════════════════════════════════════
     {
         verb: 'run',
         emoji: '🏃',
@@ -571,6 +563,152 @@ const magicVerbs = [
             { p: 'fall ill', ru: 'заболеть', ex: 'She <b>fell ill</b> last week.', exRu: 'Она заболела на прошлой неделе.' },
             { p: 'fall silent', ru: 'замолчать', ex: 'The room <b>fell silent</b>.', exRu: 'В комнате стало тихо.' },
             { p: 'fall into', ru: 'попасть в', ex: 'He <b>fell into</b> a trap.', exRu: 'Он попал в ловушку.' }
+        ]
+    },
+
+    // ═══════════════════════════════════════════
+    // ВОЛНА 4 — bring, carry, catch, pull, push, hang
+    // ═══════════════════════════════════════════
+    {
+        verb: 'bring',
+        emoji: '📦',
+        meaning: 'ПРИНОСИТЬ, ПРИВОДИТЬ, ВЫЗЫВАТЬ',
+        assoc: 'bring = принести к кому-то',
+        note: 'bring заменяет: приносить, приводить, привозить, вызывать.',
+        senses: [
+            { sense: 'ПРИНОСИТЬ', ru: 'приносить', ex: '<b>Bring</b> me water.', exRu: 'Принеси мне воды.' },
+            { sense: 'ПРИВОДИТЬ', ru: 'приводить', ex: '<b>Bring</b> your friend.', exRu: 'Приведи друга.' },
+            { sense: 'ВЫЗЫВАТЬ', ru: 'вызывать', ex: 'It <b>brought</b> me joy.', exRu: 'Это принесло мне радость.' }
+        ],
+        phrases: [
+            { p: 'bring up', ru: 'воспитывать / поднять тему', ex: 'She <b>brought up</b> three kids.', exRu: 'Она воспитала троих детей.' },
+            { p: 'bring back', ru: 'вернуть / напомнить', ex: '<b>Bring back</b> my book.', exRu: 'Верни мою книгу.' },
+            { p: 'bring in', ru: 'вводить / приносить доход', ex: 'The project <b>brought in</b> money.', exRu: 'Проект принёс деньги.' },
+            { p: 'bring down', ru: 'снизить / свалить', ex: '<b>Bring down</b> the prices.', exRu: 'Снизьте цены.' },
+            { p: 'bring about', ru: 'вызвать', ex: 'It <b>brought about</b> change.', exRu: 'Это вызвало перемены.' },
+            { p: 'bring out', ru: 'выпустить / выявить', ex: 'They <b>brought out</b> a new phone.', exRu: 'Они выпустили новый телефон.' },
+            { p: 'bring together', ru: 'объединить', ex: 'The event <b>brought</b> us <b>together</b>.', exRu: 'Событие объединило нас.' },
+            { p: 'bring forward', ru: 'перенести на раньше', ex: 'They <b>brought</b> the meeting <b>forward</b>.', exRu: 'Встречу перенесли на раньше.' },
+            { p: 'bring along', ru: 'привести с собой', ex: '<b>Bring along</b> your sister.', exRu: 'Приведи с собой сестру.' },
+            { p: 'bring to life', ru: 'оживить', ex: 'The book <b>brought</b> the story <b>to life</b>.', exRu: 'Книга оживила историю.' }
+        ]
+    },
+    {
+        verb: 'carry',
+        emoji: '🛍️',
+        meaning: 'НЕСТИ, ВЕЗТИ, ПРОДОЛЖАТЬ',
+        assoc: 'carry = перемещать что-то с собой',
+        note: 'carry заменяет: нести, везти, носить, продолжать, содержать.',
+        senses: [
+            { sense: 'НЕСТИ', ru: 'нести', ex: '<b>Carry</b> this bag.', exRu: 'Неси эту сумку.' },
+            { sense: 'ВЕЗТИ', ru: 'везти', ex: 'The bus <b>carries</b> 50 people.', exRu: 'Автобус перевозит 50 человек.' },
+            { sense: 'ПРОДОЛЖАТЬ', ru: 'продолжать', ex: '<b>Carry</b> on with your work.', exRu: 'Продолжай свою работу.' }
+        ],
+        phrases: [
+            { p: 'carry on', ru: 'продолжать', ex: '<b>Carry on</b>, please.', exRu: 'Продолжай, пожалуйста.' },
+            { p: 'carry out', ru: 'выполнять', ex: '<b>Carry out</b> the plan.', exRu: 'Выполни план.' },
+            { p: 'carry away', ru: 'увлечься', ex: 'Don\'t get <b>carried away</b>.', exRu: 'Не увлекайся.' },
+            { p: 'carry over', ru: 'перенести', ex: '<b>Carry over</b> the balance.', exRu: 'Перенеси остаток.' },
+            { p: 'carry through', ru: 'довести до конца', ex: '<b>Carry</b> it <b>through</b>.', exRu: 'Доведи это до конца.' },
+            { p: 'carry weight', ru: 'иметь вес (о словах)', ex: 'His words <b>carry weight</b>.', exRu: 'Его слова имеют вес.' },
+            { p: 'carry a torch', ru: 'быть влюблённым', ex: 'He still <b>carries a torch</b> for her.', exRu: 'Он всё ещё её любит.' },
+            { p: 'carry the day', ru: 'победить', ex: 'Our team <b>carried the day</b>.', exRu: 'Наша команда победила.' }
+        ]
+    },
+    {
+        verb: 'catch',
+        emoji: '🥅',
+        meaning: 'ЛОВИТЬ, УСПЕТЬ, ЗАБОЛЕТЬ',
+        assoc: 'catch = поймать на лету',
+        note: 'catch заменяет: ловить, успеть, поймать, подхватить (болезнь), застать.',
+        senses: [
+            { sense: 'ЛОВИТЬ', ru: 'ловить', ex: '<b>Catch</b> the ball!', exRu: 'Лови мяч!' },
+            { sense: 'УСПЕТЬ', ru: 'успеть', ex: '<b>Catch</b> the bus!', exRu: 'Успей на автобус!' },
+            { sense: 'ЗАБОЛЕТЬ', ru: 'подхватить', ex: 'I <b>caught</b> a cold.', exRu: 'Я простудился.' }
+        ],
+        phrases: [
+            { p: 'catch up', ru: 'догнать', ex: '<b>Catch up</b> with me.', exRu: 'Догони меня.' },
+            { p: 'catch up with', ru: 'догнать / наверстать', ex: 'I need to <b>catch up with</b> work.', exRu: 'Мне нужно наверстать работу.' },
+            { p: 'catch a cold', ru: 'простудиться', ex: 'I <b>caught a cold</b>.', exRu: 'Я простудился.' },
+            { p: 'catch a bus', ru: 'успеть на автобус', ex: 'Let\'s <b>catch a bus</b>.', exRu: 'Давай успеем на автобус.' },
+            { p: 'catch fire', ru: 'загореться', ex: 'The house <b>caught fire</b>.', exRu: 'Дом загорелся.' },
+            { p: 'catch sight of', ru: 'увидеть мельком', ex: 'I <b>caught sight of</b> him.', exRu: 'Я мельком увидел его.' },
+            { p: 'catch someone\'s eye', ru: 'привлечь внимание', ex: 'The dress <b>caught my eye</b>.', exRu: 'Платье привлекло моё внимание.' },
+            { p: 'catch on', ru: 'становиться популярным', ex: 'The trend <b>caught on</b>.', exRu: 'Тренд стал популярным.' },
+            { p: 'catch a break', ru: 'получить шанс', ex: 'He finally <b>caught a break</b>.', exRu: 'Ему наконец повезло.' },
+            { p: 'catch red-handed', ru: 'поймать на месте', ex: 'They <b>caught</b> him <b>red-handed</b>.', exRu: 'Его поймали на месте.' }
+        ]
+    },
+    {
+        verb: 'pull',
+        emoji: '🎣',
+        meaning: 'ТЯНУТЬ, ВЫТАСКИВАТЬ, ПРИВЛЕКАТЬ',
+        assoc: 'pull = тянуть к себе',
+        note: 'pull заменяет: тянуть, вытягивать, вытаскивать, привлекать, рвать.',
+        senses: [
+            { sense: 'ТЯНУТЬ', ru: 'тянуть', ex: '<b>Pull</b> the door.', exRu: 'Тяни дверь.' },
+            { sense: 'ВЫТАСКИВАТЬ', ru: 'вытаскивать', ex: '<b>Pull</b> it out.', exRu: 'Вытащи это.' },
+            { sense: 'ПРИВЛЕКАТЬ', ru: 'привлекать', ex: 'The show <b>pulled</b> crowds.', exRu: 'Шоу привлекло толпы.' }
+        ],
+        phrases: [
+            { p: 'pull up', ru: 'подъехать / подтянуться', ex: 'A car <b>pulled up</b>.', exRu: 'Машина подъехала.' },
+            { p: 'pull off', ru: 'осуществить / свернуть', ex: 'They <b>pulled off</b> the deal.', exRu: 'Они провернули сделку.' },
+            { p: 'pull out', ru: 'вытащить / выйти', ex: '<b>Pull out</b> the tooth.', exRu: 'Вырви зуб.' },
+            { p: 'pull over', ru: 'прижаться к обочине', ex: '<b>Pull over</b>, please.', exRu: 'Остановитесь у обочины.' },
+            { p: 'pull down', ru: 'сносить', ex: 'They <b>pulled down</b> the building.', exRu: 'Здание снесли.' },
+            { p: 'pull together', ru: 'сплотиться', ex: 'We need to <b>pull together</b>.', exRu: 'Нам нужно сплотиться.' },
+            { p: 'pull through', ru: 'выжить / выкарабкаться', ex: 'She <b>pulled through</b>.', exRu: 'Она выкарабкалась.' },
+            { p: 'pull strings', ru: 'использовать связи', ex: 'He <b>pulled strings</b> to help.', exRu: 'Он использовал связи, чтобы помочь.' },
+            { p: 'pull your weight', ru: 'вносить вклад', ex: 'Everyone must <b>pull their weight</b>.', exRu: 'Каждый должен вносить вклад.' },
+            { p: 'pull a face', ru: 'скорчить рожу', ex: 'Don\'t <b>pull a face</b>.', exRu: 'Не кривись.' }
+        ]
+    },
+    {
+        verb: 'push',
+        emoji: '🚪',
+        meaning: 'ТОЛКАТЬ, ДАВИТЬ, ПРОДВИГАТЬ',
+        assoc: 'push = толкать от себя',
+        note: 'push заменяет: толкать, давить, нажимать, продвигать, подгонять.',
+        senses: [
+            { sense: 'ТОЛКАТЬ', ru: 'толкать', ex: '<b>Push</b> the door.', exRu: 'Толкни дверь.' },
+            { sense: 'НАЖИМАТЬ', ru: 'нажимать', ex: '<b>Push</b> the button.', exRu: 'Нажми кнопку.' },
+            { sense: 'ПРОДВИГАТЬ', ru: 'продвигать', ex: 'They <b>pushed</b> the idea.', exRu: 'Они продвигали идею.' }
+        ],
+        phrases: [
+            { p: 'push on', ru: 'продолжать', ex: '<b>Push on</b>, we\'re almost there.', exRu: 'Продолжай, мы почти на месте.' },
+            { p: 'push up', ru: 'поднять (цены)', ex: 'They <b>pushed up</b> prices.', exRu: 'Они подняли цены.' },
+            { p: 'push down', ru: 'опустить', ex: '<b>Push down</b> the lever.', exRu: 'Опусти рычаг.' },
+            { p: 'push back', ru: 'отодвинуть / отбить', ex: '<b>Push back</b> the chair.', exRu: 'Отодвинь стул.' },
+            { p: 'push through', ru: 'протолкнуть', ex: 'They <b>pushed through</b> the law.', exRu: 'Они протолкнули закон.' },
+            { p: 'push aside', ru: 'отодвинуть / отмахнуться', ex: '<b>Push aside</b> your fears.', exRu: 'Отодвинь свои страхи.' },
+            { p: 'push around', ru: 'помыкать', ex: 'Don\'t let them <b>push</b> you <b>around</b>.', exRu: 'Не позволяй им помыкать собой.' },
+            { p: 'push the limits', ru: 'раздвигать границы', ex: 'He loves to <b>push the limits</b>.', exRu: 'Он любит раздвигать границы.' },
+            { p: 'push the envelope', ru: 'рисковать сверх нормы', ex: 'Let\'s <b>push the envelope</b>.', exRu: 'Давай рискнём.' },
+            { p: 'push a button', ru: 'нажать кнопку', ex: '<b>Push the button</b>.', exRu: 'Нажми кнопку.' }
+        ]
+    },
+    {
+        verb: 'hang',
+        emoji: '🖼️',
+        meaning: 'ВЕШАТЬ, ВИСЕТЬ, ПРОВОДИТЬ ВРЕМЯ',
+        assoc: 'hang = повесить или висеть',
+        note: 'hang заменяет: вешать, висеть, болтаться, проводить время.',
+        senses: [
+            { sense: 'ВЕШАТЬ', ru: 'вешать', ex: '<b>Hang</b> the picture.', exRu: 'Повесь картину.' },
+            { sense: 'ВИСЕТЬ', ru: 'висеть', ex: 'The coat <b>hangs</b> there.', exRu: 'Пальто висит там.' },
+            { sense: 'ПРОВОДИТЬ ВРЕМЯ', ru: 'тусоваться', ex: 'We <b>hung out</b> all day.', exRu: 'Мы тусовались весь день.' }
+        ],
+        phrases: [
+            { p: 'hang out', ru: 'тусоваться', ex: 'Let\'s <b>hang out</b> tomorrow.', exRu: 'Давай завтра потусим.' },
+            { p: 'hang up', ru: 'повесить трубку', ex: 'Don\'t <b>hang up</b>!', exRu: 'Не вешай трубку!' },
+            { p: 'hang on', ru: 'подождать / держаться', ex: '<b>Hang on</b> a minute.', exRu: 'Подожди минуту.' },
+            { p: 'hang around', ru: 'слоняться', ex: 'Stop <b>hanging around</b>.', exRu: 'Хватит слоняться без дела.' },
+            { p: 'hang back', ru: 'отставать', ex: 'Don\'t <b>hang back</b>.', exRu: 'Не отставай.' },
+            { p: 'hang onto', ru: 'держаться за', ex: '<b>Hang onto</b> my hand.', exRu: 'Держись за мою руку.' },
+            { p: 'hang over', ru: 'нависать', ex: 'A cloud <b>hung over</b> the city.', exRu: 'Над городом нависла туча.' },
+            { p: 'hang in there', ru: 'держись', ex: '<b>Hang in there</b>!', exRu: 'Держись!' },
+            { p: 'hang loose', ru: 'расслабиться', ex: 'Just <b>hang loose</b>.', exRu: 'Просто расслабься.' },
+            { p: 'hang by a thread', ru: 'висеть на волоске', ex: 'His job <b>hangs by a thread</b>.', exRu: 'Его работа висит на волоске.' }
         ]
     }
 ];
