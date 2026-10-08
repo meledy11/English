@@ -1239,16 +1239,14 @@ function generateSentencesList(words, count = 15) {
     if (result && result.length) return result;
   }
 
-  // 3. Последний резерв — простые шаблоны
-  console.warn('[Sentences] lessonData.js недоступен — упрощённые примеры');
-  return shuffleWords(words).slice(0, count).map(w => {
-    let en, ru;
-    if (w.pos === 'verb') { en = `I like to ${w.eng}.`; ru = `Я люблю ${w.ru}.`; }
-    else if (w.pos === 'adjective') { en = `It is ${w.eng}.`; ru = `Это ${w.ru}.`; }
-    else if (w.pos === 'adverb') { en = `He speaks ${w.eng}.`; ru = `Он говорит ${w.ru}.`; }
-    else { en = `The word is "${w.eng}".`; ru = `Слово — «${w.ru}».`; }
-    return { en, ru, word: w };
-  });
+  // 3. ⚠️ Без мусора: НЕ генерируем «It is glad» / «The word is cat»
+  // Показываем честное сообщение вместо бессмыслицы
+  console.warn('[Sentences] Нет живых предложений в lessonData.js для этих слов');
+  return [{
+    en: '⚠️ Нет живых предложений для этих слов',
+    ru: 'Добавьте поля ex/exRu в lessonData.js для слов из этого фильтра — или выберите другую часть речи.',
+    word: { eng: '!', ru: 'предупреждение', tr: '', pos: 'info' }
+  }];
 }
 
 function generateQuizFromDict(words, count = 10) {
