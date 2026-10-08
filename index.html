@@ -571,6 +571,7 @@ footer {
 <script src="quiz.js"></script>
 <script src="builder.js"></script>
 <script src="dictionary.js"></script>
+<script src="lessonData.js"></script>   <!-- ⬅️ ДОБАВЛЕНО -->
 <script src="quizgen.js"></script>
 <script>
 let currentModalText = '';
@@ -1222,18 +1223,24 @@ function regenerateQgen() {
   renderQgen();
 }
 
-// ⚠️ ИСПРАВЛЕННАЯ функция — без "I have a ..."
+// ✅ Берём предложения из lessonData.js (единая база)
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
 
-  // 1. Если quizgen загружен — используем ТОЛЬКО его список
+  // 1. Основной источник — lessonData.js
+  if (typeof lessonData !== 'undefined' && lessonData.sentences) {
+    const result = lessonData.sentences(words, count);
+    if (result && result.length) return result;
+  }
+
+  // 2. Резерв — старый quizgen
   if (typeof quizgen !== 'undefined' && quizgen.generateSentencesList) {
     const result = quizgen.generateSentencesList(words, count);
     if (result && result.length) return result;
   }
 
-  // 2. Резервный вариант — только безопасные шаблоны
-  console.warn('[Sentences] quizgen.js недоступен — упрощённые примеры');
+  // 3. Последний резерв — простые шаблоны
+  console.warn('[Sentences] lessonData.js недоступен — упрощённые примеры');
   return shuffleWords(words).slice(0, count).map(w => {
     let en, ru;
     if (w.pos === 'verb') { en = `I like to ${w.eng}.`; ru = `Я люблю ${w.ru}.`; }
@@ -1245,7 +1252,18 @@ function generateSentencesList(words, count = 15) {
 }
 
 function generateQuizFromDict(words, count = 10) {
-  if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) return quizgen.generateQuiz(words, count);
+  // 1. Основной источник — lessonData.js
+  if (typeof lessonData !== 'undefined' && lessonData.quiz) {
+    const result = lessonData.quiz(words, count);
+    if (result && result.length) return result;
+  }
+
+  // 2. Резерв — старый quizgen
+  if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) {
+    return quizgen.generateQuiz(words, count);
+  }
+
+  // 3. Последний резерв
   const sample = shuffleWords(words).slice(0, count);
   return sample.map(w => {
     const others = shuffleWords(words.filter(o => o.eng !== w.eng)).slice(0, 3);
