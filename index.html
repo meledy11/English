@@ -1222,62 +1222,38 @@ function regenerateQgen() {
   renderQgen();
 }
 
-// ⚠️ ИСПРАВЛЕНО — без "He speaks X", без "I have a X"
+// ⚠️ ИСПРАВЛЕННАЯ функция — без "I have a ..."
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
 
-  // 1. quizgen загружен — используем его приоритетно
+  // 1. Если quizgen загружен — используем ТОЛЬКО его список
   if (typeof quizgen !== 'undefined' && quizgen.generateSentencesList) {
     const result = quizgen.generateSentencesList(words, count);
     if (result && result.length) return result;
   }
 
-  // 2. Резерв — только для существительных / глаголов / прилагательных
+  // 2. Резервный вариант — только безопасные шаблоны
   console.warn('[Sentences] quizgen.js недоступен — упрощённые примеры');
-  return shuffleWords(words)
-    .slice(0, count * 2)
-    .map(w => {
-      let en = null, ru = null;
-
-      // Существительные — только конкретные (короткие, однословные)
-      if (w.pos === 'noun' && w.eng && !w.eng.includes(' ')) {
-        // Артикль a/an
-        const art = /^[aeiou]/i.test(w.eng) ? 'an' : 'a';
-        en = `This is ${art} ${w.eng}.`;
-        ru = `Это ${w.ru}.`;
-      }
-      // Глаголы — только инфинитив
-      else if (w.pos === 'verb') {
-        en = `I like to ${w.eng}.`;
-        ru = `Я люблю ${w.ru}.`;
-      }
-      // Прилагательные — только описательные
-      else if (w.pos === 'adjective') {
-        en = `It is ${w.eng}.`;
-        ru = `Это ${w.ru}.`;
-      }
-      // ❌ наречия, предлоги, союзы, местоимения, частицы — пропускаем
-      return en ? { en, ru, word: w } : null;
-    })
-    .filter(Boolean)
-    .slice(0, count);
+  return shuffleWords(words).slice(0, count).map(w => {
+    let en, ru;
+    if (w.pos === 'verb') { en = `I like to ${w.eng}.`; ru = `Я люблю ${w.ru}.`; }
+    else if (w.pos === 'adjective') { en = `It is ${w.eng}.`; ru = `Это ${w.ru}.`; }
+    else if (w.pos === 'adverb') { en = `He speaks ${w.eng}.`; ru = `Он говорит ${w.ru}.`; }
+    else { en = `The word is "${w.eng}".`; ru = `Слово — «${w.ru}».`; }
+    return { en, ru, word: w };
+  });
 }
 
 function generateQuizFromDict(words, count = 10) {
-  if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) {
-    const q = quizgen.generateQuiz(words, count);
-    if (q && q.length) return q;
-  }
+  if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) return quizgen.generateQuiz(words, count);
   const sample = shuffleWords(words).slice(0, count);
   return sample.map(w => {
     const others = shuffleWords(words.filter(o => o.eng !== w.eng)).slice(0, 3);
-    const opts = [w.ru, ...others.map(o => o.ru)];
-    const unique = [...new Set(opts)];
     return {
       type: 'translate',
       q: `Как переводится <b>${w.eng}</b>?`,
       correct: w.ru,
-      options: shuffleWords(unique).slice(0, 4),
+      options: shuffleWords([w.ru, ...others.map(o => o.ru)]),
       hint: `${w.tr || ''} · ${w.pos}`,
       word: w
     };
