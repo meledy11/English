@@ -1,8 +1,9 @@
 // prefixes.js — база приставок, суффиксов, корней-конструкторов,
 // волшебных глаголов, слов направления и супер-слов английского языка
+// РАСШИРЕННАЯ ВЕРСИЯ: 50 приставок + 30 суффиксов + 40 корней + 20 направлений
 
 // ═══════════════════════════════════════════════
-// ПРИСТАВКИ (базовые)
+// ПРИСТАВКИ
 // ═══════════════════════════════════════════════
 const prefixes = [
     {
@@ -61,7 +62,9 @@ const prefixes = [
             { word: 'rewrite', transcription: '[ˌriːˈraɪt]', trans: 'переписать', ex: '<b>Re</b>write this.', exRu: 'Перепиши это.' },
             { word: 'return', transcription: '[rɪˈtɜːn]', trans: 'вернуться', ex: 'I will <b>re</b>turn.', exRu: 'Я вернусь.' },
             { word: 'rebuild', transcription: '[ˌriːˈbɪld]', trans: 'перестроить', ex: '<b>Re</b>build the bridge.', exRu: 'Перестрой мост.' },
-            { word: 'review', transcription: '[rɪˈvjuː]', trans: 'пересмотреть', ex: '<b>Re</b>view your notes.', exRu: 'Пересмотри заметки.' }
+            { word: 'review', transcription: '[rɪˈvjuː]', trans: 'пересмотреть', ex: '<b>Re</b>view your notes.', exRu: 'Пересмотри заметки.' },
+            { word: 'repeat', transcription: '[rɪˈpiːt]', trans: 'повторять', ex: '<b>Re</b>peat after me.', exRu: 'Повтори за мной.' },
+            { word: 'restart', transcription: '[ˌriːˈstɑːt]', trans: 'перезапустить', ex: '<b>Re</b>start the computer.', exRu: 'Перезапусти компьютер.' }
         ]
     },
     {
@@ -85,7 +88,9 @@ const prefixes = [
             { word: 'unhappy', transcription: '[ʌnˈhæpi]', trans: 'несчастный', ex: 'She is <b>un</b>happy.', exRu: 'Она несчастна.' },
             { word: 'undo', transcription: '[ʌnˈduː]', trans: 'отменить', ex: '<b>Un</b>do the changes.', exRu: 'Отмени изменения.' },
             { word: 'unlock', transcription: '[ʌnˈlɒk]', trans: 'открыть', ex: '<b>Un</b>lock the door.', exRu: 'Открой дверь.' },
-            { word: 'unusual', transcription: '[ʌnˈjuːʒuəl]', trans: 'необычный', ex: 'An <b>un</b>usual day.', exRu: 'Необычный день.' }
+            { word: 'unusual', transcription: '[ʌnˈjuːʒuəl]', trans: 'необычный', ex: 'An <b>un</b>usual day.', exRu: 'Необычный день.' },
+            { word: 'unkind', transcription: '[ˌʌnˈkaɪnd]', trans: 'недобрый', ex: 'Don\'t be <b>un</b>kind.', exRu: 'Не будь недобрым.' },
+            { word: 'untrue', transcription: '[ˌʌnˈtruː]', trans: 'неправдивый', ex: 'That is <b>un</b>true.', exRu: 'Это неправда.' }
         ]
     },
     {
@@ -356,6 +361,164 @@ const prefixes = [
         ]
     },
 
+    // ═══════════════════════════════════════════
+    // 🆕 НОВЫЕ ПРИСТАВКИ (расширение)
+    // ═══════════════════════════════════════════
+    {
+        id: 'mono', type: 'prefix', affix: 'mono- / uni-', emoji: '1️⃣',
+        meaning: 'ОДИН / ЕДИНЫЙ',
+        assoc: 'monologue = речь одного',
+        explanation: 'mono- / uni- означают "один".',
+        words: [
+            { word: 'monopoly', transcription: '[məˈnɒpəli]', trans: 'монополия', ex: 'A big <b>mono</b>poly.', exRu: 'Большая монополия.' },
+            { word: 'monologue', transcription: '[ˈmɒnəlɒɡ]', trans: 'монолог', ex: 'A long <b>mono</b>logue.', exRu: 'Долгий монолог.' },
+            { word: 'uniform', transcription: '[ˈjuːnɪfɔːm]', trans: 'форма', ex: 'School <b>uni</b>form.', exRu: 'Школьная форма.' }
+        ]
+    },
+    {
+        id: 'poly', type: 'prefix', affix: 'poly-', emoji: '🔺',
+        meaning: 'МНОГО',
+        assoc: 'polygon = много углов',
+        explanation: 'poly- означает "много".',
+        words: [
+            { word: 'polygon', transcription: '[ˈpɒlɪɡən]', trans: 'многоугольник', ex: 'Draw a <b>poly</b>gon.', exRu: 'Нарисуй многоугольник.' },
+            { word: 'polyglot', transcription: '[ˈpɒliɡlɒt]', trans: 'полиглот', ex: 'A true <b>poly</b>glot.', exRu: 'Настоящий полиглот.' }
+        ]
+    },
+    {
+        id: 'omni', type: 'prefix', affix: 'omni-', emoji: '🌌',
+        meaning: 'ВСЁ',
+        assoc: 'omnipotent = всесильный',
+        explanation: 'omni- означает "всё".',
+        words: [
+            { word: 'omnipotent', transcription: '[ɒmˈnɪpətənt]', trans: 'всемогущий', ex: 'An <b>omni</b>potent ruler.', exRu: 'Всемогущий правитель.' },
+            { word: 'omnipresent', transcription: '[ˌɒmnɪˈpreznt]', trans: 'вездесущий', ex: '<b>Omni</b>present love.', exRu: 'Вездесущая любовь.' }
+        ]
+    },
+    {
+        id: 'para', type: 'prefix', affix: 'para-', emoji: '🛡️',
+        meaning: 'РЯДОМ / ЗАЩИТА',
+        assoc: 'parallel = идущий рядом',
+        explanation: 'para- означает "рядом" или "защита".',
+        words: [
+            { word: 'parallel', transcription: '[ˈpærəlel]', trans: 'параллельный', ex: '<b>Para</b>llel lines.', exRu: 'Параллельные линии.' },
+            { word: 'paramedic', transcription: '[ˌpærəˈmedɪk]', trans: 'фельдшер', ex: 'Call a <b>para</b>medic.', exRu: 'Вызови фельдшера.' },
+            { word: 'paradox', transcription: '[ˈpærədɒks]', trans: 'парадокс', ex: 'A strange <b>para</b>dox.', exRu: 'Странный парадокс.' }
+        ]
+    },
+    {
+        id: 'pan', type: 'prefix', affix: 'pan-', emoji: '🌏',
+        meaning: 'ВСЁ / ВСЕОБЩИЙ',
+        assoc: 'pandemic = всеобщая болезнь',
+        explanation: 'pan- означает "всеобщий".',
+        words: [
+            { word: 'pandemic', transcription: '[pænˈdemɪk]', trans: 'пандемия', ex: 'A global <b>pan</b>demic.', exRu: 'Глобальная пандемия.' },
+            { word: 'panorama', transcription: '[ˌpænəˈrɑːmə]', trans: 'панорама', ex: 'A beautiful <b>pano</b>rama.', exRu: 'Красивая панорама.' }
+        ]
+    },
+    {
+        id: 'arch', type: 'prefix', affix: 'arch-', emoji: '👑',
+        meaning: 'ГЛАВНЫЙ / ВЕРХОВНЫЙ',
+        assoc: 'archbishop = главный епископ',
+        explanation: 'arch- означает "главный".',
+        words: [
+            { word: 'archbishop', transcription: '[ˌɑːtʃˈbɪʃəp]', trans: 'архиепископ', ex: 'The <b>arch</b>bishop.', exRu: 'Архиепископ.' },
+            { word: 'arch-enemy', transcription: '[ˌɑːtʃ ˈenəmi]', trans: 'заклятый враг', ex: 'My <b>arch</b>-enemy.', exRu: 'Мой заклятый враг.' }
+        ]
+    },
+    {
+        id: 'neo', type: 'prefix', affix: 'neo-', emoji: '🌱',
+        meaning: 'НОВЫЙ',
+        assoc: 'neon = новый газ',
+        explanation: 'neo- означает "новый".',
+        words: [
+            { word: 'neon', transcription: '[ˈniːɒn]', trans: 'неон', ex: 'Bright <b>neo</b>n lights.', exRu: 'Яркие неоновые огни.' },
+            { word: 'neolithic', transcription: '[ˌniːəˈlɪθɪk]', trans: 'неолитический', ex: 'The <b>neo</b>lithic era.', exRu: 'Неолитическая эра.' }
+        ]
+    },
+    {
+        id: 'ortho', type: 'prefix', affix: 'ortho-', emoji: '📐',
+        meaning: 'ПРАВИЛЬНЫЙ / ПРЯМОЙ',
+        assoc: 'orthodox = правильное мнение',
+        explanation: 'ortho- означает "правильный".',
+        words: [
+            { word: 'orthodox', transcription: '[ˈɔːθədɒks]', trans: 'ортодоксальный', ex: 'An <b>ortho</b>dox view.', exRu: 'Ортодоксальный взгляд.' },
+            { word: 'orthography', transcription: '[ɔːˈθɒɡrəfi]', trans: 'орфография', ex: 'Correct <b>ortho</b>graphy.', exRu: 'Правильная орфография.' }
+        ]
+    },
+    {
+        id: 'mega', type: 'prefix', affix: 'mega- / ultra-', emoji: '💥',
+        meaning: 'ОГРОМНЫЙ / ЗА ПРЕДЕЛОМ',
+        assoc: 'megaphone = огромный звук',
+        explanation: 'mega- = огромный. ultra- = сверх.',
+        words: [
+            { word: 'megaphone', transcription: '[ˈmeɡəfəʊn]', trans: 'мегафон', ex: 'Speak into a <b>mega</b>phone.', exRu: 'Говори в мегафон.' },
+            { word: 'ultraviolet', transcription: '[ˌʌltrəˈvaɪələt]', trans: 'ультрафиолет', ex: '<b>Ultra</b>violet rays.', exRu: 'Ультрафиолетовые лучи.' },
+            { word: 'ultrasound', transcription: '[ˈʌltrəsaʊnd]', trans: 'УЗИ', ex: 'Do an <b>ultra</b>sound.', exRu: 'Сделай УЗИ.' }
+        ]
+    },
+    {
+        id: 'tele', type: 'prefix', affix: 'tele-', emoji: '📡',
+        meaning: 'ДАЛЕКО',
+        assoc: 'television = видеть далеко',
+        explanation: 'tele- означает "далеко".',
+        words: [
+            { word: 'television', transcription: '[ˈtelɪvɪʒn]', trans: 'телевидение', ex: 'Watch <b>tele</b>vision.', exRu: 'Смотри телевизор.' },
+            { word: 'telephone', transcription: '[ˈtelɪfəʊn]', trans: 'телефон', ex: 'Answer the <b>tele</b>phone.', exRu: 'Ответь на телефон.' },
+            { word: 'telescope', transcription: '[ˈtelɪskəʊp]', trans: 'телескоп', ex: 'Look through a <b>tele</b>scope.', exRu: 'Посмотри в телескоп.' }
+        ]
+    },
+    {
+        id: 'photo', type: 'prefix', affix: 'photo-', emoji: '💡',
+        meaning: 'СВЕТ',
+        assoc: 'photograph = запись света',
+        explanation: 'photo- означает "свет".',
+        words: [
+            { word: 'photograph', transcription: '[ˈfəʊtəɡrɑːf]', trans: 'фотография', ex: 'Take a <b>photo</b>graph.', exRu: 'Сделай фото.' },
+            { word: 'photosynthesis', transcription: '[ˌfəʊtəʊˈsɪnθəsɪs]', trans: 'фотосинтез', ex: 'Plants use <b>photo</b>synthesis.', exRu: 'Растения используют фотосинтез.' }
+        ]
+    },
+    {
+        id: 'chrono', type: 'prefix', affix: 'chrono-', emoji: '⏳',
+        meaning: 'ВРЕМЯ',
+        assoc: 'chronology = наука о времени',
+        explanation: 'chrono- означает "время".',
+        words: [
+            { word: 'chronology', transcription: '[krəˈnɒlədʒi]', trans: 'хронология', ex: 'A clear <b>chrono</b>logy.', exRu: 'Чёткая хронология.' },
+            { word: 'chronic', transcription: '[ˈkrɒnɪk]', trans: 'хронический', ex: 'A <b>chron</b>ic disease.', exRu: 'Хроническая болезнь.' }
+        ]
+    },
+    {
+        id: 'psych', type: 'prefix', affix: 'psych- / psycho-', emoji: '🧠',
+        meaning: 'ДУША / РАЗУМ',
+        assoc: 'psychology = наука о душе',
+        explanation: 'psych- означает "душа".',
+        words: [
+            { word: 'psychology', transcription: '[saɪˈkɒlədʒi]', trans: 'психология', ex: 'Study <b>psycho</b>logy.', exRu: 'Изучай психологию.' },
+            { word: 'psychiatrist', transcription: '[saɪˈkaɪətrɪst]', trans: 'психиатр', ex: 'Visit a <b>psych</b>iatrist.', exRu: 'Посети психиатра.' }
+        ]
+    },
+    {
+        id: 'geo', type: 'prefix', affix: 'geo-', emoji: '🌍',
+        meaning: 'ЗЕМЛЯ',
+        assoc: 'geography = описание земли',
+        explanation: 'geo- означает "земля".',
+        words: [
+            { word: 'geography', transcription: '[dʒiˈɒɡrəfi]', trans: 'география', ex: 'Study <b>geo</b>graphy.', exRu: 'Изучай географию.' },
+            { word: 'geology', transcription: '[dʒiˈɒlədʒi]', trans: 'геология', ex: 'A <b>geo</b>logy lesson.', exRu: 'Урок геологии.' }
+        ]
+    },
+    {
+        id: 'astro', type: 'prefix', affix: 'astro-', emoji: '⭐',
+        meaning: 'ЗВЕЗДА',
+        assoc: 'astronaut = звёздный путешественник',
+        explanation: 'astro- означает "звезда".',
+        words: [
+            { word: 'astronaut', transcription: '[ˈæstrənɔːt]', trans: 'космонавт', ex: 'A brave <b>astro</b>naut.', exRu: 'Смелый космонавт.' },
+            { word: 'astronomy', transcription: '[əˈstrɒnəmi]', trans: 'астрономия', ex: 'Study <b>astro</b>nomy.', exRu: 'Изучай астрономию.' }
+        ]
+    },
+
     // ═══════════════════════════════════════════════
     // СУФФИКСЫ
     // ═══════════════════════════════════════════════
@@ -592,6 +755,94 @@ const prefixes = [
             { word: 'package', transcription: '[ˈpækɪdʒ]', trans: 'посылка', ex: 'A <b>pack</b>age.', exRu: 'Посылка.' },
             { word: 'message', transcription: '[ˈmesɪdʒ]', trans: 'сообщение', ex: 'Send a <b>mess</b>age.', exRu: 'Отправь сообщение.' },
             { word: 'language', transcription: '[ˈlæŋɡwɪdʒ]', trans: 'язык', ex: 'A foreign <b>langu</b>age.', exRu: 'Иностранный язык.' }
+        ]
+    },
+
+    // ═══════════════════════════════════════════
+    // 🆕 НОВЫЕ СУФФИКСЫ
+    // ═══════════════════════════════════════════
+    {
+        id: 'ance', type: 'suffix', affix: '-ance / -ence', emoji: '💫',
+        meaning: 'СОСТОЯНИЕ / ДЕЙСТВИЕ',
+        assoc: 'importance = важность',
+        explanation: '-ance / -ence образуют существительное.',
+        words: [
+            { word: 'importance', transcription: '[ɪmˈpɔːtns]', trans: 'важность', ex: 'The <b>import</b>ance of it.', exRu: 'Важность этого.' },
+            { word: 'difference', transcription: '[ˈdɪfrəns]', trans: 'разница', ex: 'A big <b>differ</b>ence.', exRu: 'Большая разница.' },
+            { word: 'experience', transcription: '[ɪkˈspɪəriəns]', trans: 'опыт', ex: 'Work <b>experi</b>ence.', exRu: 'Опыт работы.' }
+        ]
+    },
+    {
+        id: 'ism', type: 'suffix', affix: '-ism', emoji: '🎨',
+        meaning: 'УЧЕНИЕ / СИСТЕМА',
+        assoc: 'socialism = социализм',
+        explanation: '-ism образует название учения.',
+        words: [
+            { word: 'socialism', transcription: '[ˈsəʊʃəlɪzəm]', trans: 'социализм', ex: 'A form of <b>social</b>ism.', exRu: 'Форма социализма.' },
+            { word: 'realism', transcription: '[ˈriːəlɪzəm]', trans: 'реализм', ex: 'A style of <b>real</b>ism.', exRu: 'Стиль реализма.' },
+            { word: 'optimism', transcription: '[ˈɒptɪmɪzəm]', trans: 'оптимизм', ex: 'Full of <b>optim</b>ism.', exRu: 'Полон оптимизма.' }
+        ]
+    },
+    {
+        id: 'ist', type: 'suffix', affix: '-ist', emoji: '🧑‍🎨',
+        meaning: 'ТОТ, КТО ЗАНИМАЕТСЯ',
+        assoc: 'artist = художник',
+        explanation: '-ist образует название профессии.',
+        words: [
+            { word: 'artist', transcription: '[ˈɑːtɪst]', trans: 'художник', ex: 'A famous <b>art</b>ist.', exRu: 'Известный художник.' },
+            { word: 'scientist', transcription: '[ˈsaɪəntɪst]', trans: 'учёный', ex: 'A great <b>scient</b>ist.', exRu: 'Великий учёный.' },
+            { word: 'pianist', transcription: '[ˈpiːənɪst]', trans: 'пианист', ex: 'A young <b>pian</b>ist.', exRu: 'Молодой пианист.' }
+        ]
+    },
+    {
+        id: 'ology', type: 'suffix', affix: '-ology / -logy', emoji: '📚',
+        meaning: 'НАУКА О',
+        assoc: 'biology = наука о жизни',
+        explanation: '-ology означает "наука о".',
+        words: [
+            { word: 'biology', transcription: '[baɪˈɒlədʒi]', trans: 'биология', ex: 'Study <b>bio</b>logy.', exRu: 'Изучай биологию.' },
+            { word: 'psychology', transcription: '[saɪˈkɒlədʒi]', trans: 'психология', ex: 'A <b>psycho</b>logy book.', exRu: 'Книга по психологии.' },
+            { word: 'technology', transcription: '[tekˈnɒlədʒi]', trans: 'технология', ex: 'Modern <b>techno</b>logy.', exRu: 'Современная технология.' }
+        ]
+    },
+    {
+        id: 'graphy', type: 'suffix', affix: '-graphy', emoji: '✍️',
+        meaning: 'ОПИСАНИЕ / ЗАПИСЬ',
+        assoc: 'photography = светопись',
+        explanation: '-graphy означает "описание".',
+        words: [
+            { word: 'photography', transcription: '[fəˈtɒɡrəfi]', trans: 'фотография', ex: 'Love <b>photo</b>graphy.', exRu: 'Люблю фотографию.' },
+            { word: 'geography', transcription: '[dʒiˈɒɡrəfi]', trans: 'география', ex: 'A <b>geo</b>graphy test.', exRu: 'Тест по географии.' }
+        ]
+    },
+    {
+        id: 'some', type: 'suffix', affix: '-some', emoji: '✨',
+        meaning: 'СКЛОННЫЙ / ВЫЗЫВАЮЩИЙ',
+        assoc: 'handsome = красивый',
+        explanation: '-some означает "склонный".',
+        words: [
+            { word: 'handsome', transcription: '[ˈhænsəm]', trans: 'красивый', ex: 'A <b>hand</b>some man.', exRu: 'Красивый мужчина.' },
+            { word: 'troublesome', transcription: '[ˈtrʌblsəm]', trans: 'хлопотный', ex: 'A <b>trouble</b>some task.', exRu: 'Хлопотная задача.' }
+        ]
+    },
+    {
+        id: 'teen', type: 'suffix', affix: '-teen / -ty', emoji: '🔢',
+        meaning: 'ЧИСЛА 13-19 / ДЕСЯТКИ',
+        assoc: 'thirteen = тринадцать',
+        explanation: '-teen и -ty образуют числа.',
+        words: [
+            { word: 'thirteen', transcription: '[ˌθɜːˈtiːn]', trans: 'тринадцать', ex: 'I am <b>thirteen</b>.', exRu: 'Мне тринадцать.' },
+            { word: 'twenty', transcription: '[ˈtwenti]', trans: 'двадцать', ex: 'Twenty years old.', exRu: 'Двадцать лет.' }
+        ]
+    },
+    {
+        id: 'th', type: 'suffix', affix: '-th', emoji: '📅',
+        meaning: 'ПОРЯДКОВЫЕ ЧИСЛА',
+        assoc: 'fourth = четвёртый',
+        explanation: '-th образует порядковые числа.',
+        words: [
+            { word: 'fourth', transcription: '[fɔːθ]', trans: 'четвёртый', ex: 'The <b>fourth</b> time.', exRu: 'Четвёртый раз.' },
+            { word: 'fifth', transcription: '[fɪfθ]', trans: 'пятый', ex: 'On the <b>fifth</b> floor.', exRu: 'На пятом этаже.' }
         ]
     }
 ];
@@ -831,6 +1082,139 @@ const wordRoots = [
         { word: 'public', pre: '-ic', preMean: 'прил.', trans: 'публичный', ex: 'Public transport.', exRu: 'Публичный транспорт.' },
         { word: 'republic', pre: 're-', preMean: 'снова', trans: 'республика', ex: 'A free republic.', exRu: 'Свободная республика.' }
       ]
+    },
+
+    // 🆕 НОВЫЕ КОРНИ
+    { root: 'aud', topic: 'speech', emoji: '👂', meaning: 'слышать',
+      note: 'Латинский audire.',
+      words: [
+        { word: 'audio', pre: '-io', preMean: 'связь', trans: 'аудио', ex: 'Audio file.', exRu: 'Аудиофайл.' },
+        { word: 'audience', pre: '-ence', preMean: 'состояние', trans: 'публика', ex: 'A big audience.', exRu: 'Большая публика.' },
+        { word: 'audition', pre: '-ition', preMean: 'действие', trans: 'прослушивание', ex: 'Attend the audition.', exRu: 'Пойди на прослушивание.' }
+      ]
+    },
+    { root: 'ped', topic: 'motion', emoji: '🦶', meaning: 'нога',
+      note: 'Латинский pes.',
+      words: [
+        { word: 'pedal', pre: '-al', preMean: 'прил.', trans: 'педаль', ex: 'Press the pedal.', exRu: 'Нажми педаль.' },
+        { word: 'pedestrian', pre: '-ian', preMean: 'лицо', trans: 'пешеход', ex: 'A pedestrian zone.', exRu: 'Пешеходная зона.' },
+        { word: 'pedicure', pre: 'cure', preMean: 'уход', trans: 'педикюр', ex: 'Get a pedicure.', exRu: 'Сделай педикюр.' }
+      ]
+    },
+    { root: 'man', topic: 'tech', emoji: '✋', meaning: 'рука',
+      note: 'Латинский manus.',
+      words: [
+        { word: 'manual', pre: '-al', preMean: 'прил.', trans: 'ручной', ex: 'A manual car.', exRu: 'Машина с ручной КПП.' },
+        { word: 'manufacture', pre: 'fact', preMean: 'делать', trans: 'производить', ex: 'Manufacture cars.', exRu: 'Производить машины.' },
+        { word: 'manuscript', pre: 'script', preMean: 'писать', trans: 'рукопись', ex: 'An old manuscript.', exRu: 'Старая рукопись.' }
+      ]
+    },
+    { root: 'aqua', topic: 'life', emoji: '💧', meaning: 'вода',
+      note: 'Латинский aqua.',
+      words: [
+        { word: 'aquarium', pre: '-rium', preMean: 'место', trans: 'аквариум', ex: 'Visit the aquarium.', exRu: 'Посети аквариум.' },
+        { word: 'aquatic', pre: '-atic', preMean: 'прил.', trans: 'водный', ex: 'Aquatic plants.', exRu: 'Водные растения.' },
+        { word: 'aqueduct', pre: 'duct', preMean: 'вести', trans: 'акведук', ex: 'An old aqueduct.', exRu: 'Старый акведук.' }
+      ]
+    },
+    { root: 'lum', topic: 'mind', emoji: '💡', meaning: 'свет',
+      note: 'Латинский lumen.',
+      words: [
+        { word: 'illuminate', pre: 'il-', preMean: 'в', trans: 'освещать', ex: 'Illuminate the room.', exRu: 'Освети комнату.' },
+        { word: 'luminous', pre: '-ous', preMean: 'полный', trans: 'светящийся', ex: 'A luminous watch.', exRu: 'Светящиеся часы.' }
+      ]
+    },
+    { root: 'vac', topic: 'life', emoji: '🕳️', meaning: 'пустой',
+      note: 'Латинский vacare.',
+      words: [
+        { word: 'vacation', pre: '-ation', preMean: 'действие', trans: 'отпуск', ex: 'Take a vacation.', exRu: 'Возьми отпуск.' },
+        { word: 'vacuum', pre: '-uum', preMean: 'состояние', trans: 'вакуум', ex: 'A vacuum cleaner.', exRu: 'Пылесос.' },
+        { word: 'vacant', pre: '-ant', preMean: 'прил.', trans: 'свободный', ex: 'A vacant seat.', exRu: 'Свободное место.' }
+      ]
+    },
+    { root: 'cogn', topic: 'mind', emoji: '🧠', meaning: 'знать',
+      note: 'Латинский cognoscere.',
+      words: [
+        { word: 'recognize', pre: 're-', preMean: 'снова', trans: 'узнать', ex: 'Recognize me?', exRu: 'Узнаёшь меня?' },
+        { word: 'cognitive', pre: '-itive', preMean: 'прил.', trans: 'познавательный', ex: 'Cognitive skills.', exRu: 'Познавательные навыки.' }
+      ]
+    },
+    { root: 'grad', topic: 'motion', emoji: '📈', meaning: 'шаг, ступень',
+      note: 'Латинский gradus.',
+      words: [
+        { word: 'graduate', pre: '-ate', preMean: 'действие', trans: 'выпускник', ex: 'A university graduate.', exRu: 'Выпускник университета.' },
+        { word: 'gradual', pre: '-al', preMean: 'прил.', trans: 'постепенный', ex: 'A gradual change.', exRu: 'Постепенное изменение.' },
+        { word: 'upgrade', pre: 'up-', preMean: 'вверх', trans: 'улучшить', ex: 'Upgrade your phone.', exRu: 'Обнови телефон.' }
+      ]
+    },
+    { root: 'rupt', topic: 'motion', emoji: '💥', meaning: 'ломать',
+      note: 'Латинский rumpere.',
+      words: [
+        { word: 'interrupt', pre: 'inter-', preMean: 'между', trans: 'прервать', ex: 'Don\'t interrupt me.', exRu: 'Не перебивай.' },
+        { word: 'corrupt', pre: 'cor-', preMean: 'полностью', trans: 'коррумпированный', ex: 'A corrupt official.', exRu: 'Коррумпированный чиновник.' },
+        { word: 'erupt', pre: 'e-', preMean: 'наружу', trans: 'извергаться', ex: 'The volcano erupted.', exRu: 'Вулкан извергся.' }
+      ]
+    },
+    { root: 'sat', topic: 'mind', emoji: '😊', meaning: 'достаточно',
+      note: 'Латинский satis.',
+      words: [
+        { word: 'satisfy', pre: '-isfy', preMean: 'делать', trans: 'удовлетворить', ex: 'Satisfy the client.', exRu: 'Удовлетвори клиента.' },
+        { word: 'saturated', pre: '-ated', preMean: 'прил.', trans: 'насыщенный', ex: 'Saturated fats.', exRu: 'Насыщенные жиры.' }
+      ]
+    },
+    { root: 'cur', topic: 'motion', emoji: '🏃‍♂️', meaning: 'бежать',
+      note: 'Латинский currere.',
+      words: [
+        { word: 'current', pre: '-ent', preMean: 'прил.', trans: 'текущий', ex: 'The current year.', exRu: 'Текущий год.' },
+        { word: 'occur', pre: 'oc-', preMean: 'к', trans: 'случиться', ex: 'It occurred yesterday.', exRu: 'Это случилось вчера.' },
+        { word: 'excursion', pre: 'ex-', preMean: 'наружу', trans: 'экскурсия', ex: 'A city excursion.', exRu: 'Экскурсия по городу.' }
+      ]
+    },
+    { root: 'fract', topic: 'motion', emoji: '🦴', meaning: 'ломать',
+      note: 'Латинский frangere.',
+      words: [
+        { word: 'fracture', pre: '-ure', preMean: 'действие', trans: 'перелом', ex: 'A bone fracture.', exRu: 'Перелом кости.' },
+        { word: 'fraction', pre: '-ion', preMean: 'состояние', trans: 'доля', ex: 'A small fraction.', exRu: 'Небольшая доля.' }
+      ]
+    },
+    { root: 'migr', topic: 'motion', emoji: '✈️', meaning: 'перемещаться',
+      note: 'Латинский migrare.',
+      words: [
+        { word: 'migrate', pre: '-ate', preMean: 'действие', trans: 'мигрировать', ex: 'Birds migrate south.', exRu: 'Птицы мигрируют на юг.' },
+        { word: 'immigrant', pre: 'im-', preMean: 'в', trans: 'иммигрант', ex: 'An immigrant family.', exRu: 'Семья иммигрантов.' },
+        { word: 'emigrate', pre: 'e-', preMean: 'наружу', trans: 'эмигрировать', ex: 'Emigrate to Canada.', exRu: 'Эмигрировать в Канаду.' }
+      ]
+    },
+    { root: 'voc', topic: 'speech', emoji: '🗣️', meaning: 'голос, звать',
+      note: 'Латинский vocare.',
+      words: [
+        { word: 'vocal', pre: '-al', preMean: 'прил.', trans: 'вокальный', ex: 'Vocal music.', exRu: 'Вокальная музыка.' },
+        { word: 'vocabulary', pre: '-abulary', preMean: 'собрание', trans: 'словарь', ex: 'A rich vocabulary.', exRu: 'Богатый словарный запас.' },
+        { word: 'advocate', pre: 'ad-', preMean: 'к', trans: 'защитник', ex: 'An advocate of peace.', exRu: 'Защитник мира.' }
+      ]
+    },
+    { root: 'doc', topic: 'speech', emoji: '📄', meaning: 'учить',
+      note: 'Латинский docere.',
+      words: [
+        { word: 'doctor', pre: '-or', preMean: 'тот, кто', trans: 'врач', ex: 'See a doctor.', exRu: 'Сходи к врачу.' },
+        { word: 'document', pre: '-ment', preMean: 'результат', trans: 'документ', ex: 'Sign the document.', exRu: 'Подпиши документ.' },
+        { word: 'doctrine', pre: '-trine', preMean: 'учение', trans: 'доктрина', ex: 'A new doctrine.', exRu: 'Новая доктрина.' }
+      ]
+    },
+    { root: 'lab', topic: 'mind', emoji: '🔬', meaning: 'работать',
+      note: 'Латинский laborare.',
+      words: [
+        { word: 'laboratory', pre: '-atory', preMean: 'место', trans: 'лаборатория', ex: 'Work in a laboratory.', exRu: 'Работать в лаборатории.' },
+        { word: 'collaborate', pre: 'col-', preMean: 'вместе', trans: 'сотрудничать', ex: 'Collaborate with them.', exRu: 'Сотрудничай с ними.' }
+      ]
+    },
+    { root: 'meter', topic: 'tech', emoji: '📏', meaning: 'измерять',
+      note: 'Греческий metron.',
+      words: [
+        { word: 'thermometer', pre: 'thermo-', preMean: 'тепло', trans: 'термометр', ex: 'Use a thermometer.', exRu: 'Используй термометр.' },
+        { word: 'kilometer', pre: 'kilo-', preMean: 'тысяча', trans: 'километр', ex: '5 kilometers away.', exRu: 'В 5 километрах.' },
+        { word: 'diameter', pre: 'dia-', preMean: 'через', trans: 'диаметр', ex: 'The diameter of a circle.', exRu: 'Диаметр круга.' }
+      ]
     }
 ];
 
@@ -878,11 +1262,28 @@ const rootSearchHints = {
     'cap':   ['брать', 'ловить', 'захватывать'],
     'fin':   ['конец', 'граница', 'финал'],
     'nomin': ['имя', 'название'],
-    'popul': ['народ', 'люди', 'публика']
+    'popul': ['народ', 'люди', 'публика'],
+    'aud':   ['слышать', 'звук', 'слух'],
+    'ped':   ['нога', 'ступня'],
+    'man':   ['рука', 'ручной'],
+    'aqua':  ['вода', 'водный'],
+    'lum':   ['свет', 'светить', 'яркий'],
+    'vac':   ['пустой', 'свободный'],
+    'cogn':  ['знать', 'познание'],
+    'grad':  ['шаг', 'ступень', 'градус'],
+    'rupt':  ['ломать', 'разрыв'],
+    'sat':   ['достаточно', 'насыщение'],
+    'cur':   ['бежать', 'текущий'],
+    'fract': ['ломать', 'перелом'],
+    'migr':  ['переезжать', 'мигрировать'],
+    'voc':   ['голос', 'звать', 'словарь'],
+    'doc':   ['учить', 'обучать'],
+    'lab':   ['работать', 'труд'],
+    'meter': ['измерять', 'мера']
 };
 
 // ═══════════════════════════════════════════════
-// ВОЛШЕБНЫЕ ГЛАГОЛЫ (заменяют десятки)
+// ВОЛШЕБНЫЕ ГЛАГОЛЫ
 // ═══════════════════════════════════════════════
 const magicVerbs = [
     {
@@ -1146,7 +1547,7 @@ const magicVerbs = [
 ];
 
 // ═══════════════════════════════════════════════
-// СЛОВА-ЗАГЛУШКИ (спасают в любой ситуации)
+// СЛОВА-ЗАГЛУШКИ
 // ═══════════════════════════════════════════════
 const magicWords = [
     { word: 'thing', emoji: '📦', ru: 'вещь / штука',
@@ -1260,7 +1661,7 @@ const survivalPhrases = [
 ];
 
 // ═══════════════════════════════════════════════
-// СЛОВА НАПРАВЛЕНИЯ (forward / back / up / down)
+// СЛОВА НАПРАВЛЕНИЯ
 // ═══════════════════════════════════════════════
 const directionWords = [
     {
@@ -1395,6 +1796,96 @@ const directionWords = [
         senses: [
             { sense: 'ВРОЗЬ', ru: 'врозь', ex: 'They live <b>apart</b>.', exRu: 'Они живут врозь.' },
             { sense: 'РАЗЛИЧИТЬ', ru: 'различить', ex: 'Can\'t tell them <b>apart</b>.', exRu: 'Не могу их различить.' }
+        ]
+    },
+
+    // 🆕 НОВЫЕ НАПРАВЛЕНИЯ
+    {
+        word: 'onto', emoji: '⬆️📦', trans: 'на (поверхность)',
+        note: 'Движение на поверхность.',
+        senses: [
+            { sense: 'НА', ru: 'на', ex: 'Climb <b>onto</b> the roof.', exRu: 'Заберись на крышу.' },
+            { sense: 'К', ru: 'к', ex: 'Hold <b>onto</b> me.', exRu: 'Держись за меня.' }
+        ]
+    },
+    {
+        word: 'upon', emoji: '📚', trans: 'на (книжн.)',
+        note: 'Книжный вариант on.',
+        senses: [
+            { sense: 'НА', ru: 'на', ex: 'Once <b>upon</b> a time.', exRu: 'Однажды (в сказках).' },
+            { sense: 'ПОСЛЕ', ru: 'после', ex: '<b>Upon</b> arrival.', exRu: 'По прибытии.' }
+        ]
+    },
+    {
+        word: 'around', emoji: '🔄', trans: 'вокруг',
+        note: 'Вокруг чего-то.',
+        senses: [
+            { sense: 'ВОКРУГ', ru: 'вокруг', ex: 'Walk <b>around</b> the lake.', exRu: 'Обойди озеро.' },
+            { sense: 'ОКОЛО', ru: 'около', ex: '<b>Around</b> 5 o\'clock.', exRu: 'Около 5 часов.' }
+        ]
+    },
+    {
+        word: 'about', emoji: '🎯', trans: 'около / про',
+        note: 'Около или про что-то.',
+        senses: [
+            { sense: 'ПРО', ru: 'про', ex: 'A book <b>about</b> space.', exRu: 'Книга про космос.' },
+            { sense: 'ОКОЛО', ru: 'около', ex: '<b>About</b> 10 minutes.', exRu: 'Около 10 минут.' }
+        ]
+    },
+    {
+        word: 'against', emoji: '⚔️', trans: 'против',
+        note: 'Против кого-то/чего-то.',
+        senses: [
+            { sense: 'ПРОТИВ', ru: 'против', ex: 'I am <b>against</b> it.', exRu: 'Я против этого.' },
+            { sense: 'ОПИРАЯСЬ', ru: 'опираясь', ex: 'Lean <b>against</b> the wall.', exRu: 'Облокотись на стену.' }
+        ]
+    },
+    {
+        word: 'within', emoji: '📦', trans: 'внутри / в течение',
+        note: 'Внутри или в пределах времени.',
+        senses: [
+            { sense: 'ВНУТРИ', ru: 'внутри', ex: 'Stay <b>within</b> the house.', exRu: 'Оставайся в доме.' },
+            { sense: 'В ТЕЧЕНИЕ', ru: 'в течение', ex: '<b>Within</b> a week.', exRu: 'В течение недели.' }
+        ]
+    },
+    {
+        word: 'without', emoji: '🚫', trans: 'без',
+        note: 'Отсутствие чего-то.',
+        senses: [
+            { sense: 'БЕЗ', ru: 'без', ex: 'Coffee <b>without</b> sugar.', exRu: 'Кофе без сахара.' },
+            { sense: 'НЕ ДЕЛАЯ', ru: 'не делая', ex: 'Left <b>without</b> saying goodbye.', exRu: 'Ушёл не попрощавшись.' }
+        ]
+    },
+    {
+        word: 'behind', emoji: '⬅️', trans: 'позади',
+        note: 'За чем-то/кем-то.',
+        senses: [
+            { sense: 'ПОЗАДИ', ru: 'позади', ex: 'Stand <b>behind</b> me.', exRu: 'Встань позади меня.' },
+            { sense: 'ОТСТАВАТЬ', ru: 'отставать', ex: 'I fell <b>behind</b>.', exRu: 'Я отстал.' }
+        ]
+    },
+    {
+        word: 'beside', emoji: '🪑', trans: 'рядом с',
+        note: 'Рядом с кем-то.',
+        senses: [
+            { sense: 'РЯДОМ', ru: 'рядом', ex: 'Sit <b>beside</b> me.', exRu: 'Сядь рядом.' },
+            { sense: 'ПО СРАВНЕНИЮ', ru: 'по сравнению', ex: '<b>Beside</b> that, this is easy.', exRu: 'По сравнению с тем это легко.' }
+        ]
+    },
+    {
+        word: 'below', emoji: '⬇️', trans: 'ниже',
+        note: 'Ниже чего-то.',
+        senses: [
+            { sense: 'НИЖЕ', ru: 'ниже', ex: 'Write <b>below</b> the line.', exRu: 'Напиши ниже линии.' },
+            { sense: 'МЕНЬШЕ', ru: 'меньше', ex: '<b>Below</b> zero.', exRu: 'Ниже нуля.' }
+        ]
+    },
+    {
+        word: 'above', emoji: '⬆️', trans: 'выше / над',
+        note: 'Выше чего-то.',
+        senses: [
+            { sense: 'НАД', ru: 'над', ex: 'The sky <b>above</b>.', exRu: 'Небо над головой.' },
+            { sense: 'БОЛЕЕ', ru: 'более', ex: '<b>Above</b> 100 people.', exRu: 'Более 100 человек.' }
         ]
     }
 ];
