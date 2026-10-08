@@ -1,86 +1,116 @@
-// sw.js — English Cards Service Worker
+// sw.js — Service Worker для English Cards
+const CACHE_VERSION = 'english-cards-v1';
+const CACHE_NAME = `${CACHE_VERSION}-cache`;
 
-const CACHE_NAME = 'english-cards-v8';
-
-const ASSETS = [
-    './',
-    './index.html',
-    './verbs.js',
-    './tenses.js',
-    './phrases.js',
-    './prefixes.js',
-    './magicWords.js',
-    './quiz.js',
-    './builder.js',
-    './dictionary.js',
-    './quizgen.js'
+// Файлы для предзагрузки в кэш
+const PRECACHE_ASSETS = [
+  './',
+  './index.html',
+  './verbs.js',
+  './tenses.js',
+  './phrases.js',
+  './prefixes.js',
+  './magicWords.js',
+  './quiz.js',
+  './builder.js',
+  './dictionary.js',
+  './lessonData.js',
+  './quizgen.js'
 ];
 
-// ─── УСТАНОВКА ───
+// ─── УСТАНОВКА ──────────────────────────────────────────────
 self.addEventListener('install', (event) => {
-    console.log('[SW] Установка...');
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return Promise.all(
-                ASSETS.map(url => 
-                    cache.add(url).catch(err => 
-                        console.warn('[SW] Не удалось кэшировать:', url, err.message)
-                    )
-                )
-            );
-        }).then(() => {
-            console.log('[SW] Установлен');
-            return self.skipWaiting();
-        })
-    );
+  console.log('[SW] 🔧 Установка...');
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('[SW] 📦 Кэшируем файлы');
+        // Используем addAll с fallback на отдельные add, чтобы не сломаться при отсутствии файла
+        return Promise.all(
+          PRECACHE_ASSETS.map(url =>
+            cache.add(url).catch(err => {
+              console.warn(`[SW] ⚠️ Не удалось закэшировать ${url}:`, err.message);
+            })
+          )
+        );
+      })
+      .then(() => self.skipWaiting())
+  );
 });
 
-// ─── АКТИВАЦИЯ ───
+// ─── АКТИВАЦИЯ ──────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Активация...');
-    event.waitUntil(
-        caches.keys().then(keys => 
-            Promise.all(
-                keys.filter(k => k !== CACHE_NAME).map(k => {
-                    console.log('[SW] Удаляю старый кэш:', k);
-                    return caches.delete(k);
-                })
-            )
-        ).then(() => {
-            console.log('[SW] Активирован');
-            return self.clients.claim();
-        })
-    );
+  console.log('[SW] ✅ Активация...');
+  event.waitUntil(
+    caches.keys()
+      .then((keys) => {
+        return Promise.all(
+          keys
+            .filter(key => key.startsWith('english-cards-') && key !== CACHE_NAME)
+            .map(key => {
+              console.log('[SW] 🗑️ Удаляем старый кэш:', key);
+              return caches.delete(key);
+            })
+        );
+      })
+      .then(() => self.clients.claim())
+  );
 });
 
-// ─── FETCH ───
+// ─── FETCH (перехват запросов) ──────────────────────────────
 self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-    const url = new URL(event.request.url);
-    if (url.origin !== self.location.origin) return;
+  const { request } = event;
 
-    event.respondWith(
-        caches.match(event.request).then(cached => {
-            if (cached) return cached;
-            return fetch(event.request).then(response => {
-                if (response && response.status === 200) {
-                    const clone = response.clone();
-                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone)).catch(() => {});
-                }
-                return response;
-            }).catch(() => {
-                if (event.request.mode === 'navigate') return caches.match('./index.html');
-                return new Response('Офлайн', { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  // Пропускаем только GET
+  if (request.method !== 'GET') return;
+
+  // Пропускаем запросы к другим доменам
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  // Стратегия: Cache First с обновлением в фоне (Stale-While-Revalidate)
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      const fetchPromise = fetch(request)
+        .then((response) => {
+          // Кэшируем только успешные ответы
+          if (response && response.status === 200 && response.type === 'basic') {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseClone);
             });
+          }
+          return response;
         })
-    );
+        .catch((err) => {
+          console.warn('[SW] ❌ Ошибка сети:', err.message);
+          // Если это навигация и мы офлайн — отдаём index.html
+          if (request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+          return new Response('Offline', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: new Headers({ 'Content-Type': 'text/plain' })
+          });
+        });
+
+      // Если есть в кэше — возвращаем сразу, а в фоне обновляем
+      return cached || fetchPromise;
+    })
+  );
 });
 
+// ─── СООБЩЕНИЯ от страницы ─────────────────────────────────
 self.addEventListener('message', (event) => {
-    if (event.data === 'SKIP_WAITING') self.skipWaiting();
-    if (event.data === 'CLEAR_CACHE') {
-        caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => console.log('[SW] Кэш очищен'));
-    }
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if (event.data === 'CLEAR_CACHE') {
+    caches.keys().then(keys => {
+      keys.forEach(key => caches.delete(key));
+    });
+  }
 });
 
-console.log('[SW] Скрипт загружен');
+console.log('[SW] 📄 sw.js загружен');
