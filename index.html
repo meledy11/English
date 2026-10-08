@@ -571,7 +571,7 @@ footer {
 <script src="quiz.js"></script>
 <script src="builder.js"></script>
 <script src="dictionary.js"></script>
-<script src="lessonData.js"></script>   <!-- ⬅️ ДОБАВЛЕНО -->
+<script src="lessonData.js"></script>
 <script src="quizgen.js"></script>
 <script>
 let currentModalText = '';
@@ -1210,12 +1210,44 @@ function getFilteredDictWords() {
   if (currentQgenPos === 'all') return dictionary;
   return dictionary.filter(w => w.pos === currentQgenPos);
 }
+
+// ═══════════════════════════════════════════════════════════
+// ⚡ ГЛАВНАЯ ФУНКЦИЯ — режимы вкладки ЗАДАНИЯ
+// ═══════════════════════════════════════════════════════════
 function regenerateQgen() {
   qgenState = {};
-  const words = getFilteredDictWords();
+
+  // ─── 📝 ПРЕДЛОЖЕНИЯ — берём НАПРЯМУЮ из lessonData.js ───
   if (currentQgenMode === 'sentence') {
-    qgenSentences = generateSentencesList(words);
-  } else if (currentQgenMode === 'quiz' || currentQgenMode === 'mixed') {
+    let sourceWords = [];
+
+    if (typeof lessonData !== 'undefined' && lessonData.all) {
+      sourceWords = lessonData.all();
+    }
+
+    // Фильтр по части речи
+    if (currentQgenPos !== 'all') {
+      sourceWords = sourceWords.filter(w => w.pos === currentQgenPos);
+    }
+
+    // Только слова с готовыми предложениями
+    sourceWords = sourceWords.filter(w => w.ex && w.exRu);
+
+    // Берём 15 случайных
+    qgenSentences = shuffleWords(sourceWords).slice(0, 15).map(w => ({
+      en: w.ex,
+      ru: w.exRu,
+      word: w
+    }));
+
+    console.log('[QGEN sentence] Из lessonData:', qgenSentences.length, 'из', sourceWords.length);
+    renderQgen();
+    return;
+  }
+
+  // ─── ❓ ВОПРОСЫ / 🎲 СМЕШАННЫЕ — как было (из словаря) ───
+  const words = getFilteredDictWords();
+  if (currentQgenMode === 'quiz' || currentQgenMode === 'mixed') {
     qgenQuestions = generateQuizFromDict(words, 10);
   } else if (currentQgenMode === 'flash') {
     qgenSentences = shuffleWords(words).slice(0, 20);
@@ -1223,7 +1255,7 @@ function regenerateQgen() {
   renderQgen();
 }
 
-// ✅ Берём предложения из lessonData.js (единая база)
+// ✅ Предложения из lessonData.js
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
 
@@ -1240,7 +1272,6 @@ function generateSentencesList(words, count = 15) {
   }
 
   // 3. ⚠️ Без мусора: НЕ генерируем «It is glad» / «The word is cat»
-  // Показываем честное сообщение вместо бессмыслицы
   console.warn('[Sentences] Нет живых предложений в lessonData.js для этих слов');
   return [{
     en: '⚠️ Нет живых предложений для этих слов',
@@ -1275,6 +1306,7 @@ function generateQuizFromDict(words, count = 10) {
     };
   });
 }
+
 function renderQgen() {
   const container = document.getElementById('qgenContainer');
   const stats = document.getElementById('qgenStats');
@@ -1283,7 +1315,15 @@ function renderQgen() {
   const totalWords = getFilteredDictWords().length;
 
   if (currentQgenMode === 'sentence') {
-    if (stats) stats.textContent = `📝 Предложений: ${qgenSentences.length} из ${totalWords} слов`;
+    // Честный счётчик: сколько слов с примерами есть в lessonData для текущего фильтра
+    let totalWithEx = 0;
+    if (typeof lessonData !== 'undefined' && lessonData.all) {
+      let src = lessonData.all();
+      if (currentQgenPos !== 'all') src = src.filter(w => w.pos === currentQgenPos);
+      totalWithEx = src.filter(w => w.ex && w.exRu).length;
+    }
+    if (stats) stats.textContent = `📝 Предложений: ${qgenSentences.length} из ${totalWithEx} слов с примерами`;
+
     if (!qgenSentences.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Нет данных</div>'; return; }
     let html = '';
     qgenSentences.forEach((s, i) => {
