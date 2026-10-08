@@ -256,7 +256,7 @@ footer {
   <button class="tab-btn" data-tab="tab14">🎯 ЗАДАНИЯ</button>
 </div>
 
-<!-- ═══════ ВКЛАДКА 1: ПРЕДЛОГИ ═══════ -->
+<!-- ВКЛАДКА 1 -->
 <div id="tab1" class="tab-content active">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -292,7 +292,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 2: ГЛАГОЛЫ ═══════ -->
+<!-- ВКЛАДКА 2 -->
 <div id="tab2" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -311,7 +311,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 3: ВРЕМЕНА ═══════ -->
+<!-- ВКЛАДКА 3 -->
 <div id="tab3" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -322,7 +322,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 4: РАССКАЗЫ ═══════ -->
+<!-- ВКЛАДКА 4 -->
 <div id="tab4" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -339,7 +339,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 5: ПОЯСНЕНИЯ ═══════ -->
+<!-- ВКЛАДКА 5 -->
 <div id="tab5" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -355,7 +355,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 6: ТАБЛИЦА ═══════ -->
+<!-- ВКЛАДКА 6 -->
 <div id="tab6" class="tab-content">
   <div class="card fullscreen-card" id="tableFullscreenCard">
     <div class="card-header" onclick="toggleCard(this)">
@@ -373,7 +373,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 7: ГЕНЕРАТОР ═══════ -->
+<!-- ВКЛАДКА 7 -->
 <div id="tab7" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -393,7 +393,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 8: ФРАЗЫ ═══════ -->
+<!-- ВКЛАДКА 8 -->
 <div id="tab8" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -413,7 +413,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 9: ПРИСТАВКИ ═══════ -->
+<!-- ВКЛАДКА 9 -->
 <div id="tab9" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -437,7 +437,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 10: МАГИЯ ═══════ -->
+<!-- ВКЛАДКА 10 -->
 <div id="tab10" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -455,7 +455,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 11: ТЕСТ ═══════ -->
+<!-- ВКЛАДКА 11 -->
 <div id="tab11" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -473,7 +473,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 12: КОНСТРУКТОР ═══════ -->
+<!-- ВКЛАДКА 12 -->
 <div id="tab12" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -488,7 +488,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 13: СЛОВАРЬ ═══════ -->
+<!-- ВКЛАДКА 13 -->
 <div id="tab13" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -514,7 +514,7 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ВКЛАДКА 14: ЗАДАНИЯ ═══════ -->
+<!-- ВКЛАДКА 14 -->
 <div id="tab14" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -551,7 +551,7 @@ footer {
 <footer>📌 Нажми на заголовок → раскроется. Установи приложение через браузер.</footer>
 </div>
 
-<!-- ═══════ МОДАЛКА ═══════ -->
+<!-- МОДАЛКА -->
 <div id="modal" class="modal" onclick="closeModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-emoji" id="modalEmoji">📖</div>
@@ -563,7 +563,6 @@ footer {
   </div>
 </div>
 
-<!-- ═══════ ДАННЫЕ ═══════ -->
 <script src="verbs.js"></script>
 <script src="tenses.js"></script>
 <script src="phrases.js"></script>
@@ -573,10 +572,7 @@ footer {
 <script src="builder.js"></script>
 <script src="dictionary.js"></script>
 <script src="quizgen.js"></script>
-
-<!-- ═══════ ОСНОВНОЙ СКРИПТ ═══════ -->
 <script>
-// СОСТОЯНИЕ
 let currentModalText = '';
 let allVerbs = [];
 let currentCategory = 'all';
@@ -595,7 +591,6 @@ let qgenState = {};
 let qgenQuestions = [];
 let qgenSentences = [];
 
-// ОЗВУЧКА
 function speakText(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -613,7 +608,6 @@ function speakVerbForms(v1, v2, v3) {
   }
 }
 
-// МОДАЛКА
 function openModalWithSpeech(word, textHtml, translation, explanation) {
   const modal = document.getElementById('modal');
   const modalText = document.getElementById('modalText');
@@ -637,7 +631,6 @@ function openModalWithSpeech(word, textHtml, translation, explanation) {
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-// UI
 function toggleCard(header) {
   const body = header.closest('.card').querySelector('.card-body');
   const icon = header.querySelector('.expand-icon');
@@ -669,7 +662,6 @@ tabs.forEach(btn => {
   });
 });
 
-// ═══════ ГЛАГОЛЫ ═══════
 function renderVerbCards(filteredVerbs) {
   const container = document.getElementById('verbs-container');
   const searchInfo = document.getElementById('searchResultsInfo');
@@ -715,7 +707,6 @@ function searchVerbs() {
   renderVerbCards(filtered);
 }
 
-// ═══════ ТАБЛИЦА ═══════
 function renderVerbsTable() {
   const wrapper = document.getElementById('verbsTableWrapper');
   if (!wrapper) return;
@@ -730,7 +721,6 @@ function renderVerbsTable() {
   wrapper.innerHTML = html;
 }
 
-// ═══════ ВРЕМЕНА ═══════
 function renderTenses() {
   const container = document.getElementById('tenses-container');
   if (!container) return;
@@ -750,7 +740,6 @@ function renderTenses() {
   });
 }
 
-// ═══════ ГЕНЕРАТОР ═══════
 function populateVerbSelect() {
   const select = document.getElementById('verbSelect');
   if (!select || typeof verbs === 'undefined') return;
@@ -786,7 +775,6 @@ function generateExamples() {
 }
 function clearExamples() { document.getElementById('generatedContainer').innerHTML = '<div style="text-align:center;padding:30px;">🎲 Выберите глагол</div>'; }
 
-// ═══════ ФРАЗЫ ═══════
 function renderCategoryFilters() {
   const container = document.getElementById('categoryFilters');
   if (!container) return;
@@ -821,7 +809,6 @@ function renderPhrases() {
 }
 function searchPhrases() { renderPhrases(); }
 
-// ═══════ ПРИСТАВКИ ═══════
 function toggleRootLearned(root) {
   const idx = learnedRoots.indexOf(root);
   if (idx >= 0) learnedRoots.splice(idx, 1); else learnedRoots.push(root);
@@ -880,7 +867,6 @@ function searchPrefixes() {
   renderPrefixes();
 }
 
-// ═══════ МАГИЯ ═══════
 function renderMagic() {
   const container = document.getElementById('magicContainer');
   if (!container) return;
@@ -923,7 +909,6 @@ function renderMagic() {
   }
 }
 
-// ═══════ ТЕСТ ═══════
 function renderQuizFilters() {
   const container = document.getElementById('quizFilters');
   if (!container) return;
@@ -981,7 +966,6 @@ function answerQuiz(qIdx, optIdx) {
 }
 function resetQuiz() { quizState = {}; renderQuizFilters(); renderQuiz(); }
 
-// ═══════ КОНСТРУКТОР ═══════
 function renderBuilderFilters() {
   const container = document.getElementById('builderFilters');
   if (!container) return;
@@ -1166,7 +1150,6 @@ function answerDialogue(key, dIdx, optIdx) {
 }
 function resetDialogue(key) { builderState[key] = { step: 0, history: [] }; renderBuilder(); }
 
-// ═══════ СЛОВАРЬ ═══════
 function renderDictFilters() {
   const container = document.getElementById('dictFilters');
   if (!container) return;
@@ -1203,7 +1186,6 @@ function searchDictionary() {
   renderDictionary();
 }
 
-// ═══════ ЗАДАНИЯ ИЗ СЛОВАРЯ ═══════
 function renderQgenFilters() {
   const mf = document.getElementById('qgenFilters');
   const pf = document.getElementById('qgenPosFilters');
@@ -1239,24 +1221,29 @@ function regenerateQgen() {
   }
   renderQgen();
 }
+
+// ⚠️ ИСПРАВЛЕННАЯ функция — без "I have a ..."
 function generateSentencesList(words, count = 15) {
   if (!words.length) return [];
-  if (typeof quizgen !== 'undefined' && quizgen.generateSentence) {
-    const sample = shuffleWords(words).slice(0, count);
-    const result = [];
-    sample.forEach(w => { const s = quizgen.generateSentence(w); if (s) result.push(s); });
-    return result;
+
+  // 1. Если quizgen загружен — используем ТОЛЬКО его список
+  if (typeof quizgen !== 'undefined' && quizgen.generateSentencesList) {
+    const result = quizgen.generateSentencesList(words, count);
+    if (result && result.length) return result;
   }
+
+  // 2. Резервный вариант — только безопасные шаблоны
+  console.warn('[Sentences] quizgen.js недоступен — упрощённые примеры');
   return shuffleWords(words).slice(0, count).map(w => {
     let en, ru;
-    if (w.pos === 'noun') { en = `I have a ${w.eng}.`; ru = `У меня есть ${w.ru}.`; }
-    else if (w.pos === 'verb') { en = `I ${w.eng} it.`; ru = `Я это ${w.ru}.`; }
-    else if (w.pos === 'adjective') { en = `It is very ${w.eng}.`; ru = `Это очень ${w.ru}.`; }
+    if (w.pos === 'verb') { en = `I like to ${w.eng}.`; ru = `Я люблю ${w.ru}.`; }
+    else if (w.pos === 'adjective') { en = `It is ${w.eng}.`; ru = `Это ${w.ru}.`; }
     else if (w.pos === 'adverb') { en = `He speaks ${w.eng}.`; ru = `Он говорит ${w.ru}.`; }
-    else { en = `The word is ${w.eng}.`; ru = `Слово — ${w.ru}.`; }
+    else { en = `The word is "${w.eng}".`; ru = `Слово — «${w.ru}».`; }
     return { en, ru, word: w };
   });
 }
+
 function generateQuizFromDict(words, count = 10) {
   if (typeof quizgen !== 'undefined' && quizgen.generateQuiz) return quizgen.generateQuiz(words, count);
   const sample = shuffleWords(words).slice(0, count);
@@ -1343,7 +1330,6 @@ function flipCard(key) {
   renderQgen();
 }
 
-// ═══════ FULLSCREEN ═══════
 const fullscreenBtn = document.getElementById('fullscreenTableBtn');
 if (fullscreenBtn) {
   fullscreenBtn.addEventListener('click', () => {
@@ -1352,7 +1338,6 @@ if (fullscreenBtn) {
   });
 }
 
-// ═══════ INIT ═══════
 function init() {
   if (typeof verbs !== 'undefined') { allVerbs = verbs; renderVerbCards(allVerbs); renderVerbsTable(); populateVerbSelect(); }
   if (typeof tenses !== 'undefined') renderTenses();
@@ -1405,7 +1390,6 @@ function init() {
   if (typeof dictionary !== 'undefined') regenerateQgen();
 }
 
-// ═══════ SW ═══════
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js')
