@@ -413,11 +413,11 @@ footer {
   </div>
 </div>
 
-<!-- ВКЛАДКА 9 -->
+<!-- ВКЛАДКА 9 — ОБНОВЛЕНА! -->
 <div id="tab9" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
-      <div class="title-group"><span class="assoc-emoji">🔤🧩</span><span class="rule-name">Приставки, суффиксы, корни</span></div>
+      <div class="title-group"><span class="assoc-emoji">🔤🧩</span><span class="rule-name">Приставки, суффиксы, корни и многое другое</span></div>
       <span class="expand-icon">▼</span>
     </div>
     <div class="card-body"><div class="inner-content">
@@ -431,6 +431,17 @@ footer {
         <button class="filter-btn" data-type="prefix">⏪ Приставки</button>
         <button class="filter-btn" data-type="suffix">⏩ Суффиксы</button>
         <button class="filter-btn" data-type="root">🧱 Корни</button>
+        <button class="filter-btn" data-type="modal">🎩 Модальные</button>
+        <button class="filter-btn" data-type="confusing">🤔 Путаница</button>
+        <button class="filter-btn" data-type="formation">⚙️ Словообразование</button>
+        <button class="filter-btn" data-type="traps">🪤 Ловушки</button>
+        <button class="filter-btn" data-type="twins">👯 Близнецы</button>
+        <button class="filter-btn" data-type="discourse">💬 Вводные</button>
+        <button class="filter-btn" data-type="alltime">⏰ Время</button>
+        <button class="filter-btn" data-type="timeprep">🕐 Предлоги времени</button>
+        <button class="filter-btn" data-type="essay">✍️ Эссе</button>
+        <button class="filter-btn" data-type="useful">🗣️ Связки</button>
+        <button class="filter-btn" data-type="question">❓ Вопросы</button>
       </div>
       <div id="prefixesContainer"></div>
     </div></div>
@@ -575,7 +586,6 @@ footer {
     <button id="modalSpeakBtn" class="modal-close" style="background:#8b6946;">🔈 Озвучить</button>
   </div>
 </div>
-
 <script src="verbs.js"></script>
 <script src="tenses.js"></script>
 <script src="phrases.js"></script>
@@ -587,6 +597,9 @@ footer {
 <script src="lessonData.js"></script>
 <script src="quizgen.js"></script>
 <script>
+// ═══════════════════════════════════════════════════════════
+// ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+// ═══════════════════════════════════════════════════════════
 let currentModalText = '';
 let allVerbs = [];
 let currentCategory = 'all';
@@ -598,7 +611,6 @@ let currentQuizCategory = 'all';
 let quizState = {};
 let currentBuilderCategory = 'all';
 let builderState = {};
-// 🆕 Пагинация для конструктора
 let builderOrderShown = 15;
 let builderQuestionsShown = 15;
 let builderRepliesShown = 15;
@@ -611,6 +623,17 @@ let qgenState = {};
 let qgenQuestions = [];
 let qgenSentences = [];
 
+// 🆕 Новые переменные для фильтров вкладки 9
+let currentDiscourseGroup = 'all';
+let currentAllTimeFilter = 'all';
+let currentEssayGroup = 'all';
+let currentUsefulGroup = 'all';
+let currentQuestionGroup = 'all';
+let learnedTimeWords = JSON.parse(localStorage.getItem('learnedTimeWords') || '[]');
+
+// ═══════════════════════════════════════════════════════════
+// РЕЧЬ
+// ═══════════════════════════════════════════════════════════
 function speakText(text) {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -628,6 +651,9 @@ function speakVerbForms(v1, v2, v3) {
   }
 }
 
+// ═══════════════════════════════════════════════════════════
+// МОДАЛКА
+// ═══════════════════════════════════════════════════════════
 function openModalWithSpeech(word, textHtml, translation, explanation) {
   const modal = document.getElementById('modal');
   const modalText = document.getElementById('modalText');
@@ -651,6 +677,9 @@ function openModalWithSpeech(word, textHtml, translation, explanation) {
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
+// ═══════════════════════════════════════════════════════════
+// УТИЛИТЫ
+// ═══════════════════════════════════════════════════════════
 function toggleCard(header) {
   const body = header.closest('.card').querySelector('.card-body');
   const icon = header.querySelector('.expand-icon');
@@ -663,6 +692,9 @@ function shuffleWords(words) {
   return a;
 }
 
+// ═══════════════════════════════════════════════════════════
+// ВКЛАДКИ
+// ═══════════════════════════════════════════════════════════
 const tabs = document.querySelectorAll('.tab-btn');
 const contents = document.querySelectorAll('.tab-content');
 tabs.forEach(btn => {
@@ -682,6 +714,9 @@ tabs.forEach(btn => {
   });
 });
 
+// ═══════════════════════════════════════════════════════════
+// ГЛАГОЛЫ
+// ═══════════════════════════════════════════════════════════
 function renderVerbCards(filteredVerbs) {
   const container = document.getElementById('verbs-container');
   const searchInfo = document.getElementById('searchResultsInfo');
@@ -726,7 +761,6 @@ function searchVerbs() {
   );
   renderVerbCards(filtered);
 }
-
 function renderVerbsTable() {
   const wrapper = document.getElementById('verbsTableWrapper');
   if (!wrapper) return;
@@ -741,6 +775,9 @@ function renderVerbsTable() {
   wrapper.innerHTML = html;
 }
 
+// ═══════════════════════════════════════════════════════════
+// ВРЕМЕНА
+// ═══════════════════════════════════════════════════════════
 function renderTenses() {
   const container = document.getElementById('tenses-container');
   if (!container) return;
@@ -760,6 +797,9 @@ function renderTenses() {
   });
 }
 
+// ═══════════════════════════════════════════════════════════
+// ГЕНЕРАТОР
+// ═══════════════════════════════════════════════════════════
 function populateVerbSelect() {
   const select = document.getElementById('verbSelect');
   if (!select || typeof verbs === 'undefined') return;
@@ -795,6 +835,9 @@ function generateExamples() {
 }
 function clearExamples() { document.getElementById('generatedContainer').innerHTML = '<div style="text-align:center;padding:30px;">🎲 Выберите глагол</div>'; }
 
+// ═══════════════════════════════════════════════════════════
+// ФРАЗЫ
+// ═══════════════════════════════════════════════════════════
 function renderCategoryFilters() {
   const container = document.getElementById('categoryFilters');
   if (!container) return;
@@ -829,6 +872,505 @@ function renderPhrases() {
 }
 function searchPhrases() { renderPhrases(); }
 
+// ═══════════════════════════════════════════════════════════
+// 🆕 МОДАЛЬНЫЕ ГЛАГОЛЫ
+// ═══════════════════════════════════════════════════════════
+function renderModalVerbs() {
+    let html = '';
+    modalVerbs.forEach(m => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${m.color};margin-bottom:16px;">
+            <div class="tense-header">
+                <div class="tense-emoji">${m.emoji}</div>
+                <div>
+                    <div class="tense-name" style="font-family:monospace;font-size:1.6rem;">${m.word} <span style="color:#8b6946;font-size:.85rem;">${m.transcription}</span></div>
+                    <div style="font-size:.85rem;color:#8b6946;">${m.meaning}</div>
+                </div>
+            </div>
+            <div class="memory-hack" style="margin:10px 0;font-size:.9rem;">${m.hint}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;">${m.rules.map(r => `<span style="background:#ecdca8;padding:4px 12px;border-radius:20px;font-size:.8rem;">${r}</span>`).join('')}</div>
+            ${m.examples.map(e => {
+                const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                return `<div class="tense-example" onclick="speakText('${clean}')">
+                    <div class="tense-example-text"><div class="tense-example-eng">${e.en}</div><div class="tense-example-ru">${e.ru}</div></div>
+                    <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+                </div>`;
+            }).join('')}
+        </div>`;
+    });
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 НЕ ПУТАЙТЕ (глаголы)
+// ═══════════════════════════════════════════════════════════
+function renderConfusingVerbs() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
+        ⚠️ <strong>НЕ ПУТАЙТЕ!</strong> Часто используемые глаголы. Используйте правильно!
+    </div>`;
+    confusingVerbs.forEach(c => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:18px;">
+            <div class="tense-header"><div class="tense-emoji">${c.emoji}</div><div class="tense-name">${c.title}</div></div>
+            <div class="memory-hack" style="font-size:.9rem;background:#ecdca8;">🎯 ${c.rule}</div>`;
+        c.pairs.forEach(p => {
+            html += `<div style="background:#fff6e8;border-radius:20px;padding:14px;margin:12px 0;border:1px solid #e1cba1;">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                    <span style="font-size:2rem;">${p.emoji}</span>
+                    <span style="font-family:monospace;font-size:1.5rem;font-weight:bold;color:#3d2b1a;">${p.word}</span>
+                </div>
+                <div style="font-size:.95rem;color:#5f451f;margin-bottom:12px;line-height:1.4;">${p.meaning}</div>`;
+            p.examples.forEach(e => {
+                const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                html += `<div class="tense-example" style="margin:8px 0;background:#f2e5ca;" onclick="speakText('${clean}')">
+                    <div class="tense-example-text"><div class="tense-example-eng">${e.en}</div><div class="tense-example-ru">${e.ru}</div></div>
+                    <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+                </div>`;
+            });
+            html += `</div>`;
+        });
+        html += `</div>`;
+    });
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 СЛОВООБРАЗОВАНИЕ
+// ═══════════════════════════════════════════════════════════
+function renderWordFormation() {
+    const r = wordFormationRules;
+    let html = `<div class="memory-hack" style="margin-bottom:14px;">⚙️ <strong>${r.intro}</strong></div>`;
+    html += `<div class="explanation-card"><div class="explanation-title">📌 Главное правило</div><div class="explanation-desc">${r.mainRule}</div></div>`;
+    html += `<div class="memory-hack" style="font-size:.9rem;">🔽 <strong>СУФФИКСЫ</strong> — ${r.suffixRule}</div>`;
+    r.suffixGroups.forEach(g => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;margin-bottom:12px;">
+            <div class="tense-header"><div class="tense-emoji">${g.emoji}</div><div><div class="tense-name" style="font-family:monospace;">${g.affix}</div><div style="font-size:.85rem;color:#8b6946;">${g.meaning}</div></div></div>`;
+        g.chains.forEach(c => {
+            html += `<div class="tense-example" style="cursor:default;">
+                <div class="tense-example-text"><div class="tense-example-eng"><b>${c.from}</b> → <b>${c.to}</b></div><div class="tense-example-ru">${c.tr}</div></div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${c.from}, ${c.to}')">🔈</button>
+            </div>`;
+        });
+        html += `</div>`;
+    });
+    html += `<div class="memory-hack" style="font-size:.9rem;margin-top:14px;">🔼 <strong>ПРЕФИКСЫ</strong> — ${r.prefixRule}</div>`;
+    r.prefixGroups.forEach(g => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:12px;">
+            <div class="tense-header"><div class="tense-emoji">${g.emoji}</div><div><div class="tense-name" style="font-family:monospace;">${g.affix}</div><div style="font-size:.85rem;color:#8b6946;">${g.meaning}</div></div></div>`;
+        g.chains.forEach(c => {
+            html += `<div class="tense-example" style="cursor:default;">
+                <div class="tense-example-text"><div class="tense-example-eng"><b>${c.from}</b> → <b>${c.to}</b></div><div class="tense-example-ru">${c.tr}</div></div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${c.from}, ${c.to}')">🔈</button>
+            </div>`;
+        });
+        html += `</div>`;
+    });
+    html += `<div class="memory-hack" style="font-size:.9rem;margin-top:14px;">⏰ <strong>Time markers</strong></div>`;
+    html += `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">${timeMarkers.map(t => `<span style="background:#ecdca8;padding:8px 14px;border-radius:20px;">${t.emoji} ${t.word} — ${t.ru}</span>`).join('')}</div>`;
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 СЛОВА-ЛОВУШКИ
+// ═══════════════════════════════════════════════════════════
+function renderTrapPairs() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
+        🪤 <strong>КАКАЯ РАЗНИЦА?</strong><br>
+        <span style="font-size:.85rem;">Слова-ловушки, которые путают даже тех, кто учит английский годами!</span>
+    </div>`;
+    trapPairs.forEach(p => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:18px;">
+            <div class="tense-header"><div class="tense-emoji">${p.emoji}</div><div class="tense-name">${p.title}</div></div>
+            <div style="font-size:.85rem;color:#8b6946;text-align:center;margin:8px 0 14px;">${p.rule}</div>
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch;">
+                <div style="background:#e8f0d4;border-radius:20px;padding:14px;border:1px solid #a5c46a;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;justify-content:center;">
+                        <span style="font-size:1.8rem;">${p.left.emoji}</span>
+                        <span style="font-family:monospace;font-size:1.2rem;font-weight:bold;color:#3d2b1a;">${p.left.word}</span>
+                    </div>
+                    <div style="font-size:.85rem;color:#5f451f;text-align:center;line-height:1.3;margin-bottom:10px;">${p.left.meaning}</div>
+                    ${p.left.examples.map(e => {
+                        const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                        return `<div onclick="speakText('${clean}')" style="background:#fff6e8;padding:8px 10px;border-radius:12px;margin-top:6px;cursor:pointer;">
+                            <div style="font-size:.85rem;font-weight:bold;color:#3d2b1a;">${e.en}</div>
+                            <div style="font-size:.75rem;color:#8b6946;margin-top:3px;">${e.ru}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;">
+                    <span style="background:#b93a3a;color:white;padding:6px 10px;border-radius:50%;font-weight:bold;font-size:.8rem;">VS</span>
+                </div>
+                <div style="background:#fde4c8;border-radius:20px;padding:14px;border:1px solid #e0a878;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;justify-content:center;">
+                        <span style="font-size:1.8rem;">${p.right.emoji}</span>
+                        <span style="font-family:monospace;font-size:1.2rem;font-weight:bold;color:#3d2b1a;">${p.right.word}</span>
+                    </div>
+                    <div style="font-size:.85rem;color:#5f451f;text-align:center;line-height:1.3;margin-bottom:10px;">${p.right.meaning}</div>
+                    ${p.right.examples.map(e => {
+                        const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                        return `<div onclick="speakText('${clean}')" style="background:#fff6e8;padding:8px 10px;border-radius:12px;margin-top:6px;cursor:pointer;">
+                            <div style="font-size:.85rem;font-weight:bold;color:#3d2b1a;">${e.en}</div>
+                            <div style="font-size:.75rem;color:#8b6946;margin-top:3px;">${e.ru}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+        </div>`;
+    });
+    html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;margin-top:16px;text-align:center;font-size:.9rem;">
+        💡 Эти слова путают даже тех, кто учит английский годами — теперь вы знаете разницу!
+    </div>`;
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 СЛОВА-БЛИЗНЕЦЫ
+// ═══════════════════════════════════════════════════════════
+function renderTwinWords() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
+        ⚠️ <strong>НЕ ПУТАЕМ!</strong><br>
+        <span style="font-size:.85rem;">Эти слова звучат и пишутся похоже, но значат совершенно разное!</span>
+    </div>`;
+    twinWords.forEach(p => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:18px;">
+            <div class="tense-header"><div class="tense-emoji">${p.emoji}</div><div class="tense-name">${p.title}</div></div>
+            <div style="font-size:.85rem;color:#8b6946;text-align:center;margin:8px 0 14px;">${p.rule}</div>
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch;">
+                <div style="background:#e8f0d4;border-radius:20px;padding:14px;border:1px solid #a5c46a;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:8px;">
+                        <span style="font-size:1.8rem;">${p.left.emoji}</span>
+                        <span style="font-family:monospace;font-size:1.2rem;font-weight:bold;color:#3d2b1a;">${p.left.word}</span>
+                        <span style="background:#a5c46a;color:white;padding:2px 10px;border-radius:20px;font-size:.7rem;">${p.left.pos}</span>
+                    </div>
+                    <div style="font-size:.85rem;color:#5f451f;text-align:center;line-height:1.3;margin-bottom:10px;font-weight:bold;">${p.left.meaning}</div>
+                    ${p.left.examples.map(e => {
+                        const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                        return `<div onclick="speakText('${clean}')" style="background:#fff6e8;padding:8px 10px;border-radius:12px;margin-top:6px;cursor:pointer;">
+                            <div style="font-size:.85rem;font-weight:bold;color:#3d2b1a;">${e.en}</div>
+                            <div style="font-size:.75rem;color:#8b6946;margin-top:3px;">${e.ru}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;">
+                    <span style="background:#b93a3a;color:white;padding:6px 10px;border-radius:50%;font-weight:bold;font-size:.8rem;">VS</span>
+                </div>
+                <div style="background:#fde4c8;border-radius:20px;padding:14px;border:1px solid #e0a878;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:8px;">
+                        <span style="font-size:1.8rem;">${p.right.emoji}</span>
+                        <span style="font-family:monospace;font-size:1.2rem;font-weight:bold;color:#3d2b1a;">${p.right.word}</span>
+                        <span style="background:#e0a878;color:white;padding:2px 10px;border-radius:20px;font-size:.7rem;">${p.right.pos}</span>
+                    </div>
+                    <div style="font-size:.85rem;color:#5f451f;text-align:center;line-height:1.3;margin-bottom:10px;font-weight:bold;">${p.right.meaning}</div>
+                    ${p.right.examples.map(e => {
+                        const clean = e.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+                        return `<div onclick="speakText('${clean}')" style="background:#fff6e8;padding:8px 10px;border-radius:12px;margin-top:6px;cursor:pointer;">
+                            <div style="font-size:.85rem;font-weight:bold;color:#3d2b1a;">${e.en}</div>
+                            <div style="font-size:.75rem;color:#8b6946;margin-top:3px;">${e.ru}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+        </div>`;
+    });
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 ВВОДНЫЕ СЛОВА
+// ═══════════════════════════════════════════════════════════
+function renderDiscourseMarkers() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        💬 <strong>ВВОДНЫЕ СЛОВА</strong><br>
+        <span style="font-size:.85rem;">Маленькие слова — большие возможности.</span>
+    </div>`;
+    html += `<div class="filters" id="discourseFilters" style="margin-bottom:14px;">`;
+    discourseGroups.forEach(g => {
+        html += `<button class="filter-btn ${currentDiscourseGroup === g.id ? 'active' : ''}" data-discourse="${g.id}">${g.emoji} ${g.name}</button>`;
+    });
+    html += `</div>`;
+    let filtered = currentDiscourseGroup === 'all' ? [...discourseMarkers] : discourseMarkers.filter(d => d.group === currentDiscourseGroup);
+    html += `<div class="phrase-counter">Показано: ${filtered.length} из ${discourseMarkers.length}</div>`;
+    filtered.forEach(d => {
+        const clean = d.example.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+        html += `<div class="phrase-card" onclick="speakText('${clean}')">
+            <div style="flex:1;">
+                <div class="eng">${d.emoji} <b>${d.word}</b> <span style="color:#8b6946;font-family:monospace;font-size:.85rem;">${d.transcription}</span></div>
+                <div class="ru">🇷🇺 ${d.ru}</div>
+                <div style="font-size:.8rem;color:#5f451f;margin-top:6px;font-style:italic;">📖 ${d.example.en} — ${d.example.ru}</div>
+            </div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+        </div>`;
+    });
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 СЛОВА ВРЕМЕНИ
+// ═══════════════════════════════════════════════════════════
+function renderAllTimeWords() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        ⏰ <strong>ПОЛЕЗНЫЕ СЛОВА ВРЕМЕНИ</strong><br>
+        <span style="font-size:.85rem;">Запоминай легко — используй каждый день!</span>
+    </div>`;
+    const total = allTimeWords.length;
+    const learned = learnedTimeWords.length;
+    const progress = total > 0 ? Math.round((learned / total) * 100) : 0;
+    html += `<div style="background:#ecdca8;border-radius:28px;padding:14px 18px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong>🧠 Изучено: ${learned}/${total}</strong>
+            <span style="font-weight:bold;color:#6b8e23;">${progress}%</span>
+        </div>
+        <div style="background:#fff6e8;border-radius:20px;height:12px;margin-top:8px;overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#6b8e23,#c8e6a0);height:100%;width:${progress}%;transition:width .4s;"></div>
+        </div>
+    </div>`;
+    html += `<div class="filters" id="allTimeFilters" style="margin-bottom:14px;">`;
+    allTimeWordGroups.forEach(g => {
+        html += `<button class="filter-btn ${currentAllTimeFilter === g.id ? 'active' : ''}" data-timefilter="${g.id}">${g.emoji} ${g.name}</button>`;
+    });
+    html += `</div>`;
+    let filtered = currentAllTimeFilter === 'all' ? [...allTimeWords] : allTimeWords.filter(w => w.group === currentAllTimeFilter);
+    html += `<div class="phrase-counter">Показано: ${filtered.length} из ${allTimeWords.length}</div>`;
+    let lastGroup = null;
+    filtered.forEach(w => {
+        if (w.group !== lastGroup && currentAllTimeFilter === 'all') {
+            const g = allTimeWordGroups.find(x => x.id === w.group);
+            if (g) {
+                html += `<div class="memory-hack" style="background:#f9eec1;border-left-color:${g.color};margin:16px 0 12px;text-align:center;">
+                    ${g.emoji} <b>${g.name.toUpperCase()}</b>
+                </div>`;
+            }
+            lastGroup = w.group;
+        }
+        const clean = w.en.replace(/'/g, "\\'");
+        const isLearned = learnedTimeWords.includes(w.en);
+        const borderColor = allTimeWordGroups.find(x => x.id === w.group)?.color || '#c49a6c';
+        html += `<div class="phrase-card" style="border-left:4px solid ${borderColor};">
+            <div style="flex:1;" onclick="speakText('${clean}')">
+                <div class="eng">${w.emoji} <b>${w.en}</b> <span style="color:#8b6946;font-family:monospace;font-size:.8rem;">${w.trans}</span></div>
+                <div class="ru">🇷🇺 ${w.ru}</div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')" style="font-size:.75rem;">🔈</button>
+                <button class="speak-btn-small" onclick="event.stopPropagation();toggleTimeWordLearned('${clean}')" style="background:${isLearned ? '#6b8e23' : '#c49a6c'};font-size:.85rem;">${isLearned ? '✅' : '☐'}</button>
+            </div>
+        </div>`;
+    });
+    return html;
+}
+
+function toggleTimeWordLearned(word) {
+    const idx = learnedTimeWords.indexOf(word);
+    if (idx >= 0) learnedTimeWords.splice(idx, 1);
+    else learnedTimeWords.push(word);
+    localStorage.setItem('learnedTimeWords', JSON.stringify(learnedTimeWords));
+    renderPrefixes();
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 ПРЕДЛОГИ ВРЕМЕНИ
+// ═══════════════════════════════════════════════════════════
+function renderTimePrepositions() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        🕐 <strong>ПРЕДЛОГИ ВРЕМЕНИ</strong><br>
+        <span style="font-size:.85rem;">Запоминай легко — и говори правильно!</span>
+    </div>`;
+    html += `<div style="overflow-x:auto;margin-bottom:20px;">
+        <table style="width:100%;border-collapse:collapse;background:#fff6e8;border-radius:20px;overflow:hidden;min-width:600px;">
+            <thead><tr style="background:#dbbc87;">
+                <th style="padding:12px 10px;text-align:left;font-size:.85rem;">ПРЕДЛОГ</th>
+                <th style="padding:12px 10px;text-align:left;font-size:.85rem;">ИСПОЛЬЗУЕТСЯ</th>
+                <th style="padding:12px 10px;text-align:left;font-size:.85rem;">ПРИМЕР</th>
+                <th style="padding:12px 10px;text-align:center;font-size:.85rem;">🔊</th>
+            </tr></thead><tbody>`;
+    timePrepositions.forEach(p => {
+        const clean = p.example.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+        html += `<tr style="border-bottom:1px solid #e1cba1;">
+            <td style="padding:12px 10px;border-left:5px solid ${p.color};">
+                <div style="font-size:1.4rem;font-weight:bold;color:#3d2b1a;font-family:monospace;">${p.emoji} ${p.prep}</div>
+                <div style="font-size:.7rem;color:#8b6946;">${p.short}</div>
+            </td>
+            <td style="padding:12px 10px;font-size:.85rem;color:#5f451f;line-height:1.4;">${p.usage}</td>
+            <td style="padding:12px 10px;">
+                <div style="font-size:.9rem;font-weight:bold;color:#3d2b1a;">${p.example.en}</div>
+                <div style="font-size:.8rem;color:#8b6946;margin-top:3px;">${p.example.ru}</div>
+            </td>
+            <td style="padding:12px 10px;text-align:center;">
+                <button class="speak-btn-small" onclick="speakText('${clean}')">🔈</button>
+            </td>
+        </tr>`;
+    });
+    html += `</tbody></table></div>`;
+    html += `<div class="memory-hack" style="background:#fde4c8;border-left-color:#b97f44;margin:20px 0 14px;text-align:center;">⚡ <strong>БЫСТРАЯ ШПАРГАЛКА</strong></div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:20px;">`;
+    timePrepositionCheatsheet.forEach(c => {
+        html += `<div style="background:#fff6e8;border-radius:16px;padding:12px;border-left:4px solid #c49a6c;">
+            <div style="font-size:.9rem;font-weight:bold;color:#3d2b1a;">${c.emoji} ${c.rule}</div>
+            <div style="font-size:.8rem;color:#8b6946;font-family:monospace;margin-top:4px;">${c.detail}</div>
+        </div>`;
+    });
+    html += `</div>`;
+    html += `<div class="memory-hack" style="background:#e8f0d4;border-left-color:#6b8e23;margin:20px 0 14px;text-align:center;">✂️ <strong>ПОЛЕЗНЫЕ СОКРАЩЕНИЯ</strong></div>`;
+    html += `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">`;
+    usefulAbbreviations.forEach(a => {
+        html += `<div onclick="speakText('${a.abbr}')" style="background:#fff6e8;padding:10px 14px;border-radius:16px;cursor:pointer;border:1px solid #e1cba1;flex:1;min-width:140px;">
+            <div style="font-size:1.1rem;font-weight:bold;color:#3d2b1a;">${a.emoji} ${a.abbr}</div>
+            <div style="font-size:.8rem;color:#5f451f;margin-top:3px;">${a.meaning}</div>
+        </div>`;
+    });
+    html += `</div>`;
+    html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;margin-top:16px;text-align:center;font-size:.9rem;">
+        💡 <b>Не путайте ON и IN:</b> ON — для дней и дат, IN — для месяцев, лет и сезонов.<br>
+        <b>SINCE и FOR:</b> SINCE указывает точку старта, FOR — сам период.
+    </div>`;
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 ЭССЕ
+// ═══════════════════════════════════════════════════════════
+function renderEssayLinkers() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        ✍️ <strong>СЛОВА-СВЯЗКИ ДЛЯ ЭССЕ</strong><br>
+        <span style="font-size:.85rem;">Структурируй мысли — пиши связно и уверенно!</span>
+    </div>`;
+    html += `<div class="filters" id="essayFilters" style="margin-bottom:14px;">`;
+    essayLinkerGroups.forEach(g => {
+        html += `<button class="filter-btn ${currentEssayGroup === g.id ? 'active' : ''}" data-essay="${g.id}">${g.emoji} ${g.name}</button>`;
+    });
+    html += `</div>`;
+    let filtered = currentEssayGroup === 'all' ? [...essayLinkers] : essayLinkers.filter(e => e.group === currentEssayGroup);
+    html += `<div class="phrase-counter">Показано: ${filtered.length} из ${essayLinkers.length}</div>`;
+    filtered.forEach(e => {
+        const clean = e.example.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+        html += `<div class="tense-card" style="cursor:default;border-left:5px solid #c49a6c;margin-bottom:12px;">
+            <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;">
+                <span style="font-size:1.8rem;">${e.emoji}</span>
+                <div style="flex:1;">
+                    <div style="font-size:1.15rem;font-weight:bold;color:#3d2b1a;">${e.en}</div>
+                    <div style="font-size:.75rem;color:#8b6946;font-family:monospace;">${e.trans}</div>
+                    <div style="font-size:.95rem;color:#5f451f;margin-top:4px;">🇷🇺 ${e.ru}</div>
+                </div>
+            </div>
+            <div style="background:#ecdca8;border-radius:14px;padding:8px 12px;font-size:.85rem;margin:8px 0;">
+                <b>🎯 Когда использовать:</b> ${e.usage}
+            </div>
+            <div class="tense-example" onclick="speakText('${clean}')" style="margin:0;">
+                <div class="tense-example-text">
+                    <div class="tense-example-eng">${e.example.en}</div>
+                    <div class="tense-example-ru">${e.example.ru}</div>
+                </div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+            </div>
+        </div>`;
+    });
+    html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;margin-top:16px;text-align:center;font-size:.9rem;">
+        💡 Формула хорошего эссе: <b>First and foremost</b> → <b>Secondly</b> → <b>Furthermore</b> → <b>However</b> → <b>In conclusion</b>.
+    </div>`;
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 СВЯЗКИ (сравнить/объяснить)
+// ═══════════════════════════════════════════════════════════
+function renderUsefulLinkers() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        🗣️ <strong>ПОЛЕЗНЫЕ СЛОВА И ВЫРАЖЕНИЯ</strong><br>
+        <span style="font-size:.85rem;">Говори увереннее. Пиши лучше. Мысли шире.</span>
+    </div>`;
+    html += `<div class="filters" id="usefulFilters" style="margin-bottom:14px;">`;
+    usefulLinkerGroups.forEach(g => {
+        html += `<button class="filter-btn ${currentUsefulGroup === g.id ? 'active' : ''}" data-useful="${g.id}">${g.emoji} ${g.name}</button>`;
+    });
+    html += `</div>`;
+    let filtered = currentUsefulGroup === 'all' ? [...usefulLinkers] : usefulLinkers.filter(u => u.group === currentUsefulGroup);
+    html += `<div class="phrase-counter">Показано: ${filtered.length} из ${usefulLinkers.length}</div>`;
+    let lastGroup = null;
+    filtered.forEach(u => {
+        if (u.group !== lastGroup && currentUsefulGroup === 'all') {
+            if (u.group === 'compare') {
+                html += `<div class="memory-hack" style="background:#e8f0d4;border-left-color:#6b8e23;margin:18px 0 12px;text-align:center;">
+                    ⚖️ <b>Чтобы сравнить</b> — сравнивай идеи, видь больше сторон!
+                </div>`;
+            } else if (u.group === 'explain') {
+                html += `<div class="memory-hack" style="background:#fde4c8;border-left-color:#b97f44;margin:18px 0 12px;text-align:center;">
+                    🎯 <b>Чтобы объяснить</b> — объясняй мысли, будь понятным!
+                </div>`;
+            }
+            lastGroup = u.group;
+        }
+        const clean = u.example.en.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+        html += `<div class="phrase-card" onclick="openModalWithSpeech('${u.en}','${u.example.en}','${u.example.ru}','${u.usage}')">
+            <div style="flex:1;">
+                <div class="eng">${u.emoji} <b>${u.en}</b> <span style="color:#8b6946;font-family:monospace;font-size:.8rem;">${u.trans}</span></div>
+                <div class="ru">🇷🇺 ${u.ru}</div>
+                <div style="font-size:.8rem;color:#5f451f;margin-top:6px;font-style:italic;">📖 ${u.example.en} — ${u.example.ru}</div>
+                <div style="font-size:.75rem;color:#8b6946;margin-top:4px;">🎯 ${u.usage}</div>
+            </div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+        </div>`;
+    });
+    html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;margin-top:16px;text-align:center;font-size:.9rem;">
+        💡 Новые слова — больше возможностей! Используйте эти связки каждый день.
+    </div>`;
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 ВОПРОСИТЕЛЬНЫЕ СЛОВА
+// ═══════════════════════════════════════════════════════════
+function renderQuestionWords() {
+    let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
+        ❓ <strong>ВОПРОСИТЕЛЬНЫЕ СЛОВА</strong><br>
+        <span style="font-size:.85rem;">9 основных + 5 с How. Запоминай легко!</span>
+    </div>`;
+    html += `<div class="filters" id="questionFilters" style="margin-bottom:14px;">`;
+    questionWordGroups.forEach(g => {
+        html += `<button class="filter-btn ${currentQuestionGroup === g.id ? 'active' : ''}" data-question="${g.id}">${g.emoji} ${g.name}</button>`;
+    });
+    html += `</div>`;
+    let filtered = currentQuestionGroup === 'all' ? [...questionWords] : questionWords.filter(w => w.group === currentQuestionGroup);
+    html += `<div class="phrase-counter">Показано: ${filtered.length} из ${questionWords.length}</div>`;
+    let lastGroup = null;
+    filtered.forEach(w => {
+        if (w.group !== lastGroup && currentQuestionGroup === 'all') {
+            if (w.group === 'basic') {
+                html += `<div class="memory-hack" style="background:#e8f0d4;border-left-color:#6b8e23;margin:16px 0 12px;text-align:center;">
+                    ❓ <b>ОСНОВНЫЕ ВОПРОСИТЕЛЬНЫЕ СЛОВА</b>
+                </div>`;
+            } else if (w.group === 'how') {
+                html += `<div class="memory-hack" style="background:#fde4c8;border-left-color:#b97f44;margin:16px 0 12px;text-align:center;">
+                    📏 <b>HOW + ...</b> — уточняющие вопросы
+                </div>`;
+            }
+            lastGroup = w.group;
+        }
+        const clean = w.example.en.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
+        html += `<div class="phrase-card" onclick="speakText('${clean}')">
+            <div style="flex:1;">
+                <div class="eng">${w.emoji} <b style="font-size:1.15rem;">${w.en}</b> <span style="color:#8b6946;font-family:monospace;font-size:.8rem;">${w.trans}</span></div>
+                <div class="ru" style="font-weight:bold;">🇷🇺 ${w.ru}</div>
+                <div style="font-size:.85rem;color:#5f451f;margin-top:8px;padding:6px 10px;background:#f9eec1;border-radius:14px;font-style:italic;">
+                    💬 ${w.example.en} — ${w.example.ru}
+                </div>
+            </div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+        </div>`;
+    });
+    if (currentQuestionGroup === 'all') {
+        html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;margin-top:20px;font-size:.9rem;line-height:1.6;">
+            💡 <b>Быстрая шпаргалка:</b><br>
+            🔢 <b>How many</b> — для исчисляемых (books, people)<br>
+            💰 <b>How much</b> — для неисчисляемых (money, water)<br>
+            🔀 <b>Which</b> — выбор из ограниченного набора<br>
+            ❓ <b>What</b> — общий вопрос о чём-то<br>
+            👤 <b>Who</b> — подлежащее, 👥 <b>Whom</b> — дополнение
+        </div>`;
+    }
+    return html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ПРИСТАВКИ / КОРНИ (главный роутер)
+// ═══════════════════════════════════════════════════════════
 function toggleRootLearned(root) {
   const idx = learnedRoots.indexOf(root);
   if (idx >= 0) learnedRoots.splice(idx, 1); else learnedRoots.push(root);
@@ -839,6 +1381,66 @@ function renderPrefixes() {
   const container = document.getElementById('prefixesContainer');
   if (!container) return;
   if (typeof prefixes === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ prefixes.js не загружен</div>'; return; }
+
+  // 🆕 Роутинг новых модулей
+  if (currentPrefixType === 'modal') { container.innerHTML = renderModalVerbs(); return; }
+  if (currentPrefixType === 'confusing') { container.innerHTML = renderConfusingVerbs(); return; }
+  if (currentPrefixType === 'formation') { container.innerHTML = renderWordFormation(); return; }
+  if (currentPrefixType === 'traps') { container.innerHTML = renderTrapPairs(); return; }
+  if (currentPrefixType === 'twins') { container.innerHTML = renderTwinWords(); return; }
+  if (currentPrefixType === 'discourse') {
+    container.innerHTML = renderDiscourseMarkers();
+    setTimeout(() => {
+      const df = document.getElementById('discourseFilters');
+      if (df) df.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => { currentDiscourseGroup = btn.dataset.discourse; renderPrefixes(); });
+      });
+    }, 0);
+    return;
+  }
+  if (currentPrefixType === 'alltime') {
+    container.innerHTML = renderAllTimeWords();
+    setTimeout(() => {
+      const tf = document.getElementById('allTimeFilters');
+      if (tf) tf.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => { currentAllTimeFilter = btn.dataset.timefilter; renderPrefixes(); });
+      });
+    }, 0);
+    return;
+  }
+  if (currentPrefixType === 'timeprep') { container.innerHTML = renderTimePrepositions(); return; }
+  if (currentPrefixType === 'essay') {
+    container.innerHTML = renderEssayLinkers();
+    setTimeout(() => {
+      const ef = document.getElementById('essayFilters');
+      if (ef) ef.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => { currentEssayGroup = btn.dataset.essay; renderPrefixes(); });
+      });
+    }, 0);
+    return;
+  }
+  if (currentPrefixType === 'useful') {
+    container.innerHTML = renderUsefulLinkers();
+    setTimeout(() => {
+      const uf = document.getElementById('usefulFilters');
+      if (uf) uf.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => { currentUsefulGroup = btn.dataset.useful; renderPrefixes(); });
+      });
+    }, 0);
+    return;
+  }
+  if (currentPrefixType === 'question') {
+    container.innerHTML = renderQuestionWords();
+    setTimeout(() => {
+      const qf = document.getElementById('questionFilters');
+      if (qf) qf.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => { currentQuestionGroup = btn.dataset.question; renderPrefixes(); });
+      });
+    }, 0);
+    return;
+  }
+
+  // КОРНИ
   const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
   if (currentPrefixType === 'root') {
     if (typeof wordRoots === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ Корни не найдены</div>'; return; }
@@ -865,6 +1467,8 @@ function renderPrefixes() {
     if (rtf) rtf.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { currentRootTopic = btn.dataset.topic; renderPrefixes(); }); });
     return;
   }
+
+  // ПРИСТАВКИ / СУФФИКСЫ
   let filtered = [...prefixes];
   if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
   if (query) filtered = filtered.filter(p => p.affix.toLowerCase().includes(query) || p.meaning.toLowerCase().includes(query));
@@ -887,6 +1491,9 @@ function searchPrefixes() {
   renderPrefixes();
 }
 
+// ═══════════════════════════════════════════════════════════
+// МАГИЯ
+// ═══════════════════════════════════════════════════════════
 function renderMagic() {
   const container = document.getElementById('magicContainer');
   if (!container) return;
@@ -929,6 +1536,9 @@ function renderMagic() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════
+// ТЕСТ
+// ═══════════════════════════════════════════════════════════
 function renderQuizFilters() {
   const container = document.getElementById('quizFilters');
   if (!container) return;
@@ -986,6 +1596,9 @@ function answerQuiz(qIdx, optIdx) {
 }
 function resetQuiz() { quizState = {}; renderQuizFilters(); renderQuiz(); }
 
+// ═══════════════════════════════════════════════════════════
+// КОНСТРУКТОР
+// ═══════════════════════════════════════════════════════════
 function renderBuilderFilters() {
   const container = document.getElementById('builderFilters');
   if (!container) return;
@@ -999,18 +1612,11 @@ function renderBuilderFilters() {
       btn.classList.add('active');
       currentBuilderCategory = btn.dataset.builder;
       builderState = {};
-      // 🆕 Сброс пагинации при смене раздела
-      builderOrderShown = 15;
-      builderQuestionsShown = 15;
-      builderRepliesShown = 15;
-      builderTransformShown = 15;
-      builderDialoguesShown = 20;
+      builderOrderShown = 15; builderQuestionsShown = 15; builderRepliesShown = 15; builderTransformShown = 15; builderDialoguesShown = 20;
       renderBuilder();
     });
   });
 }
-
-// 🆕 Пагинация — показать ещё
 function showMoreBuilder(type) {
   if (type === 'order') builderOrderShown += 15;
   else if (type === 'question') builderQuestionsShown += 15;
@@ -1019,14 +1625,10 @@ function showMoreBuilder(type) {
   else if (type === 'dialogue') builderDialoguesShown += 10;
   renderBuilder();
 }
-
 function renderBuilder() {
   const container = document.getElementById('builderContainer');
   if (!container) return;
-  if (typeof builderCategories === 'undefined') {
-    container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ builder.js не загружен</div>';
-    return;
-  }
+  if (typeof builderCategories === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ builder.js не загружен</div>'; return; }
   let html = '';
   const cat = currentBuilderCategory;
   if (cat === 'all') {
@@ -1042,7 +1644,6 @@ function renderBuilder() {
   else if (cat === 'dialogue') { html += renderDialogueSection(); }
   container.innerHTML = html || '<div style="text-align:center;padding:30px;color:#8b6946;">👇 Выберите тип задания</div>';
 }
-
 function renderOrderSection() {
   if (typeof builderOrder === 'undefined') return '';
   const total = builderOrder.length;
@@ -1066,11 +1667,7 @@ function renderOrderSection() {
     if (isComplete && !isCorrect) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
     html += `</div>`;
   });
-  if (shown < total) {
-    html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('order')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
-  } else if (total > 15) {
-    html += `<div style="text-align:center;margin:20px 0;padding:12px;background:#c8e6a0;border-radius:20px;color:#2d4a0f;font-weight:bold;font-size:.9rem;">✅ Это все ${total} заданий</div>`;
-  }
+  if (shown < total) html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('order')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
   return html;
 }
 function addWordToOrder(key, word, idx) {
@@ -1088,10 +1685,7 @@ function removeWordFromOrder(key, pos) {
   const [w] = state.current.splice(pos, 1);
   state.available.push(w); builderState[key] = state; renderBuilder();
 }
-function resetOrder(key, idx) {
-  builderState[key] = { current: [], available: shuffleWords(builderOrder[idx].words) };
-  renderBuilder();
-}
+function resetOrder(key, idx) { builderState[key] = { current: [], available: shuffleWords(builderOrder[idx].words) }; renderBuilder(); }
 function renderQuestionSection() {
   if (typeof builderQuestions === 'undefined') return '';
   const total = builderQuestions.length;
@@ -1114,11 +1708,7 @@ function renderQuestionSection() {
     if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
     html += `</div>`;
   });
-  if (shown < total) {
-    html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('question')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
-  } else if (total > 15) {
-    html += `<div style="text-align:center;margin:20px 0;padding:12px;background:#c8e6a0;border-radius:20px;color:#2d4a0f;font-weight:bold;font-size:.9rem;">✅ Это все ${total} заданий</div>`;
-  }
+  if (shown < total) html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('question')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
   return html;
 }
 function answerBuilderQuestion(key, chosen, correct) {
@@ -1148,11 +1738,7 @@ function renderReplySection() {
     if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
     html += `</div>`;
   });
-  if (shown < total) {
-    html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('reply')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
-  } else if (total > 15) {
-    html += `<div style="text-align:center;margin:20px 0;padding:12px;background:#c8e6a0;border-radius:20px;color:#2d4a0f;font-weight:bold;font-size:.9rem;">✅ Это все ${total} заданий</div>`;
-  }
+  if (shown < total) html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('reply')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
   return html;
 }
 function answerBuilderReply(key, chosen, correct) {
@@ -1182,11 +1768,7 @@ function renderTransformSection() {
     if (isAnswered) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${item.hint}</div>`;
     html += `</div>`;
   });
-  if (shown < total) {
-    html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('transform')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
-  } else if (total > 15) {
-    html += `<div style="text-align:center;margin:20px 0;padding:12px;background:#c8e6a0;border-radius:20px;color:#2d4a0f;font-weight:bold;font-size:.9rem;">✅ Это все ${total} заданий</div>`;
-  }
+  if (shown < total) html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('transform')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 15 (осталось ${total - shown})</button></div>`;
   return html;
 }
 function answerBuilderTransform(key, chosen, correct) {
@@ -1215,11 +1797,7 @@ function renderDialogueSection() {
     }
     html += `</div>`;
   });
-  if (shown < total) {
-    html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('dialogue')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 10 (осталось ${total - shown})</button></div>`;
-  } else if (total > 20) {
-    html += `<div style="text-align:center;margin:20px 0;padding:12px;background:#c8e6a0;border-radius:20px;color:#2d4a0f;font-weight:bold;font-size:.9rem;">✅ Это все ${total} диалогов</div>`;
-  }
+  if (shown < total) html += `<div style="text-align:center;margin:20px 0;"><button onclick="showMoreBuilder('dialogue')" style="background:#c49a6c;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;box-shadow:0 4px 12px rgba(0,0,0,.15);">⬇ Показать ещё 10 (осталось ${total - shown})</button></div>`;
   return html;
 }
 function answerDialogue(key, dIdx, optIdx) {
@@ -1234,6 +1812,9 @@ function answerDialogue(key, dIdx, optIdx) {
 }
 function resetDialogue(key) { builderState[key] = { step: 0, history: [] }; renderBuilder(); }
 
+// ═══════════════════════════════════════════════════════════
+// СЛОВАРЬ
+// ═══════════════════════════════════════════════════════════
 function renderDictFilters() {
   const container = document.getElementById('dictFilters');
   if (!container) return;
@@ -1270,6 +1851,9 @@ function searchDictionary() {
   renderDictionary();
 }
 
+// ═══════════════════════════════════════════════════════════
+// ГЕНЕРАТОР ЗАДАНИЙ
+// ═══════════════════════════════════════════════════════════
 function renderQgenFilters() {
   const mf = document.getElementById('qgenFilters');
   const pf = document.getElementById('qgenPosFilters');
@@ -1293,7 +1877,6 @@ function getFilteredDictWords() {
   if (currentQgenPos === 'all') return dictionary;
   return dictionary.filter(w => w.pos === currentQgenPos);
 }
-
 function regenerateQgen() {
   qgenState = {};
   if (currentQgenMode === 'sentence') {
@@ -1311,20 +1894,6 @@ function regenerateQgen() {
     qgenSentences = shuffleWords(words).slice(0, 20);
   }
   renderQgen();
-}
-
-function generateSentencesList(words, count = 15) {
-  if (!words.length) return [];
-  if (typeof lessonData !== 'undefined' && lessonData.sentences) {
-    const result = lessonData.sentences(words, count);
-    if (result && result.length) return result;
-  }
-  if (typeof quizgen !== 'undefined' && quizgen.generateSentencesList) {
-    const result = quizgen.generateSentencesList(words, count);
-    if (result && result.length) return result;
-  }
-  console.warn('[Sentences] Нет живых предложений в lessonData.js');
-  return [{ en: '⚠️ Нет живых предложений', ru: 'Добавьте ex/exRu в lessonData.js', word: { eng: '!', ru: '!', tr: '', pos: 'info' } }];
 }
 function generateQuizFromDict(words, count = 10) {
   if (typeof lessonData !== 'undefined' && lessonData.quiz) {
@@ -1413,6 +1982,9 @@ function flipCard(key) {
   renderQgen();
 }
 
+// ═══════════════════════════════════════════════════════════
+// ДИАГНОСТИКА
+// ═══════════════════════════════════════════════════════════
 function runPageDiagnostics() {
   const panel = document.getElementById('diagnosticsPanel');
   const content = document.getElementById('diagnosticsContent');
@@ -1433,7 +2005,6 @@ function runPageDiagnostics() {
     html += `<div style="padding:4px 0 4px 20px;">• Всего: <b>${total}</b></div>`;
     html += `<div style="padding:4px 0 4px 20px; border-bottom:1px solid #e1cba1;">• С ex/exRu: <b style="color:${withEx > 0 ? '#2d4a0f' : '#b93a3a'};">${withEx}</b></div>`;
     if (total === 0) { html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f;">🚨 Массив LESSON_DATA пуст! Проверьте ]; в середине файла.</div>`; allOk = false; }
-    else if (withEx === 0) { html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f;">🚨 Нет полей ex/exRu!</div>`; allOk = false; }
   }
   const quizgenOk = typeof quizgen !== 'undefined' && typeof quizgen.generateSentencesList === 'function';
   html += `<div style="padding:8px 0; border-top:1px solid #e1cba1;"><b>⚙️ quizgen.js:</b> <span style="color:${quizgenOk ? '#2d4a0f' : '#b93a3a'}; font-weight:bold;">${quizgenOk ? '✅ загружен' : '❌ НЕ ЗАГРУЖЕН'}</span></div>`;
@@ -1457,6 +2028,9 @@ window.addEventListener('load', () => {
   }, 1000);
 });
 
+// ═══════════════════════════════════════════════════════════
+// FULLSCREEN TABLE
+// ═══════════════════════════════════════════════════════════
 const fullscreenBtn = document.getElementById('fullscreenTableBtn');
 if (fullscreenBtn) {
   fullscreenBtn.addEventListener('click', () => {
@@ -1465,6 +2039,9 @@ if (fullscreenBtn) {
   });
 }
 
+// ═══════════════════════════════════════════════════════════
+// ИНИЦИАЛИЗАЦИЯ
+// ═══════════════════════════════════════════════════════════
 function init() {
   if (typeof verbs !== 'undefined') { allVerbs = verbs; renderVerbCards(allVerbs); renderVerbsTable(); populateVerbSelect(); }
   if (typeof tenses !== 'undefined') renderTenses();
