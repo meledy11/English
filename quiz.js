@@ -1,5 +1,7 @@
-// quiz.js — большой массив вопросов с ответами для тренажёра
-// Всего: 350 вопросов в 15 категориях
+// ═══════════════════════════════════════════════════════════
+// quiz.js — вопросы с ответами для тренажёра
+// Всего: ~535 вопросов в 16 категориях
+// ═══════════════════════════════════════════════════════════
 
 const quizCategories = [
     { id: 'all',        emoji: '📚', name: 'Все' },
@@ -21,7 +23,7 @@ const quizCategories = [
 ];
 
 const quizQuestions = [
-    // ═══════ НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ (V2/V3) — 30 вопросов ═══════
+    // ═══════ НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ V2/V3 — часть 1 (30) ═══════
     { category: 'irregular', q: 'Какая V2 (Past Simple) у глагола <b>go</b>?', options: ['goed', 'went', 'gone', 'going'], correct: 1, hint: 'go → went → gone' },
     { category: 'irregular', q: 'Какая V3 (Past Participle) у глагола <b>go</b>?', options: ['goed', 'went', 'gone', 'going'], correct: 2, hint: 'go → went → gone' },
     { category: 'irregular', q: 'Какая V2 у глагола <b>eat</b>?', options: ['eated', 'ate', 'eaten', 'eating'], correct: 1, hint: 'eat → ate → eaten' },
@@ -53,7 +55,48 @@ const quizQuestions = [
     { category: 'irregular', q: 'Какая V2 у глагола <b>sleep</b>?', options: ['sleeped', 'slept', 'slap', 'sleeping'], correct: 1, hint: 'sleep → slept → slept' },
     { category: 'irregular', q: 'Какая V2 у глагола <b>run</b>?', options: ['runned', 'ran', 'run', 'running'], correct: 1, hint: 'run → ran → run' },
 
-    // ═══════ МАГИЧЕСКИЕ ГЛАГОЛЫ — 25 вопросов ═══════
+    // ═══════ НЕПРАВИЛЬНЫЕ ГЛАГОЛЫ V2/V3 — часть 2 (40) ═══════
+    { category: 'irregular', q: 'Какая V2 у глагола <b>drink</b>?', options: ['drinked', 'drank', 'drunk', 'drinking'], correct: 1, hint: 'drink → drank → drunk' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>drink</b>?', options: ['drinked', 'drank', 'drunk', 'drinking'], correct: 2, hint: 'drink → drank → drunk' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>sing</b>?', options: ['singed', 'sang', 'sung', 'singing'], correct: 1, hint: 'sing → sang → sung' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>sing</b>?', options: ['singed', 'sang', 'sung', 'singing'], correct: 2, hint: 'sing → sang → sung' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>swim</b>?', options: ['swimmed', 'swam', 'swum', 'swimming'], correct: 1, hint: 'swim → swam → swum' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>swim</b>?', options: ['swimmed', 'swam', 'swum', 'swimming'], correct: 2, hint: 'swim → swam → swum' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>begin</b>?', options: ['begined', 'began', 'begun', 'beginning'], correct: 1, hint: 'begin → began → begun' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>begin</b>?', options: ['begined', 'began', 'begun', 'beginning'], correct: 2, hint: 'begin → began → begun' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>forget</b>?', options: ['forgeted', 'forgot', 'forgotten', 'forgetting'], correct: 1, hint: 'forget → forgot → forgotten' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>forget</b>?', options: ['forgeted', 'forgot', 'forgotten', 'forgetting'], correct: 2, hint: 'forget → forgot → forgotten' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>get</b>?', options: ['geted', 'got', 'gotten', 'getting'], correct: 1, hint: 'get → got → got/gotten' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>find</b>?', options: ['finded', 'found', 'founded', 'finding'], correct: 1, hint: 'find → found → found' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>sell</b>?', options: ['selled', 'sold', 'sould', 'selling'], correct: 1, hint: 'sell → sold → sold' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>tell</b>?', options: ['telled', 'told', 'tould', 'telling'], correct: 1, hint: 'tell → told → told' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>hear</b>?', options: ['heared', 'heard', 'hurd', 'hearing'], correct: 1, hint: 'hear → heard → heard' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>say</b>?', options: ['sayed', 'said', 'sayed', 'saying'], correct: 1, hint: 'say → said → said' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>pay</b>?', options: ['payed', 'paid', 'pade', 'paying'], correct: 1, hint: 'pay → paid → paid' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>stand</b>?', options: ['standed', 'stood', 'stayed', 'standing'], correct: 1, hint: 'stand → stood → stood' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>understand</b>?', options: ['understanded', 'understood', 'understanded', 'understanding'], correct: 1, hint: 'understand → understood → understood' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>sit</b>?', options: ['sitted', 'sat', 'set', 'sitting'], correct: 1, hint: 'sit → sat → sat' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>win</b>?', options: ['winned', 'won', 'wan', 'winning'], correct: 1, hint: 'win → won → won' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>lose</b>?', options: ['losed', 'lost', 'loosed', 'losing'], correct: 1, hint: 'lose → lost → lost' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>build</b>?', options: ['builded', 'built', 'build', 'building'], correct: 1, hint: 'build → built → built' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>send</b>?', options: ['sended', 'sent', 'sended', 'sending'], correct: 1, hint: 'send → sent → sent' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>spend</b>?', options: ['spended', 'spent', 'spended', 'spending'], correct: 1, hint: 'spend → spent → spent' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>lend</b>?', options: ['lended', 'lent', 'lended', 'lending'], correct: 1, hint: 'lend → lent → lent' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>read</b>?', options: ['readed', 'read', 'red', 'reading'], correct: 1, hint: 'read → read → read' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>cut</b>?', options: ['cutted', 'cut', 'cutten', 'cutting'], correct: 1, hint: 'cut → cut → cut' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>put</b>?', options: ['putted', 'put', 'putten', 'putting'], correct: 1, hint: 'put → put → put' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>let</b>?', options: ['letted', 'let', 'letten', 'letting'], correct: 1, hint: 'let → let → let' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>hit</b>?', options: ['hitted', 'hit', 'hitten', 'hitting'], correct: 1, hint: 'hit → hit → hit' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>cost</b>?', options: ['costed', 'cost', 'costen', 'costing'], correct: 1, hint: 'cost → cost → cost' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>hurt</b>?', options: ['hurted', 'hurt', 'hurten', 'hurting'], correct: 1, hint: 'hurt → hurt → hurt' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>shake</b>?', options: ['shaked', 'shook', 'shaken', 'shaking'], correct: 1, hint: 'shake → shook → shaken' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>shake</b>?', options: ['shaked', 'shook', 'shaken', 'shaking'], correct: 2, hint: 'shake → shook → shaken' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>fall</b>?', options: ['falled', 'fell', 'fallen', 'falling'], correct: 1, hint: 'fall → fell → fallen' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>fall</b>?', options: ['falled', 'fell', 'fallen', 'falling'], correct: 2, hint: 'fall → fell → fallen' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>choose</b>?', options: ['choosed', 'chose', 'chosen', 'choosing'], correct: 1, hint: 'choose → chose → chosen' },
+    { category: 'irregular', q: 'Какая V3 у глагола <b>choose</b>?', options: ['choosed', 'chose', 'chosen', 'choosing'], correct: 2, hint: 'choose → chose → chosen' },
+    { category: 'irregular', q: 'Какая V2 у глагола <b>wear</b>?', options: ['weared', 'wore', 'worn', 'wearing'], correct: 1, hint: 'wear → wore → worn' },
+    // ═══════ МАГИЧЕСКИЕ ГЛАГОЛЫ (40) ═══════
     { category: 'magic', q: 'Что значит <b>get up</b>?', options: ['лечь спать', 'встать с постели', 'упасть', 'забраться'], correct: 1, hint: 'I get up at 7 am.' },
     { category: 'magic', q: 'Что значит <b>get over</b>?', options: ['перепрыгнуть', 'преодолеть, пережить', 'надеть', 'сойти'], correct: 1, hint: 'Get over it! — Переживи это!' },
     { category: 'magic', q: 'Что значит <b>get along</b>?', options: ['идти рядом', 'ладить', 'уезжать', 'догонять'], correct: 1, hint: 'We get along well.' },
@@ -79,8 +122,23 @@ const quizQuestions = [
     { category: 'magic', q: 'Как правильно: <b>___ a shower</b>?', options: ['do', 'make', 'take / have', 'go'], correct: 2, hint: 'take a shower = have a shower' },
     { category: 'magic', q: 'Что значит <b>get it</b>?', options: ['получить это', 'понять это', 'взять это', 'найти это'], correct: 1, hint: 'I don\'t get it.' },
     { category: 'magic', q: 'Что значит <b>get dark</b>?', options: ['получить темноту', 'темнеть', 'стать тёмным', 'испачкаться'], correct: 1, hint: 'It gets dark at 6.' },
+    { category: 'magic', q: 'Что значит <b>get together</b>?', options: ['собираться вместе', 'разойтись', 'поссориться', 'заблудиться'], correct: 0, hint: 'Let\'s get together.' },
+    { category: 'magic', q: 'Что значит <b>have fun</b>?', options: ['веселиться', 'иметь деньги', 'забавляться', 'скучать'], correct: 0, hint: 'Have fun!' },
+    { category: 'magic', q: 'Что значит <b>take place</b>?', options: ['происходить', 'брать место', 'занимать', 'уходить'], correct: 0, hint: 'The event takes place...' },
+    { category: 'magic', q: 'Что значит <b>take part</b>?', options: ['участвовать', 'брать часть', 'разделить', 'отделиться'], correct: 0, hint: 'Take part in...' },
+    { category: 'magic', q: 'Что значит <b>take a look</b>?', options: ['взглянуть', 'сделать снимок', 'увидеть', 'потерять'], correct: 0, hint: 'Take a look at this.' },
+    { category: 'magic', q: 'Что значит <b>make friends</b>?', options: ['подружиться', 'сделать друга', 'сыграть роль', 'помириться'], correct: 0, hint: 'I made friends.' },
+    { category: 'magic', q: 'Что значит <b>do sports</b>?', options: ['заниматься спортом', 'делать зарядку', 'играть', 'бегать'], correct: 0, hint: 'I do sports.' },
+    { category: 'magic', q: 'Что значит <b>go up</b>?', options: ['подниматься / расти', 'уходить', 'прыгать', 'идти вверх по лестнице'], correct: 0, hint: 'Prices go up.' },
+    { category: 'magic', q: 'Что значит <b>go down</b>?', options: ['опускаться / падать', 'уходить вниз', 'спускаться', 'падать на пол'], correct: 0, hint: 'Sun goes down.' },
+    { category: 'magic', q: 'Что значит <b>come true</b>?', options: ['сбываться', 'приходить правдой', 'становиться верным', 'идти правильно'], correct: 0, hint: 'Dreams come true.' },
+    { category: 'magic', q: 'Что значит <b>come back</b>?', options: ['возвращаться', 'приходить спиной', 'идти назад', 'приходить первым'], correct: 0, hint: 'Come back soon!' },
+    { category: 'magic', q: 'Что значит <b>come on</b>?', options: ['давай!, поторопись', 'приходи', 'идти на', 'зайти'], correct: 0, hint: 'Come on, hurry!' },
+    { category: 'magic', q: 'Что значит <b>look forward to</b>?', options: ['с нетерпением ждать', 'смотреть вперёд', 'искать', 'предвкушать будущее'], correct: 0, hint: 'I look forward to...' },
+    { category: 'magic', q: 'Что значит <b>look after</b>?', options: ['заботиться', 'смотреть после', 'искать', 'провожать'], correct: 0, hint: 'Look after the baby.' },
+    { category: 'magic', q: 'Что значит <b>look for</b>?', options: ['искать', 'смотреть для', 'смотреть за', 'проверять'], correct: 0, hint: 'I\'m looking for my keys.' },
 
-    // ═══════ ПРЕДЛОГИ — 25 вопросов ═══════
+    // ═══════ ПРЕДЛОГИ (25) ═══════
     { category: 'preps', q: 'I go ___ school.', options: ['in', 'to', 'at', 'on'], correct: 1, hint: 'to = направление К цели' },
     { category: 'preps', q: 'She is ___ the room.', options: ['in', 'to', 'on', 'at'], correct: 0, hint: 'in = внутри' },
     { category: 'preps', q: 'The book is ___ the table.', options: ['in', 'at', 'on', 'to'], correct: 2, hint: 'on = на поверхности' },
@@ -92,9 +150,9 @@ const quizQuestions = [
     { category: 'preps', q: 'I go to work ___ bus.', options: ['in', 'on', 'by', 'at'], correct: 2, hint: 'by = способ передвижения' },
     { category: 'preps', q: 'Get ___ the car.', options: ['in', 'on', 'at', 'to'], correct: 0, hint: 'in — в машину (внутрь)' },
     { category: 'preps', q: 'Get ___ the bus.', options: ['in', 'on', 'at', 'to'], correct: 1, hint: 'on — в автобус (поверхность)' },
-    { category: 'preps', q: 'I am ___ home.', options: ['in', 'at', 'on', 'to'], correct: 1, hint: 'at home = дома (фикс.)' },
+    { category: 'preps', q: 'I am ___ home.', options: ['in', 'at', 'on', 'to'], correct: 1, hint: 'at home = дома' },
     { category: 'preps', q: 'I get up ___ 7 o\'clock.', options: ['in', 'on', 'at', 'to'], correct: 2, hint: 'at — с точным временем' },
-    { category: 'preps', q: 'I was born ___ 1990.', options: ['in', 'on', 'at', 'to'], correct: 0, hint: 'in — с годами/месяцами' },
+    { category: 'preps', q: 'I was born ___ 1990.', options: ['in', 'on', 'at', 'to'], correct: 0, hint: 'in — с годами' },
     { category: 'preps', q: 'I was born ___ Monday.', options: ['in', 'on', 'at', 'to'], correct: 1, hint: 'on — с днями недели' },
     { category: 'preps', q: 'Look ___ the picture.', options: ['in', 'at', 'on', 'to'], correct: 1, hint: 'look at = смотреть на' },
     { category: 'preps', q: 'Listen ___ me.', options: ['at', 'in', 'to', 'on'], correct: 2, hint: 'listen to = слушать кого-то' },
@@ -107,7 +165,7 @@ const quizQuestions = [
     { category: 'preps', q: 'Depend ___ me.', options: ['in', 'at', 'on', 'to'], correct: 2, hint: 'depend on = зависеть от' },
     { category: 'preps', q: 'I am proud ___ you.', options: ['at', 'in', 'of', 'for'], correct: 2, hint: 'proud of = гордиться' },
 
-    // ═══════ ПРИСТАВКИ И СУФФИКСЫ — 25 вопросов ═══════
+    // ═══════ ПРИСТАВКИ И СУФФИКСЫ (25) ═══════
     { category: 'prefixes', q: 'Что значит приставка <b>pre-</b>?', options: ['после', 'до, заранее', 'против', 'через'], correct: 1, hint: 'preview = предпросмотр' },
     { category: 'prefixes', q: 'Что значит приставка <b>post-</b>?', options: ['до', 'после', 'не', 'снова'], correct: 1, hint: 'postwar = послевоенный' },
     { category: 'prefixes', q: 'Что значит приставка <b>re-</b>?', options: ['не', 'снова, обратно', 'вниз', 'через'], correct: 1, hint: 'rewrite = переписать' },
@@ -134,7 +192,7 @@ const quizQuestions = [
     { category: 'prefixes', q: 'Как переводится <b>homeless</b>?', options: ['домашний', 'бездомный', 'дом', 'дома'], correct: 1, hint: 'home + -less' },
     { category: 'prefixes', q: 'Как переводится <b>careful</b>?', options: ['беззаботный', 'осторожный', 'забота', 'небрежный'], correct: 1, hint: 'care + -ful' },
 
-    // ═══════ КОРНИ-КОНСТРУКТОРЫ — 25 вопросов ═══════
+    // ═══════ КОРНИ-КОНСТРУКТОРЫ (25) ═══════
     { category: 'roots', q: 'Что значит корень <b>port</b>?', options: ['смотреть', 'нести', 'бросать', 'говорить'], correct: 1, hint: 'port = носить (export, import)' },
     { category: 'roots', q: 'Что значит корень <b>ject</b>?', options: ['бросать', 'нести', 'видеть', 'писать'], correct: 0, hint: 'ject = бросать (reject, inject)' },
     { category: 'roots', q: 'Что значит корень <b>spect</b>?', options: ['говорить', 'смотреть', 'строить', 'двигать'], correct: 1, hint: 'spect = смотреть (inspect, respect)' },
@@ -161,7 +219,40 @@ const quizQuestions = [
     { category: 'roots', q: 'Как переводится <b>survive</b>?', options: ['ожить', 'выжить', 'родиться', 'умереть'], correct: 1, hint: 'sur- (сверх) + viv (жить)' },
     { category: 'roots', q: 'Как переводится <b>incredible</b>?', options: ['кредитный', 'невероятный', 'верующий', 'правдивый'], correct: 1, hint: 'in- (не) + cred (верить) + -ible' },
 
-    // ═══════ ФРАЗЫ — 20 вопросов ═══════
+
+    // ═══════ ГЛАГОЛЫ (базовые) — 30 ═══════
+    { category: 'verbs', q: 'Что значит <b>to be</b>?', options: ['быть', 'иметь', 'делать', 'идти'], correct: 0, hint: 'to be = быть' },
+    { category: 'verbs', q: 'Что значит <b>have</b>?', options: ['иметь', 'быть', 'делать', 'видеть'], correct: 0, hint: 'have = иметь' },
+    { category: 'verbs', q: 'Что значит <b>do</b>?', options: ['быть', 'делать', 'иметь', 'видеть'], correct: 1, hint: 'do = делать' },
+    { category: 'verbs', q: 'Что значит <b>say</b>?', options: ['сказать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'say = сказать' },
+    { category: 'verbs', q: 'Что значит <b>go</b>?', options: ['идти', 'брать', 'видеть', 'делать'], correct: 0, hint: 'go = идти' },
+    { category: 'verbs', q: 'Что значит <b>get</b>?', options: ['получать', 'делать', 'видеть', 'брать'], correct: 0, hint: 'get = получать' },
+    { category: 'verbs', q: 'Что значит <b>make</b>?', options: ['делать (создавать)', 'видеть', 'идти', 'иметь'], correct: 0, hint: 'make = создавать' },
+    { category: 'verbs', q: 'Что значит <b>know</b>?', options: ['знать', 'идти', 'брать', 'делать'], correct: 0, hint: 'know = знать' },
+    { category: 'verbs', q: 'Что значит <b>think</b>?', options: ['думать', 'видеть', 'делать', 'брать'], correct: 0, hint: 'think = думать' },
+    { category: 'verbs', q: 'Что значит <b>take</b>?', options: ['брать', 'видеть', 'идти', 'делать'], correct: 0, hint: 'take = брать' },
+    { category: 'verbs', q: 'Что значит <b>see</b>?', options: ['видеть', 'знать', 'думать', 'брать'], correct: 0, hint: 'see = видеть' },
+    { category: 'verbs', q: 'Что значит <b>come</b>?', options: ['приходить', 'видеть', 'делать', 'брать'], correct: 0, hint: 'come = приходить' },
+    { category: 'verbs', q: 'Что значит <b>want</b>?', options: ['хотеть', 'видеть', 'делать', 'брать'], correct: 0, hint: 'want = хотеть' },
+    { category: 'verbs', q: 'Что значит <b>use</b>?', options: ['использовать', 'видеть', 'делать', 'брать'], correct: 0, hint: 'use = использовать' },
+    { category: 'verbs', q: 'Что значит <b>find</b>?', options: ['находить', 'видеть', 'идти', 'брать'], correct: 0, hint: 'find = находить' },
+    { category: 'verbs', q: 'Что значит <b>give</b>?', options: ['давать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'give = давать' },
+    { category: 'verbs', q: 'Что значит <b>tell</b>?', options: ['рассказывать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'tell = рассказывать' },
+    { category: 'verbs', q: 'Что значит <b>work</b>?', options: ['работать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'work = работать' },
+    { category: 'verbs', q: 'Что значит <b>call</b>?', options: ['звонить / звать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'call = звонить' },
+    { category: 'verbs', q: 'Что значит <b>try</b>?', options: ['пытаться', 'видеть', 'идти', 'брать'], correct: 0, hint: 'try = пытаться' },
+    { category: 'verbs', q: 'Что значит <b>ask</b>?', options: ['спрашивать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'ask = спрашивать' },
+    { category: 'verbs', q: 'Что значит <b>need</b>?', options: ['нуждаться', 'видеть', 'идти', 'брать'], correct: 0, hint: 'need = нуждаться' },
+    { category: 'verbs', q: 'Что значит <b>feel</b>?', options: ['чувствовать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'feel = чувствовать' },
+    { category: 'verbs', q: 'Что значит <b>become</b>?', options: ['становиться', 'видеть', 'идти', 'брать'], correct: 0, hint: 'become = становиться' },
+    { category: 'verbs', q: 'Что значит <b>leave</b>?', options: ['уходить / оставлять', 'видеть', 'идти', 'брать'], correct: 0, hint: 'leave = уходить' },
+    { category: 'verbs', q: 'Что значит <b>put</b>?', options: ['класть', 'видеть', 'идти', 'брать'], correct: 0, hint: 'put = класть' },
+    { category: 'verbs', q: 'Что значит <b>mean</b>?', options: ['значить', 'видеть', 'идти', 'брать'], correct: 0, hint: 'mean = значить' },
+    { category: 'verbs', q: 'Что значит <b>keep</b>?', options: ['держать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'keep = держать' },
+    { category: 'verbs', q: 'Что значит <b>let</b>?', options: ['позволять', 'видеть', 'идти', 'брать'], correct: 0, hint: 'let = позволять' },
+    { category: 'verbs', q: 'Что значит <b>begin</b>?', options: ['начинать', 'видеть', 'идти', 'брать'], correct: 0, hint: 'begin = начинать' },
+
+    // ═══════ ФРАЗЫ (40) ═══════
     { category: 'phrases', q: 'Как сказать «Как дела?» по-английски?', options: ['How do you do?', 'How are you?', 'What are you?', 'Who are you?'], correct: 1, hint: 'How are you?' },
     { category: 'phrases', q: 'Что значит <b>How do you do?</b>', options: ['Как поживаешь?', 'Приятно познакомиться (формально)', 'Что ты делаешь?', 'Как ты это делаешь?'], correct: 1, hint: 'Очень формальное приветствие' },
     { category: 'phrases', q: 'Что значит <b>Never mind</b>?', options: ['Никогда не думай', 'Неважно, забудь', 'Никогда не забывай', 'Не думай об этом'], correct: 1, hint: 'Never mind = Ничего страшного' },
@@ -182,8 +273,28 @@ const quizQuestions = [
     { category: 'phrases', q: 'Как правильно: <b>by the ___</b> (= кстати)?', options: ['road', 'way', 'street', 'path'], correct: 1, hint: 'by the way = кстати' },
     { category: 'phrases', q: 'Что сказать, если не расслышал?', options: ['What?', 'Pardon? / Sorry?', 'Repeat!', 'Speak!'], correct: 1, hint: 'Pardon? = Простите? (вежливо)' },
     { category: 'phrases', q: 'Как попросить говорить медленнее?', options: ['Speak slow!', 'Speak slowly, please.', 'Slow speech!', 'More slow!'], correct: 1, hint: 'Speak slowly, please' },
+    { category: 'phrases', q: 'Что значит <b>What a pity!</b>', options: ['Как жаль!', 'Что за пирог!', 'Как приятно!', 'Что за жалость!'], correct: 0, hint: 'What a pity = Как жаль' },
+    { category: 'phrases', q: 'Что значит <b>It\'s up to you</b>?', options: ['Это на тебе', 'Решай сам', 'Это твоё', 'Всё зависит от тебя и меня'], correct: 1, hint: 'It\'s up to you = Решай сам' },
+    { category: 'phrases', q: 'Что значит <b>Speak of the devil</b>?', options: ['Говори о дьяволе', 'Лёгок на помине', 'Скажи о плохом', 'Говори прямо'], correct: 1, hint: 'Speak of the devil = Лёгок на помине' },
+    { category: 'phrases', q: 'Что значит <b>Better late than never</b>?', options: ['Лучше поздно, чем никогда', 'Поздно поздно', 'Лучше никогда', 'Опоздал'], correct: 0, hint: 'Better late than never' },
+    { category: 'phrases', q: 'Что значит <b>Call it a day</b>?', options: ['Назови это днём', 'Закончим на сегодня', 'Приятного дня', 'Позвони днём'], correct: 1, hint: 'Call it a day = Закончим' },
+    { category: 'phrases', q: 'Что значит <b>Once in a blue moon</b>?', options: ['Раз в год по обещанию', 'Очень редко', 'Когда рак на горе свистнет', 'Раз в месяц'], correct: 1, hint: 'Once in a blue moon = Очень редко' },
+    { category: 'phrases', q: 'Что значит <b>Cost an arm and a leg</b>?', options: ['Стоить как рука и нога', 'Очень дорого', 'Дёшево', 'Опасная покупка'], correct: 1, hint: 'Cost an arm and a leg = Очень дорого' },
+    { category: 'phrases', q: 'Что значит <b>Hit the sack</b>?', options: ['Ударить мешок', 'Лечь спать', 'Ударить боксёра', 'Собрать мешок'], correct: 1, hint: 'Hit the sack = Лечь спать' },
+    { category: 'phrases', q: 'Что значит <b>Pull someone\'s leg</b>?', options: ['Тянуть за ногу', 'Подшучивать', 'Помогать', 'Мешать'], correct: 1, hint: 'Pull someone\'s leg = Подшучивать' },
+    { category: 'phrases', q: 'Что значит <b>It\'s raining cats and dogs</b>?', options: ['Дождь из животных', 'Очень сильный дождь', 'Гроза', 'Град'], correct: 1, hint: 'Raining cats and dogs = Льёт как из ведра' },
+    { category: 'phrases', q: 'Что значит <b>Under your nose</b>?', options: ['Под носом', 'Прямо перед тобой', 'У тебя в носу', 'Очень близко'], correct: 1, hint: 'Under your nose = Прямо перед тобой' },
+    { category: 'phrases', q: 'Что значит <b>Peace of mind</b>?', options: ['Кусочек ума', 'Спокойствие', 'Умное решение', 'Мысль'], correct: 1, hint: 'Peace of mind = Спокойствие' },
+    { category: 'phrases', q: 'Что значит <b>See eye to eye</b>?', options: ['Смотреть в глаза', 'Соглашаться', 'Быть близко', 'Понимать'], correct: 1, hint: 'See eye to eye = Соглашаться' },
+    { category: 'phrases', q: 'Что значит <b>Break the ice</b>?', options: ['Сломать лёд', 'Начать разговор', 'Разбить лёд', 'Замёрзнуть'], correct: 1, hint: 'Break the ice = Начать разговор' },
+    { category: 'phrases', q: 'Что значит <b>Miss the boat</b>?', options: ['Пропустить лодку', 'Упустить шанс', 'Опоздать на паром', 'Не поплыть'], correct: 1, hint: 'Miss the boat = Упустить шанс' },
+    { category: 'phrases', q: 'Что значит <b>Kill two birds with one stone</b>?', options: ['Убить двух птиц', 'Одним ударом двух зайцев', 'Стрелять в птиц', 'Найти двух птиц'], correct: 1, hint: 'Kill two birds with one stone' },
+    { category: 'phrases', q: 'Что значит <b>Speak your mind</b>?', options: ['Говорить мысли', 'Говорить прямо', 'Сказать что в голове', 'Молчать'], correct: 1, hint: 'Speak your mind = Говорить прямо' },
+    { category: 'phrases', q: 'Что значит <b>Better safe than sorry</b>?', options: ['Лучше безопасно, чем жалко', 'Бережёного Бог бережёт', 'Осторожность важна', 'Поздно жалеть'], correct: 1, hint: 'Better safe than sorry' },
+    { category: 'phrases', q: 'Что значит <b>Keep your fingers crossed</b>?', options: ['Держать пальцы скрещёнными', 'Надеяться на удачу', 'Спрятать руки', 'Ничего не делать'], correct: 1, hint: 'Keep fingers crossed = Надеяться' },
+    { category: 'phrases', q: 'Что значит <b>Long story short</b>?', options: ['Долгая история', 'Короче говоря', 'Короткая история', 'Расскажи историю'], correct: 1, hint: 'Long story short = Короче говоря' },
 
-    // ═══════ АРТИКЛИ (a / an / the) — 25 вопросов ═══════
+    // ═══════ АРТИКЛИ (25) ═══════
     { category: 'articles', q: 'I have ___ apple.', options: ['a', 'an', 'the', '—'], correct: 1, hint: 'an — перед гласным звуком' },
     { category: 'articles', q: 'I have ___ cat.', options: ['a', 'an', 'the', '—'], correct: 0, hint: 'a — перед согласным' },
     { category: 'articles', q: '___ sun rises in the east.', options: ['A', 'An', 'The', '—'], correct: 2, hint: 'the — единственный в мире' },
@@ -210,7 +321,7 @@ const quizQuestions = [
     { category: 'articles', q: 'She studies at ___ university.', options: ['a', 'an', 'the', '—'], correct: 0, hint: 'a university (звук [ju:])' },
     { category: 'articles', q: 'I have ___ idea!', options: ['a', 'an', 'the', '—'], correct: 1, hint: 'an idea' },
 
-    // ═══════ ЧИСЛА И ВРЕМЯ — 25 вопросов ═══════
+    // ═══════ ЧИСЛА И ВРЕМЯ (25) ═══════
     { category: 'numbers', q: 'Как сказать «15»?', options: ['five', 'fifty', 'fifteen', 'fifth'], correct: 2, hint: 'fifteen = 15' },
     { category: 'numbers', q: 'Как сказать «50»?', options: ['five', 'fifty', 'fifteen', 'fifth'], correct: 1, hint: 'fifty = 50' },
     { category: 'numbers', q: 'Как сказать «100»?', options: ['a hundred', 'a thousand', 'ten', 'one hundredth'], correct: 0, hint: 'a hundred = 100' },
@@ -237,7 +348,7 @@ const quizQuestions = [
     { category: 'numbers', q: 'Как сказать «в 5 часов»?', options: ['on 5', 'at 5', 'in 5', 'to 5'], correct: 1, hint: 'at + время' },
     { category: 'numbers', q: 'Как сказать «через 2 дня»?', options: ['on 2 days', 'at 2 days', 'in 2 days', 'to 2 days'], correct: 2, hint: 'in + период = через' },
 
-    // ═══════ МОДАЛЬНЫЕ ГЛАГОЛЫ — 25 вопросов ═══════
+    // ═══════ МОДАЛЬНЫЕ ГЛАГОЛЫ (25) ═══════
     { category: 'modal', q: 'Что значит <b>can</b>?', options: ['должен', 'мочь, уметь', 'хотеть', 'нужно'], correct: 1, hint: 'can = мочь / уметь' },
     { category: 'modal', q: 'Что значит <b>must</b>?', options: ['мочь', 'должен', 'хотеть', 'может быть'], correct: 1, hint: 'must = должен' },
     { category: 'modal', q: 'Что значит <b>should</b>?', options: ['должен (сильно)', 'следует, совет', 'могу', 'хочу'], correct: 1, hint: 'should = следует' },
@@ -264,8 +375,8 @@ const quizQuestions = [
     { category: 'modal', q: 'Что значит <b>Will you...?</b>', options: ['Ты будешь...?', 'Ты сделаешь...? (просьба)', 'Ты умеешь...?', 'Ты хочешь...?'], correct: 1, hint: 'Will you = просьба' },
     { category: 'modal', q: 'Что значит <b>Would you...?</b>', options: ['Ты бы...? (вежливая просьба)', 'Ты будешь...?', 'Ты умеешь...?', 'Ты хочешь...?'], correct: 0, hint: 'Would you — вежливее Will you' },
 
-    // ═══════ СТЕПЕНИ СРАВНЕНИЯ — 25 вопросов ═══════
-    { category: 'compare', q: 'Сравнительная от <b>big</b>?', options: ['biger', 'bigger', 'more big', 'biggest'], correct: 1, hint: 'big → bigger (удвоение)' },
+    // ═══════ СТЕПЕНИ СРАВНЕНИЯ (25) ═══════
+    { category: 'compare', q: 'Сравнительная от <b>big</b>?', options: ['biger', 'bigger', 'more big', 'biggest'], correct: 1, hint: 'big → bigger' },
     { category: 'compare', q: 'Превосходная от <b>big</b>?', options: ['bigest', 'biggest', 'most big', 'bigger'], correct: 1, hint: 'the biggest' },
     { category: 'compare', q: 'Сравнительная от <b>good</b>?', options: ['gooder', 'better', 'more good', 'best'], correct: 1, hint: 'good → better → best' },
     { category: 'compare', q: 'Превосходная от <b>good</b>?', options: ['goodest', 'better', 'most good', 'best'], correct: 3, hint: 'the best' },
@@ -291,7 +402,7 @@ const quizQuestions = [
     { category: 'compare', q: 'Сравнительная от <b>thin</b>?', options: ['thiner', 'thinner', 'more thin', 'thinnest'], correct: 1, hint: 'thin → thinner' },
     { category: 'compare', q: 'Превосходная от <b>far</b>?', options: ['the farthest / furthest', 'the most far', 'the farrest', 'the far most'], correct: 0, hint: 'the farthest / furthest' },
 
-    // ═══════ ПАССИВНЫЙ ЗАЛОГ — 25 вопросов ═══════
+    // ═══════ ПАССИВНЫЙ ЗАЛОГ (25) ═══════
     { category: 'passive', q: 'Как строится Present Simple Passive?', options: ['am/is/are + V3', 'do + V3', 'have + V3', 'will + V3'], correct: 0, hint: 'The book is read.' },
     { category: 'passive', q: 'Как строится Past Simple Passive?', options: ['was/were + V3', 'did + V3', 'had + V3', 'will + V3'], correct: 0, hint: 'The letter was sent.' },
     { category: 'passive', q: 'Как строится Future Simple Passive?', options: ['will be + V3', 'will + V3', 'is + V3', 'was + V3'], correct: 0, hint: 'The work will be done.' },
@@ -319,35 +430,144 @@ const quizQuestions = [
     { category: 'passive', q: 'Что такое «passive voice»?', options: ['Активный залог', 'Страдательный залог', 'Вопросительный', 'Отрицательный'], correct: 1, hint: 'Страдательный залог' },
     { category: 'passive', q: 'В каком времени НЕ бывает пассива?', options: ['Present Simple', 'Past Simple', 'Future Continuous (будет длиться)', 'Present Perfect'], correct: 2, hint: 'Future Continuous Passive не используют' },
 
-    // ═══════ КОСВЕННАЯ РЕЧЬ — 25 вопросов ═══════
-    { category: 'reported', q: 'Как переделать «I am tired» в косвенную речь (He said...)?', options: ['He said he is tired.', 'He said he was tired.', 'He said I am tired.', 'He says he is tired.'], correct: 1, hint: 'am → was (сдвиг времени)' },
-    { category: 'reported', q: 'He said: «I will come». Как в косвенной?', options: ['He said he will come.', 'He said he would come.', 'He said he came.', 'He said he comes.'], correct: 1, hint: 'will → would' },
-    { category: 'reported', q: 'She said: «I can swim». Как в косвенной?', options: ['She said she can swim.', 'She said she could swim.', 'She said she swims.', 'She said she swim.'], correct: 1, hint: 'can → could' },
-    { category: 'reported', q: 'He said: «I have finished». Как в косвенной?', options: ['He said he has finished.', 'He said he had finished.', 'He said he finished.', 'He said he finish.'], correct: 1, hint: 'have → had' },
-    { category: 'reported', q: 'He said: «I work here». Как в косвенной?', options: ['He said he works here.', 'He said he worked there.', 'He said he is working.', 'He said he work here.'], correct: 1, hint: 'work → worked, here → there' },
-    { category: 'reported', q: 'Какое слово меняется: «today» → ?', options: ['that day', 'this day', 'yesterday', 'tomorrow'], correct: 0, hint: 'today → that day' },
-    { category: 'reported', q: 'Какое слово меняется: «tomorrow» → ?', options: ['the next day', 'yesterday', 'that day', 'today'], correct: 0, hint: 'tomorrow → the next day' },
-    { category: 'reported', q: 'Какое слово меняется: «yesterday» → ?', options: ['the next day', 'the day before', 'that day', 'today'], correct: 1, hint: 'yesterday → the day before' },
-    { category: 'reported', q: 'Какое слово меняется: «now» → ?', options: ['then', 'now', 'today', 'yesterday'], correct: 0, hint: 'now → then' },
-    { category: 'reported', q: 'Какое слово меняется: «here» → ?', options: ['there', 'here', 'where', 'everywhere'], correct: 0, hint: 'here → there' },
-    { category: 'reported', q: 'Какое слово меняется: «this» → ?', options: ['that', 'these', 'those', 'the'], correct: 0, hint: 'this → that' },
-    { category: 'reported', q: 'Какое слово меняется: «these» → ?', options: ['this', 'those', 'that', 'the'], correct: 1, hint: 'these → those' },
-    { category: 'reported', q: '«Do you like coffee?» — как в косвенной?', options: ['He asked do I like coffee.', 'He asked if I liked coffee.', 'He said I like coffee.', 'He asked that I like coffee.'], correct: 1, hint: 'if + сдвиг времени' },
-    { category: 'reported', q: '«Where do you live?» — как в косвенной?', options: ['He asked where do I live.', 'He asked where I lived.', 'He said where I live.', 'He asked where did I live.'], correct: 1, hint: 'Прямой порядок слов + сдвиг' },
-    { category: 'reported', q: '«What is your name?» — как в косвенной?', options: ['He asked what is my name.', 'He asked what my name was.', 'He asked what my name is.', 'He asked what was my name.'], correct: 1, hint: 'Прямой порядок' },
-    { category: 'reported', q: '«Open the door!» — как в косвенной?', options: ['He said open the door.', 'He told me to open the door.', 'He asked open the door.', 'He said I open the door.'], correct: 1, hint: 'tell + to + V' },
-    { category: 'reported', q: '«Don\'t be late!» — как в косвенной?', options: ['He said don\'t be late.', 'He told me not to be late.', 'He asked not be late.', 'He said I not be late.'], correct: 1, hint: 'tell + not to + V' },
+    // ═══════ КОСВЕННАЯ РЕЧЬ (25) ═══════
+    { category: 'reported', q: '«I am tired» → He said...', options: ['He said he is tired.', 'He said he was tired.', 'He said I am tired.', 'He says he is tired.'], correct: 1, hint: 'am → was' },
+    { category: 'reported', q: '«I will come» → He said...', options: ['He said he will come.', 'He said he would come.', 'He said he came.', 'He said he comes.'], correct: 1, hint: 'will → would' },
+    { category: 'reported', q: '«I can swim» → She said...', options: ['She said she can swim.', 'She said she could swim.', 'She said she swims.', 'She said she swim.'], correct: 1, hint: 'can → could' },
+    { category: 'reported', q: '«I have finished» → He said...', options: ['He said he has finished.', 'He said he had finished.', 'He said he finished.', 'He said he finish.'], correct: 1, hint: 'have → had' },
+    { category: 'reported', q: '«I work here» → He said...', options: ['He said he works here.', 'He said he worked there.', 'He said he is working.', 'He said he work here.'], correct: 1, hint: 'work → worked, here → there' },
+    { category: 'reported', q: '«today» → ?', options: ['that day', 'this day', 'yesterday', 'tomorrow'], correct: 0, hint: 'today → that day' },
+    { category: 'reported', q: '«tomorrow» → ?', options: ['the next day', 'yesterday', 'that day', 'today'], correct: 0, hint: 'tomorrow → the next day' },
+    { category: 'reported', q: '«yesterday» → ?', options: ['the next day', 'the day before', 'that day', 'today'], correct: 1, hint: 'yesterday → the day before' },
+    { category: 'reported', q: '«now» → ?', options: ['then', 'now', 'today', 'yesterday'], correct: 0, hint: 'now → then' },
+    { category: 'reported', q: '«here» → ?', options: ['there', 'here', 'where', 'everywhere'], correct: 0, hint: 'here → there' },
+    { category: 'reported', q: '«this» → ?', options: ['that', 'these', 'those', 'the'], correct: 0, hint: 'this → that' },
+    { category: 'reported', q: '«these» → ?', options: ['this', 'those', 'that', 'the'], correct: 1, hint: 'these → those' },
+    { category: 'reported', q: '«Do you like coffee?» → He asked...', options: ['He asked do I like coffee.', 'He asked if I liked coffee.', 'He said I like coffee.', 'He asked that I like coffee.'], correct: 1, hint: 'if + сдвиг времени' },
+    { category: 'reported', q: '«Where do you live?» → He asked...', options: ['He asked where do I live.', 'He asked where I lived.', 'He said where I live.', 'He asked where did I live.'], correct: 1, hint: 'Прямой порядок + сдвиг' },
+    { category: 'reported', q: '«What is your name?» → He asked...', options: ['He asked what is my name.', 'He asked what my name was.', 'He asked what my name is.', 'He asked what was my name.'], correct: 1, hint: 'Прямой порядок' },
+    { category: 'reported', q: '«Open the door!» → He said...', options: ['He said open the door.', 'He told me to open the door.', 'He asked open the door.', 'He said I open the door.'], correct: 1, hint: 'tell + to + V' },
+    { category: 'reported', q: '«Don\'t be late!» → He said...', options: ['He said don\'t be late.', 'He told me not to be late.', 'He asked not be late.', 'He said I not be late.'], correct: 1, hint: 'tell + not to + V' },
     { category: 'reported', q: 'Какое слово обычно вводят для вопросов?', options: ['say', 'tell', 'ask', 'speak'], correct: 2, hint: 'ask = спрашивать' },
     { category: 'reported', q: 'Что значит <b>say</b>?', options: ['говорить кому-то', 'сказать (без адресата)', 'спрашивать', 'кричать'], correct: 1, hint: 'say без адресата' },
     { category: 'reported', q: 'Что значит <b>tell</b>?', options: ['сказать кому-то', 'сказать вообще', 'спрашивать', 'болтать'], correct: 0, hint: 'tell + кому' },
-    { category: 'reported', q: '«I am reading» — как в косвенной?', options: ['He said he is reading.', 'He said he was reading.', 'He said he read.', 'He said he reads.'], correct: 1, hint: 'am → was' },
-    { category: 'reported', q: '«I saw him yesterday» — как в косвенной?', options: ['He said he saw him yesterday.', 'He said he had seen him the day before.', 'He said he sees him yesterday.', 'He said he seen him yesterday.'], correct: 1, hint: 'Past → Past Perfect' },
-    { category: 'reported', q: '«I\'ll help you» — как в косвенной?', options: ['He said he will help me.', 'He said he would help me.', 'He said he helps me.', 'He said he helped me.'], correct: 1, hint: 'will → would' },
+    { category: 'reported', q: '«I am reading» → He said...', options: ['He said he is reading.', 'He said he was reading.', 'He said he read.', 'He said he reads.'], correct: 1, hint: 'am → was' },
+    { category: 'reported', q: '«I saw him yesterday» → He said...', options: ['He said he saw him yesterday.', 'He said he had seen him the day before.', 'He said he sees him yesterday.', 'He said he seen him yesterday.'], correct: 1, hint: 'Past → Past Perfect' },
+    { category: 'reported', q: '«I\'ll help you» → He said...', options: ['He said he will help me.', 'He said he would help me.', 'He said he helps me.', 'He said he helped me.'], correct: 1, hint: 'will → would' },
     { category: 'reported', q: 'Что происходит со временем в косвенной речи?', options: ['Ничего', 'Сдвигается на шаг назад', 'Сдвигается вперёд', 'Меняется на Future'], correct: 1, hint: 'Backshift: Present → Past' },
-    { category: 'reported', q: 'Если главный глагол в Present, время в косвенной…', options: ['Сдвигается', 'Не сдвигается', 'Меняется на Past', 'Меняется на Future'], correct: 1, hint: 'He says he is tired.' },
+    { category: 'reported', q: 'Если главный глагол в Present, время…', options: ['Сдвигается', 'Не сдвигается', 'Меняется на Past', 'Меняется на Future'], correct: 1, hint: 'He says he is tired.' },
 
-    // ═══════ ЛОЖНЫЕ ДРУЗЬЯ ПЕРЕВОДЧИКА — 25 вопросов ═══════
-    { category: 'false', q: 'Что значит <b>magazine</b>?', options: ['магазин', 'журнал', 'склад', 'полка'], correct: 1, hint: 'magazine = журнал (не магазин!)' },
+    // ═══════ МОДАЛЬНЫЕ ГЛАГОЛЫ (25) ═══════
+    { category: 'modal', q: 'Что значит <b>can</b>?', options: ['должен', 'мочь, уметь', 'хотеть', 'нужно'], correct: 1, hint: 'can = мочь / уметь' },
+    { category: 'modal', q: 'Что значит <b>must</b>?', options: ['мочь', 'должен', 'хотеть', 'может быть'], correct: 1, hint: 'must = должен' },
+    { category: 'modal', q: 'Что значит <b>should</b>?', options: ['должен (сильно)', 'следует, совет', 'могу', 'хочу'], correct: 1, hint: 'should = следует' },
+    { category: 'modal', q: 'Что значит <b>may</b>?', options: ['должен', 'можно / может быть', 'хочу', 'умею'], correct: 1, hint: 'may = можно / возможно' },
+    { category: 'modal', q: 'Что значит <b>might</b>?', options: ['можно', 'может быть (меньше уверенности)', 'должен', 'умею'], correct: 1, hint: 'might — слабее, чем may' },
+    { category: 'modal', q: 'Что значит <b>have to</b>?', options: ['имею', 'должен (по обстоятельствам)', 'хочу', 'умею'], correct: 1, hint: 'have to = вынужден' },
+    { category: 'modal', q: 'Что значит <b>need to</b>?', options: ['должен (очень строго)', 'нужно', 'хочу', 'могу'], correct: 1, hint: 'need to = нужно' },
+    { category: 'modal', q: 'Что значит <b>would like</b>?', options: ['хотел бы', 'должен', 'умею', 'можно'], correct: 0, hint: 'would like = хотел бы' },
+    { category: 'modal', q: 'Как сказать «Я умею плавать»?', options: ['I must swim.', 'I can swim.', 'I should swim.', 'I may swim.'], correct: 1, hint: 'can = уметь' },
+    { category: 'modal', q: 'Как сказать «Тебе следует отдохнуть»?', options: ['You must rest.', 'You should rest.', 'You can rest.', 'You may rest.'], correct: 1, hint: 'should = совет' },
+    { category: 'modal', q: 'Как сказать «Мне нужно идти»?', options: ['I can go.', 'I must go.', 'I may go.', 'I might go.'], correct: 1, hint: 'must = должен' },
+    { category: 'modal', q: 'Как сказать «Можно войти?»', options: ['Can I come in?', 'Must I come in?', 'Should I come in?', 'Will I come in?'], correct: 0, hint: 'Can I...? = Можно...?' },
+    { category: 'modal', q: 'Что значит <b>cannot / can\'t</b>?', options: ['не могу / нельзя', 'не должен', 'не хочу', 'не умею'], correct: 0, hint: 'can\'t = не могу' },
+    { category: 'modal', q: 'Что значит <b>mustn\'t</b>?', options: ['не могу', 'нельзя (запрет)', 'не хочу', 'не умею'], correct: 1, hint: 'mustn\'t = строгий запрет' },
+    { category: 'modal', q: 'Что значит <b>don\'t have to</b>?', options: ['не должен (нет необходимости)', 'нельзя', 'не умею', 'не хочу'], correct: 0, hint: 'don\'t have to = не обязан' },
+    { category: 'modal', q: 'Разница must и have to?', options: ['одно и то же', 'must — сам решил, have to — обстоятельства', 'have to строже', 'must — просьба'], correct: 1, hint: 'must — внутреннее, have to — внешнее' },
+    { category: 'modal', q: 'Что значит <b>had better</b>?', options: ['имел лучшее', 'лучше бы (совет)', 'должен', 'мочь'], correct: 1, hint: 'had better = лучше бы' },
+    { category: 'modal', q: 'Что значит <b>used to</b>?', options: ['использовал', 'раньше делал (привычка)', 'привык', 'привыкаю'], correct: 1, hint: 'used to = раньше (в прошлом)' },
+    { category: 'modal', q: 'Что значит <b>be able to</b>?', options: ['быть способным (синоним can)', 'должен', 'хочу', 'можно'], correct: 0, hint: 'be able to = can' },
+    { category: 'modal', q: 'Как сказать «Мне не нужно идти»?', options: ['I mustn\'t go.', 'I don\'t have to go.', 'I can\'t go.', 'I shouldn\'t go.'], correct: 1, hint: 'don\'t have to = не обязан' },
+    { category: 'modal', q: 'Как сказать «Тебе нельзя курить»?', options: ['You don\'t have to smoke.', 'You mustn\'t smoke.', 'You can smoke.', 'You should smoke.'], correct: 1, hint: 'mustn\'t = запрет' },
+    { category: 'modal', q: 'Что значит <b>May I...?</b>', options: ['Должен ли я...?', 'Можно мне...?', 'Умею ли я...?', 'Хочу ли я...?'], correct: 1, hint: 'May I = вежливое «можно»' },
+    { category: 'modal', q: 'Что значит <b>Shall I...?</b>', options: ['Должен ли я...?', 'Мне сделать...? (предложение)', 'Можно?', 'Умею?'], correct: 1, hint: 'Shall I = мне сделать?' },
+    { category: 'modal', q: 'Что значит <b>Will you...?</b>', options: ['Ты будешь...?', 'Ты сделаешь...? (просьба)', 'Ты умеешь...?', 'Ты хочешь...?'], correct: 1, hint: 'Will you = просьба' },
+    { category: 'modal', q: 'Что значит <b>Would you...?</b>', options: ['Ты бы...? (вежливая просьба)', 'Ты будешь...?', 'Ты умеешь...?', 'Ты хочешь...?'], correct: 0, hint: 'Would you — вежливее Will you' },
+
+    // ═══════ СТЕПЕНИ СРАВНЕНИЯ (25) ═══════
+    { category: 'compare', q: 'Сравнительная от <b>big</b>?', options: ['biger', 'bigger', 'more big', 'biggest'], correct: 1, hint: 'big → bigger' },
+    { category: 'compare', q: 'Превосходная от <b>big</b>?', options: ['bigest', 'biggest', 'most big', 'bigger'], correct: 1, hint: 'the biggest' },
+    { category: 'compare', q: 'Сравнительная от <b>good</b>?', options: ['gooder', 'better', 'more good', 'best'], correct: 1, hint: 'good → better → best' },
+    { category: 'compare', q: 'Превосходная от <b>good</b>?', options: ['goodest', 'better', 'most good', 'best'], correct: 3, hint: 'the best' },
+    { category: 'compare', q: 'Сравнительная от <b>bad</b>?', options: ['badder', 'worse', 'more bad', 'worst'], correct: 1, hint: 'bad → worse → worst' },
+    { category: 'compare', q: 'Превосходная от <b>bad</b>?', options: ['baddest', 'worse', 'most bad', 'worst'], correct: 3, hint: 'the worst' },
+    { category: 'compare', q: 'Сравнительная от <b>far</b>?', options: ['farer', 'farther / further', 'more far', 'farest'], correct: 1, hint: 'far → farther / further' },
+    { category: 'compare', q: 'Сравнительная от <b>many</b>?', options: ['manyer', 'more', 'most', 'manier'], correct: 1, hint: 'many → more → most' },
+    { category: 'compare', q: 'Сравнительная от <b>little</b>?', options: ['littler', 'less', 'least', 'littlest'], correct: 1, hint: 'little → less → least' },
+    { category: 'compare', q: 'Сравнительная от <b>old</b>?', options: ['older / elder', 'more old', 'oldest', 'oldly'], correct: 0, hint: 'elder — для родственников' },
+    { category: 'compare', q: 'Сравнительная от <b>happy</b>?', options: ['happyer', 'happier', 'more happy', 'happiest'], correct: 1, hint: 'y → ier' },
+    { category: 'compare', q: 'Сравнительная от <b>beautiful</b>?', options: ['beautifuler', 'more beautiful', 'beautifulest', 'beautifuly'], correct: 1, hint: 'Длинные — more' },
+    { category: 'compare', q: 'Превосходная от <b>beautiful</b>?', options: ['beautifulest', 'the most beautiful', 'more beautiful', 'beautifullest'], correct: 1, hint: 'the most beautiful' },
+    { category: 'compare', q: 'Как сказать «лучше, чем»?', options: ['better then', 'better than', 'more good than', 'gooder than'], correct: 1, hint: 'than (не then!)' },
+    { category: 'compare', q: 'Как сказать «самый быстрый»?', options: ['the fastest', 'the most fast', 'faster', 'more fast'], correct: 0, hint: 'fast → fastest' },
+    { category: 'compare', q: 'Как сказать «такой же, как»?', options: ['as big than', 'as big as', 'so big as', 'same big'], correct: 1, hint: 'as... as' },
+    { category: 'compare', q: 'Как сказать «не такой большой, как»?', options: ['not as big as', 'not so big as', 'Оба варианта', 'not big like'], correct: 2, hint: 'not as/so big as' },
+    { category: 'compare', q: 'Что значит «twice as big»?', options: ['дважды большой', 'вдвое больше', 'очень большой', 'намного больше'], correct: 1, hint: 'twice as big' },
+    { category: 'compare', q: 'Что значит «the more, the better»?', options: ['больше — лучше', 'чем больше, тем лучше', 'много-много', 'лучше много'], correct: 1, hint: 'the + сравн., the + сравн.' },
+    { category: 'compare', q: 'Как сказать «немного больше»?', options: ['a little more', 'more little', 'little more', 'more less'], correct: 0, hint: 'a little more' },
+    { category: 'compare', q: 'Как сказать «намного больше»?', options: ['a lot more', 'very more', 'much more', 'Оба: much / a lot more'], correct: 3, hint: 'much / a lot + сравн.' },
+    { category: 'compare', q: 'Сравнительная от <b>easy</b>?', options: ['easyer', 'easier', 'more easy', 'easiest'], correct: 1, hint: 'y → ier' },
+    { category: 'compare', q: 'Сравнительная от <b>hot</b>?', options: ['hoter', 'hotter', 'more hot', 'hottest'], correct: 1, hint: 'hot → hotter' },
+    { category: 'compare', q: 'Сравнительная от <b>thin</b>?', options: ['thiner', 'thinner', 'more thin', 'thinnest'], correct: 1, hint: 'thin → thinner' },
+    { category: 'compare', q: 'Превосходная от <b>far</b>?', options: ['the farthest / furthest', 'the most far', 'the farrest', 'the far most'], correct: 0, hint: 'the farthest / furthest' },
+
+    // ═══════ ПАССИВНЫЙ ЗАЛОГ (25) ═══════
+    { category: 'passive', q: 'Как строится Present Simple Passive?', options: ['am/is/are + V3', 'do + V3', 'have + V3', 'will + V3'], correct: 0, hint: 'The book is read.' },
+    { category: 'passive', q: 'Как строится Past Simple Passive?', options: ['was/were + V3', 'did + V3', 'had + V3', 'will + V3'], correct: 0, hint: 'The letter was sent.' },
+    { category: 'passive', q: 'Как строится Future Simple Passive?', options: ['will be + V3', 'will + V3', 'is + V3', 'was + V3'], correct: 0, hint: 'The work will be done.' },
+    { category: 'passive', q: 'Как строится Present Perfect Passive?', options: ['have/has been + V3', 'have + V3', 'is + V3', 'has + V3'], correct: 0, hint: 'The letter has been sent.' },
+    { category: 'passive', q: 'Как сказать «Книга читается»?', options: ['The book reads.', 'The book is read.', 'The book is reading.', 'The book read.'], correct: 1, hint: 'is + V3' },
+    { category: 'passive', q: 'Как сказать «Письмо было отправлено»?', options: ['The letter sent.', 'The letter was sent.', 'The letter is sent.', 'The letter has sent.'], correct: 1, hint: 'was + V3' },
+    { category: 'passive', q: 'Как сказать «Работа будет сделана»?', options: ['The work will do.', 'The work will be done.', 'The work is done.', 'The work was done.'], correct: 1, hint: 'will be + V3' },
+    { category: 'passive', q: 'Как сказать «Дом построен»?', options: ['The house built.', 'The house is built.', 'The house was built.', 'Оба: is / was built'], correct: 3, hint: 'is/was + V3' },
+    { category: 'passive', q: 'Кто выполняет действие в пассиве?', options: ['Подлежащее', 'Исполнитель с by', 'Дополнение', 'Никто'], correct: 1, hint: 'by + исполнитель' },
+    { category: 'passive', q: 'Как сказать «Письмо написано Томом»?', options: ['The letter wrote Tom.', 'The letter was written by Tom.', 'Tom is written the letter.', 'The letter writes by Tom.'], correct: 1, hint: 'was + V3 + by' },
+    { category: 'passive', q: 'Что значит <b>is being done</b>?', options: ['было сделано', 'делается сейчас', 'будет сделано', 'сделано'], correct: 1, hint: 'Present Continuous Passive' },
+    { category: 'passive', q: 'Что значит <b>was being done</b>?', options: ['делалось (в прошлом)', 'делается', 'сделано', 'будет сделано'], correct: 0, hint: 'Past Continuous Passive' },
+    { category: 'passive', q: 'Что значит <b>has been done</b>?', options: ['делается', 'уже сделано', 'было сделано давно', 'будет сделано'], correct: 1, hint: 'Present Perfect Passive' },
+    { category: 'passive', q: 'Что значит <b>had been done</b>?', options: ['было сделано (до другого)', 'сделано сейчас', 'будет сделано', 'делается'], correct: 0, hint: 'Past Perfect Passive' },
+    { category: 'passive', q: 'Что значит <b>will have been done</b>?', options: ['будет сделано', 'будет сделано к моменту', 'уже сделано', 'делалось'], correct: 1, hint: 'Future Perfect Passive' },
+    { category: 'passive', q: 'Что значит <b>can be done</b>?', options: ['может быть сделано', 'должно быть сделано', 'делается', 'было сделано'], correct: 0, hint: 'can + be + V3' },
+    { category: 'passive', q: 'Что значит <b>must be done</b>?', options: ['может быть', 'должно быть сделано', 'будет сделано', 'делается'], correct: 1, hint: 'must + be + V3' },
+    { category: 'passive', q: 'Как сказать «Меня зовут Том»?', options: ['I call Tom.', 'I am called Tom.', 'My name calls Tom.', 'I calling Tom.'], correct: 1, hint: 'I am called = пассив' },
+    { category: 'passive', q: 'Как сказать «Это делают каждый день»?', options: ['It does every day.', 'It is done every day.', 'It doing every day.', 'It will do every day.'], correct: 1, hint: 'is + V3' },
+    { category: 'passive', q: 'Как сказать «Книги читают дети»?', options: ['Books read by children.', 'Books are read by children.', 'Books reading by children.', 'Children read books.'], correct: 1, hint: 'are + V3 + by' },
+    { category: 'passive', q: 'Как сказать «Мой кошелёк украли»?', options: ['My wallet stole.', 'My wallet was stolen.', 'My wallet is stolen.', 'My wallet stealing.'], correct: 1, hint: 'was + V3' },
+    { category: 'passive', q: 'Как сказать «Эта песня известна всем»?', options: ['This song knows everyone.', 'This song is known to everyone.', 'This song known everyone.', 'Everyone knows this song.'], correct: 1, hint: 'is known' },
+    { category: 'passive', q: 'В каком случае используют пассив?', options: ['Когда важно кто делает', 'Когда важно что делают', 'Только в Past', 'Только с неправильными'], correct: 1, hint: 'Пассив — фокус на действии' },
+    { category: 'passive', q: 'Как сказать «Мне дали книгу»?', options: ['I gave a book.', 'I was given a book.', 'I am given a book.', 'Оба: was / am given'], correct: 3, hint: 'was given / am given' },
+    { category: 'passive', q: 'Что такое «passive voice»?', options: ['Активный залог', 'Страдательный залог', 'Вопросительный', 'Отрицательный'], correct: 1, hint: 'Страдательный залог' },
+    { category: 'passive', q: 'В каком времени НЕ бывает пассива?', options: ['Present Simple', 'Past Simple', 'Future Continuous (будет длиться)', 'Present Perfect'], correct: 2, hint: 'Future Continuous Passive не используют' },
+
+    // ═══════ КОСВЕННАЯ РЕЧЬ (25) ═══════
+    { category: 'reported', q: '«I am tired» → He said...', options: ['He said he is tired.', 'He said he was tired.', 'He said I am tired.', 'He says he is tired.'], correct: 1, hint: 'am → was' },
+    { category: 'reported', q: '«I will come» → He said...', options: ['He said he will come.', 'He said he would come.', 'He said he came.', 'He said he comes.'], correct: 1, hint: 'will → would' },
+    { category: 'reported', q: '«I can swim» → She said...', options: ['She said she can swim.', 'She said she could swim.', 'She said she swims.', 'She said she swim.'], correct: 1, hint: 'can → could' },
+    { category: 'reported', q: '«I have finished» → He said...', options: ['He said he has finished.', 'He said he had finished.', 'He said he finished.', 'He said he finish.'], correct: 1, hint: 'have → had' },
+    { category: 'reported', q: '«I work here» → He said...', options: ['He said he works here.', 'He said he worked there.', 'He said he is working.', 'He said he work here.'], correct: 1, hint: 'work → worked, here → there' },
+    { category: 'reported', q: '«today» → ?', options: ['that day', 'this day', 'yesterday', 'tomorrow'], correct: 0, hint: 'today → that day' },
+    { category: 'reported', q: '«tomorrow» → ?', options: ['the next day', 'yesterday', 'that day', 'today'], correct: 0, hint: 'tomorrow → the next day' },
+    { category: 'reported', q: '«yesterday» → ?', options: ['the next day', 'the day before', 'that day', 'today'], correct: 1, hint: 'yesterday → the day before' },
+    { category: 'reported', q: '«now» → ?', options: ['then', 'now', 'today', 'yesterday'], correct: 0, hint: 'now → then' },
+    { category: 'reported', q: '«here» → ?', options: ['there', 'here', 'where', 'everywhere'], correct: 0, hint: 'here → there' },
+    { category: 'reported', q: '«this» → ?', options: ['that', 'these', 'those', 'the'], correct: 0, hint: 'this → that' },
+    { category: 'reported', q: '«these» → ?', options: ['this', 'those', 'that', 'the'], correct: 1, hint: 'these → those' },
+    { category: 'reported', q: '«Do you like coffee?» → He asked...', options: ['He asked do I like coffee.', 'He asked if I liked coffee.', 'He said I like coffee.', 'He asked that I like coffee.'], correct: 1, hint: 'if + сдвиг времени' },
+    { category: 'reported', q: '«Where do you live?» → He asked...', options: ['He asked where do I live.', 'He asked where I lived.', 'He said where I live.', 'He asked where did I live.'], correct: 1, hint: 'Прямой порядок + сдвиг' },
+    { category: 'reported', q: '«What is your name?» → He asked...', options: ['He asked what is my name.', 'He asked what my name was.', 'He asked what my name is.', 'He asked what was my name.'], correct: 1, hint: 'Прямой порядок' },
+    { category: 'reported', q: '«Open the door!» → He said...', options: ['He said open the door.', 'He told me to open the door.', 'He asked open the door.', 'He said I open the door.'], correct: 1, hint: 'tell + to + V' },
+    { category: 'reported', q: '«Don\'t be late!» → He said...', options: ['He said don\'t be late.', 'He told me not to be late.', 'He asked not be late.', 'He said I not be late.'], correct: 1, hint: 'tell + not to + V' },
+    { category: 'reported', q: 'Какое слово обычно вводят для вопросов?', options: ['say', 'tell', 'ask', 'speak'], correct: 2, hint: 'ask = спрашивать' },
+    { category: 'reported', q: 'Что значит <b>say</b>?', options: ['говорить кому-то', 'сказать (без адресата)', 'спрашивать', 'кричать'], correct: 1, hint: 'say без адресата' },
+    { category: 'reported', q: 'Что значит <b>tell</b>?', options: ['сказать кому-то', 'сказать вообще', 'спрашивать', 'болтать'], correct: 0, hint: 'tell + кому' },
+    { category: 'reported', q: '«I am reading» → He said...', options: ['He said he is reading.', 'He said he was reading.', 'He said he read.', 'He said he reads.'], correct: 1, hint: 'am → was' },
+    { category: 'reported', q: '«I saw him yesterday» → He said...', options: ['He said he saw him yesterday.', 'He said he had seen him the day before.', 'He said he sees him yesterday.', 'He said he seen him yesterday.'], correct: 1, hint: 'Past → Past Perfect' },
+    { category: 'reported', q: '«I\'ll help you» → He said...', options: ['He said he will help me.', 'He said he would help me.', 'He said he helps me.', 'He said he helped me.'], correct: 1, hint: 'will → would' },
+    { category: 'reported', q: 'Что происходит со временем в косвенной речи?', options: ['Ничего', 'Сдвигается на шаг назад', 'Сдвигается вперёд', 'Меняется на Future'], correct: 1, hint: 'Backshift: Present → Past' },
+    { category: 'reported', q: 'Если главный глагол в Present, время…', options: ['Сдвигается', 'Не сдвигается', 'Меняется на Past', 'Меняется на Future'], correct: 1, hint: 'He says he is tired.' },
+
+    // ═══════ ЛОЖНЫЕ ДРУЗЬЯ ПЕРЕВОДЧИКА (25) ═══════
+    { category: 'false', q: 'Что значит <b>magazine</b>?', options: ['магазин', 'журнал', 'склад', 'полка'], correct: 1, hint: 'magazine = журнал' },
     { category: 'false', q: 'Что значит <b>accurate</b>?', options: ['аккуратный', 'точный', 'быстрый', 'сильный'], correct: 1, hint: 'accurate = точный' },
     { category: 'false', q: 'Что значит <b>sympathy</b>?', options: ['симпатия', 'сочувствие', 'улыбка', 'любовь'], correct: 1, hint: 'sympathy = сочувствие' },
     { category: 'false', q: 'Что значит <b>intelligent</b>?', options: ['интеллигентный', 'умный', 'образованный', 'вежливый'], correct: 1, hint: 'intelligent = умный' },
@@ -361,7 +581,7 @@ const quizQuestions = [
     { category: 'false', q: 'Что значит <b>mark</b>?', options: ['марка', 'оценка / знак', 'почта', 'штамп'], correct: 1, hint: 'mark = оценка / знак' },
     { category: 'false', q: 'Что значит <b>world</b>?', options: ['вол', 'мир', 'вода', 'слово'], correct: 1, hint: 'world = мир' },
     { category: 'false', q: 'Что значит <b>complex</b>?', options: ['комплекс', 'сложный', 'большой', 'простой'], correct: 1, hint: 'complex = сложный' },
-    { category: 'false', q: 'Что значит <b>dramatic</b>?', options: ['драматичный', 'резкий, значительный', 'грустный', 'страшный'], correct: 1, hint: 'dramatic = резкий / впечатляющий' },
+    { category: 'false', q: 'Что значит <b>dramatic</b>?', options: ['драматичный', 'резкий, значительный', 'грустный', 'страшный'], correct: 1, hint: 'dramatic = резкий' },
     { category: 'false', q: 'Что значит <b>replica</b>?', options: ['реплика', 'копия', 'фраза', 'ответ'], correct: 1, hint: 'replica = копия' },
     { category: 'false', q: 'Что значит <b>paragraph</b>?', options: ['параграф', 'абзац', 'пункт', 'раздел'], correct: 1, hint: 'paragraph = абзац' },
     { category: 'false', q: 'Что значит <b>physician</b>?', options: ['физик', 'врач', 'учёный', 'спортсмен'], correct: 1, hint: 'physician = врач' },
@@ -371,37 +591,41 @@ const quizQuestions = [
     { category: 'false', q: 'Что значит <b>officer</b>?', options: ['официант', 'офицер', 'работник', 'управляющий'], correct: 1, hint: 'officer = офицер' },
     { category: 'false', q: 'Что значит <b>receipt</b>?', options: ['рецепт', 'чек, квитанция', 'приготовление', 'блюдо'], correct: 1, hint: 'receipt = чек' },
     { category: 'false', q: 'Что значит <b>salad</b>?', options: ['салат (листья)', 'салат (блюдо)', 'соль', 'соус'], correct: 1, hint: 'salad = салат (блюдо)' },
-    { category: 'false', q: 'Что значит <b>agent</b>?', options: ['агент', 'представитель', 'шпион', 'продавец'], correct: 1, hint: 'agent = представитель / агент' },
+    { category: 'false', q: 'Что значит <b>agent</b>?', options: ['агент', 'представитель', 'шпион', 'продавец'], correct: 1, hint: 'agent = представитель' },
 
-    // ═══════ УСЛОВНЫЕ ПРЕДЛОЖЕНИЯ (if) — 25 вопросов ═══════
+    // ═══════ УСЛОВНЫЕ ПРЕДЛОЖЕНИЯ (25) ═══════
     { category: 'condition', q: 'Как называется 1-й тип условных?', options: ['Real (реальный)', 'Unreal (нереальный)', 'Past', 'Mixed'], correct: 0, hint: 'If it rains, I will stay home.' },
     { category: 'condition', q: 'Как строится 1-й тип?', options: ['If + Present, will + V', 'If + Past, would + V', 'If + had + V3, would have + V3', 'If + will, Present'], correct: 0, hint: 'If + Present Simple, will + V' },
-    { category: 'condition', q: 'Как сказать «Если пойдёт дождь, я останусь дома»?', options: ['If it rains, I will stay home.', 'If it will rain, I stay home.', 'If it rained, I would stay home.', 'If it had rained, I would have stayed home.'], correct: 0, hint: '1-й тип' },
+    { category: 'condition', q: '«Если пойдёт дождь, я останусь дома»?', options: ['If it rains, I will stay home.', 'If it will rain, I stay home.', 'If it rained, I would stay home.', 'If it had rained, I would have stayed home.'], correct: 0, hint: '1-й тип' },
     { category: 'condition', q: 'Как строится 2-й тип (нереальный)?', options: ['If + Present, will + V', 'If + Past Simple, would + V', 'If + had + V3, would have + V3', 'If + will, Present'], correct: 1, hint: 'If + Past, would + V' },
-    { category: 'condition', q: 'Как сказать «Если бы я был богат, я бы купил машину»?', options: ['If I am rich, I will buy a car.', 'If I were rich, I would buy a car.', 'If I had been rich, I would have bought a car.', 'If I be rich, I buy a car.'], correct: 1, hint: '2-й тип: were + would' },
+    { category: 'condition', q: '«Если бы я был богат, я бы купил машину»?', options: ['If I am rich, I will buy a car.', 'If I were rich, I would buy a car.', 'If I had been rich, I would have bought a car.', 'If I be rich, I buy a car.'], correct: 1, hint: '2-й тип: were + would' },
     { category: 'condition', q: 'В 2-м типе вместо was часто…', options: ['is', 'were', 'will be', 'be'], correct: 1, hint: 'If I were you...' },
-    { category: 'condition', q: 'Как строится 3-й тип (невозможный)?', options: ['If + Present, will + V', 'If + Past, would + V', 'If + had + V3, would have + V3', 'If + will, Present'], correct: 2, hint: 'If + Past Perfect, would have + V3' },
-    { category: 'condition', q: 'Как сказать «Если бы я знал, я бы помог»?', options: ['If I know, I will help.', 'If I knew, I would help.', 'If I had known, I would have helped.', 'If I know, I help.'], correct: 2, hint: '3-й тип: Past Perfect' },
-    { category: 'condition', q: 'Что значит 0-й тип (Zero Conditional)?', options: ['Реальные факты', 'Нереальные', 'Невозможные', 'Будущие'], correct: 0, hint: 'If you heat ice, it melts.' },
+    { category: 'condition', q: 'Как строится 3-й тип?', options: ['If + Present, will + V', 'If + Past, would + V', 'If + had + V3, would have + V3', 'If + will, Present'], correct: 2, hint: 'If + Past Perfect, would have + V3' },
+    { category: 'condition', q: '«Если бы я знал, я бы помог»?', options: ['If I know, I will help.', 'If I knew, I would help.', 'If I had known, I would have helped.', 'If I know, I help.'], correct: 2, hint: '3-й тип' },
+    { category: 'condition', q: 'Что значит 0-й тип?', options: ['Реальные факты', 'Нереальные', 'Невозможные', 'Будущие'], correct: 0, hint: 'If you heat ice, it melts.' },
     { category: 'condition', q: 'Как строится 0-й тип?', options: ['If + Present, Present', 'If + Past, would + V', 'If + had + V3, would have + V3', 'If + will, will'], correct: 0, hint: 'If + Present, Present' },
-    { category: 'condition', q: '«If I ___ you, I would study more» — что вставить?', options: ['am', 'was', 'were', 'be'], correct: 2, hint: 'If I were you' },
+    { category: 'condition', q: '«If I ___ you, I would study more»?', options: ['am', 'was', 'were', 'be'], correct: 2, hint: 'If I were you' },
     { category: 'condition', q: 'Что значит <b>unless</b>?', options: ['если', 'если не', 'когда', 'пока'], correct: 1, hint: 'unless = если не' },
-    { category: 'condition', q: 'Как сказать «Я бы пошёл, если бы у меня было время»?', options: ['I go if I have time.', 'I would go if I had time.', 'I had gone if I had time.', 'I would have gone if I had time.'], correct: 1, hint: '2-й тип' },
-    { category: 'condition', q: 'Как сказать «Я бы пришёл, если бы знал»?', options: ['I would come if I knew.', 'I would have come if I had known.', 'I come if I know.', 'I will come if I knew.'], correct: 1, hint: '3-й тип' },
+    { category: 'condition', q: '«Я бы пошёл, если бы у меня было время»?', options: ['I go if I have time.', 'I would go if I had time.', 'I had gone if I had time.', 'I would have gone if I had time.'], correct: 1, hint: '2-й тип' },
+    { category: 'condition', q: '«Я бы пришёл, если бы знал»?', options: ['I would come if I knew.', 'I would have come if I had known.', 'I come if I know.', 'I will come if I knew.'], correct: 1, hint: '3-й тип' },
     { category: 'condition', q: 'Что значит <b>as soon as</b>?', options: ['так быстро', 'как только', 'пока', 'когда-нибудь'], correct: 1, hint: 'as soon as = как только' },
     { category: 'condition', q: 'Что значит <b>in case</b>?', options: ['в случае', 'в ящике', 'сначала', 'потом'], correct: 0, hint: 'in case = на случай' },
     { category: 'condition', q: 'После <b>if</b> обычно НЕ используют…', options: ['Present', 'Past', 'will', 'can'], correct: 2, hint: 'Не говорят «if I will»' },
-    { category: 'condition', q: 'Как сказать «Если хочешь, я помогу»?', options: ['If you want, I will help.', 'If you will want, I help.', 'If you wanted, I help.', 'If you want, I would help.'], correct: 0, hint: '1-й тип' },
-    { category: 'condition', q: 'Как сказать «Если бы у меня было время, я бы читал больше»?', options: ['If I have time, I read more.', 'If I had time, I would read more.', 'If I had had time, I would have read more.', 'If I will have time, I read.'], correct: 1, hint: '2-й тип' },
-    { category: 'condition', q: 'Как сказать «Если бы я не опоздал, я бы встретил её»?', options: ['If I don\'t be late, I meet her.', 'If I weren\'t late, I would meet her.', 'If I hadn\'t been late, I would have met her.', 'If I am not late, I meet her.'], correct: 2, hint: '3-й тип' },
+    { category: 'condition', q: '«Если хочешь, я помогу»?', options: ['If you want, I will help.', 'If you will want, I help.', 'If you wanted, I help.', 'If you want, I would help.'], correct: 0, hint: '1-й тип' },
+    { category: 'condition', q: '«Если бы у меня было время, я бы читал больше»?', options: ['If I have time, I read more.', 'If I had time, I would read more.', 'If I had had time, I would have read more.', 'If I will have time, I read.'], correct: 1, hint: '2-й тип' },
+    { category: 'condition', q: '«Если бы я не опоздал, я бы встретил её»?', options: ['If I don\'t be late, I meet her.', 'If I weren\'t late, I would meet her.', 'If I hadn\'t been late, I would have met her.', 'If I am not late, I meet her.'], correct: 2, hint: '3-й тип' },
     { category: 'condition', q: 'Что значит <b>provided that</b>?', options: ['предоставил что', 'при условии что', 'потому что', 'после того как'], correct: 1, hint: 'provided that = при условии' },
-    { category: 'condition', q: 'Какой тип условных «реальный в будущем»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 1, hint: '1-й тип — реальный' },
-    { category: 'condition', q: 'Какой тип условных «нереальный в настоящем»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 2, hint: '2-й тип — нереальный сейчас' },
-    { category: 'condition', q: 'Какой тип условных «невозможный в прошлом»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 3, hint: '3-й тип — про прошлое' },
-    { category: 'condition', q: 'Как сказать «Если ты будешь много читать, ты выучишь язык»?', options: ['If you read a lot, you will learn the language.', 'If you will read a lot, you learn.', 'If you read a lot, you would learn.', 'If you read a lot, you had learned.'], correct: 0, hint: '1-й тип' }
+    { category: 'condition', q: 'Какой тип «реальный в будущем»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 1, hint: '1-й тип — реальный' },
+    { category: 'condition', q: 'Какой тип «нереальный в настоящем»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 2, hint: '2-й тип — нереальный сейчас' },
+    { category: 'condition', q: 'Какой тип «невозможный в прошлом»?', options: ['Zero', 'First', 'Second', 'Third'], correct: 3, hint: '3-й тип — про прошлое' },
+    { category: 'condition', q: '«Если ты будешь много читать, ты выучишь язык»?', options: ['If you read a lot, you will learn the language.', 'If you will read a lot, you learn.', 'If you read a lot, you would learn.', 'If you read a lot, you had learned.'], correct: 0, hint: '1-й тип' }
 ];
 
-// ===== Вспомогательное: перемешать массив =====
+// ═══════════════════════════════════════════════════════════
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// ═══════════════════════════════════════════════════════════
+
+// Перемешать массив
 function shuffleArray(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -410,3 +634,33 @@ function shuffleArray(arr) {
     }
     return a;
 }
+
+// Счётчик вопросов в категории
+function getQuizCountByCategory(catId) {
+    if (catId === 'all') return quizQuestions.length;
+    return quizQuestions.filter(q => q.category === catId).length;
+}
+
+// Совместимость с index.html
+if (typeof shuffleWords === 'undefined') {
+    window.shuffleWords = shuffleArray;
+}
+
+// Автодобавление счётчиков в кнопки фильтров
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const container = document.getElementById('quizFilters');
+        if (!container) return;
+        container.querySelectorAll('.filter-btn').forEach(btn => {
+            const catId = btn.dataset.quiz;
+            if (!catId) return;
+            if (btn.querySelector('.quiz-count')) return;
+            const count = getQuizCountByCategory(catId);
+            const span = document.createElement('span');
+            span.className = 'quiz-count';
+            span.style.cssText = 'opacity:.7;font-size:.75rem;margin-left:4px;';
+            span.textContent = `(${count})`;
+            btn.appendChild(span);
+        });
+    }, 150);
+});
