@@ -1889,3 +1889,217 @@ const directionWords = [
         ]
     }
 ];
+
+// ═══════════════════════════════════════════════
+// МОДАЛЬНЫЕ ГЛАГОЛЫ
+// ═══════════════════════════════════════════════
+const modalVerbs = [
+    {
+        id: 'should', word: 'should', transcription: '/ʃʊd/', emoji: '💡',
+        meaning: 'СОВЕТ / РЕКОМЕНДАЦИЯ',
+        color: '#6b8e23',
+        rules: ['что-то хорошее сделать', 'не обязательно', 'мягкий совет'],
+        hint: '💬 Should = мягкий совет, не приказ.',
+        examples: [
+            { en: 'You <b>should</b> get some rest.', ru: 'Тебе стоит отдохнуть.' },
+            { en: 'You <b>shouldn\'t</b> worry so much.', ru: 'Тебе не стоит так переживать.' },
+            { en: '<b>Should</b> I call her?', ru: 'Мне позвонить ей?' }
+        ]
+    },
+    {
+        id: 'must', word: 'must', transcription: '/mʌst/', emoji: '⛔',
+        meaning: 'СТРОГАЯ НЕОБХОДИМОСТЬ',
+        color: '#b93a3a',
+        rules: ['сильная необходимость', 'правило', 'личная уверенность'],
+        hint: '⛔ Must = очень строго, сам так решил.',
+        examples: [
+            { en: 'You <b>must</b> be on time.', ru: 'Ты должен быть вовремя.' },
+            { en: 'You <b>mustn\'t</b> tell anyone.', ru: 'Ты не должен никому говорить.' },
+            { en: '<b>Must</b> I bring anything?', ru: 'Мне нужно что-то брать?' }
+        ]
+    },
+    {
+        id: 'haveto', word: 'have to', transcription: '/hæv tuː/', emoji: '📋',
+        meaning: 'НЕОБХОДИМОСТЬ ПО ОБСТОЯТЕЛЬСТВАМ',
+        color: '#c49a6c',
+        rules: ['вынужденная необходимость', 'внешние обстоятельства', 'правило / обязанность'],
+        hint: '📋 Have to = так сложились обстоятельства.',
+        examples: [
+            { en: 'I <b>have to</b> work tomorrow.', ru: 'Мне нужно работать завтра.' },
+            { en: 'I <b>don\'t have to</b> go.', ru: 'Мне не нужно идти.' },
+            { en: 'Do I <b>have to</b> wear a uniform?', ru: 'Мне нужно носить форму?' }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════
+// ПУТАЮЩИЕ ГЛАГОЛЫ (make/do, say/tell и т.д.)
+// ═══════════════════════════════════════════════
+const confusingVerbs = [
+    {
+        id: 'make-do', emoji: '🔨✅',
+        title: 'MAKE vs DO',
+        rule: 'Make = создавать что-то новое. Do = выполнять работу/действие.',
+        pairs: [
+            {
+                word: 'make', emoji: '🔨', meaning: 'делать = создавать, изготовлять',
+                note: 'make a plan, make a cake, make a decision',
+                examples: [
+                    { en: 'We <b>make</b> a plan.', ru: 'Мы составляем план.' },
+                    { en: 'She <b>made</b> a cake.', ru: 'Она испекла торт.' }
+                ]
+            },
+            {
+                word: 'do', emoji: '✅', meaning: 'делать = выполнять работу',
+                note: 'do homework, do the cleaning, do sports',
+                examples: [
+                    { en: 'I <b>do</b> my homework.', ru: 'Я делаю домашнее задание.' },
+                    { en: 'She <b>does</b> the cleaning.', ru: 'Она делает уборку.' }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'refuse-deny', emoji: '🚫⛔',
+        title: 'REFUSE vs DENY',
+        rule: 'Refuse = не хочу делать сам. Deny = не разрешаю другому.',
+        pairs: [
+            {
+                word: 'refuse', emoji: '🙅', meaning: 'отказываться (сам не хочу)',
+                note: 'refuse to help / refuse to go',
+                examples: [
+                    { en: 'I <b>refused</b> to help.', ru: 'Я отказался помочь.' },
+                    { en: 'She <b>refuses</b> to go.', ru: 'Она отказывается идти.' }
+                ]
+            },
+            {
+                word: 'deny', emoji: '🚫', meaning: 'отказывать в разрешении (не позволяю)',
+                note: 'deny permission / deny a request',
+                examples: [
+                    { en: 'They <b>denied</b> him permission.', ru: 'Они отказали ему в разрешении.' },
+                    { en: 'The school <b>denied</b> the request.', ru: 'Школа отказала в просьбе.' }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'say-tell', emoji: '💬🗣️',
+        title: 'SAY vs TELL',
+        rule: 'Say = просто произносить слова. Tell = сообщать кому-то информацию.',
+        pairs: [
+            {
+                word: 'say', emoji: '💬', meaning: 'говорить (просто слова)',
+                note: 'say hello / say something / say to me',
+                examples: [
+                    { en: 'She <b>said</b> hello.', ru: 'Она сказала привет.' },
+                    { en: 'He <b>says</b> he is busy.', ru: 'Он говорит, что занят.' }
+                ]
+            },
+            {
+                word: 'tell', emoji: '🗣️', meaning: 'рассказать кому-то (tell + кому)',
+                note: 'tell me / tell us / tell the truth',
+                examples: [
+                    { en: 'She <b>told</b> me the truth.', ru: 'Она рассказала мне правду.' },
+                    { en: 'He <b>told</b> us about his trip.', ru: 'Он рассказал нам о поездке.' }
+                ]
+            }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════
+// СЛОВООБРАЗОВАНИЕ — ПРАВИЛА
+// ═══════════════════════════════════════════════
+const wordFormationRules = {
+    intro: '⚙️ Как из одного слова сделать другое?',
+    suffixRule: 'Суффиксы добавляются в КОНЕЦ и образуют новое слово с другим значением.',
+    prefixRule: 'Префиксы добавляются в НАЧАЛО и часто меняют значение на противоположное.',
+    mainRule: '🎯 Для экзаменов: всегда определяй часть речи (сущ., глагол, прил., наречие) ПЕРЕД тем, как менять слово!',
+    suffixGroups: [
+        {
+            affix: '-ment', meaning: 'действие / результат', emoji: '📦',
+            chains: [
+                { from: 'develop', to: 'development', tr: 'развивать → развитие' },
+                { from: 'move', to: 'movement', tr: 'двигать → движение' }
+            ]
+        },
+        {
+            affix: '-ion', meaning: 'процесс / состояние', emoji: '📜',
+            chains: [
+                { from: 'create', to: 'creation', tr: 'создавать → создание' },
+                { from: 'decide', to: 'decision', tr: 'решать → решение' },
+                { from: 'inform', to: 'information', tr: 'информировать → информация' },
+                { from: 'educate', to: 'education', tr: 'воспитывать → образование' }
+            ]
+        },
+        {
+            affix: '-er / -or', meaning: 'человек / предмет', emoji: '👤',
+            chains: [
+                { from: 'teach', to: 'teacher', tr: 'учить → учитель' },
+                { from: 'drive', to: 'driver', tr: 'водить → водитель' },
+                { from: 'play', to: 'player', tr: 'играть → игрок' },
+                { from: 'compete', to: 'competitor', tr: 'соревноваться → конкурент' }
+            ]
+        }
+    ],
+    prefixGroups: [
+        {
+            affix: 'un-', meaning: 'отрицание', emoji: '❌',
+            chains: [
+                { from: 'happy', to: 'unhappy', tr: 'счастливый → несчастный' },
+                { from: 'do', to: 'undo', tr: 'делать → отменять' },
+                { from: 'able', to: 'unable', tr: 'способный → неспособный' }
+            ]
+        },
+        {
+            affix: 'dis-', meaning: 'противоположность', emoji: '🚫',
+            chains: [
+                { from: 'agree', to: 'disagree', tr: 'соглашаться → не соглашаться' },
+                { from: 'appear', to: 'disappear', tr: 'появляться → исчезать' },
+                { from: 'connect', to: 'disconnect', tr: 'соединять → разъединять' }
+            ]
+        },
+        {
+            affix: 'mis-', meaning: 'ошибка / неправильно', emoji: '⚠️',
+            chains: [
+                { from: 'understand', to: 'misunderstand', tr: 'понимать → неправильно понимать' },
+                { from: 'spell', to: 'misspell', tr: 'писать по буквам → ошибиться в написании' },
+                { from: 'behave', to: 'misbehave', tr: 'вести себя → плохо себя вести' }
+            ]
+        },
+        {
+            affix: 're-', meaning: 'повторить действие', emoji: '🔄',
+            chains: [
+                { from: 'write', to: 'rewrite', tr: 'писать → переписать' },
+                { from: 'do', to: 'redo', tr: 'делать → переделать' },
+                { from: 'start', to: 'restart', tr: 'начать → перезапустить' }
+            ]
+        },
+        {
+            affix: 'de-', meaning: 'убрать / отменить', emoji: '⬇️',
+            chains: [
+                { from: 'motivate', to: 'demotivate', tr: 'мотивировать → демотивировать' },
+                { from: 'activate', to: 'deactivate', tr: 'активировать → деактивировать' },
+                { from: 'classify', to: 'declassify', tr: 'засекретить → рассекретить' }
+            ]
+        },
+        {
+            affix: 'out-', meaning: 'превзойти / наружу', emoji: '🚪',
+            chains: [
+                { from: 'run', to: 'outrun', tr: 'бежать → обогнать' },
+                { from: 'stand', to: 'outstanding', tr: 'стоять → выдающийся' }
+            ]
+        }
+    ]
+};
+
+// ═══════════════════════════════════════════════
+// TIME MARKERS (для модальных глаголов)
+// ═══════════════════════════════════════════════
+const timeMarkers = [
+    { emoji: '☀️', word: 'today', ru: 'сегодня' },
+    { emoji: '📅', word: 'tomorrow', ru: 'завтра' },
+    { emoji: '⏪', word: 'yesterday', ru: 'вчера' },
+    { emoji: '📆', word: 'next week', ru: 'на следующей неделе' },
+    { emoji: '🎉', word: 'this weekend', ru: 'в эти выходные' }
+];
