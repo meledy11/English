@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// prefixes.js — база приставок, суффиксов, корней + всех модулей
+// prefixes.js — приставки, суффиксы, корни + все обучающие модули
 // ═══════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════
@@ -2411,3 +2411,1340 @@ const questionWordGroups = [
     { id: 'basic', emoji: '❓', name: 'Основные' },
     { id: 'how',   emoji: '📏', name: 'How + ...' }
 ];
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 МЕГА-ПАК: ФИШКИ ДЛЯ ИЗУЧЕНИЯ
+// ═══════════════════════════════════════════════════════════
+
+// ─── КОНСТРУКТОР СЛОВ ───────────────────────────────────
+const wordBuilderKit = [
+    {
+        base: 'happy', emoji: '😊', ru: 'счастливый',
+        forms: [
+            { word: 'unhappy',    affix: 'un-',   meaning: 'несчастный',       emoji: '😢' },
+            { word: 'happiness',  affix: '-ness', meaning: 'счастье',          emoji: '💠' },
+            { word: 'happily',    affix: '-ly',   meaning: 'счастливо',        emoji: '🌞' },
+            { word: 'happier',    affix: '-er',   meaning: 'счастливее',       emoji: '⬆️' },
+            { word: 'happiest',   affix: '-est',  meaning: 'самый счастливый', emoji: '🏆' }
+        ]
+    },
+    {
+        base: 'care', emoji: '💗', ru: 'забота',
+        forms: [
+            { word: 'careful',    affix: '-ful',  meaning: 'осторожный',   emoji: '🧐' },
+            { word: 'careless',   affix: '-less', meaning: 'безалаберный', emoji: '🙈' },
+            { word: 'carefully',  affix: '-ly',   meaning: 'осторожно',    emoji: '🐢' },
+            { word: 'caring',     affix: '-ing',  meaning: 'заботливый',   emoji: '🤗' }
+        ]
+    },
+    {
+        base: 'help', emoji: '🤝', ru: 'помощь',
+        forms: [
+            { word: 'helpful',    affix: '-ful',  meaning: 'полезный',    emoji: '✅' },
+            { word: 'helpless',   affix: '-less', meaning: 'беспомощный', emoji: '😰' },
+            { word: 'helper',     affix: '-er',   meaning: 'помощник',    emoji: '🧑‍🔧' },
+            { word: 'helping',    affix: '-ing',  meaning: 'помогающий',  emoji: '💪' }
+        ]
+    },
+    {
+        base: 'create', emoji: '🎨', ru: 'создавать',
+        forms: [
+            { word: 'creative',   affix: '-ive',  meaning: 'творческий',    emoji: '🌈' },
+            { word: 'creation',   affix: '-ion',  meaning: 'создание',      emoji: '🏗️' },
+            { word: 'creator',    affix: '-or',   meaning: 'создатель',     emoji: '🧑‍🎨' },
+            { word: 'creativity', affix: '-ity',  meaning: 'креативность',  emoji: '💡' }
+        ]
+    }
+];
+
+// ─── СУФФИКС-СПРАВОЧНИК ─────────────────────────────────
+const suffixCheatsheet = [
+    { pos: 'noun', emoji: '📦', name: 'СУЩЕСТВИТЕЛЬНОЕ', color: '#6b8e23',
+      suffixes: ['-tion', '-sion', '-ment', '-ness', '-ity', '-ance', '-ence', '-er', '-or', '-ist', '-ism', '-hood', '-ship', '-age'],
+      hint: 'Если нужен предмет/явление — выбирай из этих.' },
+    { pos: 'verb', emoji: '⚡', name: 'ГЛАГОЛ', color: '#b97f44',
+      suffixes: ['-ize', '-ise', '-ify', '-en', '-ate'],
+      hint: 'Если действие — используй эти суффиксы.' },
+    { pos: 'adjective', emoji: '🎨', name: 'ПРИЛАГАТЕЛЬНОЕ', color: '#c49a6c',
+      suffixes: ['-ful', '-less', '-ous', '-ive', '-able', '-ible', '-al', '-ic', '-y', '-ish'],
+      hint: 'Если описываем предмет — это прилагательное.' },
+    { pos: 'adverb', emoji: '💨', name: 'НАРЕЧИЕ', color: '#8b6946',
+      suffixes: ['-ly', '-ward', '-wards', '-wise'],
+      hint: 'Если описываем действие — наречие.' }
+];
+
+// ─── ЦЕПОЧКИ СЛОВООБРАЗОВАНИЯ ───────────────────────────
+const wordChains = [
+    { emoji: '🔗', chain: ['care', 'careful', 'carefully'],              ru: 'забота → осторожный → осторожно' },
+    { emoji: '🔗', chain: ['happy', 'unhappy', 'happiness'],             ru: 'счастливый → несчастный → счастье' },
+    { emoji: '🔗', chain: ['create', 'creative', 'creativity'],          ru: 'создавать → творческий → креативность' },
+    { emoji: '🔗', chain: ['hope', 'hopeful', 'hopeless', 'hopelessly'], ru: 'надежда → полный надежды → безнадёжный → безнадёжно' },
+    { emoji: '🔗', chain: ['use', 'useful', 'useless', 'usefully'],      ru: 'пользоваться → полезный → бесполезный → с пользой' },
+    { emoji: '🔗', chain: ['music', 'musician', 'musical'],              ru: 'музыка → музыкант → музыкальный' },
+    { emoji: '🔗', chain: ['real', 'really', 'reality', 'realize'],      ru: 'реальный → реально → реальность → осознать' }
+];
+
+// ─── КАРТОЧКИ-ФЛИПЫ ─────────────────────────────────────
+const flipCards = [
+    { front: 'un-',           back: 'НЕ / обратное действие',  emoji: '🚫', example: 'unhappy = несчастный' },
+    { front: '-ful',          back: 'ПОЛНЫЙ чего-то',          emoji: '💯', example: 'careful = осторожный' },
+    { front: '-less',         back: 'БЕЗ чего-то',             emoji: '🚫', example: 'careless = безалаберный' },
+    { front: '-ly',           back: 'ОБРАЗ ДЕЙСТВИЯ',          emoji: '🐌', example: 'slowly = медленно' },
+    { front: '-er / -or',     back: 'ТОТ, КТО ДЕЛАЕТ',         emoji: '👤', example: 'teacher = учитель' },
+    { front: 're-',           back: 'СНОВА / ОБРАТНО',         emoji: '🔄', example: 'rewrite = переписать' },
+    { front: '-tion',         back: 'ПРОЦЕСС / РЕЗУЛЬТАТ',     emoji: '📜', example: 'creation = создание' },
+    { front: 'pre-',          back: 'ДО / ЗАРАНЕЕ',            emoji: '⏪', example: 'preview = предпросмотр' },
+    { front: 'mis-',          back: 'НЕПРАВИЛЬНО',             emoji: '⚠️', example: 'mistake = ошибка' },
+    { front: '-ness',         back: 'СОСТОЯНИЕ',               emoji: '💠', example: 'kindness = доброта' }
+];
+
+// ─── ПРАВИЛА-НАПОМИНАНИЯ ────────────────────────────────
+const ruleReminders = [
+    { emoji: '📏', rule: 'После <b>-ful</b>, <b>-ous</b>, <b>-ive</b> — суффикс <b>-ly</b>.',
+      example: 'careful → carefully' },
+    { emoji: '📏', rule: 'Двойная согласная перед <b>-ing</b>, <b>-ed</b>, если ударение на последний слог.',
+      example: 'run → running, stop → stopped' },
+    { emoji: '📏', rule: '<b>-y</b> меняется на <b>-i</b> перед <b>-ly</b>, <b>-ness</b>, <b>-er</b>.',
+      example: 'happy → happily, happiness' },
+    { emoji: '📏', rule: 'Немая <b>e</b> исчезает перед <b>-ing</b>, <b>-able</b>.',
+      example: 'create → creating, use → usable' },
+    { emoji: '📏', rule: '<b>-ic</b> → <b>-ically</b> для наречий.',
+      example: 'automatic → automatically' }
+];
+
+// ─── ТРЕНАЖЁР ───────────────────────────────────────────
+const affixTrainer = [
+    { q: 'Какое слово — существительное?', options: ['create', 'creation', 'creative'], correct: 1, hint: '-ion = сущ.' },
+    { q: 'Какое слово — наречие?',         options: ['quick', 'quickly', 'quickness'],  correct: 1, hint: '-ly = наречие' },
+    { q: 'Что значит <b>unbelievable</b>?', options: ['верящий', 'невероятный', 'вера'], correct: 1, hint: 'un + believe + able' },
+    { q: 'Из чего состоит <b>disagreement</b>?', options: ['dis+agree+ment', 'dis+agreement', 'dis+gree'], correct: 0, hint: 'dis (не) + agree (соглашаться) + ment (сущ.)' },
+    { q: 'Какое слово значит "полезный"?',  options: ['use', 'useful', 'useless'],     correct: 1, hint: '-ful = полный' },
+    { q: 'Какое слово значит "бесполезный"?', options: ['use', 'useful', 'useless'],   correct: 2, hint: '-less = без' },
+    { q: 'Что означает приставка <b>over-</b>?', options: ['под', 'слишком', 'между'], correct: 1, hint: 'overwork = перерабатывать' },
+    { q: 'Где приставка, а не суффикс?',    options: ['kindness', 'unhappy', 'slowly'], correct: 1, hint: 'un- ставится в начало' }
+];
+
+// ─── ТОП-ОШИБКИ ─────────────────────────────────────────
+const commonMistakes = [
+    { wrong: 'I am agree',       right: 'I agree',            why: 'agree — уже глагол, не нужен "am"' },
+    { wrong: 'I have 20 years',  right: "I am 20 years old",  why: 'О возрасте — только be' },
+    { wrong: 'advices',          right: 'advice (неисчисл.)', why: 'advice без -s' },
+    { wrong: 'informations',     right: 'information',        why: 'information неисчисл.' },
+    { wrong: 'I very like',      right: 'I like it very much', why: 'very не ставится перед глаголом' },
+    { wrong: 'on the picture',   right: 'in the picture',     why: 'на картине = in the picture' },
+    { wrong: 'explain me',       right: 'explain to me',      why: 'explain требует to' }
+];
+
+// ─── ОЗВУЧКА-ДРИЛЛ ──────────────────────────────────────
+const speechDrill = [
+    { en: 'unhappy, unhappy, unhappy', ru: 'повтори 3 раза' },
+    { en: 'careful — carefully',       ru: 'различие' },
+    { en: 'rewrite, reread, restart',  ru: 'серия re-' },
+    { en: 'impossible, important',     ru: 'im- перед p/m' },
+    { en: 'beautiful, wonderful',      ru: 'суффикс -ful' },
+    { en: 'happiness, kindness',       ru: '-ness слова' }
+];
+
+// ─── ТОП-100 ПРИМЕРОВ ───────────────────────────────────
+const powerPrefixes = [
+    { affix: 'un-',    ru: 'НЕ',           top5: ['unhappy', 'unfair', 'unknown', 'unable', 'unusual'] },
+    { affix: 're-',    ru: 'СНОВА',        top5: ['rewrite', 'restart', 'reopen', 'rebuild', 'rethink'] },
+    { affix: 'dis-',   ru: 'НЕ',           top5: ['disagree', 'dislike', 'disconnect', 'disappear', 'disorder'] },
+    { affix: 'over-',  ru: 'СЛИШКОМ',      top5: ['overwork', 'overtake', 'overeat', 'overthink', 'overcook'] },
+    { affix: 'under-', ru: 'НЕДОСТАТОЧНО', top5: ['undercook', 'underpay', 'undercount', 'underwork', 'underrate'] },
+    { affix: 'mis-',   ru: 'НЕПРАВИЛЬНО',  top5: ['mistake', 'misspell', 'misread', 'misunderstand', 'misbehave'] },
+    { affix: 'out-',   ru: 'ПРЕВОСХОДИТЬ', top5: ['outrun', 'outsmart', 'outlive', 'outperform', 'outnumber'] },
+    { affix: 'sub-',   ru: 'ПОД',          top5: ['subway', 'submarine', 'subtitle', 'subzero', 'subset'] }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 📖 МИНИ-ИСТОРИИ
+// ═══════════════════════════════════════════════════════════
+const miniStories = [
+    {
+        id: 'morning', emoji: '🌅', title: 'Утро программиста',
+        affixes: ['re-', 'un-', 'pre-'],
+        lines: [
+            { en: 'Tom <b>un</b>locked his laptop.', ru: 'Том разблокировал ноутбук.' },
+            { en: 'He <b>re</b>started the system.', ru: 'Он перезапустил систему.' },
+            { en: 'He <b>pre</b>pared coffee first.', ru: 'Сначала он приготовил кофе.' },
+            { en: 'The task seemed <b>im</b>possible.', ru: 'Задача казалась невозможной.' },
+            { en: 'But Tom was <b>un</b>stoppable.', ru: 'Но Тома было не остановить.' },
+            { en: 'He <b>re</b>wrote the code twice.', ru: 'Он переписал код дважды.' },
+            { en: 'Finally — success! So <b>un</b>believable!', ru: 'Наконец — успех! Невероятно!' }
+        ]
+    },
+    {
+        id: 'weekend', emoji: '🏖️', title: 'Выходные на пляже',
+        affixes: ['over-', 'under-', 'dis-'],
+        lines: [
+            { en: 'We decided to <b>over</b>sleep on Saturday.', ru: 'Мы решили поспать подольше в субботу.' },
+            { en: 'The sun was <b>over</b>whelmingly bright.', ru: 'Солнце было ослепительно ярким.' },
+            { en: 'Anna <b>dis</b>covered a quiet beach.', ru: 'Анна обнаружила тихий пляж.' },
+            { en: 'We <b>under</b>estimated the walk.', ru: 'Мы недооценили прогулку.' },
+            { en: 'But we didn\'t <b>dis</b>agree.', ru: 'Но мы не поссорились.' },
+            { en: 'It was <b>out</b>standing!', ru: 'Это было потрясающе!' }
+        ]
+    },
+    {
+        id: 'exam', emoji: '📝', title: 'Экзамен',
+        affixes: ['mis-', 'pre-', 're-'],
+        lines: [
+            { en: 'I <b>mis</b>read the first question.', ru: 'Я неправильно прочитал первый вопрос.' },
+            { en: 'It was <b>un</b>fair — so tricky!', ru: 'Это было несправедливо — так сложно!' },
+            { en: 'I <b>re</b>read it slowly.', ru: 'Я перечитал его медленно.' },
+            { en: 'Then I <b>re</b>alized my <b>mis</b>take.', ru: 'Тогда я осознал свою ошибку.' },
+            { en: 'I <b>re</b>wrote my answer.', ru: 'Я переписал ответ.' },
+            { en: 'The result was <b>in</b>credible!', ru: 'Результат был невероятным!' }
+        ]
+    },
+    {
+        id: 'sport', emoji: '🏃', title: 'Марафон',
+        affixes: ['out-', 'over-', 'under-'],
+        lines: [
+            { en: 'Ken wanted to <b>out</b>run everyone.', ru: 'Кен хотел обогнать всех.' },
+            { en: 'He <b>over</b>trained the week before.', ru: 'Он перетренировался за неделю до.' },
+            { en: 'His body was <b>under</b> pressure.', ru: 'Его тело было под нагрузкой.' },
+            { en: 'But he didn\'t <b>give up</b>.', ru: 'Но он не сдался.' },
+            { en: 'He finished with an <b>out</b>standing time.', ru: 'Он финишировал с выдающимся временем.' },
+            { en: 'What an <b>un</b>forgettable day!', ru: 'Какой незабываемый день!' }
+        ]
+    },
+    {
+        id: 'cooking', emoji: '🍳', title: 'Ужин для друзей',
+        affixes: ['over-', 'under-', 're-'],
+        lines: [
+            { en: 'Lisa decided to <b>re</b>create a family recipe.', ru: 'Лиза решила воссоздать семейный рецепт.' },
+            { en: 'She <b>over</b>cooked the pasta a bit.', ru: 'Она немного переварила пасту.' },
+            { en: 'The sauce was <b>under</b>salted.', ru: 'Соус был недосолен.' },
+            { en: 'She <b>re</b>heated everything.', ru: 'Она всё подогрела.' },
+            { en: 'Her guests were <b>un</b>believably kind.', ru: 'Её гости были невероятно добры.' },
+            { en: 'It was a <b>dis</b>aster — but a fun one!', ru: 'Это была катастрофа — но весёлая!' }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════════════════
+// ✍️ ДИКТАНТ
+// ═══════════════════════════════════════════════════════════
+const dictationBank = [
+    { level: 'easy',   emoji: '🌱', en: 'I am happy.',                                    ru: 'Я счастлив.',                  affix: '-y' },
+    { level: 'easy',   emoji: '🌱', en: 'She is unhappy.',                                ru: 'Она несчастна.',               affix: 'un-' },
+    { level: 'easy',   emoji: '🌱', en: 'We rewrite the text.',                           ru: 'Мы переписываем текст.',       affix: 're-' },
+    { level: 'easy',   emoji: '🌱', en: 'The boy is careless.',                           ru: 'Мальчик беспечен.',            affix: '-less' },
+    { level: 'easy',   emoji: '🌱', en: 'It is impossible.',                              ru: 'Это невозможно.',              affix: 'im-' },
+    { level: 'easy',   emoji: '🌱', en: 'She is a teacher.',                              ru: 'Она учительница.',             affix: '-er' },
+    { level: 'medium', emoji: '🌿', en: 'They misunderstood the question.',               ru: 'Они неправильно поняли вопрос.', affix: 'mis-' },
+    { level: 'medium', emoji: '🌿', en: 'He overslept and missed the train.',             ru: 'Он проспал и опоздал на поезд.', affix: 'over-' },
+    { level: 'medium', emoji: '🌿', en: 'We underestimated the difficulty.',              ru: 'Мы недооценили сложность.',     affix: 'under-' },
+    { level: 'medium', emoji: '🌿', en: 'The performance was outstanding.',               ru: 'Выступление было выдающимся.',  affix: 'out-' },
+    { level: 'medium', emoji: '🌿', en: 'They disagreed with the proposal.',              ru: 'Они не согласились с предложением.', affix: 'dis-' },
+    { level: 'medium', emoji: '🌿', en: 'Communication is important.',                    ru: 'Общение важно.',                affix: '-tion' },
+    { level: 'hard',   emoji: '🌳', en: 'Unbelievable but the announcement was postponed.', ru: 'Невероятно, но объявление было отложено.', affix: 'un-/post-' },
+    { level: 'hard',   emoji: '🌳', en: 'Her happiness was overwhelming.',                ru: 'Её счастье было всепоглощающим.', affix: '-ness/over-' },
+    { level: 'hard',   emoji: '🌳', en: 'The reorganization improved productivity.',      ru: 'Реорганизация улучшила производительность.', affix: 're-/-tion/-ity' },
+    { level: 'hard',   emoji: '🌳', en: 'Intercultural communication is indispensable.',  ru: 'Межкультурное общение незаменимо.', affix: 'inter-/-able' },
+    { level: 'hard',   emoji: '🌳', en: 'The supervisor\'s decision was irreversible.',   ru: 'Решение руководителя было необратимым.', affix: 'super-/-ible' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 📝 КОНСТРУКТОР ЭССЕ
+// ═══════════════════════════════════════════════════════════
+const essayTemplates = {
+    intro: {
+        emoji: '🎬', title: 'Вступление', color: '#6b8e23',
+        patterns: [
+            { tpl: 'Nowadays, {topic} is a widely discussed issue.',           ru: 'В наши дни {topic} — широко обсуждаемая тема.' },
+            { tpl: 'It is often argued that {topic}.',                         ru: 'Часто утверждают, что {topic}.' },
+            { tpl: 'There is no doubt that {topic} plays an important role.',   ru: 'Несомненно, {topic} играет важную роль.' },
+            { tpl: 'The problem of {topic} has become urgent today.',          ru: 'Проблема {topic} стала актуальной сегодня.' }
+        ]
+    },
+    body1: {
+        emoji: '📌', title: 'Аргумент 1', color: '#b97f44',
+        patterns: [
+            { tpl: 'First and foremost, {arg}.',                    ru: 'Прежде всего, {arg}.' },
+            { tpl: 'The first reason why is simple: {arg}.',        ru: 'Первая причина проста: {arg}.' },
+            { tpl: 'To begin with, it is worth saying that {arg}.', ru: 'Для начала стоит сказать, что {arg}.' }
+        ]
+    },
+    body2: {
+        emoji: '📌', title: 'Аргумент 2', color: '#c49a6c',
+        patterns: [
+            { tpl: 'Secondly, {arg}.',                              ru: 'Во-вторых, {arg}.' },
+            { tpl: 'What is more, {arg}.',                          ru: 'Более того, {arg}.' },
+            { tpl: 'Furthermore, {arg}.',                           ru: 'К тому же, {arg}.' }
+        ]
+    },
+    contrast: {
+        emoji: '⚖️', title: 'Контраргумент', color: '#b93a3a',
+        patterns: [
+            { tpl: 'However, some people believe that {arg}.',      ru: 'Однако некоторые считают, что {arg}.' },
+            { tpl: 'On the other hand, {arg}.',                     ru: 'С другой стороны, {arg}.' },
+            { tpl: 'Nevertheless, {arg}.',                          ru: 'Тем не менее, {arg}.' }
+        ]
+    },
+    conclusion: {
+        emoji: '🏁', title: 'Заключение', color: '#8b6946',
+        patterns: [
+            { tpl: 'In conclusion, I would say that {arg}.',        ru: 'В заключение я бы сказал, что {arg}.' },
+            { tpl: 'To sum up, {arg}.',                             ru: 'Подводя итог, {arg}.' },
+            { tpl: 'All in all, {arg}.',                            ru: 'В целом, {arg}.' }
+        ]
+    }
+};
+
+const essayTopics = [
+    { emoji: '📱', topic: 'social media',         ru: 'социальные сети' },
+    { emoji: '🚴', topic: 'sport and health',     ru: 'спорт и здоровье' },
+    { emoji: '📚', topic: 'online education',     ru: 'онлайн-образование' },
+    { emoji: '🌍', topic: 'climate change',       ru: 'изменение климата' },
+    { emoji: '🎮', topic: 'video games',          ru: 'видеоигры' },
+    { emoji: '💼', topic: 'remote work',          ru: 'удалённая работа' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🗺️ КАРТА АФФИКСОВ
+// ═══════════════════════════════════════════════════════════
+const affixMap = {
+    negate: {
+        emoji: '❌', title: 'ОТРИЦАНИЕ', color: '#b93a3a',
+        desc: 'Приставки, которые говорят "НЕ".',
+        affixes: [
+            { a: 'un-',    hint: 'самый частый', ex: 'unhappy, unknown' },
+            { a: 'in-',    hint: 'латинский',    ex: 'invisible' },
+            { a: 'im-',    hint: 'перед m/p',    ex: 'impossible' },
+            { a: 'il-',    hint: 'перед l',      ex: 'illegal' },
+            { a: 'ir-',    hint: 'перед r',      ex: 'irregular' },
+            { a: 'dis-',   hint: 'разделение',   ex: 'disagree' },
+            { a: 'non-',   hint: 'книжный',      ex: 'nonsense' },
+            { a: 'mis-',   hint: 'ошибочно',     ex: 'mistake' },
+            { a: 'anti-',  hint: 'против',       ex: 'antivirus' },
+            { a: 'counter-', hint: 'против',     ex: 'counterattack' }
+        ]
+    },
+    repeat: {
+        emoji: '🔄', title: 'ПОВТОРЕНИЕ / ВОЗВРАТ', color: '#6b8e23',
+        desc: 'Действие снова или назад.',
+        affixes: [
+            { a: 're-',    hint: 'снова',     ex: 'rewrite' },
+            { a: 'back',   hint: 'назад',     ex: 'come back' },
+            { a: 'over-',  hint: 'переделать', ex: 'overdo' }
+        ]
+    },
+    place: {
+        emoji: '📍', title: 'МЕСТО И НАПРАВЛЕНИЕ', color: '#b97f44',
+        desc: 'Где? Куда? Откуда?',
+        affixes: [
+            { a: 'in-',    hint: 'внутрь',  ex: 'import' },
+            { a: 'ex-',    hint: 'наружу',  ex: 'export' },
+            { a: 'sub-',   hint: 'под',     ex: 'subway' },
+            { a: 'super-', hint: 'над',     ex: 'supervise' },
+            { a: 'inter-', hint: 'между',   ex: 'international' },
+            { a: 'trans-', hint: 'через',   ex: 'transport' },
+            { a: 'circum-',hint: 'вокруг',  ex: 'circumstance' },
+            { a: 'peri-',  hint: 'вокруг',  ex: 'perimeter' },
+            { a: 'out-',   hint: 'наружу',  ex: 'outdoor' },
+            { a: 'under-', hint: 'под',     ex: 'underground' }
+        ]
+    },
+    time: {
+        emoji: '⏰', title: 'ВРЕМЯ', color: '#8b6946',
+        desc: 'До, после, во время.',
+        affixes: [
+            { a: 'pre-',  hint: 'до',       ex: 'preview' },
+            { a: 'post-', hint: 'после',    ex: 'postpone' },
+            { a: 'fore-', hint: 'заранее',  ex: 'forecast' },
+            { a: 'ante-', hint: 'до',       ex: 'antechamber' },
+            { a: 'neo-',  hint: 'новый',    ex: 'neon' }
+        ]
+    },
+    number: {
+        emoji: '🔢', title: 'КОЛИЧЕСТВО', color: '#c49a6c',
+        desc: 'Сколько?',
+        affixes: [
+            { a: 'mono-',  hint: 'один',    ex: 'monopoly' },
+            { a: 'uni-',   hint: 'один',    ex: 'uniform' },
+            { a: 'bi-',    hint: 'два',     ex: 'bicycle' },
+            { a: 'tri-',   hint: 'три',     ex: 'triangle' },
+            { a: 'multi-', hint: 'много',   ex: 'multicultural' },
+            { a: 'poly-',  hint: 'много',   ex: 'polygon' },
+            { a: 'semi-',  hint: 'половина',ex: 'semicircle' },
+            { a: 'omni-',  hint: 'всё',     ex: 'omnipotent' }
+        ]
+    },
+    relation: {
+        emoji: '🤝', title: 'ВЗАИМОДЕЙСТВИЕ', color: '#6b8e23',
+        desc: 'Вместе, против, взаимно.',
+        affixes: [
+            { a: 'co-',    hint: 'вместе',  ex: 'cooperate' },
+            { a: 'con-',   hint: 'вместе',  ex: 'connect' },
+            { a: 'com-',   hint: 'вместе',  ex: 'combine' },
+            { a: 'anti-',  hint: 'против',  ex: 'antisocial' },
+            { a: 'pro-',   hint: 'за',      ex: 'proactive' },
+            { a: 'auto-',  hint: 'сам',     ex: 'automatic' }
+        ]
+    }
+};
+
+// ═══════════════════════════════════════════════════════════
+// 👨‍👩‍👧 СЕМЬИ СЛОВ
+// ═══════════════════════════════════════════════════════════
+const wordFamilies = [
+    {
+        root: 'act', emoji: '🎬', meaning: 'действовать',
+        members: [
+            { word: 'act',         pos: 'verb',      ru: 'действовать',   affix: '—' },
+            { word: 'action',      pos: 'noun',      ru: 'действие',      affix: '-ion' },
+            { word: 'active',      pos: 'adjective', ru: 'активный',      affix: '-ive' },
+            { word: 'actively',    pos: 'adverb',    ru: 'активно',       affix: '-ly' },
+            { word: 'activity',    pos: 'noun',      ru: 'деятельность',  affix: '-ity' },
+            { word: 'actor',       pos: 'noun',      ru: 'актёр',         affix: '-or' },
+            { word: 'react',       pos: 'verb',      ru: 'реагировать',   affix: 're-' },
+            { word: 'reaction',    pos: 'noun',      ru: 'реакция',       affix: 're- + -ion' }
+        ]
+    },
+    {
+        root: 'beauty', emoji: '🌸', meaning: 'красота',
+        members: [
+            { word: 'beauty',      pos: 'noun',      ru: 'красота',       affix: '—' },
+            { word: 'beautiful',   pos: 'adjective', ru: 'красивый',      affix: '-ful' },
+            { word: 'beautifully', pos: 'adverb',    ru: 'красиво',       affix: '-ful + -ly' },
+            { word: 'beautify',    pos: 'verb',      ru: 'украшать',      affix: '-ify' },
+            { word: 'beautician',  pos: 'noun',      ru: 'косметолог',    affix: '-ician' }
+        ]
+    },
+    {
+        root: 'nation', emoji: '🌍', meaning: 'нация',
+        members: [
+            { word: 'nation',         pos: 'noun',      ru: 'нация',           affix: '—' },
+            { word: 'national',       pos: 'adjective', ru: 'национальный',    affix: '-al' },
+            { word: 'nationally',     pos: 'adverb',    ru: 'по всей стране',  affix: '-al + -ly' },
+            { word: 'nationality',    pos: 'noun',      ru: 'национальность',  affix: '-ality' },
+            { word: 'international',  pos: 'adjective', ru: 'международный',   affix: 'inter-' },
+            { word: 'nationalize',    pos: 'verb',      ru: 'национализировать', affix: '-ize' }
+        ]
+    },
+    {
+        root: 'produce', emoji: '🏭', meaning: 'производить',
+        members: [
+            { word: 'produce',     pos: 'verb',      ru: 'производить',  affix: '—' },
+            { word: 'product',     pos: 'noun',      ru: 'продукт',      affix: '-t' },
+            { word: 'production',  pos: 'noun',      ru: 'производство', affix: '-ion' },
+            { word: 'productive',  pos: 'adjective', ru: 'продуктивный', affix: '-ive' },
+            { word: 'productivity',pos: 'noun',      ru: 'производительность', affix: '-ivity' },
+            { word: 'producer',    pos: 'noun',      ru: 'производитель',affix: '-er' },
+            { word: 'reproduce',   pos: 'verb',      ru: 'воспроизводить', affix: 're-' }
+        ]
+    },
+    {
+        root: 'move', emoji: '🏃', meaning: 'двигать',
+        members: [
+            { word: 'move',        pos: 'verb',      ru: 'двигать',       affix: '—' },
+            { word: 'movement',    pos: 'noun',      ru: 'движение',      affix: '-ment' },
+            { word: 'movable',     pos: 'adjective', ru: 'подвижный',     affix: '-able' },
+            { word: 'remove',      pos: 'verb',      ru: 'убирать',       affix: 're-' },
+            { word: 'removal',     pos: 'noun',      ru: 'удаление',      affix: 're- + -al' },
+            { word: 'unmoved',     pos: 'adjective', ru: 'неподвижный',   affix: 'un-' },
+            { word: 'immovable',   pos: 'adjective', ru: 'недвижимый',    affix: 'im- + -able' }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════════════════
+// ⚖️ АНТОНИМЫ
+// ═══════════════════════════════════════════════════════════
+const oppositeAffixes = [
+    { pair: ['un-', '-'],            emoji: '⚖️', ex1: 'happy',          ex2: 'unhappy',          ru: 'счастливый → несчастный' },
+    { pair: ['-ful', '-less'],       emoji: '⚖️', ex1: 'careful',        ex2: 'careless',         ru: 'осторожный → беззаботный' },
+    { pair: ['in-', 'out-'],         emoji: '⚖️', ex1: 'inside',         ex2: 'outside',          ru: 'внутри → снаружи' },
+    { pair: ['up-', 'down-'],        emoji: '⚖️', ex1: 'upstairs',       ex2: 'downstairs',       ru: 'наверх → вниз' },
+    { pair: ['over-', 'under-'],     emoji: '⚖️', ex1: 'overcook',       ex2: 'undercook',        ru: 'переварить → недоварить' },
+    { pair: ['pre-', 'post-'],       emoji: '⚖️', ex1: 'prewar',         ex2: 'postwar',          ru: 'довоенный → послевоенный' },
+    { pair: ['macro-', 'micro-'],    emoji: '⚖️', ex1: 'macroeconomics', ex2: 'microeconomics',   ru: 'макроэкономика → микроэкономика' },
+    { pair: ['maxi-', 'mini-'],      emoji: '⚖️', ex1: 'maxiskirt',      ex2: 'miniskirt',        ru: 'макси → мини' },
+    { pair: ['hyper-', 'hypo-'],     emoji: '⚖️', ex1: 'hypertension',   ex2: 'hypotension',      ru: 'гипертония → гипотония' },
+    { pair: ['super-', 'sub-'],      emoji: '⚖️', ex1: 'superstructure', ex2: 'substructure',     ru: 'надстройка → подструктура' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🔀 КОНВЕРТЕР ЧАСТЕЙ РЕЧИ
+// ═══════════════════════════════════════════════════════════
+const converterRules = [
+    { from: 'noun',  to: 'verb',      suffix: '-ize',  emoji: '⚡', ex1: 'modern',   ex2: 'modernize' },
+    { from: 'noun',  to: 'adjective', suffix: '-al',   emoji: '🎨', ex1: 'nation',   ex2: 'national' },
+    { from: 'verb',  to: 'noun',      suffix: '-tion', emoji: '📦', ex1: 'inform',   ex2: 'information' },
+    { from: 'verb',  to: 'noun',      suffix: '-ment', emoji: '📦', ex1: 'develop',  ex2: 'development' },
+    { from: 'adj',   to: 'adverb',    suffix: '-ly',   emoji: '💨', ex1: 'quick',    ex2: 'quickly' },
+    { from: 'adj',   to: 'noun',      suffix: '-ness', emoji: '💠', ex1: 'happy',    ex2: 'happiness' },
+    { from: 'adj',   to: 'verb',      suffix: '-en',   emoji: '⚡', ex1: 'wide',     ex2: 'widen' },
+    { from: 'verb',  to: 'adjective', suffix: '-ive',  emoji: '🎨', ex1: 'create',   ex2: 'creative' },
+    { from: 'verb',  to: 'adjective', suffix: '-able', emoji: '🎨', ex1: 'read',     ex2: 'readable' },
+    { from: 'noun',  to: 'verb',      suffix: '-ify',  emoji: '⚡', ex1: 'beauty',   ex2: 'beautify' }
+];
+
+const converterExercises = [
+    { word: 'happy',   from: 'adj',  targets: [{ to: 'adverb', correct: 'happily',   wrong: ['happyly', 'happiley'] }, { to: 'noun', correct: 'happiness', wrong: ['happyness', 'happines'] }] },
+    { word: 'careful', from: 'adj',  targets: [{ to: 'adverb', correct: 'carefully', wrong: ['carefuly', 'carefulley'] }] },
+    { word: 'quick',   from: 'adj',  targets: [{ to: 'adverb', correct: 'quickly',   wrong: ['quickely', 'quikly'] }] },
+    { word: 'nation',  from: 'noun', targets: [{ to: 'adjective', correct: 'national', wrong: ['nationable', 'nationic'] }] },
+    { word: 'beauty',  from: 'noun', targets: [{ to: 'verb', correct: 'beautify', wrong: ['beautyize', 'beauten'] }] },
+    { word: 'inform',  from: 'verb', targets: [{ to: 'noun', correct: 'information', wrong: ['informment', 'informion'] }] }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🧩 МИНИ-КВИЗЫ
+// ═══════════════════════════════════════════════════════════
+const miniQuizzes = [
+    {
+        id: 'prefixes-basic', emoji: '🧩', title: 'Приставки: базовый',
+        questions: [
+            { q: 'Что означает <b>re-</b>?', options: ['снова', 'против', 'под'], correct: 0, hint: 'rewrite = переписать' },
+            { q: 'Что означает <b>mis-</b>?', options: ['много', 'неправильно', 'между'], correct: 1, hint: 'mistake = ошибка' },
+            { q: 'Что означает <b>un-</b>?', options: ['очень', 'не / обратное действие', 'до'], correct: 1, hint: 'unhappy' }
+        ]
+    },
+    {
+        id: 'suffixes-basic', emoji: '🧩', title: 'Суффиксы: базовый',
+        questions: [
+            { q: 'Суффикс <b>-er</b> создаёт...', options: ['наречие', 'того, кто делает', 'прилагательное'], correct: 1, hint: 'teacher, worker' },
+            { q: 'Суффикс <b>-ly</b> создаёт...', options: ['наречие', 'существительное', 'глагол'], correct: 0, hint: 'quickly' },
+            { q: 'Суффикс <b>-ful</b> означает...', options: ['без', 'полный', 'много'], correct: 1, hint: 'beautiful, useful' }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 💬 МИНИ-ДИАЛОГИ
+// ═══════════════════════════════════════════════════════════
+const miniDialogues = [
+    {
+        emoji: '⏪', affix: 'pre-', title: 'Планируем заранее',
+        lines: [
+            { who: 'A', en: "Let's <b>pre</b>pare dinner!", ru: 'Давай приготовим ужин!' },
+            { who: 'B', en: 'OK, I <b>pre</b>fer pasta.', ru: 'Ок, я предпочитаю пасту.' },
+            { who: 'A', en: 'Can you <b>pre</b>dict the time?', ru: 'Можешь предсказать время?' }
+        ]
+    },
+    {
+        emoji: '🔄', affix: 're-', title: 'Повторить ещё раз',
+        lines: [
+            { who: 'A', en: 'Please <b>re</b>peat after me.', ru: 'Повтори за мной.' },
+            { who: 'B', en: 'OK. And then?', ru: 'Ок. А потом?' },
+            { who: 'A', en: '<b>Re</b>write the sentence.', ru: 'Перепиши предложение.' }
+        ]
+    }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🎨 МНЕМОТЕХНИКА
+// ═══════════════════════════════════════════════════════════
+const memoryHooks = [
+    { affix: 're-',   emoji: '🔁', hint: 'кнопка "replay" ▶️🔁 на плеере' },
+    { affix: 'un-',   emoji: '🚫', hint: 'знак "запрещено" на двери' },
+    { affix: 'dis-',  emoji: '💔', hint: 'разбитое сердце = dis' },
+    { affix: 'pre-',  emoji: '📅', hint: 'дата "до" в календаре' },
+    { affix: '-er',   emoji: '🧑‍🏫', hint: 'человек с профессией' },
+    { affix: '-ly',   emoji: '🐌', hint: 'slowly = медленно, как улитка' },
+    { affix: '-ful',  emoji: '🍷', hint: 'полный бокал = -ful' },
+    { affix: '-less', emoji: '🥛', hint: 'пустой стакан = -less' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// ⚡ БЫСТРЫЕ ПРАВИЛА
+// ═══════════════════════════════════════════════════════════
+const quickTips = [
+    { emoji: '💡', tip: '<b>un-</b> ставим перед прилагательными: unhappy, unknown, unfair.' },
+    { emoji: '💡', tip: '<b>im-</b> — только перед m, p: impossible, immoral.' },
+    { emoji: '💡', tip: '<b>-er</b> — человек, <b>-ing</b> — процесс, <b>-tion</b> — результат.' },
+    { emoji: '💡', tip: 'make = создать новое; do = выполнить работу.' },
+    { emoji: '💡', tip: 'Если действие повторяется — <b>re-</b>.' },
+    { emoji: '💡', tip: '-ly = "как?" → наречие. quick → quickly.' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 📅 СЛОВО ДНЯ
+// ═══════════════════════════════════════════════════════════
+const wordOfTheDay = [
+    { word: 'outstanding', emoji: '⭐', affix: 'out-', why: 'Топ-1000 для IELTS', tip: 'Out + standing = стоит выше всех.' },
+    { word: 'supervisor', emoji: '👔', affix: 'super-', why: 'Часто в резюме', tip: 'Super + visor = тот, кто смотрит сверху.' },
+    { word: 'unbelievable', emoji: '🤯', affix: 'un-', why: 'Эмоциональное восклицание', tip: 'Un + believe + able.' }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🗺️ МАРШРУТ ОБУЧЕНИЯ
+// ═══════════════════════════════════════════════════════════
+const learningPath = [
+    { step: 1, emoji: '🌱', title: 'Основные приставки', ids: ['un','re','dis','pre','mis'] },
+    { step: 2, emoji: '⚙️', title: 'Основные суффиксы', ids: ['er','ing','ly','ed','ful','less'] },
+    { step: 3, emoji: '🎩', title: 'Волшебные глаголы', ids: ['get','have','take','make','go','come','look'] },
+    { step: 4, emoji: '🌳', title: 'Корни-конструкторы', ids: ['port','ject','dict','spect','vis'] },
+    { step: 5, emoji: '🧠', title: 'Не путай!', ids: ['make-do','say-tell'] }
+];
+
+// ═══════════════════════════════════════════════════════════
+// 🎓 МЕГА-НАВИГАЦИЯ
+// ═══════════════════════════════════════════════════════════
+const MEGA_NAV = [
+    { id: 'all',        emoji: '📚', label: 'Все' },
+    { id: 'builder',    emoji: '🏗️', label: 'Конструктор слов' },
+    { id: 'cheatsheet', emoji: '📋', label: 'Справочник' },
+    { id: 'chains',     emoji: '🔗', label: 'Цепочки' },
+    { id: 'flipcards',  emoji: '🎴', label: 'Карточки' },
+    { id: 'rules',      emoji: '📏', label: 'Правила' },
+    { id: 'trainer',    emoji: '🎯', label: 'Тренажёр' },
+    { id: 'mistakes',   emoji: '🚫', label: 'Ошибки' },
+    { id: 'drill',      emoji: '🔊', label: 'Озвучка' },
+    { id: 'power',      emoji: '💪', label: 'Топ-100' },
+    { id: 'stories',    emoji: '📖', label: 'Мини-истории' },
+    { id: 'dictation',  emoji: '✍️', label: 'Диктант' },
+    { id: 'essayb',     emoji: '📝', label: 'Конструктор эссе' },
+    { id: 'affixmap',   emoji: '🗺️', label: 'Карта аффиксов' },
+    { id: 'families',   emoji: '👨‍👩‍👧', label: 'Семьи слов' },
+    { id: 'opposites',  emoji: '⚖️', label: 'Антонимы' },
+    { id: 'converter',  emoji: '🔀', label: 'Конвертер' },
+    { id: 'quizzes',    emoji: '🧩', label: 'Квизы' },
+    { id: 'dialogues',  emoji: '💬', label: 'Диалоги' },
+    { id: 'hooks',      emoji: '🎨', label: 'Мнемо' },
+    { id: 'quicktips',  emoji: '⚡', label: 'Быстро' },
+    { id: 'wordofday',  emoji: '📅', label: 'Слово дня' },
+    { id: 'path',       emoji: '🗺️', label: 'Маршрут' }
+];
+// ═══════════════════════════════════════════════════════════
+// 🎓 РЕНДЕР-ФУНКЦИИ (все модули)
+// ═══════════════════════════════════════════════════════════
+
+let flipCardState = {};
+let miniQuizState = {};
+let affixTrainerState = {};
+let converterState = {};
+let dictationState = { level: 'easy', current: 0, score: 0, answered: false, userAnswer: '' };
+let essayState = { topic: (typeof essayTopics !== 'undefined' ? essayTopics[0] : null), parts: {}, activePart: 'intro' };
+
+// ─── МЕГА-НАВИГАЦИЯ ─────────────────────────────────────
+function renderMegaNav() {
+    const active = MEGA_NAV.find(n => n.id === currentPrefixType);
+    let html = `<div class="memory-hack" style="background:#e8f0d4;border-left-color:#6b8e23;margin-bottom:14px;padding:14px;">
+        <div style="font-weight:bold;margin-bottom:10px;color:#3d2b1a;">🎓 Мега-пак изучения ${active && active.id !== 'all' ? '· <span style="color:#6b8e23;">' + active.label + '</span>' : ''}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">`;
+    MEGA_NAV.forEach(n => {
+        const isAct = n.id === currentPrefixType;
+        html += `<button onclick="switchMegaTab('${n.id}')" style="background:${isAct ? '#6b8e23' : '#fff6e8'};color:${isAct ? 'white' : '#3d2b1a'};border:1px solid #c49a6c;padding:6px 12px;border-radius:20px;font-size:.78rem;cursor:pointer;font-family:Georgia,serif;font-weight:${isAct ? 'bold' : 'normal'};">${n.emoji} ${n.label}</button>`;
+    });
+    html += `</div></div>`;
+    return html;
+}
+function switchMegaTab(id) {
+    currentPrefixType = id;
+    const ptf = document.getElementById('prefixTypeFilters');
+    if (ptf) ptf.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    renderPrefixes();
+}
+
+// ─── КОНСТРУКТОР СЛОВ ───────────────────────────────────
+function renderWordBuilder() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🏗️ <strong>КОНСТРУКТОР СЛОВ</strong><br>
+        <span style="font-size:.85rem;">Одно слово → целое семейство. Учи корни и аффиксы вместе!</span>
+    </div>`;
+    wordBuilderKit.forEach(kit => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #c49a6c;margin-bottom:18px;">
+            <div class="tense-header"><div class="tense-emoji">${kit.emoji}</div>
+                <div><div class="tense-name" style="font-family:monospace;">${kit.base}</div>
+                <div style="font-size:.85rem;color:#8b6946;">${kit.ru}</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px;">`;
+        kit.forms.forEach(f => {
+            const clean = f.word.replace(/'/g, "\\'");
+            html += `<div onclick="speakText('${clean}')" style="background:#fff6e8;border-radius:16px;padding:10px 12px;cursor:pointer;border-left:4px solid #b97f44;display:flex;align-items:center;gap:8px;">
+                <span style="font-size:1.5rem;">${f.emoji}</span>
+                <div style="flex:1;">
+                    <div style="font-weight:bold;color:#3d2b1a;font-size:.95rem;">${f.word}</div>
+                    <div style="font-size:.7rem;color:#8b6946;font-family:monospace;">${f.affix}</div>
+                    <div style="font-size:.75rem;color:#5f451f;">${f.meaning}</div>
+                </div>
+            </div>`;
+        });
+        html += `</div></div>`;
+    });
+    html += `<div class="memory-hack" style="background:#c8e6a0;border-left-color:#6b8e23;text-align:center;font-size:.9rem;">
+        💡 Знаешь один корень — получаешь 4-5 слов!
+    </div>`;
+    return html;
+}
+
+// ─── СПРАВОЧНИК СУФФИКСОВ ──────────────────────────────
+function renderSuffixCheat() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        📋 <strong>СПРАВОЧНИК СУФФИКСОВ</strong><br>
+        <span style="font-size:.85rem;">Определи часть речи — выбери нужный суффикс.</span>
+    </div>`;
+    suffixCheatsheet.forEach(g => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${g.color};margin-bottom:14px;">
+            <div class="tense-header"><div class="tense-emoji">${g.emoji}</div>
+                <div><div class="tense-name">${g.name}</div>
+                <div style="font-size:.8rem;color:#8b6946;">${g.hint}</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">`;
+        g.suffixes.forEach(s => {
+            html += `<span onclick="speakText('${s}')" style="background:${g.color};color:white;padding:6px 14px;border-radius:20px;font-family:monospace;font-weight:bold;cursor:pointer;">${s}</span>`;
+        });
+        html += `</div></div>`;
+    });
+    return html;
+}
+
+// ─── ЦЕПОЧКИ ───────────────────────────────────────────
+function renderWordChains() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🔗 <strong>ЦЕПОЧКИ СЛОВ</strong><br>
+        <span style="font-size:.85rem;">Одно ядро → целое дерево. Читай слева-направо!</span>
+    </div>`;
+    wordChains.forEach(c => {
+        const clean = c.chain.join(', ').replace(/'/g, "\\'");
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:14px;">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:10px;">`;
+        c.chain.forEach((w, i) => {
+            html += `<span onclick="speakText('${w}')" style="background:#fff6e8;padding:8px 14px;border-radius:16px;font-weight:bold;color:#3d2b1a;cursor:pointer;border:1px solid #c49a6c;">${w}</span>`;
+            if (i < c.chain.length - 1) html += `<span style="color:#8b6946;font-size:1.2rem;">→</span>`;
+        });
+        html += `</div>
+            <div style="font-size:.9rem;color:#5f451f;padding:8px 12px;background:#ecdca8;border-radius:14px;">🇷🇺 ${c.ru}</div>
+            <div style="text-align:center;margin-top:10px;">
+                <button class="speak-btn-small" onclick="speakText('${clean}')">🔊 Озвучить цепочку</button>
+            </div>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── КАРТОЧКИ-ФЛИПЫ ─────────────────────────────────────
+function renderFlipCards() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🎴 <strong>КАРТОЧКИ-ФЛИПЫ</strong><br>
+        <span style="font-size:.85rem;">Нажми на карточку, чтобы перевернуть. Проверь себя!</span>
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">`;
+    flipCards.forEach((c, i) => {
+        const flipped = flipCardState['fc_' + i];
+        const cleanQ = c.front.replace(/'/g, "\\'");
+        const cleanA = c.back.replace(/'/g, "\\'");
+        html += `<div onclick="toggleFlipCard('fc_${i}')" style="cursor:pointer;min-height:150px;">
+            <div style="background:${flipped ? '#c8e6a0' : '#fff6e8'};border-radius:20px;padding:18px;border:2px solid ${flipped ? '#6b8e23' : '#c49a6c'};height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+                <div style="font-size:2.4rem;margin-bottom:8px;">${flipped ? '💡' : c.emoji}</div>
+                <div style="font-family:monospace;font-size:1.4rem;font-weight:bold;color:#3d2b1a;margin-bottom:6px;">${c.front}</div>
+                ${flipped ? `
+                    <div style="font-size:.95rem;color:#2d4a0f;font-weight:bold;margin-top:6px;padding-top:10px;border-top:1px dashed #6b8e23;">${c.back}</div>
+                    <div style="font-size:.8rem;color:#5f451f;margin-top:8px;font-style:italic;">📖 ${c.example}</div>
+                    <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanQ} ${cleanA}')" style="margin-top:10px;font-size:.75rem;">🔊</button>
+                ` : `<div style="font-size:.8rem;color:#8b6946;margin-top:10px;">👆 нажми</div>`}
+            </div>
+        </div>`;
+    });
+    html += `</div>`;
+    html += `<div style="text-align:center;margin-top:16px;">
+        <button onclick="flipCardState={};renderPrefixes();" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Перемешать заново</button>
+    </div>`;
+    return html;
+}
+function toggleFlipCard(key) { flipCardState[key] = !flipCardState[key]; renderPrefixes(); }
+
+// ─── ПРАВИЛА ───────────────────────────────────────────
+function renderRuleReminders() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        📏 <strong>ПРАВИЛА-НАПОМИНАНИЯ</strong>
+    </div>`;
+    ruleReminders.forEach(r => {
+        html += `<div class="phrase-card" style="cursor:default;border-left:5px solid #b97f44;">
+            <div style="flex:1;">
+                <div style="font-size:.95rem;font-weight:bold;color:#3d2b1a;line-height:1.5;">${r.emoji} ${r.rule}</div>
+                <div style="font-size:.85rem;color:#8b6946;margin-top:6px;font-family:monospace;background:#ecdca8;padding:6px 10px;border-radius:12px;display:inline-block;">${r.example}</div>
+            </div>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── ТРЕНАЖЁР ──────────────────────────────────────────
+function renderAffixTrainer() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🎯 <strong>ТРЕНАЖЁР</strong>
+    </div>`;
+    let correct = 0, answered = 0;
+    Object.values(affixTrainerState).forEach(s => { if (s.chosen !== undefined) { answered++; if (s.correct) correct++; } });
+    if (answered > 0) {
+        const pct = Math.round((correct / answered) * 100);
+        html += `<div style="background:#ecdca8;border-radius:40px;padding:10px 16px;text-align:center;margin-bottom:14px;font-weight:bold;color:#3d2b1a;">
+            ✅ ${correct}/${answered} (${pct}%) · всего ${affixTrainer.length}
+        </div>`;
+    }
+    affixTrainer.forEach((q, i) => {
+        const st = affixTrainerState['at_' + i] || {};
+        const chosen = st.chosen;
+        const ans = chosen !== undefined;
+        let bc = ans ? (st.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c';
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${bc};margin-bottom:12px;">
+            <div style="font-weight:bold;color:#3d2b1a;margin-bottom:10px;">${i+1}. ${q.q}</div>`;
+        q.options.forEach((opt, oi) => {
+            let bg = '#f2e5ca';
+            if (ans) { if (oi === q.correct) bg = '#c8e6a0'; else if (oi === chosen) bg = '#f3b4b4'; }
+            const mark = ans ? (oi === q.correct ? '✅ ' : (oi === chosen ? '❌ ' : '')) : '';
+            const clean = opt.replace(/'/g, "\\'");
+            html += `<div onclick="${ans ? '' : `answerAffixTrainer('at_${i}',${oi},${q.correct})`}" style="background:${bg};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${ans ? 'default' : 'pointer'};display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                <span>${mark}${opt}</span>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')" style="font-size:.7rem;padding:4px 10px;">🔈</button>
+            </div>`;
+        });
+        if (ans) html += `<div class="memory-hack" style="margin:10px 0 0;font-size:.85rem;">💡 ${q.hint}</div>`;
+        html += `</div>`;
+    });
+    html += `<div style="text-align:center;margin-top:16px;">
+        <button onclick="affixTrainerState={};renderPrefixes();" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Пройти заново</button>
+    </div>`;
+    return html;
+}
+function answerAffixTrainer(key, chosen, correct) {
+    affixTrainerState[key] = { chosen, correct: chosen === correct };
+    renderPrefixes();
+}
+
+// ─── ТОП-ОШИБКИ ────────────────────────────────────────
+function renderCommonMistakes() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:14px;">
+        🚫 <strong>ТОП-ОШИБКИ РУССКОЯЗЫЧНЫХ</strong>
+    </div>`;
+    commonMistakes.forEach(m => {
+        const cleanR = m.right.replace(/'/g, "\\'");
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b93a3a;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;">
+                <div style="background:#f3b4b4;padding:12px;border-radius:16px;text-align:center;">
+                    <div style="font-size:.75rem;color:#5a0f0f;font-weight:bold;margin-bottom:4px;">❌ НЕПРАВИЛЬНО</div>
+                    <div style="font-weight:bold;color:#5a0f0f;">${m.wrong}</div>
+                </div>
+                <div style="font-size:1.3rem;">→</div>
+                <div onclick="speakText('${cleanR}')" style="background:#c8e6a0;padding:12px;border-radius:16px;text-align:center;cursor:pointer;">
+                    <div style="font-size:.75rem;color:#2d4a0f;font-weight:bold;margin-bottom:4px;">✅ ПРАВИЛЬНО</div>
+                    <div style="font-weight:bold;color:#2d4a0f;">${m.right}</div>
+                </div>
+            </div>
+            <div style="font-size:.85rem;color:#5f451f;margin-top:10px;padding:8px 12px;background:#ecdca8;border-radius:12px;">
+                💡 <b>Почему:</b> ${m.why}
+            </div>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── ОЗВУЧКА-ДРИЛЛ ────────────────────────────────────
+function renderSpeechDrill() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🔊 <strong>ТРЕНИРОВКА ПРОИЗНОШЕНИЯ</strong>
+    </div>`;
+    speechDrill.forEach(d => {
+        const clean = d.en.replace(/'/g, "\\'");
+        html += `<div class="phrase-card" onclick="speakText('${clean}')" style="border-left:5px solid #b97f44;">
+            <div style="flex:1;">
+                <div style="font-family:monospace;font-size:1.1rem;font-weight:bold;color:#3d2b1a;">${d.en}</div>
+                <div style="font-size:.8rem;color:#8b6946;margin-top:4px;">🇷🇺 ${d.ru}</div>
+            </div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── ТОП-100 ───────────────────────────────────────────
+function renderPowerPrefixes() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        💪 <strong>ТОП-100 ПРИМЕРОВ</strong>
+    </div>`;
+    powerPrefixes.forEach(p => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:12px;">
+            <div class="tense-header">
+                <div class="tense-emoji">💪</div>
+                <div><div class="tense-name" style="font-family:monospace;">${p.affix}</div>
+                <div style="font-size:.8rem;color:#8b6946;">${p.ru}</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">`;
+        p.top5.forEach(w => {
+            const clean = w.replace(/'/g, "\\'");
+            html += `<span onclick="speakText('${clean}')" style="background:#fff6e8;padding:8px 14px;border-radius:20px;font-weight:bold;color:#3d2b1a;cursor:pointer;border:1px solid #c49a6c;">🔊 ${w}</span>`;
+        });
+        html += `</div></div>`;
+    });
+    return html;
+}
+
+// ─── МИНИ-ИСТОРИИ ──────────────────────────────────────
+function renderMiniStories() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        📖 <strong>МИНИ-ИСТОРИИ</strong><br>
+        <span style="font-size:.85rem;">Аффиксы в живом контексте.</span>
+    </div>`;
+    miniStories.forEach(story => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #c49a6c;margin-bottom:18px;">
+            <div class="tense-header">
+                <div class="tense-emoji">${story.emoji}</div>
+                <div><div class="tense-name">${story.title}</div>
+                <div style="font-size:.8rem;color:#8b6946;font-family:monospace;">${story.affixes.join(' · ')}</div></div>
+            </div>`;
+        story.lines.forEach(l => {
+            const clean = l.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+            html += `<div class="tense-example" onclick="speakText('${clean}')">
+                <div class="tense-example-text">
+                    <div class="tense-example-eng">${l.en}</div>
+                    <div class="tense-example-ru">${l.ru}</div>
+                </div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+            </div>`;
+        });
+        const full = story.lines.map(l => l.en.replace(/<[^>]*>/g,'')).join(' ').replace(/'/g,"\\'");
+        html += `<div style="text-align:center;margin-top:12px;">
+            <button class="speak-btn-small" onclick="speakText('${full}')" style="font-size:.9rem;padding:10px 22px;">🔊 Прослушать всю историю</button>
+        </div></div>`;
+    });
+    return html;
+}
+
+// ─── ДИКТАНТ ───────────────────────────────────────────
+function renderDictation() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        ✍️ <strong>ДИКТАНТ</strong><br>
+        <span style="font-size:.85rem;">Слушай → пиши → проверь.</span>
+    </div>`;
+    html += `<div class="filters" style="margin-bottom:14px;">
+        <button class="filter-btn ${dictationState.level === 'easy'   ? 'active' : ''}" onclick="setDictLevel('easy')">🌱 Лёгкий</button>
+        <button class="filter-btn ${dictationState.level === 'medium' ? 'active' : ''}" onclick="setDictLevel('medium')">🌿 Средний</button>
+        <button class="filter-btn ${dictationState.level === 'hard'   ? 'active' : ''}" onclick="setDictLevel('hard')">🌳 Сложный</button>
+    </div>`;
+    const items = dictationBank.filter(d => d.level === dictationState.level);
+    if (!items.length) { html += '<div style="text-align:center;padding:30px;">Нет заданий</div>'; return html; }
+    if (dictationState.current >= items.length) {
+        html += `<div class="tense-card" style="text-align:center;padding:30px;">
+            <div style="font-size:4rem;margin-bottom:10px;">🏆</div>
+            <div style="font-size:1.4rem;font-weight:bold;color:#3d2b1a;">Диктант завершён!</div>
+            <div style="font-size:1.1rem;color:#6b8e23;margin:14px 0;">Правильно: ${dictationState.score} из ${items.length}</div>
+            <button onclick="resetDictation()" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Начать заново</button>
+        </div>`;
+        return html;
+    }
+    const item = items[dictationState.current];
+    const clean = item.en.replace(/'/g, "\\'");
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;">
+        <div style="text-align:center;margin-bottom:14px;">
+            <span style="background:#ecdca8;padding:6px 14px;border-radius:20px;font-size:.85rem;font-weight:bold;">Задание ${dictationState.current + 1} / ${items.length}</span>
+            <span style="margin-left:10px;background:#6b8e23;color:white;padding:6px 14px;border-radius:20px;font-size:.85rem;">⭐ ${dictationState.score}</span>
+        </div>
+        <div style="text-align:center;font-size:3rem;margin-bottom:10px;">${item.emoji}</div>
+        <div style="text-align:center;margin-bottom:14px;">
+            <button onclick="speakText('${clean}')" style="background:#c49a6c;border:none;padding:14px 28px;border-radius:40px;color:white;font-size:1.05rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔊 Прослушать</button>
+            <button onclick="speakSlow('${clean}')" style="background:#8b6946;border:none;padding:14px 20px;border-radius:40px;color:white;font-size:.95rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;margin-left:6px;">🐢 Медленно</button>
+        </div>
+        <div style="text-align:center;font-size:.85rem;color:#8b6946;margin-bottom:8px;">🇷🇺 ${item.ru}</div>
+        <input type="text" id="dictationInput" value="${dictationState.userAnswer.replace(/"/g,'&quot;')}" placeholder="Введите услышанное..." style="width:100%;padding:14px 18px;font-size:1.05rem;border:2px solid #e1cba1;border-radius:20px;outline:none;background:#fff6e8;font-family:Georgia,serif;" oninput="dictationState.userAnswer=this.value" onkeydown="if(event.key==='Enter')checkDictation()">
+        <div style="text-align:center;margin-top:14px;">
+            <button onclick="checkDictation()" style="background:#6b8e23;border:none;padding:12px 28px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">✅ Проверить</button>
+        </div>
+        <div id="dictationFeedback"></div>
+    </div>`;
+    return html;
+}
+function setDictLevel(lvl) { dictationState = { level: lvl, current: 0, score: 0, answered: false, userAnswer: '' }; renderPrefixes(); }
+function resetDictation() { dictationState = { ...dictationState, current: 0, score: 0, answered: false, userAnswer: '' }; renderPrefixes(); }
+function checkDictation() {
+    const items = dictationBank.filter(d => d.level === dictationState.level);
+    const item = items[dictationState.current];
+    const user = (dictationState.userAnswer || '').trim().toLowerCase().replace(/[.,!?;]/g, '').replace(/\s+/g, ' ');
+    const correct = item.en.toLowerCase().replace(/[.,!?;]/g, '').replace(/\s+/g, ' ');
+    const ok = user === correct;
+    if (ok) dictationState.score++;
+    const fb = document.getElementById('dictationFeedback');
+    if (fb) {
+        fb.innerHTML = `<div style="margin-top:16px;padding:14px;border-radius:20px;background:${ok ? '#c8e6a0' : '#f3b4b4'};color:${ok ? '#2d4a0f' : '#5a0f0f'};text-align:center;">
+            <div style="font-size:1.3rem;font-weight:bold;">${ok ? '✅ Правильно!' : '❌ Есть ошибки'}</div>
+            <div style="margin-top:8px;font-size:.9rem;">Правильный ответ: <b>${item.en}</b></div>
+            <div style="margin-top:4px;font-size:.8rem;">Аффикс: <b>${item.affix}</b></div>
+            <button onclick="nextDictation()" style="background:#8b6946;border:none;padding:10px 22px;border-radius:40px;color:white;font-size:.95rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;margin-top:12px;">➡️ Следующее</button>
+        </div>`;
+    }
+}
+function nextDictation() { dictationState.current++; dictationState.answered = false; dictationState.userAnswer = ''; renderPrefixes(); }
+function speakSlow(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US'; u.rate = 0.55;
+        window.speechSynthesis.speak(u);
+    }
+}
+
+// ─── КОНСТРУКТОР ЭССЕ ──────────────────────────────────
+function renderEssayBuilder() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        📝 <strong>КОНСТРУКТОР ЭССЕ</strong><br>
+        <span style="font-size:.85rem;">Вступление → аргументы → контраргумент → заключение.</span>
+    </div>`;
+    html += `<div class="tense-card" style="cursor:default;border-left:5px solid #6b8e23;margin-bottom:14px;">
+        <div style="font-weight:bold;margin-bottom:10px;">🎯 Выбери тему:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">`;
+    essayTopics.forEach(t => {
+        const isAct = essayState.topic && t.topic === essayState.topic.topic;
+        html += `<button onclick="setEssayTopic('${t.topic}')" style="background:${isAct ? '#6b8e23' : '#fff6e8'};color:${isAct ? 'white' : '#3d2b1a'};border:1px solid #c49a6c;padding:8px 14px;border-radius:20px;cursor:pointer;font-family:Georgia,serif;font-size:.85rem;">${t.emoji} ${t.topic}</button>`;
+    });
+    html += `</div></div>`;
+    const parts = ['intro', 'body1', 'body2', 'contrast', 'conclusion'];
+    parts.forEach(key => {
+        const p = essayTemplates[key];
+        const chosen = essayState.parts[key];
+        html += `<div class="tense-card" style="cursor:default;border-left:5px solid ${p.color};margin-bottom:12px;">
+            <div class="tense-header" style="margin-bottom:8px;">
+                <div class="tense-emoji">${p.emoji}</div>
+                <div class="tense-name" style="font-size:1.1rem;">${p.title}</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">`;
+        p.patterns.forEach((pat, i) => {
+            const isAct = chosen && chosen.tpl === pat.tpl;
+            const preview = pat.tpl.replace('{topic}', essayState.topic ? essayState.topic.topic : '...').replace('{arg}', '...');
+            html += `<div onclick="chooseEssayPattern('${key}', ${i})" style="background:${isAct ? p.color : '#fff6e8'};color:${isAct ? 'white' : '#3d2b1a'};border:1px solid #c49a6c;padding:10px 14px;border-radius:16px;cursor:pointer;font-size:.85rem;line-height:1.4;flex:1;min-width:200px;">
+                ${preview}
+                <div style="font-size:.75rem;opacity:.85;margin-top:4px;font-style:italic;">${pat.ru}</div>
+            </div>`;
+        });
+        html += `</div>`;
+        if (chosen) {
+            const finalText = chosen.tpl.replace('{topic}', essayState.topic ? essayState.topic.topic : '...').replace('{arg}', '[твой аргумент]');
+            const cleanFinal = finalText.replace(/'/g, "\\'");
+            html += `<div style="margin-top:10px;padding:10px 14px;background:#ecdca8;border-radius:14px;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                <div><b>Выбрано:</b> ${finalText}</div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanFinal}')">🔈</button>
+            </div>`;
+        }
+        html += `</div>`;
+    });
+    const assembled = parts.map(k => {
+        const c = essayState.parts[k];
+        if (!c) return null;
+        return c.tpl.replace('{topic}', essayState.topic ? essayState.topic.topic : '...').replace('{arg}', '[...]');
+    }).filter(Boolean);
+    if (assembled.length) {
+        const full = assembled.join(' ');
+        const cleanFull = full.replace(/'/g, "\\'");
+        html += `<div class="tense-card" style="cursor:default;border-left:5px solid #8b6946;margin-top:16px;">
+            <div style="font-weight:bold;margin-bottom:10px;">📄 Твой каркас эссе (${assembled.length} из 5 частей):</div>
+            ${assembled.map(a => `<div style="padding:8px 12px;margin:6px 0;background:#f2e5ca;border-radius:12px;font-size:.9rem;color:#3d2b1a;">${a}</div>`).join('')}
+            <div style="text-align:center;margin-top:14px;">
+                <button onclick="speakText('${cleanFull}')" style="background:#c49a6c;border:none;padding:10px 22px;border-radius:40px;color:white;font-size:.9rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔊 Прочитать вслух</button>
+                <button onclick="essayState.parts={};renderPrefixes();" style="background:#8b6946;border:none;padding:10px 22px;border-radius:40px;color:white;font-size:.9rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;margin-left:8px;">🗑 Очистить</button>
+            </div>
+        </div>`;
+    }
+    return html;
+}
+function setEssayTopic(topic) { essayState.topic = essayTopics.find(t => t.topic === topic) || essayTopics[0]; renderPrefixes(); }
+function chooseEssayPattern(section, index) {
+    const pat = essayTemplates[section].patterns[index];
+    if (essayState.parts[section] && essayState.parts[section].tpl === pat.tpl) delete essayState.parts[section];
+    else essayState.parts[section] = pat;
+    renderPrefixes();
+}
+
+// ─── КАРТА АФФИКСОВ ────────────────────────────────────
+function renderAffixMap() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🗺️ <strong>КАРТА АФФИКСОВ ПО СМЫСЛУ</strong>
+    </div>`;
+    Object.values(affixMap).forEach(group => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid ${group.color};margin-bottom:14px;">
+            <div class="tense-header"><div class="tense-emoji">${group.emoji}</div>
+                <div><div class="tense-name">${group.title}</div>
+                <div style="font-size:.8rem;color:#8b6946;">${group.desc}</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:10px;">`;
+        group.affixes.forEach(a => {
+            html += `<div onclick="speakText('${a.a.replace(/-/g,'')}')" style="background:#fff6e8;border-radius:14px;padding:10px 12px;cursor:pointer;border-left:4px solid ${group.color};">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+                    <span style="font-family:monospace;font-weight:bold;color:#3d2b1a;font-size:1.05rem;">${a.a}</span>
+                    <span style="font-size:.7rem;color:#8b6946;background:#ecdca8;padding:2px 8px;border-radius:12px;">${a.hint}</span>
+                </div>
+                <div style="font-size:.8rem;color:#5f451f;margin-top:4px;font-style:italic;">${a.ex}</div>
+            </div>`;
+        });
+        html += `</div></div>`;
+    });
+    return html;
+}
+
+// ─── СЕМЬИ СЛОВ ────────────────────────────────────────
+function renderWordFamilies() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        👨‍👩‍👧 <strong>СЕМЬИ СЛОВ</strong>
+    </div>`;
+    wordFamilies.forEach(fam => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;margin-bottom:18px;">
+            <div class="tense-header">
+                <div class="tense-emoji">${fam.emoji}</div>
+                <div><div class="tense-name" style="font-family:monospace;">${fam.root}</div>
+                <div style="font-size:.85rem;color:#8b6946;">${fam.meaning}</div></div>
+            </div>
+            <div style="overflow-x:auto;margin-top:10px;">
+                <table style="width:100%;border-collapse:collapse;min-width:400px;">
+                    <thead><tr style="background:#dbbc87;">
+                        <th style="padding:8px;text-align:left;font-size:.8rem;">СЛОВО</th>
+                        <th style="padding:8px;text-align:left;font-size:.8rem;">ЧАСТЬ РЕЧИ</th>
+                        <th style="padding:8px;text-align:left;font-size:.8rem;">ПЕРЕВОД</th>
+                        <th style="padding:8px;text-align:left;font-size:.8rem;">АФФИКС</th>
+                        <th style="padding:8px;text-align:center;font-size:.8rem;">🔊</th>
+                    </tr></thead><tbody>`;
+        fam.members.forEach(m => {
+            const posEmoji = { noun: '📦', verb: '⚡', adjective: '🎨', adverb: '💨' }[m.pos] || '❔';
+            html += `<tr style="border-bottom:1px solid #e1cba1;">
+                <td style="padding:8px;font-weight:bold;color:#3d2b1a;">${m.word}</td>
+                <td style="padding:8px;font-size:.85rem;">${posEmoji} ${m.pos}</td>
+                <td style="padding:8px;font-size:.85rem;color:#5f451f;">${m.ru}</td>
+                <td style="padding:8px;font-size:.8rem;font-family:monospace;color:#8b6946;">${m.affix}</td>
+                <td style="padding:8px;text-align:center;"><button class="speak-btn-small" onclick="speakText('${m.word}')" style="font-size:.7rem;padding:4px 10px;">🔈</button></td>
+            </tr>`;
+        });
+        html += `</tbody></table></div></div>`;
+    });
+    return html;
+}
+
+// ─── АНТОНИМЫ ──────────────────────────────────────────
+function renderOpposites() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        ⚖️ <strong>АНТОНИМЫ ЧЕРЕЗ АФФИКСЫ</strong>
+    </div>`;
+    oppositeAffixes.forEach(p => {
+        const c1 = p.ex1.replace(/'/g, "\\'");
+        const c2 = p.ex2.replace(/'/g, "\\'");
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;">
+                <div onclick="speakText('${c1}')" style="background:#e8f0d4;padding:12px;border-radius:16px;text-align:center;cursor:pointer;">
+                    <div style="font-size:.7rem;color:#2d4a0f;font-weight:bold;font-family:monospace;">${p.pair[0]}</div>
+                    <div style="font-weight:bold;color:#2d4a0f;margin-top:4px;">${p.ex1}</div>
+                </div>
+                <div style="font-size:1.5rem;">⚖️</div>
+                <div onclick="speakText('${c2}')" style="background:#fde4c8;padding:12px;border-radius:16px;text-align:center;cursor:pointer;">
+                    <div style="font-size:.7rem;color:#8b4513;font-weight:bold;font-family:monospace;">${p.pair[1]}</div>
+                    <div style="font-weight:bold;color:#8b4513;margin-top:4px;">${p.ex2}</div>
+                </div>
+            </div>
+            <div style="font-size:.85rem;color:#5f451f;text-align:center;margin-top:8px;">🇷🇺 ${p.ru}</div>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── КОНВЕРТЕР ─────────────────────────────────────────
+function renderConverter() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🔀 <strong>КОНВЕРТЕР ЧАСТЕЙ РЕЧИ</strong>
+    </div>`;
+    html += `<div class="tense-card" style="cursor:default;border-left:5px solid #6b8e23;margin-bottom:14px;">
+        <div style="font-weight:bold;margin-bottom:10px;">📋 Правила конвертации:</div>
+        <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;min-width:420px;">
+        <thead><tr style="background:#dbbc87;">
+            <th style="padding:8px;font-size:.8rem;text-align:left;">ИЗ</th>
+            <th style="padding:8px;font-size:.8rem;text-align:left;">→ В</th>
+            <th style="padding:8px;font-size:.8rem;text-align:left;">СУФФИКС</th>
+            <th style="padding:8px;font-size:.8rem;text-align:left;">ПРИМЕР</th>
+        </tr></thead><tbody>`;
+    converterRules.forEach(r => {
+        html += `<tr style="border-bottom:1px solid #e1cba1;">
+            <td style="padding:8px;font-size:.85rem;">${r.from}</td>
+            <td style="padding:8px;font-size:.85rem;">${r.emoji} ${r.to}</td>
+            <td style="padding:8px;font-family:monospace;font-weight:bold;color:#b97f44;">${r.suffix}</td>
+            <td style="padding:8px;font-size:.85rem;">${r.ex1} → <b>${r.ex2}</b></td>
+        </tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+    html += `<div style="font-weight:bold;margin:16px 0 10px;color:#3d2b1a;">🎯 Потренируйся:</div>`;
+    converterExercises.forEach((ex, ei) => {
+        ex.targets.forEach((t, ti) => {
+            const key = `cv_${ei}_${ti}`;
+            const st = converterState[key] || {};
+            const chosen = st.chosen;
+            const ans = chosen !== undefined;
+            const bc = ans ? (st.correct ? '#6b8e23' : '#b93a3a') : '#c49a6c';
+            html += `<div class="tense-card" style="cursor:default;border-left:5px solid ${bc};margin-bottom:10px;">
+                <div style="font-weight:bold;margin-bottom:8px;">${ex.word} → ${t.to}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">`;
+            [...new Set(t.wrong.concat(t.correct))].sort().forEach(opt => {
+                let bg = '#f2e5ca';
+                if (ans) { if (opt === t.correct) bg = '#c8e6a0'; else if (opt === chosen) bg = '#f3b4b4'; }
+                const mark = ans ? (opt === t.correct ? '✅ ' : (opt === chosen ? '❌ ' : '')) : '';
+                html += `<button onclick="${ans ? '' : `answerConverter('${key}','${opt.replace(/'/g,"\\'")}','${t.correct.replace(/'/g,"\\'")}')`}" style="background:${bg};border:1px solid #c49a6c;padding:8px 14px;border-radius:16px;cursor:${ans ? 'default' : 'pointer'};font-family:Georgia,serif;font-size:.9rem;">${mark}${opt}</button>`;
+            });
+            html += `</div></div>`;
+        });
+    });
+    html += `<div style="text-align:center;margin-top:16px;">
+        <button onclick="converterState={};renderPrefixes();" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Пройти заново</button>
+    </div>`;
+    return html;
+}
+function answerConverter(key, chosen, correct) {
+    converterState[key] = { chosen, correct: chosen === correct };
+    renderPrefixes();
+}
+
+// ─── МИНИ-КВИЗЫ ────────────────────────────────────────
+function renderMiniQuizzes() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🧩 <strong>БЫСТРАЯ ПРОВЕРКА</strong>
+    </div>`;
+    miniQuizzes.forEach((quiz) => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #c49a6c;margin-bottom:18px;">
+            <div class="tense-header"><div class="tense-emoji">${quiz.emoji}</div><div class="tense-name">${quiz.title}</div></div>`;
+        quiz.questions.forEach((q, idx) => {
+            const key = `${quiz.id}_${idx}`;
+            const st = miniQuizState[key] || {};
+            const chosen = st.chosen;
+            const ans = chosen !== undefined;
+            html += `<div style="margin-bottom:14px;"><div style="font-weight:bold;color:#3d2b1a;margin-bottom:8px;">${idx+1}. ${q.q}</div>`;
+            q.options.forEach((opt, oi) => {
+                let bg = '#f2e5ca';
+                if (ans) {
+                    if (oi === q.correct) bg = '#c8e6a0';
+                    else if (oi === chosen) bg = '#f3b4b4';
+                }
+                const mark = ans ? (oi === q.correct ? '✅ ' : (oi === chosen ? '❌ ' : '')) : '';
+                html += `<div onclick="${ans ? '' : `answerMiniQuiz('${key}',${oi},${q.correct})`}" style="background:${bg};padding:10px 14px;border-radius:18px;margin:6px 0;cursor:${ans ? 'default' : 'pointer'};">${mark}${opt}</div>`;
+            });
+            if (ans) html += `<div class="memory-hack" style="margin:8px 0 0;font-size:.85rem;">💡 ${q.hint}</div>`;
+            html += `</div>`;
+        });
+        html += `</div>`;
+    });
+    html += `<div style="text-align:center;margin-top:16px;">
+        <button onclick="miniQuizState={};renderPrefixes();" style="background:#8b6946;border:none;padding:12px 24px;border-radius:40px;color:white;font-size:1rem;cursor:pointer;font-weight:bold;font-family:Georgia,serif;">🔄 Пройти заново</button>
+    </div>`;
+    return html;
+}
+function answerMiniQuiz(key, chosen, correct) {
+    miniQuizState[key] = { chosen, correct: chosen === correct };
+    renderPrefixes();
+}
+
+// ─── МИНИ-ДИАЛОГИ ──────────────────────────────────────
+function renderMiniDialogues() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        💬 <strong>МИНИ-ДИАЛОГИ</strong>
+    </div>`;
+    miniDialogues.forEach(d => {
+        html += `<div class="tense-card" style="cursor:default;border-left:6px solid #c49a6c;margin-bottom:16px;">
+            <div class="tense-header"><div class="tense-emoji">${d.emoji}</div>
+                <div><div class="tense-name">${d.title}</div>
+                <div style="font-size:.85rem;color:#8b6946;font-family:monospace;">${d.affix}</div></div>
+            </div>`;
+        d.lines.forEach(l => {
+            const clean = l.en.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+            html += `<div class="tense-example" onclick="speakText('${clean}')">
+                <div class="tense-example-text">
+                    <div class="tense-example-eng"><b>${l.who}:</b> ${l.en}</div>
+                    <div class="tense-example-ru">${l.ru}</div>
+                </div>
+                <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+            </div>`;
+        });
+        html += `</div>`;
+    });
+    return html;
+}
+
+// ─── МНЕМОТЕХНИКА ──────────────────────────────────────
+function renderMemoryHooks() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🎨 <strong>МНЕМОТЕХНИКА</strong>
+    </div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;">`;
+    memoryHooks.forEach(h => {
+        html += `<div style="background:#fff6e8;border-radius:20px;padding:16px;border-left:5px solid #c49a6c;text-align:center;">
+            <div style="font-size:2.6rem;margin-bottom:6px;">${h.emoji}</div>
+            <div style="font-family:monospace;font-size:1.3rem;font-weight:bold;color:#3d2b1a;margin-bottom:6px;">${h.affix}</div>
+            <div style="font-size:.85rem;color:#5f451f;line-height:1.4;">${h.hint}</div>
+        </div>`;
+    });
+    html += `</div>`;
+    return html;
+}
+
+// ─── БЫСТРЫЕ ПРАВИЛА ───────────────────────────────────
+function renderQuickTips() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        ⚡ <strong>ЗАПОМНИ ЗА 5 СЕКУНД</strong>
+    </div>`;
+    quickTips.forEach(t => {
+        const clean = t.tip.replace(/<[^>]*>/g,'').replace(/'/g,"\\'");
+        html += `<div class="phrase-card" onclick="speakText('${clean}')" style="border-left:5px solid #c49a6c;">
+            <div style="flex:1;font-size:.95rem;color:#3d2b1a;line-height:1.5;">${t.emoji} ${t.tip}</div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();speakText('${clean}')">🔈</button>
+        </div>`;
+    });
+    return html;
+}
+
+// ─── СЛОВО ДНЯ ─────────────────────────────────────────
+function renderWordOfTheDay() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        📅 <strong>СЛОВО ДНЯ</strong>
+    </div>`;
+    const day = new Date().getDate() % wordOfTheDay.length;
+    const w = wordOfTheDay[day];
+    html += `<div class="tense-card" style="cursor:default;border-left:6px solid #b97f44;text-align:center;padding:26px;">
+        <div style="font-size:4rem;margin-bottom:10px;">${w.emoji}</div>
+        <div style="font-family:monospace;font-size:2rem;font-weight:bold;color:#3d2b1a;">${w.word}</div>
+        <div style="display:inline-block;background:#ecdca8;padding:4px 14px;border-radius:20px;font-size:.85rem;margin:10px 0;">${w.affix}</div>
+        <div style="font-size:.95rem;color:#5f451f;margin:12px 0;"><b>Почему учить:</b> ${w.why}</div>
+        <div class="memory-hack" style="margin:14px 0;">💡 ${w.tip}</div>
+        <button class="speak-btn-small" onclick="speakText('${w.word}')" style="font-size:.95rem;padding:10px 22px;">🔈 Произнести</button>
+    </div>`;
+    return html;
+}
+
+// ─── МАРШРУТ ОБУЧЕНИЯ ──────────────────────────────────
+function renderLearningPath() {
+    let html = renderMegaNav();
+    html += `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:14px;">
+        🗺️ <strong>МАРШРУТ ОБУЧЕНИЯ</strong>
+    </div>`;
+    learningPath.forEach(p => {
+        const isDone = JSON.parse(localStorage.getItem('pathStep_' + p.step) || 'false');
+        html += `<div class="phrase-card" style="border-left:5px solid ${isDone ? '#6b8e23' : '#c49a6c'};cursor:default;">
+            <div style="flex:1;">
+                <div style="font-size:1.05rem;font-weight:bold;color:#3d2b1a;">Шаг ${p.step}. ${p.emoji} ${p.title}</div>
+                <div style="font-size:.8rem;color:#8b6946;margin-top:4px;font-family:monospace;">${p.ids.join(' • ')}</div>
+            </div>
+            <button class="speak-btn-small" onclick="event.stopPropagation();togglePathStep(${p.step})" style="background:${isDone ? '#6b8e23' : '#c49a6c'};">${isDone ? '✅' : '☐'}</button>
+        </div>`;
+    });
+    return html;
+}
+function togglePathStep(step) {
+    const key = 'pathStep_' + step;
+    const current = JSON.parse(localStorage.getItem(key) || 'false');
+    localStorage.setItem(key, JSON.stringify(!current));
+    renderPrefixes();
+}
