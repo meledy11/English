@@ -2243,15 +2243,16 @@ function init() {
   renderQgenFilters();
   if (typeof dictionary !== 'undefined') regenerateQgen();
 }
-
-if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js')
       .then(reg => console.log('[SW] ✅ Зарегистрирован:', reg.scope))
       .catch(err => console.warn('[SW] ❌ Ошибка:', err.message));
   });
 }
-init();
+
 </script>
 </body>
 </html>
+
+
