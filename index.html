@@ -413,7 +413,7 @@ footer {
   </div>
 </div>
 
-<!-- ВКЛАДКА 9 — ОБНОВЛЕНА! -->
+<!-- ВКЛАДКА 9 -->
 <div id="tab9" class="tab-content">
   <div class="card">
     <div class="card-header" onclick="toggleCard(this)">
@@ -586,6 +586,7 @@ footer {
     <button id="modalSpeakBtn" class="modal-close" style="background:#8b6946;">🔈 Озвучить</button>
   </div>
 </div>
+
 <script src="verbs.js"></script>
 <script src="tenses.js"></script>
 <script src="phrases.js"></script>
@@ -623,7 +624,7 @@ let qgenState = {};
 let qgenQuestions = [];
 let qgenSentences = [];
 
-// 🆕 Новые переменные для фильтров вкладки 9
+// Переменные для фильтров вкладки 9
 let currentDiscourseGroup = 'all';
 let currentAllTimeFilter = 'all';
 let currentEssayGroup = 'all';
@@ -647,6 +648,14 @@ function speakVerbForms(v1, v2, v3) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(`${v1}, ${v2}, ${v3}`);
     u.lang = 'en-US'; u.rate = 0.8;
+    window.speechSynthesis.speak(u);
+  }
+}
+function speakSlow(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.55;
     window.speechSynthesis.speak(u);
   }
 }
@@ -873,7 +882,7 @@ function renderPhrases() {
 function searchPhrases() { renderPhrases(); }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 МОДАЛЬНЫЕ ГЛАГОЛЫ
+// МОДАЛЬНЫЕ ГЛАГОЛЫ
 // ═══════════════════════════════════════════════════════════
 function renderModalVerbs() {
     let html = '';
@@ -901,7 +910,7 @@ function renderModalVerbs() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 НЕ ПУТАЙТЕ (глаголы)
+// НЕ ПУТАЙТЕ (глаголы)
 // ═══════════════════════════════════════════════════════════
 function renderConfusingVerbs() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
@@ -933,7 +942,7 @@ function renderConfusingVerbs() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 СЛОВООБРАЗОВАНИЕ
+// СЛОВООБРАЗОВАНИЕ
 // ═══════════════════════════════════════════════════════════
 function renderWordFormation() {
     const r = wordFormationRules;
@@ -969,7 +978,7 @@ function renderWordFormation() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 СЛОВА-ЛОВУШКИ
+// СЛОВА-ЛОВУШКИ
 // ═══════════════════════════════════════════════════════════
 function renderTrapPairs() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
@@ -1022,7 +1031,7 @@ function renderTrapPairs() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 СЛОВА-БЛИЗНЕЦЫ
+// СЛОВА-БЛИЗНЕЦЫ
 // ═══════════════════════════════════════════════════════════
 function renderTwinWords() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#b93a3a;margin-bottom:16px;">
@@ -1074,7 +1083,7 @@ function renderTwinWords() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 ВВОДНЫЕ СЛОВА
+// ВВОДНЫЕ СЛОВА
 // ═══════════════════════════════════════════════════════════
 function renderDiscourseMarkers() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1103,7 +1112,7 @@ function renderDiscourseMarkers() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 СЛОВА ВРЕМЕНИ
+// СЛОВА ВРЕМЕНИ
 // ═══════════════════════════════════════════════════════════
 function renderAllTimeWords() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1156,7 +1165,6 @@ function renderAllTimeWords() {
     });
     return html;
 }
-
 function toggleTimeWordLearned(word) {
     const idx = learnedTimeWords.indexOf(word);
     if (idx >= 0) learnedTimeWords.splice(idx, 1);
@@ -1166,7 +1174,7 @@ function toggleTimeWordLearned(word) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 ПРЕДЛОГИ ВРЕМЕНИ
+// ПРЕДЛОГИ ВРЕМЕНИ
 // ═══════════════════════════════════════════════════════════
 function renderTimePrepositions() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1225,7 +1233,7 @@ function renderTimePrepositions() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 ЭССЕ
+// ЭССЕ
 // ═══════════════════════════════════════════════════════════
 function renderEssayLinkers() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1269,7 +1277,7 @@ function renderEssayLinkers() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 СВЯЗКИ (сравнить/объяснить)
+// СВЯЗКИ
 // ═══════════════════════════════════════════════════════════
 function renderUsefulLinkers() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1315,7 +1323,7 @@ function renderUsefulLinkers() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 🆕 ВОПРОСИТЕЛЬНЫЕ СЛОВА
+// ВОПРОСИТЕЛЬНЫЕ СЛОВА
 // ═══════════════════════════════════════════════════════════
 function renderQuestionWords() {
     let html = `<div class="memory-hack" style="background:#ffd6a5;border-left-color:#c49a6c;margin-bottom:16px;">
@@ -1367,8 +1375,10 @@ function renderQuestionWords() {
     }
     return html;
 }
-  // ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
 // ПРИСТАВКИ / КОРНИ / ВСЕ ОБУЧАЮЩИЕ МОДУЛИ (главный роутер)
+// ЕДИНСТВЕННАЯ ВЕРСИЯ — БЕЗ ДУБЛЕЙ
 // ═══════════════════════════════════════════════════════════
 function toggleRootLearned(root) {
   const idx = learnedRoots.indexOf(root);
@@ -1385,35 +1395,31 @@ function renderPrefixes() {
     return;
   }
 
-  // ═══════════════════════════════════════════════════════════
   // 🆕 НОВЫЕ МОДУЛИ (МЕГА-ПАК)
-  // ═══════════════════════════════════════════════════════════
-  if (currentPrefixType === 'builder')    { container.innerHTML = renderWordBuilder();    return; }
-  if (currentPrefixType === 'cheatsheet') { container.innerHTML = renderSuffixCheat();    return; }
-  if (currentPrefixType === 'chains')     { container.innerHTML = renderWordChains();     return; }
-  if (currentPrefixType === 'flipcards')  { container.innerHTML = renderFlipCards();      return; }
-  if (currentPrefixType === 'rules')      { container.innerHTML = renderRuleReminders();  return; }
-  if (currentPrefixType === 'trainer')    { container.innerHTML = renderAffixTrainer();   return; }
-  if (currentPrefixType === 'mistakes')   { container.innerHTML = renderCommonMistakes(); return; }
-  if (currentPrefixType === 'drill')      { container.innerHTML = renderSpeechDrill();    return; }
-  if (currentPrefixType === 'power')      { container.innerHTML = renderPowerPrefixes();  return; }
-  if (currentPrefixType === 'stories')    { container.innerHTML = renderMiniStories();    return; }
-  if (currentPrefixType === 'dictation')  { container.innerHTML = renderDictation();      return; }
-  if (currentPrefixType === 'essayb')     { container.innerHTML = renderEssayBuilder();   return; }
-  if (currentPrefixType === 'affixmap')   { container.innerHTML = renderAffixMap();       return; }
-  if (currentPrefixType === 'families')   { container.innerHTML = renderWordFamilies();   return; }
-  if (currentPrefixType === 'opposites')  { container.innerHTML = renderOpposites();      return; }
-  if (currentPrefixType === 'converter')  { container.innerHTML = renderConverter();      return; }
-  if (currentPrefixType === 'quizzes')    { container.innerHTML = renderMiniQuizzes();    return; }
-  if (currentPrefixType === 'dialogues')  { container.innerHTML = renderMiniDialogues();  return; }
-  if (currentPrefixType === 'hooks')      { container.innerHTML = renderMemoryHooks();    return; }
-  if (currentPrefixType === 'quicktips')  { container.innerHTML = renderQuickTips();      return; }
-  if (currentPrefixType === 'wordofday')  { container.innerHTML = renderWordOfTheDay();   return; }
-  if (currentPrefixType === 'path')       { container.innerHTML = renderLearningPath();   return; }
+  if (currentPrefixType === 'builder'    && typeof renderWordBuilder   === 'function') { container.innerHTML = renderWordBuilder();    return; }
+  if (currentPrefixType === 'cheatsheet' && typeof renderSuffixCheat   === 'function') { container.innerHTML = renderSuffixCheat();    return; }
+  if (currentPrefixType === 'chains'     && typeof renderWordChains    === 'function') { container.innerHTML = renderWordChains();     return; }
+  if (currentPrefixType === 'flipcards'  && typeof renderFlipCards     === 'function') { container.innerHTML = renderFlipCards();      return; }
+  if (currentPrefixType === 'rules'      && typeof renderRuleReminders === 'function') { container.innerHTML = renderRuleReminders();  return; }
+  if (currentPrefixType === 'trainer'    && typeof renderAffixTrainer  === 'function') { container.innerHTML = renderAffixTrainer();   return; }
+  if (currentPrefixType === 'mistakes'   && typeof renderCommonMistakes === 'function') { container.innerHTML = renderCommonMistakes(); return; }
+  if (currentPrefixType === 'drill'      && typeof renderSpeechDrill   === 'function') { container.innerHTML = renderSpeechDrill();    return; }
+  if (currentPrefixType === 'power'      && typeof renderPowerPrefixes === 'function') { container.innerHTML = renderPowerPrefixes();  return; }
+  if (currentPrefixType === 'stories'    && typeof renderMiniStories   === 'function') { container.innerHTML = renderMiniStories();    return; }
+  if (currentPrefixType === 'dictation'  && typeof renderDictation     === 'function') { container.innerHTML = renderDictation();      return; }
+  if (currentPrefixType === 'essayb'     && typeof renderEssayBuilder  === 'function') { container.innerHTML = renderEssayBuilder();   return; }
+  if (currentPrefixType === 'affixmap'   && typeof renderAffixMap      === 'function') { container.innerHTML = renderAffixMap();       return; }
+  if (currentPrefixType === 'families'   && typeof renderWordFamilies  === 'function') { container.innerHTML = renderWordFamilies();   return; }
+  if (currentPrefixType === 'opposites'  && typeof renderOpposites     === 'function') { container.innerHTML = renderOpposites();      return; }
+  if (currentPrefixType === 'converter'  && typeof renderConverter     === 'function') { container.innerHTML = renderConverter();      return; }
+  if (currentPrefixType === 'quizzes'    && typeof renderMiniQuizzes   === 'function') { container.innerHTML = renderMiniQuizzes();    return; }
+  if (currentPrefixType === 'dialogues'  && typeof renderMiniDialogues === 'function') { container.innerHTML = renderMiniDialogues();  return; }
+  if (currentPrefixType === 'hooks'      && typeof renderMemoryHooks   === 'function') { container.innerHTML = renderMemoryHooks();    return; }
+  if (currentPrefixType === 'quicktips'  && typeof renderQuickTips     === 'function') { container.innerHTML = renderQuickTips();      return; }
+  if (currentPrefixType === 'wordofday'  && typeof renderWordOfTheDay  === 'function') { container.innerHTML = renderWordOfTheDay();   return; }
+  if (currentPrefixType === 'path'       && typeof renderLearningPath  === 'function') { container.innerHTML = renderLearningPath();   return; }
 
-  // ═══════════════════════════════════════════════════════════
   // СТАРЫЕ МОДУЛИ
-  // ═══════════════════════════════════════════════════════════
   if (currentPrefixType === 'modal')      { container.innerHTML = renderModalVerbs();     return; }
   if (currentPrefixType === 'confusing')  { container.innerHTML = renderConfusingVerbs(); return; }
   if (currentPrefixType === 'formation')  { container.innerHTML = renderWordFormation();  return; }
@@ -1495,9 +1501,7 @@ function renderPrefixes() {
     return;
   }
 
-  // ═══════════════════════════════════════════════════════════
   // КОРНИ
-  // ═══════════════════════════════════════════════════════════
   const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
 
   if (currentPrefixType === 'root') {
@@ -1573,9 +1577,7 @@ function renderPrefixes() {
     return;
   }
 
-  // ═══════════════════════════════════════════════════════════
   // ПРИСТАВКИ / СУФФИКСЫ
-  // ═══════════════════════════════════════════════════════════
   let filtered = [...prefixes];
   if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
   if (query) filtered = filtered.filter(p =>
@@ -1614,122 +1616,7 @@ function renderPrefixes() {
   });
   container.innerHTML = html;
 }
-// ═══════════════════════════════════════════════════════════
-// ПРИСТАВКИ / КОРНИ (главный роутер)
-// ═══════════════════════════════════════════════════════════
-function toggleRootLearned(root) {
-  const idx = learnedRoots.indexOf(root);
-  if (idx >= 0) learnedRoots.splice(idx, 1); else learnedRoots.push(root);
-  localStorage.setItem('learnedRoots', JSON.stringify(learnedRoots));
-  renderPrefixes();
-}
-function renderPrefixes() {
-  const container = document.getElementById('prefixesContainer');
-  if (!container) return;
-  if (typeof prefixes === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ prefixes.js не загружен</div>'; return; }
 
-  // 🆕 Роутинг новых модулей
-  if (currentPrefixType === 'modal') { container.innerHTML = renderModalVerbs(); return; }
-  if (currentPrefixType === 'confusing') { container.innerHTML = renderConfusingVerbs(); return; }
-  if (currentPrefixType === 'formation') { container.innerHTML = renderWordFormation(); return; }
-  if (currentPrefixType === 'traps') { container.innerHTML = renderTrapPairs(); return; }
-  if (currentPrefixType === 'twins') { container.innerHTML = renderTwinWords(); return; }
-  if (currentPrefixType === 'discourse') {
-    container.innerHTML = renderDiscourseMarkers();
-    setTimeout(() => {
-      const df = document.getElementById('discourseFilters');
-      if (df) df.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => { currentDiscourseGroup = btn.dataset.discourse; renderPrefixes(); });
-      });
-    }, 0);
-    return;
-  }
-  if (currentPrefixType === 'alltime') {
-    container.innerHTML = renderAllTimeWords();
-    setTimeout(() => {
-      const tf = document.getElementById('allTimeFilters');
-      if (tf) tf.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => { currentAllTimeFilter = btn.dataset.timefilter; renderPrefixes(); });
-      });
-    }, 0);
-    return;
-  }
-  if (currentPrefixType === 'timeprep') { container.innerHTML = renderTimePrepositions(); return; }
-  if (currentPrefixType === 'essay') {
-    container.innerHTML = renderEssayLinkers();
-    setTimeout(() => {
-      const ef = document.getElementById('essayFilters');
-      if (ef) ef.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => { currentEssayGroup = btn.dataset.essay; renderPrefixes(); });
-      });
-    }, 0);
-    return;
-  }
-  if (currentPrefixType === 'useful') {
-    container.innerHTML = renderUsefulLinkers();
-    setTimeout(() => {
-      const uf = document.getElementById('usefulFilters');
-      if (uf) uf.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => { currentUsefulGroup = btn.dataset.useful; renderPrefixes(); });
-      });
-    }, 0);
-    return;
-  }
-  if (currentPrefixType === 'question') {
-    container.innerHTML = renderQuestionWords();
-    setTimeout(() => {
-      const qf = document.getElementById('questionFilters');
-      if (qf) qf.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => { currentQuestionGroup = btn.dataset.question; renderPrefixes(); });
-      });
-    }, 0);
-    return;
-  }
-
-  // КОРНИ
-  const query = (document.getElementById('prefixSearchInput')?.value || '').toLowerCase().trim();
-  if (currentPrefixType === 'root') {
-    if (typeof wordRoots === 'undefined') { container.innerHTML = '<div style="padding:40px;text-align:center;">⚠️ Корни не найдены</div>'; return; }
-    const total = wordRoots.length, learned = learnedRoots.length;
-    const progress = Math.round((learned / total) * 100);
-    let html = `<div style="background:#ecdca8;border-radius:28px;padding:14px 18px;margin-bottom:16px;"><div style="display:flex;justify-content:space-between;align-items:center;"><strong>🧱 Изучено: ${learned}/${total}</strong><span>${progress}%</span></div><div style="background:#fff6e8;border-radius:20px;height:12px;margin-top:8px;"><div style="background:#6b8e23;height:100%;width:${progress}%;"></div></div></div><div class="filters" id="rootTopicFilters" style="margin-bottom:12px;">`;
-    rootTopics.forEach(t => { html += `<button class="filter-btn ${currentRootTopic === t.id ? 'active' : ''}" data-topic="${t.id}">${t.emoji} ${t.name}</button>`; });
-    html += `</div>`;
-    let roots = [...wordRoots];
-    if (currentRootTopic !== 'all') roots = roots.filter(r => r.topic === currentRootTopic);
-    if (query) roots = roots.filter(r => r.root.toLowerCase().includes(query) || r.meaning.toLowerCase().includes(query) || r.words.some(w => w.word.toLowerCase().includes(query)));
-    if (!roots.length) { container.innerHTML = html + '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
-    roots.forEach(r => {
-      const isLearned = learnedRoots.includes(r.root);
-      html += `<div class="tense-card" style="cursor:default;border-left:6px solid #6b8e23;"><div class="tense-header" style="justify-content:space-between;"><div><div class="tense-name" style="font-family:monospace;font-size:1.6rem;">${r.root}</div><div style="font-size:.9rem;color:#8b6946;">🔑 ${r.meaning}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();toggleRootLearned('${r.root}')" style="background:${isLearned ? '#6b8e23' : '#c49a6c'};">${isLearned ? '✅' : '☐'}</button></div>`;
-      r.words.forEach(w => {
-        const cleanEx = w.ex.replace(/'/g, "\\'");
-        html += `<div class="tense-example" onclick="openModalWithSpeech('${w.pre}','${cleanEx}','${w.exRu}','${w.pre} + ${r.root} = ${w.word}')"><div class="tense-example-text"><div class="tense-example-eng"><b>${w.pre}</b> + <b>${r.root}</b> = <b>${w.word}</b> — ${w.trans}</div><div class="tense-example-ru">${w.exRu}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
-      });
-      html += `</div>`;
-    });
-    container.innerHTML = html;
-    const rtf = document.getElementById('rootTopicFilters');
-    if (rtf) rtf.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { currentRootTopic = btn.dataset.topic; renderPrefixes(); }); });
-    return;
-  }
-
-  // ПРИСТАВКИ / СУФФИКСЫ
-  let filtered = [...prefixes];
-  if (currentPrefixType !== 'all') filtered = filtered.filter(p => p.type === currentPrefixType);
-  if (query) filtered = filtered.filter(p => p.affix.toLowerCase().includes(query) || p.meaning.toLowerCase().includes(query));
-  if (!filtered.length) { container.innerHTML = '<div style="text-align:center;padding:30px;">😔 Ничего не найдено</div>'; return; }
-  let html = '';
-  filtered.forEach(p => {
-    html += `<div class="tense-card" style="cursor:default;"><div class="tense-header"><div class="tense-emoji">${p.emoji}</div><div><div class="tense-name" style="font-family:monospace;font-size:1.6rem;">${p.affix}</div><div style="font-size:.85rem;color:#8b6946;">${p.meaning}</div></div></div><div class="memory-hack" style="margin:10px 0;font-size:.9rem;">${p.explanation}</div>`;
-    p.words.forEach(w => {
-      const cleanEx = w.ex.replace(/<[^>]*>/g, '').replace(/'/g, "\\'");
-      html += `<div class="tense-example" onclick="openModalWithSpeech('${p.affix}','${cleanEx}','${w.exRu}','${w.word}')"><div class="tense-example-text"><div class="tense-example-eng">${w.ex}</div><div class="tense-example-ru">${w.exRu}</div></div><button class="speak-btn-small" onclick="event.stopPropagation();speakText('${cleanEx}')">🔈</button></div>`;
-    });
-    html += `</div>`;
-  });
-  container.innerHTML = html;
-}
 function searchPrefixes() {
   const clearBtn = document.getElementById('clearPrefixSearchBtn');
   const input = document.getElementById('prefixSearchInput');
@@ -2250,7 +2137,7 @@ function runPageDiagnostics() {
     html += `<div style="padding:8px 0; border-bottom:1px solid #e1cba1;"><b>📚 lessonData.js:</b> <span style="color:#2d4a0f; font-weight:bold;">✅ загружен</span></div>`;
     html += `<div style="padding:4px 0 4px 20px;">• Всего: <b>${total}</b></div>`;
     html += `<div style="padding:4px 0 4px 20px; border-bottom:1px solid #e1cba1;">• С ex/exRu: <b style="color:${withEx > 0 ? '#2d4a0f' : '#b93a3a'};">${withEx}</b></div>`;
-    if (total === 0) { html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f;">🚨 Массив LESSON_DATA пуст! Проверьте ]; в середине файла.</div>`; allOk = false; }
+    if (total === 0) { html += `<div style="margin-top:12px; padding:12px; background:#f3b4b4; border-radius:12px; color:#5a0f0f;">🚨 Массив LESSON_DATA пуст!</div>`; allOk = false; }
   }
   const quizgenOk = typeof quizgen !== 'undefined' && typeof quizgen.generateSentencesList === 'function';
   html += `<div style="padding:8px 0; border-top:1px solid #e1cba1;"><b>⚙️ quizgen.js:</b> <span style="color:${quizgenOk ? '#2d4a0f' : '#b93a3a'}; font-weight:bold;">${quizgenOk ? '✅ загружен' : '❌ НЕ ЗАГРУЖЕН'}</span></div>`;
