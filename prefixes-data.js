@@ -6398,3 +6398,1281 @@ learningPath.push(
     { step: 19, emoji: '🧩', title: 'Квизы финальные', ids: ['vocab-adv','prefix-adv','suffix-adv'] },
     { step: 20, emoji: '🏆', title: 'Финальный маршрут', ids: ['all','root','prefix','suffix'] }
 );
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 РАСШИРЕНИЕ v7 — МОДАЛЬНЫЕ + ЛОВУШКИ + БЛИЗНЕЦЫ + АНТОНИМЫ
+// ═══════════════════════════════════════════════════════════
+
+// ───────────────────────────────────────────────────────────
+// 🎩 30 НОВЫХ МОДАЛЬНЫХ (modalVerbs)
+// ───────────────────────────────────────────────────────────
+modalVerbs.push(
+    { id: 'be-able-to', word: 'be able to', transcription: '/biː ˈeɪbl tuː/', emoji: '💪',
+      meaning: 'БЫТЬ СПОСОБНЫМ (замена can в будущем/прошлом)',
+      color: '#6b8e23',
+      rules: ['способность', 'можно во всех временах', 'формально'],
+      hint: '💪 Be able to = альтернатива can.',
+      examples: [
+        { en: 'I will <b>be able to</b> come.', ru: 'Я смогу прийти.' },
+        { en: 'He was <b>able to</b> swim.', ru: 'Он умел плавать.' },
+        { en: 'She has <b>been able to</b> help.', ru: 'Она смогла помочь.' }
+      ]
+    },
+    { id: 'be-going-to', word: 'be going to', transcription: '/biː ˈɡəʊɪŋ tuː/', emoji: '🔮',
+      meaning: 'СОБИРАТЬСЯ (план)',
+      color: '#b97f44',
+      rules: ['план', 'намерение', 'ближайшее будущее'],
+      hint: '🔮 Be going to = план на будущее.',
+      examples: [
+        { en: 'I\'m <b>going to</b> travel.', ru: 'Я собираюсь путешествовать.' },
+        { en: 'It\'s <b>going to</b> rain.', ru: 'Собирается дождь.' },
+        { en: 'We\'re <b>going to</b> win.', ru: 'Мы победим.' }
+      ]
+    },
+    { id: 'be-about-to', word: 'be about to', transcription: '/biː əˈbaʊt tuː/', emoji: '⚡',
+      meaning: 'СОБИРАТЬСЯ ВОТ-ВОТ',
+      color: '#b93a3a',
+      rules: ['очень скоро', 'ближайший момент'],
+      hint: '⚡ Be about to = вот-вот.',
+      examples: [
+        { en: 'I\'m <b>about to</b> leave.', ru: 'Я вот-вот уйду.' },
+        { en: 'The film is <b>about to</b> start.', ru: 'Фильм вот-вот начнётся.' }
+      ]
+    },
+    { id: 'be-to', word: 'be to', transcription: '/biː tuː/', emoji: '📋',
+      meaning: 'ДОЛЖЕН (по плану/правилу)',
+      color: '#8b6946',
+      rules: ['формальный план', 'приказ', 'судьба'],
+      hint: '📋 Be to = по расписанию или приказу.',
+      examples: [
+        { en: 'You are <b>to</b> leave now.', ru: 'Вы должны уйти сейчас.' },
+        { en: 'We were <b>to</b> meet at 5.', ru: 'Мы должны были встретиться в 5.' }
+      ]
+    },
+    { id: 'be-supposed-to', word: 'be supposed to', transcription: '/biː səˈpəʊzd tuː/', emoji: '📌',
+      meaning: 'ПРЕДПОЛАГАТЬСЯ (ожидание)',
+      color: '#c49a6c',
+      rules: ['ожидание', 'норма', 'что-то ожидается'],
+      hint: '📌 Be supposed to = должен по идее.',
+      examples: [
+        { en: 'You\'re <b>supposed to</b> be here.', ru: 'Ты должен быть здесь.' },
+        { en: 'It\'s <b>supposed to</b> be sunny.', ru: 'Ожидается солнце.' },
+        { en: 'He wasn\'t <b>supposed to</b> know.', ru: 'Он не должен был знать.' }
+      ]
+    },
+    { id: 'might-have', word: 'might have', transcription: '/maɪt hæv/', emoji: '🤔',
+      meaning: 'ВОЗМОЖНО, ЧТО БЫЛО',
+      color: '#8b6946',
+      rules: ['вероятность в прошлом', 'предположение'],
+      hint: '🤔 Might have = может быть (о прошлом).',
+      examples: [
+        { en: 'He <b>might have</b> forgotten.', ru: 'Он, может, забыл.' },
+        { en: 'She <b>might have</b> missed the bus.', ru: 'Возможно, она опоздала на автобус.' }
+      ]
+    },
+    { id: 'must-have', word: 'must have', transcription: '/mʌst hæv/', emoji: '✅',
+      meaning: 'ТОЧНО БЫЛО (уверенность)',
+      color: '#6b8e23',
+      rules: ['уверенность в прошлом', 'вывод'],
+      hint: '✅ Must have = наверняка было.',
+      examples: [
+        { en: 'He <b>must have</b> missed the train.', ru: 'Он точно опоздал на поезд.' },
+        { en: 'She <b>must have</b> forgotten.', ru: 'Она точно забыла.' }
+      ]
+    },
+    { id: 'could-have', word: 'could have', transcription: '/kʊd hæv/', emoji: '😔',
+      meaning: 'МОГ БЫ (но не сделал)',
+      color: '#b93a3a',
+      rules: ['упущенная возможность', 'сожаление'],
+      hint: '😔 Could have = мог бы, но не сделал.',
+      examples: [
+        { en: 'I <b>could have</b> won.', ru: 'Я мог бы победить.' },
+        { en: 'You <b>could have</b> told me!', ru: 'Ты мог бы мне сказать!' }
+      ]
+    },
+    { id: 'should-have', word: 'should have', transcription: '/ʃʊd hæv/', emoji: '😞',
+      meaning: 'СЛЕДОВАЛО БЫ (но не сделал)',
+      color: '#b97f44',
+      rules: ['сожаление', 'упрек'],
+      hint: '😞 Should have = должен был, но не сделал.',
+      examples: [
+        { en: 'I <b>should have</b> studied.', ru: 'Мне надо было учиться.' },
+        { en: 'You <b>shouldn\'t have</b> said that.', ru: 'Не надо было это говорить.' }
+      ]
+    },
+    { id: 'would-have', word: 'would have', transcription: '/wʊd hæv/', emoji: '💭',
+      meaning: 'СДЕЛАЛ БЫ (в прошлом)',
+      color: '#6b8e23',
+      rules: ['условное в прошлом', 'гипотеза'],
+      hint: '💭 Would have = сделал бы, если бы...',
+      examples: [
+        { en: 'I <b>would have</b> helped.', ru: 'Я бы помог.' },
+        { en: 'She <b>would have</b> come.', ru: 'Она бы пришла.' }
+      ]
+    },
+    { id: 'neednt-have', word: 'needn\'t have', transcription: '/ˈniːdnt hæv/', emoji: '🎯',
+      meaning: 'ЗРЯ СДЕЛАЛ',
+      color: '#c49a6c',
+      rules: ['сделал, но было не нужно'],
+      hint: '🎯 Needn\'t have = зря потратил силы.',
+      examples: [
+        { en: 'You <b>needn\'t have</b> come.', ru: 'Зря ты пришёл.' },
+        { en: 'I <b>needn\'t have</b> worried.', ru: 'Зря я волновался.' }
+      ]
+    },
+    { id: 'can-could-ability', word: 'can / could', transcription: '/kæn kʊd/', emoji: '💪',
+      meaning: 'СПОСОБНОСТЬ (наст. / прош.)',
+      color: '#6b8e23',
+      rules: ['физическая способность', 'умение'],
+      hint: '💪 Can (сейчас) / Could (раньше).',
+      examples: [
+        { en: 'I <b>can</b> swim.', ru: 'Я умею плавать.' },
+        { en: 'I <b>could</b> swim at 5.', ru: 'В 5 лет я умел плавать.' }
+      ]
+    },
+    { id: 'may-might', word: 'may / might', transcription: '/meɪ maɪt/', emoji: '❓',
+      meaning: 'ВЕРОЯТНОСТЬ (разная)',
+      color: '#8b6946',
+      rules: ['may — больше вероятности', 'might — меньше'],
+      hint: '❓ May сильнее, might слабее.',
+      examples: [
+        { en: 'It <b>may</b> rain (50%).', ru: 'Может пойти дождь.' },
+        { en: 'It <b>might</b> rain (20%).', ru: 'Возможно, дождь.' }
+      ]
+    },
+    { id: 'will-would-2', word: 'will / would', transcription: '/wɪl wʊd/', emoji: '🔮',
+      meaning: 'НАСТОЯЩЕЕ / ВЕЖЛИВОЕ',
+      color: '#b97f44',
+      rules: ['will — настоящее будущее', 'would — вежливое или условное'],
+      hint: '🔮 Will прямо, would вежливо.',
+      examples: [
+        { en: 'I <b>will</b> help.', ru: 'Я помогу.' },
+        { en: 'I <b>would</b> help if I could.', ru: 'Помог бы, если бы мог.' }
+      ]
+    },
+    { id: 'shall-2', word: 'shall', transcription: '/ʃæl/', emoji: '🤝',
+      meaning: 'ПРЕДЛОЖЕНИЕ / БУДУЩЕЕ',
+      color: '#6b8e23',
+      rules: ['предложение с I/we', 'формальное будущее'],
+      hint: '🤝 Shall = предложение.',
+      examples: [
+        { en: '<b>Shall</b> we go?', ru: 'Пойдём?' },
+        { en: 'I <b>shall</b> return.', ru: 'Я вернусь.' }
+      ]
+    },
+    { id: 'ought-to', word: 'ought to', transcription: '/ɔːt tuː/', emoji: '📌',
+      meaning: 'СЛЕДУЕТ (моральный долг)',
+      color: '#6b8e23',
+      rules: ['моральная обязанность'],
+      hint: '📌 Ought to = то же, что should, но книжнее.',
+      examples: [
+        { en: 'You <b>ought to</b> apologize.', ru: 'Тебе следует извиниться.' },
+        { en: 'We <b>ought to</b> help.', ru: 'Нам следует помочь.' }
+      ]
+    },
+    { id: 'had-better', word: 'had better', transcription: '/hæd ˈbetə/', emoji: '⚠️',
+      meaning: 'ЛУЧШЕ БЫ (иначе плохо)',
+      color: '#b93a3a',
+      rules: ['сильное предупреждение'],
+      hint: '⚠️ Had better = лучше сделай!',
+      examples: [
+        { en: 'You <b>had better</b> hurry.', ru: 'Тебе лучше поторопиться.' },
+        { en: 'We <b>had better</b> not be late.', ru: 'Нам лучше не опаздывать.' }
+      ]
+    },
+    { id: 'dare-2', word: 'dare', transcription: '/deə/', emoji: '😤',
+      meaning: 'СМЕТЬ',
+      color: '#b93a3a',
+      rules: ['смелость', 'вызов'],
+      hint: '😤 Dare = сметь.',
+      examples: [
+        { en: 'I <b>dare</b> you!', ru: 'Слабо тебе!' },
+        { en: 'He didn\'t <b>dare</b> speak.', ru: 'Он не осмелился.' }
+      ]
+    },
+    { id: 'used-to-3', word: 'used to', transcription: '/juːst tuː/', emoji: '📜',
+      meaning: 'РАНЬШЕ (но не сейчас)',
+      color: '#8b6946',
+      rules: ['прошлая привычка'],
+      hint: '📜 Used to = раньше делал, а сейчас нет.',
+      examples: [
+        { en: 'I <b>used to</b> smoke.', ru: 'Я раньше курил.' },
+        { en: 'She <b>used to</b> live here.', ru: 'Она раньше здесь жила.' }
+      ]
+    },
+    { id: 'would-rather-2', word: 'would rather', transcription: '/wʊd ˈrɑːðə/', emoji: '🎩',
+      meaning: 'ПРЕДПОЧЁЛ БЫ',
+      color: '#b97f44',
+      rules: ['предпочтение'],
+      hint: '🎩 Would rather = предпочёл бы.',
+      examples: [
+        { en: 'I <b>would rather</b> stay home.', ru: 'Я бы предпочёл остаться.' },
+        { en: '<b>Would</b> you <b>rather</b> tea?', ru: 'Ты предпочтёшь чай?' }
+      ]
+    },
+    { id: 'need-not', word: 'need not / needn\'t', transcription: '/niːd nɒt/', emoji: '🎯',
+      meaning: 'НЕ НУЖНО',
+      color: '#c49a6c',
+      rules: ['нет необходимости'],
+      hint: '🎯 Needn\'t = не обязательно.',
+      examples: [
+        { en: 'You <b>needn\'t</b> come.', ru: 'Тебе не нужно приходить.' },
+        { en: 'We <b>needn\'t</b> hurry.', ru: 'Нам не нужно спешить.' }
+      ]
+    },
+    { id: 'cannot-3', word: 'cannot / can\'t', transcription: '/ˈkænɒt/', emoji: '❌',
+      meaning: 'НЕ МОГУ',
+      color: '#b93a3a',
+      rules: ['невозможность', 'запрет'],
+      hint: '❌ Cannot = физически не могу / строго нельзя.',
+      examples: [
+        { en: 'I <b>can\'t</b> help you.', ru: 'Я не могу помочь.' },
+        { en: 'You <b>cannot</b> park here.', ru: 'Здесь нельзя парковаться.' }
+      ]
+    },
+    { id: 'must-mustnt-2', word: 'must / mustn\'t', transcription: '/mʌst/', emoji: '⛔',
+      meaning: 'ОБЯЗАН / НЕЛЬЗЯ',
+      color: '#b93a3a',
+      rules: ['must — надо', 'mustn\'t — запрещено'],
+      hint: '⛔ Must = надо, mustn\'t = нельзя.',
+      examples: [
+        { en: 'You <b>must</b> wear a helmet.', ru: 'Ты должен надеть шлем.' },
+        { en: 'You <b>mustn\'t</b> smoke.', ru: 'Тебе нельзя курить.' }
+      ]
+    },
+    { id: 'have-to-2', word: 'have to / don\'t have to', transcription: '/hæv tuː/', emoji: '📋',
+      meaning: 'ВЫНУЖДЕН / НЕ ОБЯЗАН',
+      color: '#c49a6c',
+      rules: ['have to — обстоятельства', 'don\'t have to — не обязательно'],
+      hint: '📋 Have to = вынужден, don\'t = не обязан.',
+      examples: [
+        { en: 'I <b>have to</b> work.', ru: 'Мне нужно работать.' },
+        { en: 'I <b>don\'t have to</b> go.', ru: 'Мне не нужно идти.' }
+      ]
+    },
+    { id: 'could-you-2', word: 'could you / would you', transcription: '/kʊd juː/', emoji: '🙏',
+      meaning: 'ВЕЖЛИВАЯ ПРОСЬБА',
+      color: '#b97f44',
+      rules: ['вежливая просьба', 'could — нейтрально', 'would — очень вежливо'],
+      hint: '🙏 Could you / Would you = просьба.',
+      examples: [
+        { en: '<b>Could you</b> help me?', ru: 'Не могли бы вы помочь?' },
+        { en: '<b>Would you</b> mind?', ru: 'Не возражаете?' }
+      ]
+    },
+    { id: 'may-i', word: 'May I?', transcription: '/meɪ aɪ/', emoji: '✅',
+      meaning: 'МОЖНО? (формально)',
+      color: '#6b8e23',
+      rules: ['формальное разрешение'],
+      hint: '✅ May I = формальное разрешение.',
+      examples: [
+        { en: '<b>May I</b> come in?', ru: 'Можно войти?' },
+        { en: '<b>May I</b> ask?', ru: 'Можно спросить?' }
+      ]
+    },
+    { id: 'can-i', word: 'Can I?', transcription: '/kæn aɪ/', emoji: '🙋',
+      meaning: 'МОЖНО? (неформально)',
+      color: '#6b8e23',
+      rules: ['неформальное разрешение'],
+      hint: '🙋 Can I = неформальное разрешение.',
+      examples: [
+        { en: '<b>Can I</b> go?', ru: 'Можно я пойду?' },
+        { en: '<b>Can I</b> help?', ru: 'Можно помочь?' }
+      ]
+    },
+    { id: 'do-you-mind', word: 'Do you mind?', transcription: '/duː juː maɪnd/', emoji: '🙏',
+      meaning: 'НЕ ВОЗРАЖАЕТЕ?',
+      color: '#b97f44',
+      rules: ['просьба или вопрос'],
+      hint: '🙏 Do you mind = не против?',
+      examples: [
+        { en: '<b>Do you mind</b> if I open?', ru: 'Не против, если открою?' },
+        { en: '<b>Do you mind</b> waiting?', ru: 'Не могли бы подождать?' }
+      ]
+    },
+    { id: 'as-soon-as', word: 'as soon as', transcription: '/əz suːn əz/', emoji: '⚡',
+      meaning: 'КАК ТОЛЬКО',
+      color: '#6b8e23',
+      rules: ['время'],
+      hint: '⚡ As soon as = как только.',
+      examples: [
+        { en: '<b>As soon as</b> I arrive, I\'ll call.', ru: 'Как только приеду, позвоню.' }
+      ]
+    },
+    { id: 'in-case-2', word: 'in case', transcription: '/ɪn keɪs/', emoji: '🛡️',
+      meaning: 'НА СЛУЧАЙ',
+      color: '#b97f44',
+      rules: ['предосторожность'],
+      hint: '🛡️ In case = на случай, если.',
+      examples: [
+        { en: 'Take an umbrella <b>in case</b>.', ru: 'Возьми зонт на случай.' },
+        { en: '<b>In case</b> of fire, call 911.', ru: 'В случае пожара звони 911.' }
+      ]
+    },
+    { id: 'be-able-neg', word: 'not be able to', transcription: '/nɒt biː ˈeɪbl/', emoji: '🚫',
+      meaning: 'НЕ СМОЧЬ',
+      color: '#b93a3a',
+      rules: ['неспособность'],
+      hint: '🚫 Not be able to = не смогу.',
+      examples: [
+        { en: 'I <b>won\'t be able to</b> come.', ru: 'Я не смогу прийти.' },
+        { en: 'He <b>wasn\'t able to</b> finish.', ru: 'Он не смог закончить.' }
+      ]
+    },
+    { id: 'be-keen', word: 'be keen on', transcription: '/biː kiːn ɒn/', emoji: '❤️',
+      meaning: 'УВЛЕКАТЬСЯ',
+      color: '#b93a3a',
+      rules: ['интерес', 'желание'],
+      hint: '❤️ Be keen on = увлекаться.',
+      examples: [
+        { en: 'I\'m <b>keen on</b> sports.', ru: 'Я увлекаюсь спортом.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🪤 30 НОВЫХ ЛОВУШЕК (trapPairs)
+// ───────────────────────────────────────────────────────────
+trapPairs.push(
+    { id: 'do-make-full', emoji: '📋🔨', title: 'DO vs MAKE — 30 коллокаций',
+      rule: 'Идиомы с do (работа) и make (создание)',
+      left: { word: 'do', emoji: '📋', meaning: 'работа, действие',
+        examples: [
+          { en: '<b>Do</b> the dishes.', ru: 'Помой посуду.' },
+          { en: '<b>Do</b> the laundry.', ru: 'Постирай.' },
+          { en: '<b>Do</b> homework.', ru: 'Сделай домашку.' },
+          { en: '<b>Do</b> a favour.', ru: 'Сделай одолжение.' },
+          { en: '<b>Do</b> business.', ru: 'Веди бизнес.' },
+          { en: '<b>Do</b> exercise.', ru: 'Делай зарядку.' }
+        ]
+      },
+      right: { word: 'make', emoji: '🔨', meaning: 'создавать',
+        examples: [
+          { en: '<b>Make</b> a decision.', ru: 'Прими решение.' },
+          { en: '<b>Make</b> money.', ru: 'Зарабатывай.' },
+          { en: '<b>Make</b> friends.', ru: 'Найди друзей.' },
+          { en: '<b>Make</b> progress.', ru: 'Двигайся вперёд.' },
+          { en: '<b>Make</b> a mistake.', ru: 'Сделай ошибку.' },
+          { en: '<b>Make</b> sure.', ru: 'Убедись.' }
+        ]
+      }
+    },
+    { id: 'say-tell-full', emoji: '💬🗣️', title: 'SAY vs TELL — 20 идиом',
+      rule: 'SAY (что) vs TELL (кому)',
+      left: { word: 'say', emoji: '💬', meaning: 'сказать (что-то)',
+        examples: [
+          { en: '<b>Say</b> hello.', ru: 'Поздоровайся.' },
+          { en: '<b>Say</b> cheese.', ru: 'Скажи «сыр».' },
+          { en: '<b>Say</b> a prayer.', ru: 'Прочитай молитву.' },
+          { en: '<b>Say</b> the truth.', ru: 'Скажи правду.' }
+        ]
+      },
+      right: { word: 'tell', emoji: '🗣️', meaning: 'сказать (кому-то)',
+        examples: [
+          { en: '<b>Tell</b> the time.', ru: 'Скажи время.' },
+          { en: '<b>Tell</b> a lie.', ru: 'Соври.' },
+          { en: '<b>Tell</b> a story.', ru: 'Расскажи историю.' },
+          { en: '<b>Tell</b> the difference.', ru: 'Отличи.' }
+        ]
+      }
+    },
+    { id: 'bring-take-full', emoji: '📦🎁', title: 'BRING vs TAKE vs FETCH',
+      rule: 'Сюда / Туда / Сходить',
+      left: { word: 'bring', emoji: '📦', meaning: 'принести сюда',
+        examples: [
+          { en: '<b>Bring</b> me water.', ru: 'Принеси воды.' },
+          { en: '<b>Bring</b> it here.', ru: 'Принеси сюда.' }
+        ]
+      },
+      right: { word: 'take', emoji: '🎁', meaning: 'отнести туда',
+        examples: [
+          { en: '<b>Take</b> it away.', ru: 'Унеси.' },
+          { en: '<b>Take</b> this to him.', ru: 'Отнеси ему.' }
+        ]
+      }
+    },
+    { id: 'borrow-lend-loan', emoji: '🤲🎁💵', title: 'BORROW / LEND / LOAN',
+      rule: 'Взять / Дать / Дать с процентами',
+      left: { word: 'borrow', emoji: '🤲', meaning: 'брать взаймы',
+        examples: [
+          { en: 'Can I <b>borrow</b> a pen?', ru: 'Можно взять ручку?' },
+          { en: 'He <b>borrowed</b> my car.', ru: 'Он взял машину.' }
+        ]
+      },
+      right: { word: 'lend', emoji: '🎁', meaning: 'давать взаймы',
+        examples: [
+          { en: 'Can you <b>lend</b> me a pen?', ru: 'Дай ручку?' },
+          { en: 'She <b>lends</b> books.', ru: 'Она даёт книги.' }
+        ]
+      }
+    },
+    { id: 'arrive-reach-3', emoji: '🎯🏁', title: 'ARRIVE / REACH / GET',
+      rule: 'Прибыть / Достичь / Попасть',
+      left: { word: 'arrive', emoji: '🎯', meaning: 'прибыть (arrive at/in)',
+        examples: [
+          { en: '<b>Arrive</b> at the station.', ru: 'Прибудь на станцию.' },
+          { en: '<b>Arrive</b> in London.', ru: 'Прибудь в Лондон.' }
+        ]
+      },
+      right: { word: 'reach', emoji: '🏁', meaning: 'достичь (без предлога)',
+        examples: [
+          { en: '<b>Reach</b> the top.', ru: 'Достигни вершины.' },
+          { en: '<b>Reach</b> home safely.', ru: 'Доберись безопасно.' }
+        ]
+      }
+    },
+    { id: 'listen-hear-4', emoji: '🎧👂', title: 'LISTEN / HEAR — практика',
+      rule: 'Слушать активно / Слышать пассивно',
+      left: { word: 'listen', emoji: '🎧', meaning: 'слушать (специально)',
+        examples: [
+          { en: '<b>Listen</b> to me!', ru: 'Слушай меня!' },
+          { en: '<b>Listen</b> carefully.', ru: 'Слушай внимательно.' }
+        ]
+      },
+      right: { word: 'hear', emoji: '👂', meaning: 'слышать (случайно)',
+        examples: [
+          { en: 'I <b>hear</b> a noise.', ru: 'Я слышу шум.' },
+          { en: 'I <b>heard</b> the news.', ru: 'Я услышал новость.' }
+        ]
+      }
+    },
+    { id: 'look-see-watch', emoji: '👀👁️📺', title: 'LOOK / SEE / WATCH',
+      rule: 'Смотреть (кратко) / Видеть / Смотреть (долго)',
+      left: { word: 'look', emoji: '👀', meaning: 'смотреть (кратко, специально)',
+        examples: [
+          { en: '<b>Look</b> at this.', ru: 'Посмотри на это.' },
+          { en: '<b>Look</b> there!', ru: 'Смотри туда!' }
+        ]
+      },
+      right: { word: 'watch', emoji: '📺', meaning: 'смотреть (долго, следить)',
+        examples: [
+          { en: '<b>Watch</b> TV.', ru: 'Смотри ТВ.' },
+          { en: '<b>Watch</b> the match.', ru: 'Смотри матч.' }
+        ]
+      }
+    },
+    { id: 'good-well-2', emoji: '🎨💨', title: 'GOOD / WELL / BAD / BADLY',
+      rule: 'Прилагательное / Наречие',
+      left: { word: 'good', emoji: '🎨', meaning: 'хороший (прил.)',
+        examples: [
+          { en: 'A <b>good</b> book.', ru: 'Хорошая книга.' },
+          { en: '<b>Good</b> job!', ru: 'Хорошая работа!' }
+        ]
+      },
+      right: { word: 'well', emoji: '💨', meaning: 'хорошо (нареч.)',
+        examples: [
+          { en: 'He plays <b>well</b>.', ru: 'Он хорошо играет.' },
+          { en: 'She sings <b>well</b>.', ru: 'Она хорошо поёт.' }
+        ]
+      }
+    },
+    { id: 'few-little-2', emoji: '🔢🥛', title: 'FEW / LITTLE / A FEW / A LITTLE',
+      rule: 'Мало исчисл. / Мало неисчисл. / Немного',
+      left: { word: 'few', emoji: '🔢', meaning: 'мало (исчисл., плохо)',
+        examples: [
+          { en: '<b>Few</b> people came.', ru: 'Мало людей пришло.' },
+          { en: 'A <b>few</b> books.', ru: 'Несколько книг.' }
+        ]
+      },
+      right: { word: 'little', emoji: '🥛', meaning: 'мало (неисчисл., плохо)',
+        examples: [
+          { en: '<b>Little</b> water left.', ru: 'Мало воды.' },
+          { en: 'A <b>little</b> sugar.', ru: 'Немного сахара.' }
+        ]
+      }
+    },
+    { id: 'some-any-2', emoji: '➕❓', title: 'SOME / ANY / NO',
+      rule: 'Утверждение / Вопрос-отрицание / Совсем нет',
+      left: { word: 'some', emoji: '➕', meaning: 'в утверждениях',
+        examples: [
+          { en: 'I have <b>some</b> money.', ru: 'У меня есть деньги.' },
+          { en: 'Would you like <b>some</b> tea?', ru: 'Хочешь чаю?' }
+        ]
+      },
+      right: { word: 'any', emoji: '❓', meaning: 'в вопросах и отрицаниях',
+        examples: [
+          { en: 'Do you have <b>any</b>?', ru: 'У тебя есть?' },
+          { en: 'I don\'t have <b>any</b>.', ru: 'У меня нет.' }
+        ]
+      }
+    },
+    { id: 'much-many-2', emoji: '💰🔢', title: 'MUCH / MANY / A LOT OF',
+      rule: 'Неисчисл. / Исчисл. / Универсальное',
+      left: { word: 'much', emoji: '💰', meaning: 'много (неисчисл.)',
+        examples: [
+          { en: 'How <b>much</b> money?', ru: 'Сколько денег?' },
+          { en: 'Too <b>much</b> water.', ru: 'Слишком много воды.' }
+        ]
+      },
+      right: { word: 'many', emoji: '🔢', meaning: 'много (исчисл.)',
+        examples: [
+          { en: 'How <b>many</b> books?', ru: 'Сколько книг?' },
+          { en: 'Too <b>many</b> people.', ru: 'Слишком много людей.' }
+        ]
+      }
+    },
+    { id: 'still-yet-2', emoji: '⏳✅', title: 'STILL / YET / ALREADY / JUST',
+      rule: 'Всё ещё / Уже (вопр.) / Уже (утв.) / Только что',
+      left: { word: 'still', emoji: '⏳', meaning: 'всё ещё',
+        examples: [
+          { en: 'He is <b>still</b> sleeping.', ru: 'Он всё ещё спит.' },
+          { en: 'I <b>still</b> love you.', ru: 'Я всё ещё люблю.' }
+        ]
+      },
+      right: { word: 'yet', emoji: '✅', meaning: 'уже (в вопросах)',
+        examples: [
+          { en: 'Have you finished <b>yet</b>?', ru: 'Ты уже закончил?' },
+          { en: 'Not <b>yet</b>.', ru: 'Ещё нет.' }
+        ]
+      }
+    },
+    { id: 'during-for-2', emoji: '⏱️📅', title: 'DURING / FOR / WHILE',
+      rule: 'В течение (когда) / На протяжении / Пока',
+      left: { word: 'during', emoji: '⏱️', meaning: 'во время',
+        examples: [
+          { en: '<b>During</b> the lesson.', ru: 'Во время урока.' },
+          { en: '<b>During</b> summer.', ru: 'В течение лета.' }
+        ]
+      },
+      right: { word: 'for', emoji: '📅', meaning: 'на протяжении',
+        examples: [
+          { en: '<b>For</b> 2 hours.', ru: 'В течение 2 часов.' },
+          { en: '<b>For</b> a long time.', ru: 'Долго.' }
+        ]
+      }
+    },
+    { id: 'between-among-2', emoji: '↔️👥', title: 'BETWEEN / AMONG / AMONGST',
+      rule: 'Между двумя / Среди многих',
+      left: { word: 'between', emoji: '↔️', meaning: 'между двумя',
+        examples: [
+          { en: '<b>Between</b> you and me.', ru: 'Между нами.' },
+          { en: '<b>Between</b> 2 and 4.', ru: 'Между 2 и 4.' }
+        ]
+      },
+      right: { word: 'among', emoji: '👥', meaning: 'среди',
+        examples: [
+          { en: '<b>Among</b> friends.', ru: 'Среди друзей.' },
+          { en: '<b>Among</b> the crowd.', ru: 'Среди толпы.' }
+        ]
+      }
+    },
+    { id: 'beside-besides-2', emoji: '↔️➕', title: 'BESIDE / BESIDES / BESIDES THAT',
+      rule: 'Рядом / Кроме / Кроме того',
+      left: { word: 'beside', emoji: '↔️', meaning: 'рядом',
+        examples: [
+          { en: 'Sit <b>beside</b> me.', ru: 'Сядь рядом.' },
+          { en: '<b>Beside</b> the door.', ru: 'Рядом с дверью.' }
+        ]
+      },
+      right: { word: 'besides', emoji: '➕', meaning: 'кроме того',
+        examples: [
+          { en: '<b>Besides</b>, it\'s cheap.', ru: 'Кроме того, дёшево.' },
+          { en: '<b>Besides</b> that, I\'m tired.', ru: 'Кроме того, я устал.' }
+        ]
+      }
+    },
+    { id: 'lay-lie-4', emoji: '🛏️🧍', title: 'LAY / LIE / LIE (лгать)',
+      rule: 'Класть / Лежать / Лгать',
+      left: { word: 'lay', emoji: '🛏️', meaning: 'класть (laid, laid)',
+        examples: [
+          { en: '<b>Lay</b> the book down.', ru: 'Положи книгу.' },
+          { en: 'He <b>laid</b> it there.', ru: 'Он положил это там.' }
+        ]
+      },
+      right: { word: 'lie', emoji: '🧍', meaning: 'лежать (lay, lain)',
+        examples: [
+          { en: '<b>Lie</b> on the bed.', ru: 'Ляг на кровать.' },
+          { en: 'It <b>lay</b> there.', ru: 'Оно лежало там.' }
+        ]
+      }
+    },
+    { id: 'rise-raise-3', emoji: '🌅⬆️', title: 'RISE / RAISE / ARISE',
+      rule: 'Встать / Поднять / Возникнуть',
+      left: { word: 'rise', emoji: '🌅', meaning: 'подниматься (сам)',
+        examples: [
+          { en: 'Sun <b>rises</b>.', ru: 'Солнце встаёт.' },
+          { en: 'Prices <b>rise</b>.', ru: 'Цены растут.' }
+        ]
+      },
+      right: { word: 'raise', emoji: '⬆️', meaning: 'поднимать (что-то)',
+        examples: [
+          { en: '<b>Raise</b> your hand.', ru: 'Подними руку.' },
+          { en: '<b>Raise</b> money.', ru: 'Собери деньги.' }
+        ]
+      }
+    },
+    { id: 'rob-steal-2', emoji: '🔫💰', title: 'ROB / STEAL / BURGLE',
+      rule: 'Ограбить человека / Украсть вещь / Вломиться',
+      left: { word: 'rob', emoji: '🔫', meaning: 'ограбить (кого-то)',
+        examples: [
+          { en: 'They <b>robbed</b> a bank.', ru: 'Ограбили банк.' },
+          { en: 'He was <b>robbed</b>.', ru: 'Его ограбили.' }
+        ]
+      },
+      right: { word: 'steal', emoji: '💰', meaning: 'украсть (вещь)',
+        examples: [
+          { en: '<b>Stole</b> my bike.', ru: 'Украли велосипед.' },
+          { en: 'Don\'t <b>steal</b>.', ru: 'Не воруй.' }
+        ]
+      }
+    },
+    { id: 'advise-warn-2', emoji: '✅⚠️', title: 'ADVISE / WARN / REMIND',
+      rule: 'Советовать / Предупреждать / Напоминать',
+      left: { word: 'advise', emoji: '✅', meaning: 'советовать',
+        examples: [
+          { en: 'I <b>advise</b> rest.', ru: 'Советую отдых.' },
+          { en: 'He <b>advised</b> caution.', ru: 'Он советовал осторожность.' }
+        ]
+      },
+      right: { word: 'warn', emoji: '⚠️', meaning: 'предупреждать',
+        examples: [
+          { en: 'I <b>warn</b> you!', ru: 'Предупреждаю!' },
+          { en: 'They <b>warned</b> us.', ru: 'Они предупредили.' }
+        ]
+      }
+    },
+    { id: 'allow-let-2', emoji: '✅🔓', title: 'ALLOW / LET / PERMIT',
+      rule: 'Разрешать (формально) / Пускать / Разрешать (официально)',
+      left: { word: 'allow', emoji: '✅', meaning: 'разрешать',
+        examples: [
+          { en: 'Smoking is not <b>allowed</b>.', ru: 'Не разрешено.' },
+          { en: 'They <b>allow</b> dogs.', ru: 'Разрешают собак.' }
+        ]
+      },
+      right: { word: 'let', emoji: '🔓', meaning: 'позволять (неформально)',
+        examples: [
+          { en: '<b>Let</b> me go.', ru: 'Позволь уйти.' },
+          { en: '<b>Let</b> him speak.', ru: 'Дай сказать.' }
+        ]
+      }
+    },
+    { id: 'hope-wish-2', emoji: '🌟💫', title: 'HOPE / WISH / EXPECT',
+      rule: 'Надеяться / Желать (нереально) / Ожидать',
+      left: { word: 'hope', emoji: '🌟', meaning: 'надеяться (реально)',
+        examples: [
+          { en: 'I <b>hope</b> you come.', ru: 'Надеюсь, придёшь.' },
+          { en: '<b>Hope</b> for the best.', ru: 'Надейся на лучшее.' }
+        ]
+      },
+      right: { word: 'wish', emoji: '💫', meaning: 'желать (нереально)',
+        examples: [
+          { en: 'I <b>wish</b> I could fly.', ru: 'Хотел бы летать.' },
+          { en: 'I <b>wish</b> you were here.', ru: 'Жаль, что тебя нет.' }
+        ]
+      }
+    },
+    { id: 'spend-waste-2', emoji: '💰🗑️', title: 'SPEND / WASTE / PAY',
+      rule: 'Тратить (полезно) / Впустую / Платить',
+      left: { word: 'spend', emoji: '💰', meaning: 'тратить (полезно)',
+        examples: [
+          { en: '<b>Spend</b> time wisely.', ru: 'Трать время с умом.' },
+          { en: '<b>Spend</b> money on books.', ru: 'Трать на книги.' }
+        ]
+      },
+      right: { word: 'waste', emoji: '🗑️', meaning: 'тратить впустую',
+        examples: [
+          { en: 'Don\'t <b>waste</b> time.', ru: 'Не трать зря.' },
+          { en: '<b>Waste</b> of money.', ru: 'Пустая трата.' }
+        ]
+      }
+    },
+    { id: 'make-do-collo', emoji: '🎨🔧', title: 'MAKE / DO — идиомы',
+      rule: 'Устойчивые сочетания',
+      left: { word: 'make', emoji: '🎨', meaning: 'make + идиомы',
+        examples: [
+          { en: '<b>Make</b> up your mind.', ru: 'Решись.' },
+          { en: '<b>Make</b> a difference.', ru: 'Измени ситуацию.' },
+          { en: '<b>Make</b> ends meet.', ru: 'Свести концы с концами.' }
+        ]
+      },
+      right: { word: 'do', emoji: '🔧', meaning: 'do + идиомы',
+        examples: [
+          { en: '<b>Do</b> your best.', ru: 'Сделай всё возможное.' },
+          { en: '<b>Do</b> damage.', ru: 'Навреди.' },
+          { en: '<b>Do</b> justice.', ru: 'Оцени по заслугам.' }
+        ]
+      }
+    },
+    { id: 'weather-whether-4', emoji: '🌦️🤔', title: 'WEATHER / WHETHER — примеры',
+      rule: 'Погода / Ли',
+      left: { word: 'weather', emoji: '🌦️', meaning: 'погода (сущ.)',
+        examples: [
+          { en: 'Nice <b>weather</b>.', ru: 'Хорошая погода.' },
+          { en: '<b>Weather</b> forecast.', ru: 'Прогноз погоды.' }
+        ]
+      },
+      right: { word: 'whether', emoji: '🤔', meaning: 'ли (союз)',
+        examples: [
+          { en: 'Ask <b>whether</b> he\'s coming.', ru: 'Спроси, придёт ли он.' },
+          { en: '<b>Whether</b> or not.', ru: 'Так или иначе.' }
+        ]
+      }
+    },
+    { id: 'than-then-2', emoji: '🆚⏰', title: 'THAN / THEN — примеры',
+      rule: 'Чем / Тогда',
+      left: { word: 'than', emoji: '🆚', meaning: 'чем (сравнение)',
+        examples: [
+          { en: 'Better <b>than</b> before.', ru: 'Лучше, чем раньше.' },
+          { en: 'Taller <b>than</b> me.', ru: 'Выше меня.' }
+        ]
+      },
+      right: { word: 'then', emoji: '⏰', meaning: 'тогда / потом',
+        examples: [
+          { en: 'And <b>then</b> we left.', ru: 'А потом мы ушли.' },
+          { en: 'See you <b>then</b>.', ru: 'До встречи.' }
+        ]
+      }
+    },
+    { id: 'your-youre-2', emoji: '👤✅', title: 'YOUR / YOU\'RE — примеры',
+      rule: 'Твой / Ты есть',
+      left: { word: 'your', emoji: '👤', meaning: 'твой (притяж.)',
+        examples: [
+          { en: '<b>Your</b> book is here.', ru: 'Твоя книга здесь.' },
+          { en: '<b>Your</b> turn.', ru: 'Твой ход.' }
+        ]
+      },
+      right: { word: 'you\'re', emoji: '✅', meaning: 'ты есть (сокр.)',
+        examples: [
+          { en: '<b>You\'re</b> right.', ru: 'Ты прав.' },
+          { en: '<b>You\'re</b> welcome.', ru: 'Пожалуйста.' }
+        ]
+      }
+    },
+    { id: 'its-its-2', emoji: '🐾✅', title: 'ITS / IT\'S — примеры',
+      rule: 'Его/её / Это есть',
+      left: { word: 'its', emoji: '🐾', meaning: 'его/её (притяж. для вещей)',
+        examples: [
+          { en: 'The cat licked <b>its</b> paw.', ru: 'Кошка лизала лапу.' },
+          { en: '<b>Its</b> colour is red.', ru: 'Его цвет — красный.' }
+        ]
+      },
+      right: { word: 'it\'s', emoji: '✅', meaning: 'это есть (сокр.)',
+        examples: [
+          { en: '<b>It\'s</b> cold.', ru: 'Холодно.' },
+          { en: '<b>It\'s</b> my book.', ru: 'Это моя книга.' }
+        ]
+      }
+    },
+    { id: 'affect-effect-4', emoji: '🌊🎯', title: 'AFFECT / EFFECT — примеры',
+      rule: 'Влиять / Эффект',
+      left: { word: 'affect', emoji: '🌊', meaning: 'влиять (глаг.)',
+        examples: [
+          { en: 'It <b>affects</b> health.', ru: 'Это влияет на здоровье.' },
+          { en: 'How does it <b>affect</b>?', ru: 'Как влияет?' }
+        ]
+      },
+      right: { word: 'effect', emoji: '🎯', meaning: 'эффект (сущ.)',
+        examples: [
+          { en: 'A side <b>effect</b>.', ru: 'Побочный эффект.' },
+          { en: 'Take <b>effect</b>.', ru: 'Даёт эффект.' }
+        ]
+      }
+    },
+    { id: 'advice-advise-4', emoji: '💬✅', title: 'ADVICE / ADVISE — примеры',
+      rule: 'Совет (сущ.) / Советовать (глаг.)',
+      left: { word: 'advice', emoji: '💬', meaning: 'совет (неисч.)',
+        examples: [
+          { en: 'Some <b>advice</b>.', ru: 'Несколько советов.' },
+          { en: 'Good <b>advice</b>.', ru: 'Хороший совет.' }
+        ]
+      },
+      right: { word: 'advise', emoji: '✅', meaning: 'советовать',
+        examples: [
+          { en: 'I <b>advise</b> rest.', ru: 'Советую отдых.' },
+          { en: 'He <b>advises</b> caution.', ru: 'Он советует осторожность.' }
+        ]
+      }
+    },
+    { id: 'principal-principle-3', emoji: '🎓📏', title: 'PRINCIPAL / PRINCIPLE — примеры',
+      rule: 'Директор / Принцип',
+      left: { word: 'principal', emoji: '🎓', meaning: 'директор / главный',
+        examples: [
+          { en: 'The school <b>principal</b>.', ru: 'Директор школы.' },
+          { en: 'The <b>principal</b> reason.', ru: 'Главная причина.' }
+        ]
+      },
+      right: { word: 'principle', emoji: '📏', meaning: 'принцип',
+        examples: [
+          { en: 'A man of <b>principle</b>.', ru: 'Человек принципов.' },
+          { en: 'In <b>principle</b>.', ru: 'В принципе.' }
+        ]
+      }
+    },
+    { id: 'lose-loose-2', emoji: '😢👖', title: 'LOSE / LOOSE / LOSS',
+      rule: 'Терять / Свободный / Потеря',
+      left: { word: 'lose', emoji: '😢', meaning: 'терять (luːz)',
+        examples: [
+          { en: 'Don\'t <b>lose</b> it.', ru: 'Не теряй.' },
+          { en: 'I <b>lost</b> my keys.', ru: 'Я потерял ключи.' }
+        ]
+      },
+      right: { word: 'loose', emoji: '👖', meaning: 'свободный (luːs)',
+        examples: [
+          { en: 'A <b>loose</b> shirt.', ru: 'Свободная рубашка.' },
+          { en: 'The screw is <b>loose</b>.', ru: 'Винт ослаб.' }
+        ]
+      }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 👯 25 НОВЫХ СЛОВ-БЛИЗНЕЦОВ (twinWords)
+// ───────────────────────────────────────────────────────────
+twinWords.push(
+    { id: 'cite-site-sight-3', emoji: '📖📍👁️', title: 'CITE / SITE / SIGHT',
+      rule: 'Цитировать / Место / Зрение',
+      left: { word: 'cite', emoji: '📖', pos: 'глаг.', meaning: 'цитировать',
+        examples: [
+          { en: '<b>Cite</b> the source.', ru: 'Процитируй источник.' },
+          { en: 'He <b>cited</b> a book.', ru: 'Он сослался на книгу.' }
+        ]
+      },
+      right: { word: 'site', emoji: '📍', pos: 'сущ.', meaning: 'место, сайт',
+        examples: [
+          { en: 'A construction <b>site</b>.', ru: 'Стройплощадка.' },
+          { en: 'Web <b>site</b>.', ru: 'Веб-сайт.' }
+        ]
+      }
+    },
+    { id: 'flour-flower-2', emoji: '🌾🌸', title: 'FLOUR / FLOWER',
+      rule: 'Мука / Цветок',
+      left: { word: 'flour', emoji: '🌾', pos: 'сущ.', meaning: 'мука',
+        examples: [
+          { en: 'Add <b>flour</b>.', ru: 'Добавь муки.' },
+          { en: 'Wheat <b>flour</b>.', ru: 'Пшеничная мука.' }
+        ]
+      },
+      right: { word: 'flower', emoji: '🌸', pos: 'сущ.', meaning: 'цветок',
+        examples: [
+          { en: 'A beautiful <b>flower</b>.', ru: 'Красивый цветок.' },
+          { en: 'Spring <b>flowers</b>.', ru: 'Весенние цветы.' }
+        ]
+      }
+    },
+    { id: 'aloud-allowed-2', emoji: '🔊✅', title: 'ALOUD / ALLOWED',
+      rule: 'Вслух / Разрешено',
+      left: { word: 'aloud', emoji: '🔊', pos: 'нареч.', meaning: 'вслух',
+        examples: [
+          { en: 'Read <b>aloud</b>.', ru: 'Читай вслух.' },
+          { en: 'Think <b>aloud</b>.', ru: 'Думай вслух.' }
+        ]
+      },
+      right: { word: 'allowed', emoji: '✅', pos: 'глаг.', meaning: 'разрешено',
+        examples: [
+          { en: 'Smoking is not <b>allowed</b>.', ru: 'Курение запрещено.' },
+          { en: 'Am I <b>allowed</b>?', ru: 'Мне разрешено?' }
+        ]
+      }
+    },
+    { id: 'brake-break-2', emoji: '🛑💥', title: 'BRAKE / BREAK',
+      rule: 'Тормоз / Ломать',
+      left: { word: 'brake', emoji: '🛑', pos: 'сущ.', meaning: 'тормоз',
+        examples: [
+          { en: 'Press the <b>brake</b>.', ru: 'Нажми тормоз.' },
+          { en: 'Hand <b>brake</b>.', ru: 'Ручник.' }
+        ]
+      },
+      right: { word: 'break', emoji: '💥', pos: 'глаг.', meaning: 'ломать',
+        examples: [
+          { en: 'Don\'t <b>break</b> it.', ru: 'Не сломай.' },
+          { en: 'Take a <b>break</b>.', ru: 'Сделай паузу.' }
+        ]
+      }
+    },
+    { id: 'weather-wether', emoji: '🌦️🐑', title: 'WEATHER / WHETHER / WETHER',
+      rule: 'Погода / Ли / Баран',
+      left: { word: 'weather', emoji: '🌦️', pos: 'сущ.', meaning: 'погода',
+        examples: [
+          { en: 'Bad <b>weather</b>.', ru: 'Плохая погода.' },
+          { en: '<b>Weather</b> report.', ru: 'Прогноз погоды.' }
+        ]
+      },
+      right: { word: 'whether', emoji: '🤔', pos: 'союз', meaning: 'ли',
+        examples: [
+          { en: 'I don\'t know <b>whether</b>.', ru: 'Не знаю, ли...' },
+          { en: '<b>Whether</b> to go.', ru: 'Идти ли.' }
+        ]
+      }
+    },
+    { id: 'stationary-2', emoji: '🧍📝', title: 'STATIONARY / STATIONERY / STATIONARY',
+      rule: 'Неподвижный / Канцтовары',
+      left: { word: 'stationary', emoji: '🧍', pos: 'прил.', meaning: 'неподвижный',
+        examples: [
+          { en: 'A <b>stationary</b> car.', ru: 'Стоящая машина.' },
+          { en: 'Remain <b>stationary</b>.', ru: 'Оставайся на месте.' }
+        ]
+      },
+      right: { word: 'stationery', emoji: '📝', pos: 'сущ.', meaning: 'канцтовары',
+        examples: [
+          { en: 'Buy <b>stationery</b>.', ru: 'Купи канцтовары.' },
+          { en: '<b>Stationery</b> shop.', ru: 'Магазин канцтоваров.' }
+        ]
+      }
+    },
+    { id: 'quiet-quite-2', emoji: '🤫✅', title: 'QUIET / QUITE / QUIT',
+      rule: 'Тихий / Довольно / Бросить',
+      left: { word: 'quiet', emoji: '🤫', pos: 'прил.', meaning: 'тихий',
+        examples: [
+          { en: 'Be <b>quiet</b>!', ru: 'Тихо!' },
+          { en: 'A <b>quiet</b> room.', ru: 'Тихая комната.' }
+        ]
+      },
+      right: { word: 'quite', emoji: '✅', pos: 'нареч.', meaning: 'довольно',
+        examples: [
+          { en: '<b>Quite</b> good!', ru: 'Довольно хорошо!' },
+          { en: '<b>Quite</b> a lot.', ru: 'Довольно много.' }
+        ]
+      }
+    },
+    { id: 'desert-dessert-2', emoji: '🏜️🍰', title: 'DESERT / DESSERT / DESERT (verb)',
+      rule: 'Пустыня / Десерт / Покидать',
+      left: { word: 'desert', emoji: '🏜️', pos: 'сущ. / ˈdezət', meaning: 'пустыня',
+        examples: [
+          { en: 'A hot <b>desert</b>.', ru: 'Жаркая пустыня.' },
+          { en: 'Sahara <b>desert</b>.', ru: 'Пустыня Сахара.' }
+        ]
+      },
+      right: { word: 'dessert', emoji: '🍰', pos: 'сущ. / dɪˈzɜːt', meaning: 'десерт',
+        examples: [
+          { en: 'Sweet <b>dessert</b>.', ru: 'Сладкий десерт.' },
+          { en: 'What\'s for <b>dessert</b>?', ru: 'Что на десерт?' }
+        ]
+      }
+    },
+    { id: 'personal-personnel-4', emoji: '👤👥', title: 'PERSONAL / PERSONNEL / PERSONALITY',
+      rule: 'Личный / Персонал / Личность',
+      left: { word: 'personal', emoji: '👤', pos: 'прил.', meaning: 'личный',
+        examples: [
+          { en: '<b>Personal</b> data.', ru: 'Личные данные.' },
+          { en: '<b>Personal</b> life.', ru: 'Личная жизнь.' }
+        ]
+      },
+      right: { word: 'personnel', emoji: '👥', pos: 'сущ.', meaning: 'персонал',
+        examples: [
+          { en: 'Company <b>personnel</b>.', ru: 'Персонал компании.' },
+          { en: 'HR <b>personnel</b>.', ru: 'Кадровый персонал.' }
+        ]
+      }
+    },
+    { id: 'every-day-2', emoji: '📅🔁', title: 'EVERY DAY / EVERYDAY',
+      rule: 'Каждый день (2 слова) / Ежедневный (1 слово)',
+      left: { word: 'every day', emoji: '📅', pos: 'фраза', meaning: 'каждый день',
+        examples: [
+          { en: 'I run <b>every day</b>.', ru: 'Я бегаю каждый день.' },
+          { en: 'See you <b>every day</b>.', ru: 'Видимся ежедневно.' }
+        ]
+      },
+      right: { word: 'everyday', emoji: '🔁', pos: 'прил.', meaning: 'повседневный',
+        examples: [
+          { en: '<b>Everyday</b> clothes.', ru: 'Повседневная одежда.' },
+          { en: '<b>Everyday</b> life.', ru: 'Повседневная жизнь.' }
+        ]
+      }
+    },
+    { id: 'some-time-2', emoji: '📅🔁', title: 'SOME TIME / SOMETIME / SOMETIMES',
+      rule: 'Некоторое время / Как-то / Иногда',
+      left: { word: 'some time', emoji: '📅', pos: 'фраза', meaning: 'некоторое время',
+        examples: [
+          { en: 'I need <b>some time</b>.', ru: 'Мне нужно время.' },
+          { en: 'For <b>some time</b>.', ru: 'На какое-то время.' }
+        ]
+      },
+      right: { word: 'sometimes', emoji: '🔁', pos: 'нареч.', meaning: 'иногда',
+        examples: [
+          { en: '<b>Sometimes</b> I run.', ru: 'Иногда я бегаю.' },
+          { en: 'She <b>sometimes</b> sings.', ru: 'Она иногда поёт.' }
+        ]
+      }
+    },
+    { id: 'any-way-2', emoji: '🛣️➡️', title: 'ANY WAY / ANYWAY',
+      rule: 'Любой способ / В любом случае',
+      left: { word: 'any way', emoji: '🛣️', pos: 'фраза', meaning: 'любой способ',
+        examples: [
+          { en: 'Is there <b>any way</b>?', ru: 'Есть способ?' },
+          { en: '<b>Any way</b> you like.', ru: 'Любым способом.' }
+        ]
+      },
+      right: { word: 'anyway', emoji: '➡️', pos: 'нареч.', meaning: 'в любом случае',
+        examples: [
+          { en: '<b>Anyway</b>, let\'s go.', ru: 'В любом случае, пойдём.' },
+          { en: 'Thanks <b>anyway</b>.', ru: 'Всё равно спасибо.' }
+        ]
+      }
+    },
+    { id: 'altogether-2', emoji: '🌍✅', title: 'ALL TOGETHER / ALTOGETHER',
+      rule: 'Все вместе / В целом',
+      left: { word: 'all together', emoji: '🌍', pos: 'фраза', meaning: 'все вместе',
+        examples: [
+          { en: 'We sang <b>all together</b>.', ru: 'Мы пели все вместе.' },
+          { en: '<b>All together</b> now!', ru: 'Все вместе!' }
+        ]
+      },
+      right: { word: 'altogether', emoji: '✅', pos: 'нареч.', meaning: 'в целом',
+        examples: [
+          { en: '<b>Altogether</b>, fine.', ru: 'В целом, хорошо.' },
+          { en: 'Not <b>altogether</b> bad.', ru: 'Не так плохо.' }
+        ]
+      }
+    },
+    { id: 'complement-2', emoji: '➕🎨', title: 'COMPLIMENT / COMPLEMENT',
+      rule: 'Комплимент / Дополнение',
+      left: { word: 'compliment', emoji: '➕', pos: 'сущ./глаг.', meaning: 'комплимент',
+        examples: [
+          { en: 'Give a <b>compliment</b>.', ru: 'Сделай комплимент.' },
+          { en: 'She <b>complimented</b> him.', ru: 'Она похвалила.' }
+        ]
+      },
+      right: { word: 'complement', emoji: '🎨', pos: 'сущ./глаг.', meaning: 'дополнение',
+        examples: [
+          { en: 'Perfect <b>complement</b>.', ru: 'Идеальное дополнение.' },
+          { en: 'They <b>complement</b> each other.', ru: 'Они дополняют друг друга.' }
+        ]
+      }
+    },
+    { id: 'passed-past-2', emoji: '✅⏪', title: 'PASSED / PAST',
+      rule: 'Прошёл / Прошлое',
+      left: { word: 'passed', emoji: '✅', pos: 'глаг.', meaning: 'прошёл (глаг.)',
+        examples: [
+          { en: 'He <b>passed</b> the exam.', ru: 'Он сдал экзамен.' },
+          { en: 'Time <b>passed</b>.', ru: 'Время прошло.' }
+        ]
+      },
+      right: { word: 'past', emoji: '⏪', pos: 'сущ./предлог', meaning: 'прошлое',
+        examples: [
+          { en: 'In the <b>past</b>.', ru: 'В прошлом.' },
+          { en: 'Walk <b>past</b> it.', ru: 'Пройди мимо.' }
+        ]
+      }
+    },
+    { id: 'precede-proceed-2', emoji: '⬅️➡️', title: 'PRECEDE / PROCEED / SUCCEED',
+      rule: 'Предшествовать / Продолжать / Преуспеть',
+      left: { word: 'precede', emoji: '⬅️', pos: 'глаг.', meaning: 'предшествовать',
+        examples: [
+          { en: 'A <b>precedes</b> B.', ru: 'А перед Б.' },
+          { en: 'Music <b>preceded</b> speech.', ru: 'Музыка предшествовала речи.' }
+        ]
+      },
+      right: { word: 'proceed', emoji: '➡️', pos: 'глаг.', meaning: 'продолжать',
+        examples: [
+          { en: '<b>Proceed</b> with care.', ru: 'Продолжай с осторожностью.' },
+          { en: 'Please <b>proceed</b>.', ru: 'Продолжайте, пожалуйста.' }
+        ]
+      }
+    },
+    { id: 'instinct-intuition', emoji: '🧠✅', title: 'INSTINCT / INTUITION',
+      rule: 'Инстинкт / Интуиция',
+      left: { word: 'instinct', emoji: '🧠', pos: 'сущ.', meaning: 'инстинкт (природный)',
+        examples: [
+          { en: 'Animal <b>instinct</b>.', ru: 'Животный инстинкт.' },
+          { en: 'Trust your <b>instinct</b>.', ru: 'Доверься инстинкту.' }
+        ]
+      },
+      right: { word: 'intuition', emoji: '✅', pos: 'сущ.', meaning: 'интуиция',
+        examples: [
+          { en: 'Female <b>intuition</b>.', ru: 'Женская интуиция.' },
+          { en: 'Follow your <b>intuition</b>.', ru: 'Следуй интуиции.' }
+        ]
+      }
+    },
+    { id: 'efficient-effective', emoji: '⚙️✅', title: 'EFFICIENT / EFFECTIVE',
+      rule: 'Эффективный (по ресурсам) / Действенный',
+      left: { word: 'efficient', emoji: '⚙️', pos: 'прил.', meaning: 'эффективный',
+        examples: [
+          { en: 'An <b>efficient</b> system.', ru: 'Эффективная система.' },
+          { en: '<b>Efficient</b> worker.', ru: 'Эффективный работник.' }
+        ]
+      },
+      right: { word: 'effective', emoji: '✅', pos: 'прил.', meaning: 'действенный',
+        examples: [
+          { en: 'An <b>effective</b> solution.', ru: 'Действенное решение.' },
+          { en: '<b>Effective</b> method.', ru: 'Действенный метод.' }
+        ]
+      }
+    },
+    { id: 'imagine-imagination', emoji: '🌈🎨', title: 'IMAGINARY / IMAGINATIVE / IMAGINABLE',
+      rule: 'Вымышленный / Творческий / Вообразимый',
+      left: { word: 'imaginary', emoji: '🌈', pos: 'прил.', meaning: 'вымышленный',
+        examples: [
+          { en: 'An <b>imaginary</b> friend.', ru: 'Воображаемый друг.' },
+          { en: '<b>Imaginary</b> world.', ru: 'Вымышленный мир.' }
+        ]
+      },
+      right: { word: 'imaginative', emoji: '🎨', pos: 'прил.', meaning: 'творческий',
+        examples: [
+          { en: 'An <b>imaginative</b> child.', ru: 'Творческий ребёнок.' },
+          { en: '<b>Imaginative</b> story.', ru: 'Творческая история.' }
+        ]
+      }
+    },
+    { id: 'sensible-sensitive', emoji: '🧠❤️', title: 'SENSIBLE / SENSITIVE',
+      rule: 'Разумный / Чувствительный',
+      left: { word: 'sensible', emoji: '🧠', pos: 'прил.', meaning: 'разумный',
+        examples: [
+          { en: 'A <b>sensible</b> decision.', ru: 'Разумное решение.' },
+          { en: '<b>Sensible</b> advice.', ru: 'Разумный совет.' }
+        ]
+      },
+      right: { word: 'sensitive', emoji: '❤️', pos: 'прил.', meaning: 'чувствительный',
+        examples: [
+          { en: 'A <b>sensitive</b> topic.', ru: 'Чувствительная тема.' },
+          { en: '<b>Sensitive</b> skin.', ru: 'Чувствительная кожа.' }
+        ]
+      }
+    },
+    { id: 'economic-economical', emoji: '💼💰', title: 'ECONOMIC / ECONOMICAL',
+      rule: 'Экономический / Экономный',
+      left: { word: 'economic', emoji: '💼', pos: 'прил.', meaning: 'экономический',
+        examples: [
+          { en: '<b>Economic</b> growth.', ru: 'Экономический рост.' },
+          { en: '<b>Economic</b> crisis.', ru: 'Экономический кризис.' }
+        ]
+      },
+      right: { word: 'economical', emoji: '💰', pos: 'прил.', meaning: 'экономный',
+        examples: [
+          { en: 'An <b>economical</b> car.', ru: 'Экономная машина.' },
+          { en: '<b>Economical</b> use.', ru: 'Экономное использование.' }
+        ]
+      }
+    },
+    { id: 'historic-historical-3', emoji: '🏛️📜', title: 'HISTORIC / HISTORICAL',
+      rule: 'Исторически важный / Исторический (по теме)',
+      left: { word: 'historic', emoji: '🏛️', pos: 'прил.', meaning: 'важный для истории',
+        examples: [
+          { en: 'A <b>historic</b> day.', ru: 'Исторический день.' },
+          { en: 'A <b>historic</b> event.', ru: 'Историческое событие.' }
+        ]
+      },
+      right: { word: 'historical', emoji: '📜', pos: 'прил.', meaning: 'по теме истории',
+        examples: [
+          { en: 'A <b>historical</b> novel.', ru: 'Исторический роман.' },
+          { en: '<b>Historical</b> data.', ru: 'Исторические данные.' }
+        ]
+      }
+    },
+    { id: 'careful-careless-2', emoji: '🧐🙈', title: 'CAREFUL / CARELESS / CARING',
+      rule: 'Осторожный / Беспечный / Заботливый',
+      left: { word: 'careful', emoji: '🧐', pos: 'прил.', meaning: 'осторожный',
+        examples: [
+          { en: 'Be <b>careful</b>!', ru: 'Будь осторожен!' },
+          { en: 'A <b>careful</b> driver.', ru: 'Осторожный водитель.' }
+        ]
+      },
+      right: { word: 'careless', emoji: '🙈', pos: 'прил.', meaning: 'беспечный',
+        examples: [
+          { en: 'A <b>careless</b> mistake.', ru: 'Небрежная ошибка.' },
+          { en: '<b>Careless</b> driver.', ru: 'Беспечный водитель.' }
+        ]
+      }
+    },
+    { id: 'lightning-2', emoji: '⚡💡', title: 'LIGHTNING / LIGHTING / LIGHTENING',
+      rule: 'Молния / Освещение / Облегчение',
+      left: { word: 'lightning', emoji: '⚡', pos: 'сущ.', meaning: 'молния',
+        examples: [
+          { en: '<b>Lightning</b> struck.', ru: 'Ударила молния.' },
+          { en: '<b>Lightning</b> speed.', ru: 'Со скоростью молнии.' }
+        ]
+      },
+      right: { word: 'lighting', emoji: '💡', pos: 'сущ.', meaning: 'освещение',
+        examples: [
+          { en: 'Good <b>lighting</b>.', ru: 'Хорошее освещение.' },
+          { en: 'Street <b>lighting</b>.', ru: 'Уличное освещение.' }
+        ]
+      }
+    },
+    { id: 'personal-3', emoji: '👤✅', title: 'PERSONAL / PERSONABLE',
+      rule: 'Личный / Приятный в общении',
+      left: { word: 'personal', emoji: '👤', pos: 'прил.', meaning: 'личный',
+        examples: [
+          { en: '<b>Personal</b> matter.', ru: 'Личное дело.' },
+          { en: '<b>Personal</b> opinion.', ru: 'Личное мнение.' }
+        ]
+      },
+      right: { word: 'personable', emoji: '✅', pos: 'прил.', meaning: 'обаятельный',
+        examples: [
+          { en: 'A <b>personable</b> leader.', ru: 'Обаятельный лидер.' },
+          { en: '<b>Personable</b> employee.', ru: 'Приятный сотрудник.' }
+        ]
+      }
+    },
+    { id: 'invaluable', emoji: '💎💰', title: 'VALUABLE / INVALUABLE / VALUELESS',
+      rule: 'Ценный / Бесценный / Ничего не стоящий',
+      left: { word: 'valuable', emoji: '💎', pos: 'прил.', meaning: 'ценный',
+        examples: [
+          { en: '<b>Valuable</b> advice.', ru: 'Ценный совет.' },
+          { en: '<b>Valuable</b> things.', ru: 'Ценные вещи.' }
+        ]
+      },
+      right: { word: 'invaluable', emoji: '💰', pos: 'прил.', meaning: 'бесценный (очень важный)',
+        examples: [
+          { en: '<b>Invaluable</b> help.', ru: 'Бесценная помощь.' },
+          { en: '<b>Invaluable</b> experience.', ru: 'Бесценный опыт.' }
+        ]
+      }
+    },
+    { id: 'continual-continuous', emoji: '🔁⏱️', title: 'CONTINUAL / CONTINUOUS',
+      rule: 'Периодически повторяющийся / Непрерывный',
+      left: { word: 'continual', emoji: '🔁', pos: 'прил.', meaning: 'с перерывами',
+        examples: [
+          { en: '<b>Continual</b> interruptions.', ru: 'Постоянные перерывы.' },
+          { en: '<b>Continual</b> rain.', ru: 'Дождь с перерывами.' }
+        ]
+      },
+      right: { word: 'continuous', emoji: '⏱️', pos: 'прил.', meaning: 'непрерывный',
+        examples: [
+          { en: '<b>Continuous</b> line.', ru: 'Непрерывная линия.' },
+          { en: '<b>Continuous</b> work.', ru: 'Непрерывная работа.' }
+        ]
+      }
+    },
+    { id: 'assure-ensure', emoji: '✅🛡️', title: 'ASSURE / ENSURE / INSURE',
+      rule: 'Заверять / Обеспечивать / Страховать',
+      left: { word: 'assure', emoji: '✅', pos: 'глаг.', meaning: 'заверять',
+        examples: [
+          { en: 'I <b>assure</b> you.', ru: 'Я вас уверяю.' },
+          { en: 'He <b>assured</b> me.', ru: 'Он меня заверил.' }
+        ]
+      },
+      right: { word: 'ensure', emoji: '🛡️', pos: 'глаг.', meaning: 'обеспечивать',
+        examples: [
+          { en: '<b>Ensure</b> success.', ru: 'Обеспечь успех.' },
+          { en: '<b>Ensure</b> safety.', ru: 'Обеспечь безопасность.' }
+        ]
+      }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// ⚖️ 30 НОВЫХ АНТОНИМОВ (oppositeAffixes)
+// ───────────────────────────────────────────────────────────
+oppositeAffixes.push(
+    { pair: ['in-', '-'], emoji: '⚖️', ex1: 'formal', ex2: 'informal', ru: 'формальный → неформальный' },
+    { pair: ['in-', '-'], emoji: '⚖️', ex1: 'direct', ex2: 'indirect', ru: 'прямой → косвенный' },
+    { pair: ['in-', '-'], emoji: '⚖️', ex1: 'adequate', ex2: 'inadequate', ru: 'адекватный → неадекватный' },
+    { pair: ['in-', '-'], emoji: '⚖️', ex1: 'expensive', ex2: 'inexpensive', ru: 'дорогой → недорогой' },
+    { pair: ['in-', '-'], emoji: '⚖️', ex1: 'convenient', ex2: 'inconvenient', ru: 'удобный → неудобный' },
+    { pair: ['im-', '-'], emoji: '⚖️', ex1: 'polite', ex2: 'impolite', ru: 'вежливый → невежливый' },
+    { pair: ['im-', '-'], emoji: '⚖️', ex1: 'personal', ex2: 'impersonal', ru: 'личный → безличный' },
+    { pair: ['im-', '-'], emoji: '⚖️', ex1: 'mature', ex2: 'immature', ru: 'зрелый → незрелый' },
+    { pair: ['im-', '-'], emoji: '⚖️', ex1: 'perfect', ex2: 'imperfect', ru: 'идеальный → несовершенный' },
+    { pair: ['ir-', '-'], emoji: '⚖️', ex1: 'regular', ex2: 'irregular', ru: 'регулярный → нерегулярный' },
+    { pair: ['ir-', '-'], emoji: '⚖️', ex1: 'rational', ex2: 'irrational', ru: 'разумный → иррациональный' },
+    { pair: ['ir-', '-'], emoji: '⚖️', ex1: 'responsible', ex2: 'irresponsible', ru: 'ответственный → безответственный' },
+    { pair: ['ir-', '-'], emoji: '⚖️', ex1: 'replaceable', ex2: 'irreplaceable', ru: 'заменимый → незаменимый' },
+    { pair: ['il-', '-'], emoji: '⚖️', ex1: 'legal', ex2: 'illegal', ru: 'законный → незаконный' },
+    { pair: ['il-', '-'], emoji: '⚖️', ex1: 'legible', ex2: 'illegible', ru: 'читаемый → нечитаемый' },
+    { pair: ['il-', '-'], emoji: '⚖️', ex1: 'literate', ex2: 'illiterate', ru: 'грамотный → безграмотный' },
+    { pair: ['dis-', '-'], emoji: '⚖️', ex1: 'order', ex2: 'disorder', ru: 'порядок → беспорядок' },
+    { pair: ['dis-', '-'], emoji: '⚖️', ex1: 'pleased', ex2: 'displeased', ru: 'довольный → недовольный' },
+    { pair: ['dis-', '-'], emoji: '⚖️', ex1: 'advantage', ex2: 'disadvantage', ru: 'преимущество → недостаток' },
+    { pair: ['dis-', '-'], emoji: '⚖️', ex1: 'honest', ex2: 'dishonest', ru: 'честный → нечестный' },
+    { pair: ['un-', '-'], emoji: '⚖️', ex1: 'certain', ex2: 'uncertain', ru: 'уверенный → неуверенный' },
+    { pair: ['un-', '-'], emoji: '⚖️', ex1: 'real', ex2: 'unreal', ru: 'реальный → нереальный' },
+    { pair: ['un-', '-'], emoji: '⚖️', ex1: 'safe', ex2: 'unsafe', ru: 'безопасный → небезопасный' },
+    { pair: ['un-', '-'], emoji: '⚖️', ex1: 'attractive', ex2: 'unattractive', ru: 'привлекательный → непривлекательный' },
+    { pair: ['un-', '-'], emoji: '⚖️', ex1: 'able', ex2: 'unable', ru: 'способный → неспособный' },
+    { pair: ['-', '-less'], emoji: '⚖️', ex1: 'doubt', ex2: 'doubtless', ru: 'сомнение → несомненный' },
+    { pair: ['-', '-less'], emoji: '⚖️', ex1: 'count', ex2: 'countless', ru: 'считать → бесчисленный' },
+    { pair: ['-', '-less'], emoji: '⚖️', ex1: 'end', ex2: 'endless', ru: 'конец → бесконечный' },
+    { pair: ['-', '-less'], emoji: '⚖️', ex1: 'weight', ex2: 'weightless', ru: 'вес → невесомый' },
+    { pair: ['over-', 'under-'], emoji: '⚖️', ex1: 'overcharge', ex2: 'undercharge', ru: 'переплатить → недоплатить' }
+);
