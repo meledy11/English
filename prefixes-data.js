@@ -2524,3 +2524,993 @@ const essayTopics = [
     { emoji: '🎮', topic: 'video games',          ru: 'видеоигры' },
     { emoji: '💼', topic: 'remote work',          ru: 'удалённая работа' }
 ];
+
+// ═══════════════════════════════════════════════════════════
+// 🆕 РАСШИРЕНИЕ БАЗЫ v2 — БОЛЬШОЕ ПОПОЛНЕНИЕ
+// Просто вставьте этот блок В КОНЕЦ prefixes-data.js
+// ═══════════════════════════════════════════════════════════
+
+// ───────────────────────────────────────────────────────────
+// 🆕 6 НОВЫХ ПРИСТАВОК
+// ───────────────────────────────────────────────────────────
+prefixes.push(
+    { id: 'dia', type: 'prefix', affix: 'dia-', emoji: '↔️',
+      meaning: 'ЧЕРЕЗ / СКВОЗЬ', assoc: 'dialogue = речь через',
+      explanation: 'dia- означает "через" или "сквозь".',
+      words: [
+        { word: 'dialogue', transcription: '[ˈdaɪəlɒɡ]', trans: 'диалог', ex: 'Have a <b>dia</b>logue.', exRu: 'Веду диалог.' },
+        { word: 'diameter', transcription: '[daɪˈæmɪtə]', trans: 'диаметр', ex: 'The <b>dia</b>meter of a circle.', exRu: 'Диаметр круга.' },
+        { word: 'diagnosis', transcription: '[ˌdaɪəɡˈnəʊsɪs]', trans: 'диагноз', ex: 'A correct <b>dia</b>gnosis.', exRu: 'Правильный диагноз.' }
+      ]
+    },
+    { id: 'epi', type: 'prefix', affix: 'epi-', emoji: '🔝',
+      meaning: 'НА / НАД', assoc: 'epidemic = над народом',
+      explanation: 'epi- означает "на" или "над".',
+      words: [
+        { word: 'epidemic', transcription: '[ˌepɪˈdemɪk]', trans: 'эпидемия', ex: 'A flu <b>epi</b>demic.', exRu: 'Эпидемия гриппа.' },
+        { word: 'epilogue', transcription: '[ˈepɪlɒɡ]', trans: 'эпилог', ex: 'Read the <b>epi</b>logue.', exRu: 'Прочитай эпилог.' },
+        { word: 'epicenter', transcription: '[ˈepɪsentə]', trans: 'эпицентр', ex: 'The <b>epi</b>center of the quake.', exRu: 'Эпицентр землетрясения.' }
+      ]
+    },
+    { id: 'exo', type: 'prefix', affix: 'exo-', emoji: '🌌',
+      meaning: 'СНАРУЖИ', assoc: 'exoskeleton = внешний скелет',
+      explanation: 'exo- означает "снаружи".',
+      words: [
+        { word: 'exoskeleton', transcription: '[ˈeksəʊskelɪtn]', trans: 'экзоскелет', ex: 'An insect\'s <b>exo</b>skeleton.', exRu: 'Экзоскелет насекомого.' },
+        { word: 'exotic', transcription: '[ɪɡˈzɒtɪk]', trans: 'экзотический', ex: 'An <b>exo</b>tic country.', exRu: 'Экзотическая страна.' }
+      ]
+    },
+    { id: 'retro', type: 'prefix', affix: 'retro-', emoji: '⏪',
+      meaning: 'НАЗАД / В ПРОШЛОЕ', assoc: 'retrospective = взгляд назад',
+      explanation: 'retro- означает "назад".',
+      words: [
+        { word: 'retrospective', transcription: '[ˌretrəˈspektɪv]', trans: 'ретроспектива', ex: 'A <b>retro</b>spective view.', exRu: 'Ретроспективный взгляд.' },
+        { word: 'retroactive', transcription: '[ˌretrəʊˈæktɪv]', trans: 'обратной силы', ex: 'A <b>retro</b>active law.', exRu: 'Закон с обратной силой.' }
+      ]
+    },
+    { id: 'pro', type: 'prefix', affix: 'pro-', emoji: '➡️',
+      meaning: 'ВПЕРЁД / ЗА', assoc: 'progress = движение вперёд',
+      explanation: 'pro- означает "вперёд" или "за".',
+      words: [
+        { word: 'progress', transcription: '[ˈprəʊɡres]', trans: 'прогресс', ex: 'Make <b>pro</b>gress.', exRu: 'Делай прогресс.' },
+        { word: 'promote', transcription: '[prəˈməʊt]', trans: 'продвигать', ex: '<b>Pro</b>mote the idea.', exRu: 'Продвигай идею.' },
+        { word: 'proactive', transcription: '[ˌprəʊˈæktɪv]', trans: 'инициативный', ex: 'Be <b>pro</b>active.', exRu: 'Будь инициативным.' }
+      ]
+    },
+    { id: 'circum', type: 'prefix', affix: 'circum-', emoji: '🔄',
+      meaning: 'ВОКРУГ', assoc: 'circle = круг',
+      explanation: 'circum- означает "вокруг".',
+      words: [
+        { word: 'circumstance', transcription: '[ˈsɜːkəmstəns]', trans: 'обстоятельство', ex: 'A difficult <b>circum</b>stance.', exRu: 'Сложное обстоятельство.' },
+        { word: 'circumnavigate', transcription: '[ˌsɜːkəmˈnævɪɡeɪt]', trans: 'обогнуть', ex: '<b>Circum</b>navigate the globe.', exRu: 'Обогнуть земной шар.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 6 НОВЫХ СУФФИКСОВ
+// ───────────────────────────────────────────────────────────
+prefixes.push(
+    { id: 'ate', type: 'suffix', affix: '-ate', emoji: '⚡',
+      meaning: 'ДЕЛАТЬ / СТАНОВИТЬСЯ', assoc: 'activate = активировать',
+      explanation: '-ate образует глаголы.',
+      words: [
+        { word: 'activate', transcription: '[ˈæktɪveɪt]', trans: 'активировать', ex: '<b>Activate</b> the system.', exRu: 'Активируй систему.' },
+        { word: 'celebrate', transcription: '[ˈselɪbreɪt]', trans: 'праздновать', ex: 'Let\'s <b>celebrate</b>!', exRu: 'Давай праздновать!' },
+        { word: 'communicate', transcription: '[kəˈmjuːnɪkeɪt]', trans: 'общаться', ex: '<b>Communicate</b> clearly.', exRu: 'Общайся ясно.' }
+      ]
+    },
+    { id: 'cide', type: 'suffix', affix: '-cide', emoji: '💀',
+      meaning: 'УБИЙСТВО', assoc: 'pesticide = убийца паразитов',
+      explanation: '-cide означает "убийство".',
+      words: [
+        { word: 'pesticide', transcription: '[ˈpestɪsaɪd]', trans: 'пестицид', ex: 'Use <b>pest</b>icide carefully.', exRu: 'Используй пестицид осторожно.' },
+        { word: 'suicide', transcription: '[ˈsuːɪsaɪd]', trans: 'самоубийство', ex: 'Prevent <b>sui</b>cide.', exRu: 'Предотврати самоубийство.' }
+      ]
+    },
+    { id: 'phobia', type: 'suffix', affix: '-phobia', emoji: '😱',
+      meaning: 'СТРАХ', assoc: 'claustrophobia = боязнь замкнутого',
+      explanation: '-phobia означает "страх".',
+      words: [
+        { word: 'claustrophobia', transcription: '[ˌklɔːstrəˈfəʊbiə]', trans: 'клаустрофобия', ex: 'He has <b>claustro</b>phobia.', exRu: 'У него клаустрофобия.' },
+        { word: 'arachnophobia', transcription: '[əˌræknəˈfəʊbiə]', trans: 'боязнь пауков', ex: 'Arachno<b>phobia</b> is common.', exRu: 'Боязнь пауков распространена.' }
+      ]
+    },
+    { id: 'itis', type: 'suffix', affix: '-itis', emoji: '🩺',
+      meaning: 'ВОСПАЛЕНИЕ', assoc: 'bronchitis = воспаление бронхов',
+      explanation: '-itis означает "воспаление".',
+      words: [
+        { word: 'bronchitis', transcription: '[brɒŋˈkaɪtɪs]', trans: 'бронхит', ex: 'A bad case of bronchi<b>tis</b>.', exRu: 'Серьёзный бронхит.' },
+        { word: 'arthritis', transcription: '[ɑːˈθraɪtɪs]', trans: 'артрит', ex: 'Arthri<b>tis</b> is painful.', exRu: 'Артрит — это больно.' }
+      ]
+    },
+    { id: 'wise', type: 'suffix', affix: '-wise', emoji: '🧭',
+      meaning: 'В ОТНОШЕНИИ / СПОСОБОМ', assoc: 'clockwise = по часовой',
+      explanation: '-wise означает "в отношении".',
+      words: [
+        { word: 'clockwise', transcription: '[ˈklɒkwaɪz]', trans: 'по часовой', ex: 'Turn <b>clock</b>wise.', exRu: 'Поверни по часовой.' },
+        { word: 'otherwise', transcription: '[ˈʌðəwaɪz]', trans: 'иначе', ex: 'Do it now, <b>other</b>wise it\'s late.', exRu: 'Сделай сейчас, иначе поздно.' },
+        { word: 'likewise', transcription: '[ˈlaɪkwaɪz]', trans: 'также', ex: 'I will do <b>like</b>wise.', exRu: 'Я поступлю так же.' }
+      ]
+    },
+    { id: 'craft', type: 'suffix', affix: '-craft', emoji: '🛠️',
+      meaning: 'МАСТЕРСТВО', assoc: 'witchcraft = мастерство ведьмы',
+      explanation: '-craft означает "мастерство".',
+      words: [
+        { word: 'witchcraft', transcription: '[ˈwɪtʃkrɑːft]', trans: 'колдовство', ex: 'Old <b>witch</b>craft.', exRu: 'Старое колдовство.' },
+        { word: 'handicraft', transcription: '[ˈhændikrɑːft]', trans: 'ремесло', ex: 'A <b>handi</b>craft market.', exRu: 'Рынок ремесла.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 12 НОВЫХ КОРНЕЙ
+// ───────────────────────────────────────────────────────────
+wordRoots.push(
+    { root: 'cardi', topic: 'life', emoji: '❤️', meaning: 'сердце', note: 'Греческий kardia.',
+      words: [
+        { word: 'cardiac', pre: '-ac', preMean: 'прил.', trans: 'сердечный', ex: 'A <b>cardi</b>ac arrest.', exRu: 'Остановка сердца.' },
+        { word: 'cardiology', pre: '-ology', preMean: 'наука', trans: 'кардиология', ex: 'Study <b>cardi</b>ology.', exRu: 'Изучай кардиологию.' }
+      ]
+    },
+    { root: 'derm', topic: 'life', emoji: '🧴', meaning: 'кожа', note: 'Греческий derma.',
+      words: [
+        { word: 'dermatology', pre: '-ology', preMean: 'наука', trans: 'дерматология', ex: 'Visit <b>derm</b>atology.', exRu: 'Посети дерматологию.' },
+        { word: 'epidermis', pre: 'epi-', preMean: 'сверху', trans: 'эпидермис', ex: 'The <b>epi</b>dermis layer.', exRu: 'Слой эпидермиса.' }
+      ]
+    },
+    { root: 'neuron', topic: 'mind', emoji: '🧠', meaning: 'нерв', note: 'Греческий neuron.',
+      words: [
+        { word: 'neuron', pre: '-', preMean: '—', trans: 'нейрон', ex: 'A single <b>neuron</b>.', exRu: 'Один нейрон.' },
+        { word: 'neurology', pre: '-ology', preMean: 'наука', trans: 'неврология', ex: 'Study <b>neuro</b>logy.', exRu: 'Изучай неврологию.' },
+        { word: 'neurotic', pre: '-tic', preMean: 'прил.', trans: 'невротический', ex: 'A <b>neuro</b>tic person.', exRu: 'Невротичный человек.' }
+      ]
+    },
+    { root: 'bibl', topic: 'speech', emoji: '📖', meaning: 'книга', note: 'Греческий biblion.',
+      words: [
+        { word: 'bibliography', pre: '-graphy', preMean: 'описание', trans: 'библиография', ex: 'Check the <b>biblio</b>graphy.', exRu: 'Проверь библиографию.' },
+        { word: 'bibliophile', pre: '-phile', preMean: 'любитель', trans: 'книголюб', ex: 'A true <b>biblio</b>phile.', exRu: 'Настоящий книголюб.' }
+      ]
+    },
+    { root: 'phil', topic: 'mind', emoji: '❤️', meaning: 'любовь', note: 'Греческий philos.',
+      words: [
+        { word: 'philosophy', pre: '-sophy', preMean: 'мудрость', trans: 'философия', ex: 'Study <b>philo</b>sophy.', exRu: 'Изучай философию.' },
+        { word: 'philanthropy', pre: '-anthropy', preMean: 'человек', trans: 'благотворительность', ex: 'A <b>phil</b>anthropy fund.', exRu: 'Фонд благотворительности.' }
+      ]
+    },
+    { root: 'therm', topic: 'tech', emoji: '🌡️', meaning: 'тепло', note: 'Греческий therme.',
+      words: [
+        { word: 'thermal', pre: '-al', preMean: 'прил.', trans: 'термальный', ex: 'A <b>therm</b>al bath.', exRu: 'Термальная ванна.' },
+        { word: 'thermometer', pre: '-meter', preMean: 'измерять', trans: 'термометр', ex: 'Use a <b>therm</b>ometer.', exRu: 'Используй термометр.' },
+        { word: 'thermostat', pre: '-stat', preMean: 'держать', trans: 'термостат', ex: 'Set the <b>thermo</b>stat.', exRu: 'Установи термостат.' }
+      ]
+    },
+    { root: 'hydr', topic: 'life', emoji: '💧', meaning: 'вода', note: 'Греческий hydor.',
+      words: [
+        { word: 'hydrogen', pre: '-gen', preMean: 'создающий', trans: 'водород', ex: 'A <b>hydr</b>ogen atom.', exRu: 'Атом водорода.' },
+        { word: 'hydraulic', pre: '-aulic', preMean: 'трубка', trans: 'гидравлический', ex: 'A <b>hydr</b>aulic system.', exRu: 'Гидравлическая система.' }
+      ]
+    },
+    { root: 'aer', topic: 'tech', emoji: '✈️', meaning: 'воздух', note: 'Греческий aer.',
+      words: [
+        { word: 'aerial', pre: '-ial', preMean: 'прил.', trans: 'воздушный', ex: 'An <b>aer</b>ial view.', exRu: 'Вид с воздуха.' },
+        { word: 'aerobics', pre: '-obics', preMean: 'спорт', trans: 'аэробика', ex: 'Do <b>aer</b>obics.', exRu: 'Занимайся аэробикой.' }
+      ]
+    },
+    { root: 'gloss', topic: 'speech', emoji: '👅', meaning: 'язык', note: 'Греческий glossa.',
+      words: [
+        { word: 'glossary', pre: '-ary', preMean: 'собрание', trans: 'глоссарий', ex: 'A <b>gloss</b>ary of terms.', exRu: 'Глоссарий терминов.' }
+      ]
+    },
+    { root: 'morph', topic: 'tech', emoji: '🦋', meaning: 'форма', note: 'Греческий morphe.',
+      words: [
+        { word: 'morphology', pre: '-logy', preMean: 'наука', trans: 'морфология', ex: 'Study <b>morph</b>ology.', exRu: 'Изучай морфологию.' },
+        { word: 'metamorphosis', pre: 'meta-', preMean: 'через', trans: 'метаморфоза', ex: 'A complete <b>meta</b>morphosis.', exRu: 'Полная метаморфоза.' }
+      ]
+    },
+    { root: 'cosm', topic: 'tech', emoji: '🌌', meaning: 'вселенная', note: 'Греческий kosmos.',
+      words: [
+        { word: 'cosmos', pre: '-', preMean: '—', trans: 'космос', ex: 'The infinite <b>cosm</b>os.', exRu: 'Бесконечный космос.' },
+        { word: 'cosmopolitan', pre: '-politan', preMean: 'гражданин', trans: 'космополит', ex: 'A <b>cosmo</b>politan city.', exRu: 'Город-космополит.' }
+      ]
+    },
+    { root: 'anthrop', topic: 'life', emoji: '🧑', meaning: 'человек', note: 'Греческий anthropos.',
+      words: [
+        { word: 'anthropology', pre: '-logy', preMean: 'наука', trans: 'антропология', ex: 'Study <b>anthrop</b>ology.', exRu: 'Изучай антропологию.' },
+        { word: 'philanthropy', pre: 'phil-', preMean: 'любовь', trans: 'благотворительность', ex: 'A <b>phil</b>anthropy fund.', exRu: 'Фонд благотворительности.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 3 НОВЫХ ВОЛШЕБНЫХ ГЛАГОЛА
+// ───────────────────────────────────────────────────────────
+magicVerbs.push(
+    { verb: 'let', emoji: '🔓', meaning: 'ПОЗВОЛЯТЬ / ДАВАТЬ',
+      assoc: 'let = разрешить, дать', note: 'let = разрешать, давать, позволять.',
+      senses: [
+        { sense: 'ПОЗВОЛЯТЬ', ru: 'позволять', ex: 'Let me help.', exRu: 'Позволь помочь.' },
+        { sense: 'СДАВАТЬ', ru: 'сдавать', ex: 'Let the room.', exRu: 'Сдай комнату.' },
+        { sense: 'ПУСКАТЬ', ru: 'пускать', ex: 'Let him in.', exRu: 'Впусти его.' }
+      ],
+      phrases: [
+        { p: 'let down', ru: 'подвести', ex: 'Don\'t <b>let</b> me <b>down</b>.', exRu: 'Не подведи меня.' },
+        { p: 'let in', ru: 'впустить', ex: '<b>Let</b> her <b>in</b>.', exRu: 'Впусти её.' },
+        { p: 'let out', ru: 'выпустить', ex: '<b>Let</b> the dog <b>out</b>.', exRu: 'Выпусти собаку.' },
+        { p: 'let go', ru: 'отпустить', ex: '<b>Let</b> it <b>go</b>.', exRu: 'Отпусти это.' }
+      ]
+    },
+    { verb: 'hold', emoji: '🤲', meaning: 'ДЕРЖАТЬ / ПРОВОДИТЬ',
+      assoc: 'hold = держать, содержать, проводить', note: 'hold = держать, содержать, проводить (собрание).',
+      senses: [
+        { sense: 'ДЕРЖАТЬ', ru: 'держать', ex: '<b>Hold</b> my bag.', exRu: 'Подержи сумку.' },
+        { sense: 'ПРОВОДИТЬ', ru: 'проводить', ex: '<b>Hold</b> a meeting.', exRu: 'Проведи встречу.' },
+        { sense: 'ВМЕЩАТЬ', ru: 'вмещать', ex: 'The hall <b>holds</b> 100.', exRu: 'Зал вмещает 100.' }
+      ],
+      phrases: [
+        { p: 'hold on', ru: 'подождать', ex: '<b>Hold on</b>, please.', exRu: 'Подожди, пожалуйста.' },
+        { p: 'hold up', ru: 'задержать', ex: 'Traffic <b>held</b> us <b>up</b>.', exRu: 'Пробка задержала нас.' },
+        { p: 'hold back', ru: 'сдерживать', ex: 'Don\'t <b>hold back</b>.', exRu: 'Не сдерживайся.' }
+      ]
+    },
+    { verb: 'stand', emoji: '🧍', meaning: 'СТОЯТЬ / ВЫДЕРЖИВАТЬ',
+      assoc: 'stand = стоять, терпеть', note: 'stand = стоять, терпеть, выдерживать.',
+      senses: [
+        { sense: 'СТОЯТЬ', ru: 'стоять', ex: 'I <b>stand</b> here.', exRu: 'Я стою здесь.' },
+        { sense: 'ТЕРПЕТЬ', ru: 'терпеть', ex: 'I can\'t <b>stand</b> it.', exRu: 'Не могу это терпеть.' }
+      ],
+      phrases: [
+        { p: 'stand up', ru: 'встать', ex: '<b>Stand up</b>, please.', exRu: 'Встань, пожалуйста.' },
+        { p: 'stand out', ru: 'выделяться', ex: 'You <b>stand out</b>.', exRu: 'Ты выделяешься.' },
+        { p: 'stand by', ru: 'поддерживать', ex: 'I\'ll <b>stand by</b> you.', exRu: 'Я тебя поддержу.' },
+        { p: 'stand for', ru: 'означать', ex: 'What does it <b>stand for</b>?', exRu: 'Что это значит?' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 5 НОВЫХ СЛОВ-ЗАГЛУШЕК
+// ───────────────────────────────────────────────────────────
+magicWords.push(
+    { word: 'one', emoji: '1️⃣', ru: 'тот / этот',
+      note: 'Заменяет существительное в единственном числе.',
+      examples: [
+        { ex: 'The <b>one</b> on the left.', exRu: 'Тот, что слева.' },
+        { ex: 'Which <b>one</b>?', exRu: 'Который?' }
+      ]
+    },
+    { word: 'ones', emoji: '🔢', ru: 'те / эти',
+      note: 'Заменяет существительное во множественном числе.',
+      examples: [
+        { ex: 'The red <b>ones</b>.', exRu: 'Красные.' },
+        { ex: 'Big <b>ones</b>, please.', exRu: 'Большие, пожалуйста.' }
+      ]
+    },
+    { word: 'point', emoji: '🎯', ru: 'смысл / точка',
+      note: 'Точка зрения, смысл, суть.',
+      examples: [
+        { ex: 'What\'s the <b>point</b>?', exRu: 'В чём смысл?' },
+        { ex: 'Good <b>point</b>!', exRu: 'Хорошая мысль!' }
+      ]
+    },
+    { word: 'case', emoji: '📋', ru: 'случай / дело',
+      note: 'Ситуация, обстоятельство.',
+      examples: [
+        { ex: 'In that <b>case</b>, let\'s go.', exRu: 'В таком случае, пойдём.' },
+        { ex: 'Just in <b>case</b>.', exRu: 'На всякий случай.' }
+      ]
+    },
+    { word: 'moment', emoji: '⏱️', ru: 'момент',
+      note: 'Короткий промежуток времени.',
+      examples: [
+        { ex: 'Wait a <b>moment</b>.', exRu: 'Подожди момент.' },
+        { ex: 'At the <b>moment</b>.', exRu: 'В данный момент.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 10 НОВЫХ ФРАЗ-СПАСАЛОК
+// ───────────────────────────────────────────────────────────
+survivalPhrases.push(
+    { en: 'Could you spell that, please?', ru: 'Не могли бы вы продиктовать по буквам?' },
+    { en: 'What does that mean?', ru: 'Что это значит?' },
+    { en: 'How do you pronounce this?', ru: 'Как это произносится?' },
+    { en: 'I\'m just learning English.', ru: 'Я только учу английский.' },
+    { en: 'Could you speak louder?', ru: 'Говорите громче, пожалуйста.' },
+    { en: 'Let me think for a second.', ru: 'Дай секунду подумать.' },
+    { en: 'That\'s exactly what I mean!', ru: 'Именно это я и имею в виду!' },
+    { en: 'I didn\'t catch that.', ru: 'Я не расслышал.' },
+    { en: 'Could you put it another way?', ru: 'Можешь сказать по-другому?' },
+    { en: 'In plain English, please.', ru: 'Простыми словами, пожалуйста.' }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 8 НОВЫХ МОДАЛЬНЫХ
+// ───────────────────────────────────────────────────────────
+modalVerbs.push(
+    { id: 'can', word: 'can', transcription: '/kæn/', emoji: '💪',
+      meaning: 'УМЕНИЕ / ВОЗМОЖНОСТЬ', color: '#6b8e23',
+      rules: ['физическая способность', 'разрешение (неформально)', 'просьба'],
+      hint: '💪 Can = умею, могу физически.',
+      examples: [
+        { en: 'I <b>can</b> swim very well.', ru: 'Я хорошо умею плавать.' },
+        { en: '<b>Can</b> you help me?', ru: 'Можешь мне помочь?' }
+      ]
+    },
+    { id: 'could', word: 'could', transcription: '/kʊd/', emoji: '🙏',
+      meaning: 'ВЕЖЛИВАЯ ПРОСЬБА / ВОЗМОЖНОСТЬ', color: '#b97f44',
+      rules: ['вежливая просьба', 'вероятность', 'прошедшее от can'],
+      hint: '🙏 Could = вежливее, чем can.',
+      examples: [
+        { en: '<b>Could</b> you pass the salt?', ru: 'Не могли бы вы передать соль?' },
+        { en: 'It <b>could</b> rain later.', ru: 'Позже может пойти дождь.' }
+      ]
+    },
+    { id: 'may', word: 'may', transcription: '/meɪ/', emoji: '✅',
+      meaning: 'РАЗРЕШЕНИЕ / ВЕРОЯТНОСТЬ', color: '#8b6946',
+      rules: ['формальное разрешение', 'вероятность', 'пожелание'],
+      hint: '✅ May = формальное разрешение.',
+      examples: [
+        { en: '<b>May</b> I come in?', ru: 'Можно войти?' },
+        { en: 'It <b>may</b> snow tomorrow.', ru: 'Завтра может пойти снег.' }
+      ]
+    },
+    { id: 'might', word: 'might', transcription: '/maɪt/', emoji: '❓',
+      meaning: 'СЛАБАЯ ВЕРОЯТНОСТЬ', color: '#c49a6c',
+      rules: ['меньше вероятность, чем may', 'предположение'],
+      hint: '❓ Might = может быть, но вряд ли.',
+      examples: [
+        { en: 'He <b>might</b> come, but I doubt it.', ru: 'Он может прийти, но вряд ли.' },
+        { en: '<b>Might</b> I ask a question?', ru: 'Можно задать вопрос?' }
+      ]
+    },
+    { id: 'will', word: 'will', transcription: '/wɪl/', emoji: '🔮',
+      meaning: 'БУДУЩЕЕ / ОБЕЩАНИЕ', color: '#6b8e23',
+      rules: ['будущее время', 'обещание', 'решение сейчас'],
+      hint: '🔮 Will = будущее + обещание.',
+      examples: [
+        { en: 'I <b>will</b> call you tomorrow.', ru: 'Я позвоню тебе завтра.' },
+        { en: '<b>Will</b> you come?', ru: 'Ты придёшь?' }
+      ]
+    },
+    { id: 'would', word: 'would', transcription: '/wʊd/', emoji: '🎩',
+      meaning: 'ВЕЖЛИВОСТЬ / УСЛОВИЕ', color: '#b97f44',
+      rules: ['вежливость', 'условное предложение'],
+      hint: '🎩 Would = вежливо + "бы".',
+      examples: [
+        { en: 'I <b>would</b> like some tea.', ru: 'Я бы хотел чаю.' },
+        { en: '<b>Would</b> you help me?', ru: 'Не могли бы вы помочь?' }
+      ]
+    },
+    { id: 'shall', word: 'shall', transcription: '/ʃæl/', emoji: '🤝',
+      meaning: 'ПРЕДЛОЖЕНИЕ / БУДУЩЕЕ', color: '#8b6946',
+      rules: ['предложение', 'формальное будущее'],
+      hint: '🤝 Shall = предложение или правило.',
+      examples: [
+        { en: '<b>Shall</b> we dance?', ru: 'Потанцуем?' },
+        { en: 'You <b>shall</b> not pass!', ru: 'Ты не пройдёшь!' }
+      ]
+    },
+    { id: 'ought', word: 'ought to', transcription: '/ɔːt tuː/', emoji: '📌',
+      meaning: 'СЛЕДУЕТ (моральный долг)', color: '#6b8e23',
+      rules: ['моральная обязанность', 'рекомендация'],
+      hint: '📌 Ought to = следовало бы (по совести).',
+      examples: [
+        { en: 'You <b>ought to</b> apologize.', ru: 'Тебе следует извиниться.' },
+        { en: 'We <b>ought to</b> help them.', ru: 'Нам следует им помочь.' }
+      ]
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 5 НОВЫХ СЛОВ-ЛОВУШЕК
+// ───────────────────────────────────────────────────────────
+trapPairs.push(
+    { id: 'do-make2', emoji: '📋🔨', title: 'DO vs MAKE — подробнее',
+      rule: 'Работа VS создание',
+      left: { word: 'do', emoji: '📋', meaning: 'работа, задача, действие',
+        examples: [
+          { en: '<b>Do</b> your homework.', ru: 'Сделай домашку.' },
+          { en: '<b>Do</b> the dishes.', ru: 'Помой посуду.' }
+        ]
+      },
+      right: { word: 'make', emoji: '🔨', meaning: 'создать, произвести',
+        examples: [
+          { en: '<b>Make</b> a cake.', ru: 'Испеки торт.' },
+          { en: '<b>Make</b> money.', ru: 'Заработай денег.' }
+        ]
+      }
+    },
+    { id: 'few-little', emoji: '🔢🥛', title: 'FEW vs LITTLE',
+      rule: 'Исчисляемые VS неисчисляемые',
+      left: { word: 'few', emoji: '🔢', meaning: 'мало (исчисл.)',
+        examples: [
+          { en: '<b>Few</b> people came.', ru: 'Мало людей пришло.' },
+          { en: 'A <b>few</b> books.', ru: 'Несколько книг.' }
+        ]
+      },
+      right: { word: 'little', emoji: '🥛', meaning: 'мало (неисчисл.)',
+        examples: [
+          { en: '<b>Little</b> water left.', ru: 'Мало воды осталось.' },
+          { en: 'A <b>little</b> sugar.', ru: 'Немного сахара.' }
+        ]
+      }
+    },
+    { id: 'some-any', emoji: '➕❓', title: 'SOME vs ANY',
+      rule: 'Утверждение VS вопрос/отрицание',
+      left: { word: 'some', emoji: '➕', meaning: 'в утверждениях',
+        examples: [
+          { en: 'I have <b>some</b> money.', ru: 'У меня есть немного денег.' },
+          { en: 'Would you like <b>some</b> tea?', ru: 'Хочешь чаю?' }
+        ]
+      },
+      right: { word: 'any', emoji: '❓', meaning: 'в вопросах и отрицаниях',
+        examples: [
+          { en: 'Do you have <b>any</b> money?', ru: 'У тебя есть деньги?' },
+          { en: 'I don\'t have <b>any</b>.', ru: 'У меня нет.' }
+        ]
+      }
+    },
+    { id: 'much-many', emoji: '💰🔢', title: 'MUCH vs MANY',
+      rule: 'Неисчисляемые VS исчисляемые',
+      left: { word: 'much', emoji: '💰', meaning: 'много (неисчисл.)',
+        examples: [
+          { en: 'How <b>much</b> money?', ru: 'Сколько денег?' },
+          { en: 'Too <b>much</b> water.', ru: 'Слишком много воды.' }
+        ]
+      },
+      right: { word: 'many', emoji: '🔢', meaning: 'много (исчисл.)',
+        examples: [
+          { en: 'How <b>many</b> books?', ru: 'Сколько книг?' },
+          { en: 'Too <b>many</b> people.', ru: 'Слишком много людей.' }
+        ]
+      }
+    },
+    { id: 'good-well', emoji: '🎨💨', title: 'GOOD vs WELL',
+      rule: 'Прилагательное VS наречие',
+      left: { word: 'good', emoji: '🎨', meaning: 'хороший (прил.)',
+        examples: [
+          { en: 'A <b>good</b> book.', ru: 'Хорошая книга.' },
+          { en: 'I feel <b>good</b>.', ru: 'Я чувствую себя хорошо.' }
+        ]
+      },
+      right: { word: 'well', emoji: '💨', meaning: 'хорошо (нареч.)',
+        examples: [
+          { en: 'He plays <b>well</b>.', ru: 'Он хорошо играет.' },
+          { en: 'She sings <b>well</b>.', ru: 'Она хорошо поёт.' }
+        ]
+      }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 6 НОВЫХ СЛОВ-БЛИЗНЕЦОВ
+// ───────────────────────────────────────────────────────────
+twinWords.push(
+    { id: 'weather-whether', emoji: '🌦️🤔', title: 'WEATHER vs WHETHER',
+      rule: 'Погода VS ли',
+      left: { word: 'weather', emoji: '🌦️', pos: 'сущ.', meaning: 'погода',
+        examples: [{ en: 'Nice <b>weather</b> today.', ru: 'Хорошая погода сегодня.' }]
+      },
+      right: { word: 'whether', emoji: '🤔', pos: 'союз', meaning: 'ли',
+        examples: [{ en: 'I don\'t know <b>whether</b> to go.', ru: 'Не знаю, идти ли.' }]
+      }
+    },
+    { id: 'their-there', emoji: '👥📍', title: 'THEIR vs THERE',
+      rule: 'Их VS там',
+      left: { word: 'their', emoji: '👥', pos: 'притяж.', meaning: 'их',
+        examples: [{ en: '<b>Their</b> house is big.', ru: 'Их дом большой.' }]
+      },
+      right: { word: 'there', emoji: '📍', pos: 'нареч.', meaning: 'там',
+        examples: [{ en: 'Put it <b>there</b>.', ru: 'Положи это там.' }]
+      }
+    },
+    { id: 'your-youre', emoji: '👤✅', title: 'YOUR vs YOU\'RE',
+      rule: 'Твой VS ты есть',
+      left: { word: 'your', emoji: '👤', pos: 'притяж.', meaning: 'твой',
+        examples: [{ en: '<b>Your</b> book is here.', ru: 'Твоя книга здесь.' }]
+      },
+      right: { word: 'you\'re', emoji: '✅', pos: 'сокр.', meaning: 'ты есть',
+        examples: [{ en: '<b>You\'re</b> right!', ru: 'Ты прав!' }]
+      }
+    },
+    { id: 'then-than', emoji: '⏰🆚', title: 'THEN vs THAN',
+      rule: 'Тогда VS чем',
+      left: { word: 'then', emoji: '⏰', pos: 'нареч.', meaning: 'тогда',
+        examples: [{ en: 'And <b>then</b> we left.', ru: 'И тогда мы ушли.' }]
+      },
+      right: { word: 'than', emoji: '🆚', pos: 'союз', meaning: 'чем',
+        examples: [{ en: 'Better <b>than</b> before.', ru: 'Лучше, чем раньше.' }]
+      }
+    },
+    { id: 'to-too', emoji: '➡️➕', title: 'TO vs TOO',
+      rule: 'К VS тоже',
+      left: { word: 'to', emoji: '➡️', pos: 'предлог', meaning: 'к / в',
+        examples: [{ en: 'I go <b>to</b> work.', ru: 'Я иду на работу.' }]
+      },
+      right: { word: 'too', emoji: '➕', pos: 'нареч.', meaning: 'тоже / слишком',
+        examples: [
+          { en: 'Me <b>too</b>!', ru: 'Я тоже!' },
+          { en: '<b>Too</b> much!', ru: 'Слишком много!' }
+        ]
+      }
+    },
+    { id: 'its-its', emoji: '🐾✅', title: 'ITS vs IT\'S',
+      rule: 'Его/её VS это есть',
+      left: { word: 'its', emoji: '🐾', pos: 'притяж.', meaning: 'его/её (для вещей)',
+        examples: [{ en: 'The cat licked <b>its</b> paw.', ru: 'Кошка лизнула лапу.' }]
+      },
+      right: { word: 'it\'s', emoji: '✅', pos: 'сокр.', meaning: 'это есть',
+        examples: [{ en: '<b>It\'s</b> cold.', ru: 'Холодно.' }]
+      }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 8 НОВЫХ ЭССЕ-СВЯЗОК
+// ───────────────────────────────────────────────────────────
+essayLinkers.push(
+    { id: 'inconclusion', group: 'end', en: 'In conclusion', ru: 'в заключение',
+      emoji: '🏁', trans: '[ɪn kənˈkluːʒn]',
+      usage: 'Итог эссе.',
+      example: { en: '<b>In conclusion</b>, education matters.', ru: 'В заключение, образование важно.' }
+    },
+    { id: 'tosumup', group: 'end', en: 'To sum up', ru: 'подводя итог',
+      emoji: '🏁', trans: '[tə sʌm ʌp]',
+      usage: 'Финальное обобщение.',
+      example: { en: '<b>To sum up</b>, we need change.', ru: 'Подводя итог, нам нужны изменения.' }
+    },
+    { id: 'allinall', group: 'end', en: 'All in all', ru: 'в целом',
+      emoji: '🏁', trans: '[ɔːl ɪn ɔːl]',
+      usage: 'Общий вывод.',
+      example: { en: '<b>All in all</b>, it\'s worth it.', ru: 'В целом, оно того стоит.' }
+    },
+    { id: 'ontop', group: 'develop', en: 'On top of that', ru: 'вдобавок к этому',
+      emoji: '➕', trans: '[ɒn tɒp əv ðæt]',
+      usage: 'Добавление аргумента.',
+      example: { en: '<b>On top of that</b>, it\'s cheap.', ru: 'Вдобавок, это дёшево.' }
+    },
+    { id: 'asfor', group: 'start', en: 'As for', ru: 'что касается',
+      emoji: '📌', trans: '[əz fɔː]',
+      usage: 'Смена темы.',
+      example: { en: '<b>As for</b> me, I agree.', ru: 'Что касается меня, я согласен.' }
+    },
+    { id: 'whenit', group: 'clarify', en: 'When it comes to', ru: 'когда речь о',
+      emoji: '🎯', trans: '[wen ɪt kʌmz tə]',
+      usage: 'Введение темы.',
+      example: { en: '<b>When it comes to</b> sport, he\'s the best.', ru: 'Когда речь о спорте, он лучший.' }
+    },
+    { id: 'firstofall', group: 'start', en: 'First of all', ru: 'прежде всего',
+      emoji: '🥇', trans: '[fɜːst əv ɔːl]',
+      usage: 'Начало списка.',
+      example: { en: '<b>First of all</b>, let\'s plan.', ru: 'Прежде всего, давай спланируем.' }
+    },
+    { id: 'lastbutnot', group: 'end', en: 'Last but not least', ru: 'и последнее, но не менее важное',
+      emoji: '🏁', trans: '[lɑːst bʌt nɒt liːst]',
+      usage: 'Финальный пункт.',
+      example: { en: '<b>Last but not least</b>, thank you.', ru: 'И наконец, спасибо.' }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 5 НОВЫХ СВЯЗОК (сравнить/объяснить)
+// ───────────────────────────────────────────────────────────
+usefulLinkers.push(
+    { id: 'aslongas', group: 'explain', en: 'As long as', ru: 'пока / при условии',
+      emoji: '📌', trans: '[əz lɒŋ əz]',
+      usage: 'Условие.',
+      example: { en: '<b>As long as</b> you try, it\'s fine.', ru: 'Пока ты пытаешься, всё хорошо.' }
+    },
+    { id: 'incase', group: 'explain', en: 'In case', ru: 'на случай',
+      emoji: '🛡️', trans: '[ɪn keɪs]',
+      usage: 'Предосторожность.',
+      example: { en: 'Take an umbrella <b>in case</b>.', ru: 'Возьми зонт на случай.' }
+    },
+    { id: 'asif', group: 'compare', en: 'As if', ru: 'как будто',
+      emoji: '🎭', trans: '[əz ɪf]',
+      usage: 'Сравнение с воображаемым.',
+      example: { en: 'He talks <b>as if</b> he knows.', ru: 'Он говорит, как будто знает.' }
+    },
+    { id: 'inorder', group: 'explain', en: 'In order to', ru: 'для того чтобы',
+      emoji: '🎯', trans: '[ɪn ˈɔːdə tuː]',
+      usage: 'Цель.',
+      example: { en: '<b>In order to</b> win, train hard.', ru: 'Чтобы победить, тренируйся.' }
+    },
+    { id: 'inspite', group: 'compare', en: 'In spite of', ru: 'несмотря на',
+      emoji: '💪', trans: '[ɪn spaɪt əv]',
+      usage: 'Уступка.',
+      example: { en: '<b>In spite of</b> rain, we went.', ru: 'Несмотря на дождь, мы пошли.' }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 5 НОВЫХ ВОПРОСИТЕЛЬНЫХ
+// ───────────────────────────────────────────────────────────
+questionWords.push(
+    { en: 'How often', ru: 'как часто', emoji: '🔁', group: 'how', trans: '[haʊ ˈɒfn]',
+      example: { en: '<b>How often</b> do you run?', ru: 'Как часто ты бегаешь?' }
+    },
+    { en: 'How soon', ru: 'как скоро', emoji: '⏰', group: 'how', trans: '[haʊ suːn]',
+      example: { en: '<b>How soon</b> can you come?', ru: 'Как скоро ты можешь прийти?' }
+    },
+    { en: 'How come', ru: 'как так', emoji: '❓', group: 'how', trans: '[haʊ kʌm]',
+      example: { en: '<b>How come</b> you\'re late?', ru: 'Как так ты опоздал?' }
+    },
+    { en: 'What kind of', ru: 'какой вид', emoji: '🎭', group: 'basic', trans: '[wɒt kaɪnd əv]',
+      example: { en: '<b>What kind of</b> music?', ru: 'Какой вид музыки?' }
+    },
+    { en: 'What time', ru: 'во сколько', emoji: '🕐', group: 'basic', trans: '[wɒt taɪm]',
+      example: { en: '<b>What time</b> is it?', ru: 'Сколько времени?' }
+    }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 6 НОВЫХ ВВОДНЫХ СЛОВ
+// ───────────────────────────────────────────────────────────
+discourseMarkers.push(
+    { id: 'inbrief', word: 'In brief', transcription: '[ɪn briːf]', ru: 'короче говоря', emoji: '📌', group: 'style',
+      example: { en: '<b>In brief</b>, we won.', ru: 'Короче, мы победили.' } },
+    { id: 'inconclusion2', word: 'In conclusion', transcription: '[ɪn kənˈkluːʒn]', ru: 'в заключение', emoji: '🏁', group: 'logic',
+      example: { en: '<b>In conclusion</b>, we must try.', ru: 'В заключение, мы должны попробовать.' } },
+    { id: 'firstofall2', word: 'First of all', transcription: '[fɜːst əv ɔːl]', ru: 'прежде всего', emoji: '🥇', group: 'logic',
+      example: { en: '<b>First of all</b>, let\'s plan.', ru: 'Прежде всего, давай спланируем.' } },
+    { id: 'lastbutnot2', word: 'Last but not least', transcription: '[lɑːst bʌt nɒt liːst]', ru: 'и последнее', emoji: '🏁', group: 'logic',
+      example: { en: '<b>Last but not least</b>, thank you.', ru: 'И наконец, спасибо.' } },
+    { id: 'asamatter', word: 'As a matter of fact', transcription: '[əz ə ˈmætər əv fækt]', ru: 'на самом деле', emoji: '🎯', group: 'style',
+      example: { en: '<b>As a matter of fact</b>, I agree.', ru: 'На самом деле, я согласен.' } },
+    { id: 'frankly', word: 'Frankly speaking', transcription: '[ˈfræŋkli ˈspiːkɪŋ]', ru: 'честно говоря', emoji: '💬', group: 'emotion',
+      example: { en: '<b>Frankly speaking</b>, I don\'t care.', ru: 'Честно говоря, мне всё равно.' } }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 12 НОВЫХ СЛОВ ВРЕМЕНИ
+// ───────────────────────────────────────────────────────────
+allTimeWords.push(
+    { en: 'In the morning', ru: 'утром', emoji: '🌅', trans: '[ɪn ðə ˈmɔːnɪŋ]', group: 'present' },
+    { en: 'In the afternoon', ru: 'днём', emoji: '☀️', trans: '[ɪn ði ˌɑːftəˈnuːn]', group: 'present' },
+    { en: 'In the evening', ru: 'вечером', emoji: '🌆', trans: '[ɪn ði ˈiːvnɪŋ]', group: 'present' },
+    { en: 'At night', ru: 'ночью', emoji: '🌙', trans: '[ət naɪt]', group: 'present' },
+    { en: 'At noon', ru: 'в полдень', emoji: '🕛', trans: '[ət nuːn]', group: 'present' },
+    { en: 'At midnight', ru: 'в полночь', emoji: '🕛', trans: '[ət ˈmɪdnaɪt]', group: 'present' },
+    { en: 'The other day', ru: 'на днях', emoji: '📆', trans: '[ði ˈʌðə deɪ]', group: 'past' },
+    { en: 'In those days', ru: 'в те дни', emoji: '📜', trans: '[ɪn ðəʊz deɪz]', group: 'past' },
+    { en: 'The week after next', ru: 'через неделю', emoji: '📆', trans: '[ðə wiːk ˈɑːftə nekst]', group: 'future' },
+    { en: 'From now on', ru: 'с этого момента', emoji: '➡️', trans: '[frəm naʊ ɒn]', group: 'future' },
+    { en: 'Sooner or later', ru: 'рано или поздно', emoji: '⏳', trans: '[ˈsuːnə ɔː ˈleɪtə]', group: 'future' },
+    { en: 'Once in a while', ru: 'время от времени', emoji: '🔁', trans: '[wʌns ɪn ə waɪl]', group: 'present' }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 50+ МИНИ-ДИАЛОГОВ
+// ───────────────────────────────────────────────────────────
+miniDialogues.push(
+    { emoji: '☕', affix: 'have', title: 'В кафе', lines: [
+        { who: 'A', en: 'Can I <b>have</b> a coffee?', ru: 'Можно мне кофе?' },
+        { who: 'B', en: 'Sure. With milk?', ru: 'Конечно. С молоком?' },
+        { who: 'A', en: 'Yes, please.', ru: 'Да, пожалуйста.' } ] },
+    { emoji: '🛒', affix: 'buy', title: 'В магазине', lines: [
+        { who: 'A', en: 'How much is this?', ru: 'Сколько это стоит?' },
+        { who: 'B', en: 'It\'s 10 dollars.', ru: '10 долларов.' },
+        { who: 'A', en: 'I\'ll <b>buy</b> it.', ru: 'Я куплю это.' } ] },
+    { emoji: '📞', affix: 'call', title: 'Звонок другу', lines: [
+        { who: 'A', en: 'Hey! How are you?', ru: 'Привет! Как ты?' },
+        { who: 'B', en: 'I\'m fine. And you?', ru: 'Хорошо. А ты?' },
+        { who: 'A', en: 'I\'ll <b>call</b> you later.', ru: 'Позвоню тебе позже.' } ] },
+    { emoji: '🕐', affix: 'wait', title: 'Опоздание', lines: [
+        { who: 'A', en: 'Sorry I\'m late!', ru: 'Прости, я опоздал!' },
+        { who: 'B', en: 'It\'s okay. I <b>waited</b> 5 minutes.', ru: 'Ладно. Я подождал 5 минут.' },
+        { who: 'A', en: 'Thanks for waiting.', ru: 'Спасибо, что подождал.' } ] },
+    { emoji: '🍽️', affix: 'eat', title: 'В ресторане', lines: [
+        { who: 'A', en: 'What would you like to <b>eat</b>?', ru: 'Что бы ты хотел поесть?' },
+        { who: 'B', en: 'I\'d like pasta, please.', ru: 'Я хотел бы пасту, пожалуйста.' },
+        { who: 'A', en: 'Good choice!', ru: 'Хороший выбор!' } ] },
+    { emoji: '🚗', affix: 'drive', title: 'В машине', lines: [
+        { who: 'A', en: 'Can you <b>drive</b> me home?', ru: 'Можешь меня подвезти домой?' },
+        { who: 'B', en: 'Of course, hop in!', ru: 'Конечно, садись!' },
+        { who: 'A', en: 'You\'re the best!', ru: 'Ты лучший!' } ] },
+    { emoji: '📚', affix: 'study', title: 'Перед экзаменом', lines: [
+        { who: 'A', en: 'Did you <b>study</b> for the test?', ru: 'Ты готовился к тесту?' },
+        { who: 'B', en: 'Yes, all night!', ru: 'Да, всю ночь!' },
+        { who: 'A', en: 'You\'ll do great!', ru: 'Ты справишься!' } ] },
+    { emoji: '🏃', affix: 'run', title: 'Спорт', lines: [
+        { who: 'A', en: 'Do you <b>run</b> every day?', ru: 'Ты бегаешь каждый день?' },
+        { who: 'B', en: 'Yes, 5 km each morning.', ru: 'Да, 5 км каждое утро.' },
+        { who: 'A', en: 'That\'s amazing!', ru: 'Это потрясающе!' } ] },
+    { emoji: '🌧️', affix: 'rain', title: 'Погода', lines: [
+        { who: 'A', en: 'It might <b>rain</b> today.', ru: 'Может пойти дождь сегодня.' },
+        { who: 'B', en: 'I\'ll take an umbrella.', ru: 'Возьму зонт.' },
+        { who: 'A', en: 'Good idea.', ru: 'Хорошая идея.' } ] },
+    { emoji: '🎬', affix: 'watch', title: 'Кино', lines: [
+        { who: 'A', en: 'Want to <b>watch</b> a movie?', ru: 'Хочешь посмотреть фильм?' },
+        { who: 'B', en: 'Sure, what genre?', ru: 'Конечно, какой жанр?' },
+        { who: 'A', en: 'Something funny.', ru: 'Что-нибудь смешное.' } ] },
+    { emoji: '✈️', affix: 'travel', title: 'Отпуск', lines: [
+        { who: 'A', en: 'Where do you want to <b>travel</b>?', ru: 'Куда ты хочешь поехать?' },
+        { who: 'B', en: 'I\'d love to visit Japan.', ru: 'Я бы хотел посетить Японию.' },
+        { who: 'A', en: 'Great choice!', ru: 'Отличный выбор!' } ] },
+    { emoji: '💼', affix: 'work', title: 'Собеседование', lines: [
+        { who: 'A', en: 'Where do you <b>work</b>?', ru: 'Где вы работаете?' },
+        { who: 'B', en: 'I work at a bank.', ru: 'Я работаю в банке.' },
+        { who: 'A', en: 'How long have you been there?', ru: 'Как долго вы там работаете?' } ] },
+    { emoji: '🏠', affix: 'live', title: 'О жилье', lines: [
+        { who: 'A', en: 'Where do you <b>live</b>?', ru: 'Где ты живёшь?' },
+        { who: 'B', en: 'In the city centre.', ru: 'В центре города.' },
+        { who: 'A', en: 'Nice area!', ru: 'Хороший район!' } ] },
+    { emoji: '🎂', affix: 'celebrate', title: 'День рождения', lines: [
+        { who: 'A', en: 'Let\'s <b>celebrate</b> your birthday!', ru: 'Давай отпразднуем твой день рождения!' },
+        { who: 'B', en: 'Thank you so much!', ru: 'Большое спасибо!' },
+        { who: 'A', en: 'When is the party?', ru: 'Когда вечеринка?' } ] },
+    { emoji: '💊', affix: 'feel', title: 'В аптеке', lines: [
+        { who: 'A', en: 'I don\'t <b>feel</b> well.', ru: 'Я плохо себя чувствую.' },
+        { who: 'B', en: 'What\'s wrong?', ru: 'Что случилось?' },
+        { who: 'A', en: 'I have a headache.', ru: 'У меня болит голова.' } ] },
+    { emoji: '🚌', affix: 'take', title: 'Транспорт', lines: [
+        { who: 'A', en: 'How do I get to the station?', ru: 'Как добраться до вокзала?' },
+        { who: 'B', en: '<b>Take</b> bus number 5.', ru: 'Сядь на автобус 5.' },
+        { who: 'A', en: 'Thanks a lot!', ru: 'Большое спасибо!' } ] },
+    { emoji: '📱', affix: 'text', title: 'Переписка', lines: [
+        { who: 'A', en: 'Did you get my message?', ru: 'Ты получил моё сообщение?' },
+        { who: 'B', en: 'Yes, I\'ll <b>text</b> you back.', ru: 'Да, я отвечу.' },
+        { who: 'A', en: 'Great, talk soon!', ru: 'Отлично, скоро свяжемся!' } ] },
+    { emoji: '🍕', affix: 'order', title: 'Доставка', lines: [
+        { who: 'A', en: 'Let\'s <b>order</b> pizza.', ru: 'Давай закажем пиццу.' },
+        { who: 'B', en: 'Good idea!', ru: 'Хорошая идея!' },
+        { who: 'A', en: 'What toppings?', ru: 'Какие начинки?' } ] },
+    { emoji: '🎓', affix: 'learn', title: 'Учёба', lines: [
+        { who: 'A', en: 'What do you <b>learn</b> at school?', ru: 'Что ты учишь в школе?' },
+        { who: 'B', en: 'English and math.', ru: 'Английский и математику.' },
+        { who: 'A', en: 'Very useful!', ru: 'Очень полезно!' } ] },
+    { emoji: '🐶', affix: 'feed', title: 'О питомце', lines: [
+        { who: 'A', en: 'Did you <b>feed</b> the dog?', ru: 'Ты покормил собаку?' },
+        { who: 'B', en: 'Yes, this morning.', ru: 'Да, сегодня утром.' },
+        { who: 'A', en: 'Thanks!', ru: 'Спасибо!' } ] },
+    { emoji: '💬', affix: 'speak', title: 'О языках', lines: [
+        { who: 'A', en: 'Do you <b>speak</b> English?', ru: 'Ты говоришь по-английски?' },
+        { who: 'B', en: 'A little bit.', ru: 'Немного.' },
+        { who: 'A', en: 'You\'re doing great!', ru: 'Ты отлично справляешься!' } ] },
+    { emoji: '🌞', affix: 'get up', title: 'Утро', lines: [
+        { who: 'A', en: 'What time do you <b>get up</b>?', ru: 'Во сколько ты встаёшь?' },
+        { who: 'B', en: 'At 7 o\'clock.', ru: 'В 7 часов.' },
+        { who: 'A', en: 'That\'s early!', ru: 'Это рано!' } ] },
+    { emoji: '🌙', affix: 'go to bed', title: 'Вечер', lines: [
+        { who: 'A', en: 'When do you <b>go to bed</b>?', ru: 'Когда ты ложишься спать?' },
+        { who: 'B', en: 'At 11 pm.', ru: 'В 11 вечера.' },
+        { who: 'A', en: 'Not too late.', ru: 'Не слишком поздно.' } ] },
+    { emoji: '🎵', affix: 'listen', title: 'Музыка', lines: [
+        { who: 'A', en: 'What do you <b>listen</b> to?', ru: 'Что ты слушаешь?' },
+        { who: 'B', en: 'Rock and pop.', ru: 'Рок и поп.' },
+        { who: 'A', en: 'Cool taste!', ru: 'Крутой вкус!' } ] },
+    { emoji: '🏋️', affix: 'exercise', title: 'Фитнес', lines: [
+        { who: 'A', en: 'Do you <b>exercise</b> often?', ru: 'Ты часто тренируешься?' },
+        { who: 'B', en: 'Three times a week.', ru: 'Три раза в неделю.' },
+        { who: 'A', en: 'Keep it up!', ru: 'Так держать!' } ] },
+    { emoji: '🍳', affix: 'cook', title: 'Готовка', lines: [
+        { who: 'A', en: 'Can you <b>cook</b>?', ru: 'Ты умеешь готовить?' },
+        { who: 'B', en: 'Yes, I love it!', ru: 'Да, я обожаю это!' },
+        { who: 'A', en: 'Teach me please!', ru: 'Научи меня!' } ] },
+    { emoji: '🌍', affix: 'come from', title: 'Откуда ты', lines: [
+        { who: 'A', en: 'Where do you <b>come from</b>?', ru: 'Откуда ты?' },
+        { who: 'B', en: 'I\'m from Russia.', ru: 'Я из России.' },
+        { who: 'A', en: 'Beautiful country!', ru: 'Красивая страна!' } ] },
+    { emoji: '🎨', affix: 'draw', title: 'Хобби', lines: [
+        { who: 'A', en: 'Can you <b>draw</b>?', ru: 'Ты умеешь рисовать?' },
+        { who: 'B', en: 'A little bit.', ru: 'Немного.' },
+        { who: 'A', en: 'Show me!', ru: 'Покажи мне!' } ] },
+    { emoji: '🎮', affix: 'play', title: 'Игры', lines: [
+        { who: 'A', en: 'Do you <b>play</b> video games?', ru: 'Ты играешь в видеоигры?' },
+        { who: 'B', en: 'Sometimes.', ru: 'Иногда.' },
+        { who: 'A', en: 'What\'s your favourite?', ru: 'Какая любимая?' } ] },
+    { emoji: '📖', affix: 'read', title: 'Книги', lines: [
+        { who: 'A', en: 'Do you <b>read</b> a lot?', ru: 'Ты много читаешь?' },
+        { who: 'B', en: 'Yes, every day.', ru: 'Да, каждый день.' },
+        { who: 'A', en: 'What\'s your favourite book?', ru: 'Какая любимая книга?' } ] },
+    { emoji: '📷', affix: 'take', title: 'Фото', lines: [
+        { who: 'A', en: 'Can you <b>take</b> a photo?', ru: 'Можешь сфотографировать?' },
+        { who: 'B', en: 'Sure, smile!', ru: 'Конечно, улыбнись!' },
+        { who: 'A', en: 'Thanks!', ru: 'Спасибо!' } ] },
+    { emoji: '🎁', affix: 'give', title: 'Подарок', lines: [
+        { who: 'A', en: 'What should I <b>give</b> her?', ru: 'Что мне ей подарить?' },
+        { who: 'B', en: 'Maybe flowers?', ru: 'Может, цветы?' },
+        { who: 'A', en: 'Great idea!', ru: 'Отличная идея!' } ] },
+    { emoji: '🎉', affix: 'have fun', title: 'Вечеринка', lines: [
+        { who: 'A', en: 'Did you <b>have fun</b>?', ru: 'Ты повеселился?' },
+        { who: 'B', en: 'Yes, so much!', ru: 'Да, очень!' },
+        { who: 'A', en: 'Let\'s do it again!', ru: 'Давай ещё раз!' } ] },
+    { emoji: '💻', affix: 'use', title: 'Компьютер', lines: [
+        { who: 'A', en: 'Do you <b>use</b> a laptop?', ru: 'Ты пользуешься ноутбуком?' },
+        { who: 'B', en: 'Yes, for work.', ru: 'Да, для работы.' },
+        { who: 'A', en: 'Me too.', ru: 'Я тоже.' } ] },
+    { emoji: '📞', affix: 'answer', title: 'Телефон', lines: [
+        { who: 'A', en: 'Why didn\'t you <b>answer</b>?', ru: 'Почему ты не ответил?' },
+        { who: 'B', en: 'I was busy.', ru: 'Я был занят.' },
+        { who: 'A', en: 'No problem.', ru: 'Без проблем.' } ] },
+    { emoji: '🎓', affix: 'graduate', title: 'Выпуск', lines: [
+        { who: 'A', en: 'When do you <b>graduate</b>?', ru: 'Когда ты выпускаешься?' },
+        { who: 'B', en: 'Next summer.', ru: 'Следующим летом.' },
+        { who: 'A', en: 'Congratulations!', ru: 'Поздравляю!' } ] },
+    { emoji: '💍', affix: 'marry', title: 'Свадьба', lines: [
+        { who: 'A', en: 'When will you <b>marry</b>?', ru: 'Когда ты женишься?' },
+        { who: 'B', en: 'Next year.', ru: 'В следующем году.' },
+        { who: 'A', en: 'So exciting!', ru: 'Как волнительно!' } ] },
+    { emoji: '🏖️', affix: 'swim', title: 'Пляж', lines: [
+        { who: 'A', en: 'Can you <b>swim</b>?', ru: 'Ты умеешь плавать?' },
+        { who: 'B', en: 'Yes, very well.', ru: 'Да, очень хорошо.' },
+        { who: 'A', en: 'Let\'s go to the beach!', ru: 'Пойдём на пляж!' } ] },
+    { emoji: '🚴', affix: 'ride', title: 'Велосипед', lines: [
+        { who: 'A', en: 'Can you <b>ride</b> a bike?', ru: 'Ты умеешь кататься на велосипеде?' },
+        { who: 'B', en: 'Since childhood!', ru: 'С детства!' },
+        { who: 'A', en: 'Amazing!', ru: 'Круто!' } ] },
+    { emoji: '🍰', affix: 'taste', title: 'Дегустация', lines: [
+        { who: 'A', en: 'How does it <b>taste</b>?', ru: 'Как это на вкус?' },
+        { who: 'B', en: 'Delicious!', ru: 'Вкусно!' },
+        { who: 'A', en: 'I want to try!', ru: 'Хочу попробовать!' } ] },
+    { emoji: '🎤', affix: 'sing', title: 'Караоке', lines: [
+        { who: 'A', en: 'Do you <b>sing</b>?', ru: 'Ты поёшь?' },
+        { who: 'B', en: 'Only in the shower!', ru: 'Только в душе!' },
+        { who: 'A', en: 'Haha, same!', ru: 'Хаха, я тоже!' } ] },
+    { emoji: '🎬', affix: 'act', title: 'Актёрство', lines: [
+        { who: 'A', en: 'Do you want to <b>act</b>?', ru: 'Хочешь играть в театре?' },
+        { who: 'B', en: 'Maybe one day!', ru: 'Может, однажды!' },
+        { who: 'A', en: 'Dream big!', ru: 'Мечтай масштабно!' } ] },
+    { emoji: '🛏️', affix: 'sleep', title: 'Сон', lines: [
+        { who: 'A', en: 'How many hours do you <b>sleep</b>?', ru: 'Сколько часов ты спишь?' },
+        { who: 'B', en: 'About 7.', ru: 'Около 7.' },
+        { who: 'A', en: 'That\'s healthy!', ru: 'Это здорово!' } ] },
+    { emoji: '📝', affix: 'write', title: 'Письмо', lines: [
+        { who: 'A', en: 'Did you <b>write</b> the report?', ru: 'Ты написал отчёт?' },
+        { who: 'B', en: 'Almost done.', ru: 'Почти закончил.' },
+        { who: 'A', en: 'Great, send it soon!', ru: 'Отлично, отправь скоро!' } ] },
+    { emoji: '🎯', affix: 'try', title: 'Попытка', lines: [
+        { who: 'A', en: 'Let me <b>try</b> again.', ru: 'Дай попробую снова.' },
+        { who: 'B', en: 'Sure, take your time.', ru: 'Конечно, не спеши.' },
+        { who: 'A', en: 'Got it!', ru: 'Получилось!' } ] },
+    { emoji: '🎪', affix: 'visit', title: 'Визит', lines: [
+        { who: 'A', en: 'Would you like to <b>visit</b> us?', ru: 'Хочешь нас навестить?' },
+        { who: 'B', en: 'I\'d love to!', ru: 'С удовольствием!' },
+        { who: 'A', en: 'See you soon.', ru: 'До скорого.' } ] },
+    { emoji: '🎨', affix: 'make', title: 'Хобби-крафт', lines: [
+        { who: 'A', en: 'Can you <b>make</b> a cake?', ru: 'Можешь испечь торт?' },
+        { who: 'B', en: 'Yes, my grandmother taught me.', ru: 'Да, бабушка научила.' },
+        { who: 'A', en: 'Lucky you!', ru: 'Везёт тебе!' } ] },
+    { emoji: '🎓', affix: 'teach', title: 'Наставник', lines: [
+        { who: 'A', en: 'Can you <b>teach</b> me?', ru: 'Можешь меня научить?' },
+        { who: 'B', en: 'Of course!', ru: 'Конечно!' },
+        { who: 'A', en: 'You\'re a great teacher!', ru: 'Ты отличный учитель!' } ] },
+    { emoji: '🎉', affix: 'win', title: 'Победа', lines: [
+        { who: 'A', en: 'Did you <b>win</b>?', ru: 'Ты победил?' },
+        { who: 'B', en: 'Yes, first place!', ru: 'Да, первое место!' },
+        { who: 'A', en: 'Congratulations!', ru: 'Поздравляю!' } ] },
+    { emoji: '📖', affix: 'understand', title: 'Понимание', lines: [
+        { who: 'A', en: 'Do you <b>understand</b>?', ru: 'Ты понимаешь?' },
+        { who: 'B', en: 'Not really.', ru: 'Не очень.' },
+        { who: 'A', en: 'Let me explain again.', ru: 'Дай объясню ещё раз.' } ] },
+    { emoji: '🎈', affix: 'enjoy', title: 'Удовольствие', lines: [
+        { who: 'A', en: 'Do you <b>enjoy</b> your job?', ru: 'Тебе нравится работа?' },
+        { who: 'B', en: 'Yes, very much!', ru: 'Да, очень!' },
+        { who: 'A', en: 'That\'s wonderful.', ru: 'Это прекрасно.' } ] }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 50+ ДИКТАНТОВ
+// ───────────────────────────────────────────────────────────
+dictationBank.push(
+    // ЛЁГКИЕ (по 10)
+    { level: 'easy', emoji: '🌱', en: 'I like tea.', ru: 'Я люблю чай.', affix: '-' },
+    { level: 'easy', emoji: '🌱', en: 'She is a doctor.', ru: 'Она врач.', affix: '-er' },
+    { level: 'easy', emoji: '🌱', en: 'We play football.', ru: 'Мы играем в футбол.', affix: '-' },
+    { level: 'easy', emoji: '🌱', en: 'The cat is small.', ru: 'Кошка маленькая.', affix: '-' },
+    { level: 'easy', emoji: '🌱', en: 'My mother is kind.', ru: 'Моя мама добрая.', affix: 'un-/kind' },
+    { level: 'easy', emoji: '🌱', en: 'It is a nice day.', ru: 'Хороший день.', affix: '-' },
+    { level: 'easy', emoji: '🌱', en: 'He is unhappy today.', ru: 'Он сегодня несчастен.', affix: 'un-' },
+    { level: 'easy', emoji: '🌱', en: 'Please rewrite this.', ru: 'Перепиши это, пожалуйста.', affix: 're-' },
+    { level: 'easy', emoji: '🌱', en: 'She is careless.', ru: 'Она безалаберна.', affix: '-less' },
+    { level: 'easy', emoji: '🌱', en: 'This is useful.', ru: 'Это полезно.', affix: '-ful' },
+    // СРЕДНИЕ (по 15)
+    { level: 'medium', emoji: '🌿', en: 'They misunderstand me.', ru: 'Они меня не понимают.', affix: 'mis-' },
+    { level: 'medium', emoji: '🌿', en: 'He overslept again.', ru: 'Он снова проспал.', affix: 'over-' },
+    { level: 'medium', emoji: '🌿', en: 'We underestimate her.', ru: 'Мы её недооцениваем.', affix: 'under-' },
+    { level: 'medium', emoji: '🌿', en: 'The show was outstanding.', ru: 'Шоу было потрясающим.', affix: 'out-' },
+    { level: 'medium', emoji: '🌿', en: 'They disagreed.', ru: 'Они не согласились.', affix: 'dis-' },
+    { level: 'medium', emoji: '🌿', en: 'Communication is key.', ru: 'Общение — ключ.', affix: '-tion' },
+    { level: 'medium', emoji: '🌿', en: 'She prepares dinner.', ru: 'Она готовит ужин.', affix: 'pre-' },
+    { level: 'medium', emoji: '🌿', en: 'Postpone the meeting.', ru: 'Отложи встречу.', affix: 'post-' },
+    { level: 'medium', emoji: '🌿', en: 'Do not mislead me.', ru: 'Не вводи меня в заблуждение.', affix: 'mis-' },
+    { level: 'medium', emoji: '🌿', en: 'He is overweight.', ru: 'У него лишний вес.', affix: 'over-' },
+    { level: 'medium', emoji: '🌿', en: 'It is impossible.', ru: 'Это невозможно.', affix: 'im-' },
+    { level: 'medium', emoji: '🌿', en: 'She is a teacher.', ru: 'Она учительница.', affix: '-er' },
+    { level: 'medium', emoji: '🌿', en: 'Interact with them.', ru: 'Взаимодействуй с ними.', affix: 'inter-' },
+    { level: 'medium', emoji: '🌿', en: 'He is antisocial.', ru: 'Он необщительный.', affix: 'anti-' },
+    { level: 'medium', emoji: '🌿', en: 'Rebuild the bridge.', ru: 'Перестрой мост.', affix: 're-' },
+    // СЛОЖНЫЕ (по 20)
+    { level: 'hard', emoji: '🌳', en: 'Her happiness was overwhelming.', ru: 'Её счастье было всепоглощающим.', affix: '-ness/over-' },
+    { level: 'hard', emoji: '🌳', en: 'The reorganization improved productivity.', ru: 'Реорганизация улучшила производительность.', affix: 're-/-tion/-ity' },
+    { level: 'hard', emoji: '🌳', en: 'Intercultural communication is indispensable.', ru: 'Межкультурное общение незаменимо.', affix: 'inter-/-able' },
+    { level: 'hard', emoji: '🌳', en: 'Unbelievable but true.', ru: 'Невероятно, но правда.', affix: 'un-/-able' },
+    { level: 'hard', emoji: '🌳', en: 'The supervisor decided.', ru: 'Руководитель решил.', affix: 'super-/-or' },
+    { level: 'hard', emoji: '🌳', en: 'Communication was unproductive.', ru: 'Общение было непродуктивным.', affix: 'un-/-ive' },
+    { level: 'hard', emoji: '🌳', en: 'The misunderstanding was resolved.', ru: 'Недоразумение было улажено.', affix: 'mis-/-ing' },
+    { level: 'hard', emoji: '🌳', en: 'Irreversible decision was made.', ru: 'Было принято необратимое решение.', affix: 'ir-/-ible' },
+    { level: 'hard', emoji: '🌳', en: 'Their interaction was extraordinary.', ru: 'Их взаимодействие было необыкновенным.', affix: 'inter-/-ary' },
+    { level: 'hard', emoji: '🌳', en: 'The prediction was accurate.', ru: 'Предсказание было точным.', affix: 'pre-/-tion' },
+    { level: 'hard', emoji: '🌳', en: 'Independence is important.', ru: 'Независимость важна.', affix: 'in-/-ence' },
+    { level: 'hard', emoji: '🌳', en: 'Reproduction is essential.', ru: 'Размножение необходимо.', affix: 're-/-tion' },
+    { level: 'hard', emoji: '🌳', en: 'Disconnection happened suddenly.', ru: 'Отключение произошло внезапно.', affix: 'dis-/-tion' },
+    { level: 'hard', emoji: '🌳', en: 'Her unkindness surprised me.', ru: 'Её недоброта меня удивила.', affix: 'un-/-ness' },
+    { level: 'hard', emoji: '🌳', en: 'Reorganization takes time.', ru: 'Реорганизация занимает время.', affix: 're-/-tion' },
+    { level: 'hard', emoji: '🌳', en: 'Multicultural society grows.', ru: 'Мультикультурное общество растёт.', affix: 'multi-/-al' },
+    { level: 'hard', emoji: '🌳', en: 'Underestimation is dangerous.', ru: 'Недооценка опасна.', affix: 'under-/-tion' },
+    { level: 'hard', emoji: '🌳', en: 'Supernatural events exist.', ru: 'Сверхъестественные события существуют.', affix: 'super-/-al' },
+    { level: 'hard', emoji: '🌳', en: 'Autobiography is interesting.', ru: 'Автобиография интересна.', affix: 'auto-/-graphy' },
+    { level: 'hard', emoji: '🌳', en: 'Photography is my passion.', ru: 'Фотография — моя страсть.', affix: 'photo-/-graphy' }
+);
+
+// ───────────────────────────────────────────────────────────
+// 🆕 8 НОВЫХ КВИЗОВ (пополнение miniQuizzes)
+// ───────────────────────────────────────────────────────────
+miniQuizzes.push(
+    {
+        id: 'dialogues-quiz', emoji: '💬', title: 'Диалоги: базовый',
+        questions: [
+            { q: 'Как ответить на <b>How are you?</b>', options: ['I\'m fine.', 'You\'re welcome.', 'See you.'], correct: 0, hint: 'Стандартный ответ' },
+            { q: 'Что значит <b>See you soon</b>?', options: ['Привет', 'До скорого', 'Спасибо'], correct: 1, hint: 'Прощание' },
+            { q: 'Как заказать кофе?', options: ['I want coffee.', 'Can I have a coffee?', 'Coffee me.'], correct: 1, hint: 'Вежливая форма' }
+        ]
+    },
+    {
+        id: 'time-quiz', emoji: '⏰', title: 'Время: базовый',
+        questions: [
+            { q: 'Как сказать <b>в 7 часов</b>?', options: ['in 7', 'at 7', 'on 7'], correct: 1, hint: 'Для точного времени' },
+            { q: 'Как сказать <b>в июле</b>?', options: ['on July', 'at July', 'in July'], correct: 2, hint: 'Для месяцев' },
+            { q: 'Как сказать <b>в понедельник</b>?', options: ['on Monday', 'at Monday', 'in Monday'], correct: 0, hint: 'Для дней' }
+        ]
+    },
+    {
+        id: 'prepositions-quiz', emoji: '🧭', title: 'Предлоги места',
+        questions: [
+            { q: 'Где книга <b>на</b> столе?', options: ['in', 'on', 'at'], correct: 1, hint: 'На поверхности' },
+            { q: 'Где кот <b>в</b> коробке?', options: ['in', 'on', 'at'], correct: 0, hint: 'Внутри' },
+            { q: 'Где встреча? <b>у</b> входа', options: ['in', 'on', 'at'], correct: 2, hint: 'Точка' }
+        ]
+    },
+    {
+        id: 'modals-quiz', emoji: '🎩', title: 'Модальные',
+        questions: [
+            { q: 'Что выбрать: <b>мягкий совет</b>?', options: ['must', 'should', 'can'], correct: 1, hint: 'Should = совет' },
+            { q: 'Что выбрать: <b>строгая необходимость</b>?', options: ['must', 'may', 'might'], correct: 0, hint: 'Must = строго' },
+            { q: 'Что выбрать: <b>вежливая просьба</b>?', options: ['must', 'will', 'could'], correct: 2, hint: 'Could = вежливо' }
+        ]
+    },
+    {
+        id: 'questions-quiz', emoji: '❓', title: 'Вопросительные слова',
+        questions: [
+            { q: 'Что выбрать для <b>возраста</b>?', options: ['How many', 'How old', 'How much'], correct: 1, hint: 'How old = возраст' },
+            { q: 'Что выбрать для <b>количества денег</b>?', options: ['How many', 'How old', 'How much'], correct: 2, hint: 'How much = неисчисл.' },
+            { q: 'Что выбрать для <b>количества книг</b>?', options: ['How many', 'How old', 'How much'], correct: 0, hint: 'How many = исчисл.' }
+        ]
+    },
+    {
+        id: 'essay-quiz', emoji: '✍️', title: 'Связки для эссе',
+        questions: [
+            { q: 'Что лучше для <b>вступления</b>?', options: ['First and foremost', 'In conclusion', 'However'], correct: 0, hint: 'Начало' },
+            { q: 'Что лучше для <b>контраста</b>?', options: ['Secondly', 'However', 'Furthermore'], correct: 1, hint: 'Контраст' },
+            { q: 'Что лучше для <b>заключения</b>?', options: ['In conclusion', 'First of all', 'Additionally'], correct: 0, hint: 'Итог' }
+        ]
+    },
+    {
+        id: 'tenses-quiz', emoji: '⏳', title: 'Времена: базовый',
+        questions: [
+            { q: 'Что выбрать для <b>регулярного действия</b>?', options: ['Present Simple', 'Present Continuous', 'Past Simple'], correct: 0, hint: 'Каждый день' },
+            { q: 'Что выбрать для <b>действия сейчас</b>?', options: ['Present Simple', 'Present Continuous', 'Past Simple'], correct: 1, hint: 'Прямо сейчас' },
+            { q: 'Что выбрать для <b>вчерашнего действия</b>?', options: ['Present Simple', 'Present Continuous', 'Past Simple'], correct: 2, hint: 'Вчера' }
+        ]
+    },
+    {
+        id: 'idioms-quiz', emoji: '💡', title: 'Идиомы: базовый',
+        questions: [
+            { q: 'Что значит <b>piece of cake</b>?', options: ['Кусок торта', 'Очень легко', 'Сладко'], correct: 1, hint: 'Идиома' },
+            { q: 'Что значит <b>break a leg</b>?', options: ['Сломать ногу', 'Удачи!', 'Потанцевать'], correct: 1, hint: 'Пожелание' },
+            { q: 'Что значит <b>hit the books</b>?', options: ['Ударить книгу', 'Сесть за учёбу', 'Купить книги'], correct: 1, hint: 'Идиома' }
+        ]
+    }
+);
