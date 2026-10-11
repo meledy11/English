@@ -1,21 +1,20 @@
 // ═══════════════════════════════════════════════════════════
-// prefixes.js — ЛОАДЕР (маленький, только загрузка)
+// prefixes.js — ЛОАДЕР
+// Загружает: prefixes-data.js → prefixes-render.js → prefixes-router.js
 // ═══════════════════════════════════════════════════════════
 
 (function () {
   'use strict';
 
-  // Порядок ВАЖЕН: данные → рендеры → роутер
   const MODULES = [
-    'prefixes-data.js',     // все массивы и объекты
-    'prefixes-render.js',   // все функции render*()
-    'prefixes-router.js'    // renderPrefixes, MEGA_NAV, switchMegaTab
+    'prefixes-data.js',
+    'prefixes-render.js',
+    'prefixes-router.js'
   ];
 
   let idx = 0;
   function loadNext() {
     if (idx >= MODULES.length) {
-      // Все модули загружены → запускаем init() из index.html
       if (typeof window.init === 'function') {
         try { window.init(); }
         catch (e) { console.warn('[prefixes-loader] init error:', e); }
@@ -26,7 +25,7 @@
     const src = MODULES[idx++];
     const s = document.createElement('script');
     s.src = src;
-    s.async = false;      // 🔑 гарантирует порядок
+    s.async = false;
     s.onload = loadNext;
     s.onerror = () => {
       console.warn('[prefixes-loader] не найден:', src);
