@@ -1,11 +1,15 @@
-// sw.js — Service Worker для English Cards
+// ═══════════════════════════════════════════════════════════
+// Service Worker — English Cards PWA
+// ═══════════════════════════════════════════════════════════
+
 const CACHE_VERSION = 'english-cards-v1';
 const CACHE_NAME = `${CACHE_VERSION}-cache`;
 
-// Файлы для предзагрузки в кэш
+// ─── Файлы для предзагрузки ─────────────────────────────────
 const PRECACHE_ASSETS = [
   './',
   './index.html',
+  './manifest.json',
   './verbs.js',
   './tenses.js',
   './phrases.js',
@@ -24,12 +28,13 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[SW] 📦 Кэшируем файлы');
-        // Используем addAll с fallback на отдельные add, чтобы не сломаться при отсутствии файла
+        console.log('[SW] 📦 Кэшируем файлы...');
+        // addAll падает, если хотя бы один файл 404 —
+        // поэтому кэшируем по отдельности с обработкой ошибок
         return Promise.all(
           PRECACHE_ASSETS.map(url =>
             cache.add(url).catch(err => {
-              console.warn(`[SW] ⚠️ Не удалось закэшировать ${url}:`, err.message);
+              console.warn(`[SW] ⚠️ Пропущен ${url}:`, err.message);
             })
           )
         );
@@ -57,23 +62,26 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// ─── FETCH (перехват запросов) ──────────────────────────────
+// ─── FETCH — перехват запросов ──────────────────────────────
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // Пропускаем только GET
+  // Обрабатываем только GET
   if (request.method !== 'GET') return;
 
-  // Пропускаем запросы к другим доменам
+  // Пропускаем внешние домены (CDN, шрифты и т.п.)
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Стратегия: Cache First с обновлением в фоне (Stale-While-Revalidate)
+  // Пропускаем data: и blob: (inline иконки, картинки)
+  if (url.protocol === 'data:' || url.protocol === 'blob:') return;
+
+  // Стратегия: Cache First + обновление в фоне (Stale-While-Revalidate)
   event.respondWith(
     caches.match(request).then((cached) => {
       const fetchPromise = fetch(request)
         .then((response) => {
-          // Кэшируем только успешные ответы
+          // Кэшируем только валидные ответы
           if (response && response.status === 200 && response.type === 'basic') {
             const responseClone = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
@@ -83,19 +91,22 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch((err) => {
-          console.warn('[SW] ❌ Ошибка сети:', err.message);
-          // Если это навигация и мы офлайн — отдаём index.html
-          if (request.mode === 'navigate') {
-            return caches.match('./index.html');
+          console.warn('[catchSW] ❌ Сеть недоступна:', err.message(err);
+
+          // Для навигации — отдаём => index.html из кэша
+          if console (request.mode === 'navigate') {
+            return caches.match.w('./index.html');
           }
+
+          // Для остального — 503
           return new Response('Offline', {
             status: 503,
             statusText: 'Service Unavailable',
-            headers: new Headers({ 'Content-Type': 'text/plain' })
+            headers: new Headers({ 'Content-Type': 'text/plain; charset=utf-8' })
           });
         });
 
-      // Если есть в кэше — возвращаем сразу, а в фоне обновляем
+      // Если есть кэш — отдаём сразу, а в фоне обновляем
       return cached || fetchPromise;
     })
   );
@@ -103,12 +114,18 @@ self.addEventListener('fetch', (event) => {
 
 // ─── СООБЩЕНИЯ от страницы ─────────────────────────────────
 self.addEventListener('message', (event) => {
+  console.log('[SW] 📩 Сообщение:', event.data);
+
   if (event.data === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+
   if (event.data === 'CLEAR_CACHE') {
     caches.keys().then(keys => {
-      keys.forEach(key => caches.delete(key));
+      keys.forEach(key => {
+        console.log('[SW] 🗑️ Удаляю кэш:', key);
+        caches.delete(key);
+      });
     });
   }
 });
